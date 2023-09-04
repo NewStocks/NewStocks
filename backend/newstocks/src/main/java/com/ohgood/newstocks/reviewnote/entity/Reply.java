@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -28,5 +29,8 @@ public class Reply extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_note_id")
     private ReviewNote reviewNote;
+
+    @OneToMany(mappedBy = "reply")
+    private List<ReplyComment> replyCommentList;
 
 }

@@ -25,4 +25,8 @@ public class ReplyComment extends BaseTimeEntity {
     @Column(nullable = false)
     @Builder.Default
     private Integer likeCount = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reply_id")
+    private Reply reply;
 }
