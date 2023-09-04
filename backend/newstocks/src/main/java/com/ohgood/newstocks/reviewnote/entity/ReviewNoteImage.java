@@ -18,4 +18,8 @@ public class ReviewNoteImage {
     @Column(nullable = false)
     private String url;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_note_id")
+    private ReviewNote reviewNote;
+
 }

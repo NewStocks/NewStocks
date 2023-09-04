@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +29,10 @@ public class ReviewNote extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Builder.Default
+    private Integer scrapCount = 0;
+
+    @Column(nullable = false)
+    @Builder.Default
     private Boolean privacy = false;
 
     // TODO
@@ -36,5 +41,11 @@ public class ReviewNote extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
+    @OneToMany(mappedBy = "reviewNote")
+    private List<ReviewNoteImage> reviewNoteImageList;
+
+    @OneToMany(mappedBy = "reviewNote")
+    private List<Reply> replyList;
 
 }

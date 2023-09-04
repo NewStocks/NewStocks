@@ -25,4 +25,8 @@ public class Reply extends BaseTimeEntity {
     @Builder.Default
     private Integer likeCount = 0;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_note_id")
+    private ReviewNote reviewNote;
+
 }
