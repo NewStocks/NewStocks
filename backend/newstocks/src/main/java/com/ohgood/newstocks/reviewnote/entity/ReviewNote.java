@@ -39,7 +39,7 @@ public class ReviewNote extends BaseTimeEntity {
     //  오답노트 템플릿 추가 필요
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "reviewNote")
