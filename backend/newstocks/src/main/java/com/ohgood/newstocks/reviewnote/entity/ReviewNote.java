@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,9 +44,11 @@ public class ReviewNote extends BaseTimeEntity {
     private Member member;
 
     @OneToMany(mappedBy = "reviewNote")
-    private List<ReviewNoteImage> reviewNoteImageList;
+    @Builder.Default
+    private List<ReviewNoteImage> reviewNoteImageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewNote")
-    private List<Reply> replyList;
+    @Builder.Default
+    private List<Reply> replyList = new ArrayList<>();
 
 }
