@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,5 +28,14 @@ public class Reply extends BaseTimeEntity {
     @Column(nullable = false)
     @Builder.Default
     private Integer likeCount = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_note_id")
+    private ReviewNote reviewNote;
+
+    @OneToMany(mappedBy = "reply")
+    @Builder.Default
+    @Fetch(FetchMode.JOIN)
+    private List<ReplyComment> replyCommentList = new ArrayList<>();
 
 }
