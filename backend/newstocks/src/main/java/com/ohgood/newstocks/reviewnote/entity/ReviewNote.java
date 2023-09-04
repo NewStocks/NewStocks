@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,10 +47,12 @@ public class ReviewNote extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "reviewNote")
     @Builder.Default
+    @Fetch(FetchMode.JOIN)
     private List<ReviewNoteImage> reviewNoteImageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewNote")
     @Builder.Default
+    @Fetch(FetchMode.JOIN)
     private List<Reply> replyList = new ArrayList<>();
 
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class Reply extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "reply")
     @Builder.Default
+    @Fetch(FetchMode.JOIN)
     private List<ReplyComment> replyCommentList = new ArrayList<>();
 
 }
