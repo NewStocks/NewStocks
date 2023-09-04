@@ -15,20 +15,20 @@ public class Member {
     @Column
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String profileImage;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
-    @Column
+    @Column(nullable = false)
     private String socialId;
 
 }
