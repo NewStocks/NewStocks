@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Table
 @NoArgsConstructor
 public class Chart{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
     @Column(nullable = false)

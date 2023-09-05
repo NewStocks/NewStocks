@@ -1,5 +1,7 @@
 package com.ohgood.newstocks.stock.entity;
 
+import com.ohgood.newstocks.news.entity.News;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,6 @@ import org.hibernate.annotations.FetchMode;
 public class Stock{
 
     @Id
-    @Column
     private String id;
 
     @Column(nullable = false)
@@ -48,11 +49,24 @@ public class Stock{
     @Fetch(FetchMode.JOIN)
     private List<Chart> chartList;
 
+    @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private List<StockValueChain> stockValueChainList;
+
+    @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private List<ReviewNote> reviewNoteList;
+
+    @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private List<News> newsList;
 
     @Builder
-    public Stock(String id, String name, String listingDate, String sector, String marketCap,
-        String listedShares, String tradeVolume, String tradeValue, String foreignShares) {
-        this.id = id;
+    public Stock(String name, String listingDate, String sector, String marketCap,
+        String listedShares,
+        String tradeVolume, String tradeValue, String foreignShares, List<Chart> chartList,
+        List<StockValueChain> stockValueChainList, List<ReviewNote> reviewNoteList,
+        List<News> newsList) {
         this.name = name;
         this.listingDate = listingDate;
         this.sector = sector;
@@ -62,5 +76,8 @@ public class Stock{
         this.tradeValue = tradeValue;
         this.foreignShares = foreignShares;
         this.chartList = new ArrayList<>();
+        this.stockValueChainList = new ArrayList<>();
+        this.reviewNoteList = new ArrayList<>();
+        this.newsList = new ArrayList<>();
     }
 }
