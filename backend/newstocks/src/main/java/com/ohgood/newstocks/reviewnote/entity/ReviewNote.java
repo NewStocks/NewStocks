@@ -27,16 +27,13 @@ public class ReviewNote extends BaseTimeEntity {
     private LocalDateTime settingTime;
 
     @Column(nullable = false)
-    @Builder.Default
-    private Integer likeCount = 0;
+    private Integer likeCount;
 
     @Column(nullable = false)
-    @Builder.Default
-    private Integer scrapCount = 0;
+    private Integer scrapCount;
 
     @Column(nullable = false)
-    @Builder.Default
-    private Boolean privacy = false;
+    private Boolean privacy;
 
     // TODO
     //  오답노트 템플릿 추가 필요
@@ -46,13 +43,11 @@ public class ReviewNote extends BaseTimeEntity {
     private Member member;
 
     @OneToMany(mappedBy = "reviewNote")
-    @Builder.Default
     @Fetch(FetchMode.JOIN)
-    private List<ReviewNoteImage> reviewNoteImageList = new ArrayList<>();
+    private List<ReviewNoteImage> reviewNoteImageList;
 
     @OneToMany(mappedBy = "reviewNote")
-    @Builder.Default
     @Fetch(FetchMode.JOIN)
-    private List<Reply> replyList = new ArrayList<>();
+    private List<Reply> replyList;
 
 }

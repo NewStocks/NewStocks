@@ -42,24 +42,22 @@ public class Member {
     private String socialId;
 
     @OneToMany(mappedBy = "member")
-    @Builder.Default
     @Fetch(FetchMode.SUBSELECT)
     private List<ReviewNote> reviewNoteList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    @Builder.Default
     @Fetch(FetchMode.SUBSELECT)
     private List<ReviewNoteScrap> reviewNoteScrapList = new ArrayList<>();
 
     // 좋아요 누른 댓글인지 여부를 DB 접근 없이 확인하기 위함
     // 추후에 성능 개선 할 예정
     @OneToMany(mappedBy = "member")
-    @Builder.Default
     @Fetch(FetchMode.JOIN)
-    private List<ReplyLike> replyLikeList = new ArrayList<>();
+    private List<ReplyLike> replyLikeList;
 
     @OneToMany(mappedBy = "member")
-    @Builder.Default
     @Fetch(FetchMode.JOIN)
-    private List<ReplyCommentLike> replyCommentLikeList = new ArrayList<>();
+    private List<ReplyCommentLike> replyCommentLikeList;
+
+
 }

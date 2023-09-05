@@ -18,10 +18,10 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "follower_id")
     private Long followerId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "following_id")
     private Long followingId;
 
     @Builder
