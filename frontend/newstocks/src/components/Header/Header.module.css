@@ -1,32 +1,61 @@
-.storybook-header {
+.header {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #4FE7B0;
   padding: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
+  height: 54px;
+
+  /* border: 1px dotted red; */
 }
 
-.storybook-header svg {
+.header svg {
   display: inline-block;
   vertical-align: top;
 }
 
-.storybook-header h1 {
+.header h1 {
   font-weight: 700;
   font-size: 20px;
   line-height: 1;
   margin: 6px 0 6px 10px;
   display: inline-block;
   vertical-align: top;
+  
+  color: #4FE7B0;
 }
 
-.storybook-header button + button {
+.header button + button {
   margin-left: 10px;
 }
 
-.storybook-header .welcome {
-  color: #333;
-  font-size: 14px;
-  margin-right: 10px;
+.header-left {
+  width: 300px;
+  /* border: 1px dotted white; */
+}
+
+/* 검색 input 박스*/
+.header-search {
+  width: 500px;
+  height: 36.152px;
+  border-radius: 20px;
+  border: transparent;
+  background: rgba(255, 255, 255, 0.23);
+}
+
+.header-right {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px dotted red; */
+}
+
+.header-link{
+  width: 60px;
+  text-align: center;
+  color: #FFF;
+  text-decoration: none;
+  cursor: pointer;
 }

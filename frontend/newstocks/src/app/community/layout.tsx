@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Open_Sans } from 'next/font/google';
+import '../globals.css';
 
-const inter = Inter({ subsets: ['latin'] })
+import Header from '@/components/Header/Header'
+
+const sans = Open_Sans({ subsets: ['latin']});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,8 +18,8 @@ export default function CommunityLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <nav>여기가 최상단 nav</nav>
+      <body className={sans.className}>
+        <Header />
         <p>여기는 커뮤니티</p>
         {children}
       </body>

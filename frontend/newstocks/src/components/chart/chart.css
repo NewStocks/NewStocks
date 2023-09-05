@@ -21,4 +21,12 @@
     margin-top: 5px;
     font-style: italic;
   }
-  
+  .chart {
+    border: 1px solid #4FE7B0;
+  }
+  .chartbox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }

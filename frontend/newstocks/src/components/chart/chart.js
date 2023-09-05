@@ -1,7 +1,10 @@
+"use client";
 import React, { useState, useEffect } from 'react';
-import ApexCharts from 'react-apexcharts';
-import './Chart.css';
+// import ApexCharts from 'react-apexcharts';
+import './chart.css';
 import axios from 'axios';
+import dynamic from 'next/dynamic'
+const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Chart() {
 
@@ -30,7 +33,7 @@ export default function Chart() {
           console.log(config.w.config.series[0].data[index])
 
           const infoContainer = document.getElementById('data-point-info'); // 정보를 표시할 컨테이너 요소
-          infoContainer.innerHTML = `<div>주식 데이터:</div>`;
+          infoContainer.innerHTML = `<div><주식 데이터></div>`;
           infoContainer.innerHTML += `<div>시가 : ${JSON.stringify(stockdata.y[0])}</div>`;
           infoContainer.innerHTML += `<div>고가 : ${JSON.stringify(stockdata.y[1])}</div>`;
           infoContainer.innerHTML += `<div>저가 : ${JSON.stringify(stockdata.y[2])}</div>`;
@@ -613,36 +616,40 @@ export default function Chart() {
       axios
         .get('baseurl/stock/{stock-id}/chart')
         .then((response) => {
-          
           const { series } = response.data.series;
           const { title } = response.data.title;
-          setChartData({
-            ...chartData,
+          setChartData((prevData) => ({
+            ...prevData, // 이전 데이터를 유지한 채 업데이트
             series,
             title,
-          });
+          }));
         })
         .catch((error) => {
           console.error(error);
         });
     };
-
+    fetchData();
     const intervalId = setInterval(fetchData, 100000);
-
+  
     return () => clearInterval(intervalId);
-  }, [chartData]); 
+  }, []); 
 
   return (
     <div>
-      <div id="chart">
-        <ApexCharts
-          options={chartData.options}
-          series={chartData.series}
-          type="scatter"
-          width={700}
-        />
+      <div className="chartbox">
+        <div className="chart">
+          <ApexCharts
+            options={chartData.options}
+            series={chartData.series}
+            type="scatter"
+            width={800}
+            height={450}
+          />
+          <br />
+          <div className="chartbox" id="data-point-info">
+        </div>
       </div>
-      <div id="data-point-info">
+      
         
       </div>
       {/* <div id="chart">
