@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google';
 
+import Header from '@/components/Header/Header'
+
 const sans = Open_Sans({ subsets: ['latin']});
 
 export const metadata: Metadata = {
@@ -16,7 +18,7 @@ export default function CommunityLayout({
   return (
     <html lang="en">
       <body className={sans.className}>
-        <nav>여기가 최상단 nav</nav>
+        <Header />
         <p>여기는 커뮤니티</p>
         {children}
       </body>

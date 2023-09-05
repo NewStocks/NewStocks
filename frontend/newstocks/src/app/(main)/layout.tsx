@@ -1,6 +1,7 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google';
+
+import Header from '@/components/Header/Header'
 
 const sans = Open_Sans({ subsets: ['latin']});
 
@@ -16,8 +17,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <nav>여기가 최상단 nav</nav>
+      <body className={sans.className}>
+        <Header />
         {children}
       </body>
     </html>

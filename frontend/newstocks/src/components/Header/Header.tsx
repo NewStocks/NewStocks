@@ -1,20 +1,23 @@
+'use client';
 import React from 'react';
 
 import { Button } from '../Button/Button';
 import styles from './Header.module.css';
 
-type User = {
-  name: string;
-};
+// type User = {
+//   name: string;
+// };
 
-interface HeaderProps {
-  user?: User;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
-}
+// interface HeaderProps {
+//   user?: User;
+//   onLogin: () => void;
+//   onLogout: () => void;
+//   onCreateAccount: () => void;
+// }
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
+export default function Header() {
+
+return (
   <header>
     <div className={styles["storybook-header"]}>
       <div>
@@ -37,20 +40,9 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
         <h1>Acme</h1>
       </div>
       <div>
-        {user ? (
-          <>
-            <span className={styles["welcome"]}>
-              Welcome, <b>{user.name}</b>!
-            </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
-          </>
-        ) : (
-          <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
-        )}
+        user
       </div>
     </div>
   </header>
 );
+}
