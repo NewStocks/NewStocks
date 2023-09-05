@@ -1,9 +1,6 @@
 package com.ohgood.newstocks.member.entity;
 
-import com.ohgood.newstocks.reviewnote.entity.ReplyCommentLike;
-import com.ohgood.newstocks.reviewnote.entity.ReplyLike;
-import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
-import com.ohgood.newstocks.reviewnote.entity.ReviewNoteScrap;
+import com.ohgood.newstocks.reviewnote.entity.*;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,6 +48,11 @@ public class Member {
 
     // 좋아요 누른 댓글인지 여부를 DB 접근 없이 확인하기 위함
     // 추후에 성능 개선 할 예정
+
+    @OneToMany(mappedBy = "member")
+    @Fetch(FetchMode.JOIN)
+    private List<ReviewNoteLike> reviewNoteLikeList;
+
     @OneToMany(mappedBy = "member")
     @Fetch(FetchMode.JOIN)
     private List<ReplyLike> replyLikeList;
@@ -59,5 +61,17 @@ public class Member {
     @Fetch(FetchMode.JOIN)
     private List<ReplyCommentLike> replyCommentLikeList;
 
-
+    @Builder
+    public Member(String name, String email, String profileImage, SocialType socialType, String socialId) {
+        this.name = name;
+        this.email = email;
+        this.profileImage = profileImage;
+        this.socialType = socialType;
+        this.socialId = socialId;
+        this.reviewNoteList = new ArrayList<>();
+        this.reviewNoteLikeList = new ArrayList<>();
+        this.reviewNoteScrapList = new ArrayList<>();
+        this.replyLikeList = new ArrayList<>();
+        this.replyCommentLikeList = new ArrayList<>();
+    }
 }

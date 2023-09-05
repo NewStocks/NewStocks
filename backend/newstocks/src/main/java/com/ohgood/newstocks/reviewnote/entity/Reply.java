@@ -36,4 +36,11 @@ public class Reply extends BaseTimeEntity {
     @Fetch(FetchMode.JOIN)
     private List<ReplyComment> replyCommentList;
 
+    @Builder
+    public Reply(String content, Integer likeCount, ReviewNote reviewNote) {
+        this.content = content;
+        this.likeCount = likeCount;
+        this.reviewNote = reviewNote;
+        this.replyCommentList = new ArrayList<>();
+    }
 }
