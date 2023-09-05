@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table
 @NoArgsConstructor
 public class StockValueChain {
 

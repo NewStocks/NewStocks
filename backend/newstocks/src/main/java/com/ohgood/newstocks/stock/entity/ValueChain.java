@@ -11,7 +11,6 @@ import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Entity
-@Table
 @NoArgsConstructor
 public class ValueChain {
 

@@ -14,7 +14,6 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Getter
-@Table
 @NoArgsConstructor
 public class Stock {
 
