@@ -52,7 +52,10 @@
   /* border: 1px dotted red; */
 }
 
-.header-right div{
+.header-link{
   width: 60px;
   text-align: center;
+  color: #FFF;
+  text-decoration: none;
+  cursor: pointer;
 }

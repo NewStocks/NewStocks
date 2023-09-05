@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 
-import { Button } from '../Button/Button';
 import styles from './Header.module.css';
+import Link from 'next/link';
 
 // type User = {
 //   name: string;
@@ -43,9 +43,9 @@ return (
       <input className={styles["header-search"]} type="text" placeholder="종목명 또는 종목코드 검색" />
       
       <div className={styles["header-right"]}>
-        <div>home</div>
-        <div>commu</div>
-        <div>user</div>
+        <Link className={styles["header-link"]} href='/'>home</Link>
+        <Link className={styles["header-link"]} href='/community'>commu</Link>
+        <Link className={styles["header-link"]} href='/community/user'>user</Link>
       </div>
     </div>
   </header>
