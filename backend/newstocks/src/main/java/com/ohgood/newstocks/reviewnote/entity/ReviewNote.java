@@ -50,4 +50,14 @@ public class ReviewNote extends BaseTimeEntity {
     @Fetch(FetchMode.JOIN)
     private List<Reply> replyList;
 
+    @Builder
+    public ReviewNote(LocalDateTime settingTime, Integer likeCount, Integer scrapCount, Boolean privacy, Member member) {
+        this.settingTime = settingTime;
+        this.likeCount = likeCount;
+        this.scrapCount = scrapCount;
+        this.privacy = privacy;
+        this.member = member;
+        this.reviewNoteImageList = new ArrayList<>();
+        this.replyList = new ArrayList<>();
+    }
 }

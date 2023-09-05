@@ -1,6 +1,7 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,9 @@ public class ReviewNoteImage {
     @JoinColumn(name = "review_note_id")
     private ReviewNote reviewNote;
 
+    @Builder
+    public ReviewNoteImage(String url, ReviewNote reviewNote) {
+        this.url = url;
+        this.reviewNote = reviewNote;
+    }
 }
