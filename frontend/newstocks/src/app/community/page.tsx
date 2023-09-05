@@ -1,4 +1,3 @@
-import '../globals.css';
 import styles from './community.module.css';
 
 export default function CommunityPage() {

@@ -19,9 +19,9 @@ export default function Header() {
 
 return (
   <header>
-    <div className={styles["storybook-header"]}>
-      <div>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <div className={styles["header"]}>
+      <div className={styles["header-left"]}>
+        <svg width="30" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" fillRule="evenodd">
             <path
               d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
@@ -37,10 +37,15 @@ return (
             />
           </g>
         </svg>
-        <h1>Acme</h1>
+        <h1>NEWStocks</h1>
       </div>
-      <div>
-        user
+
+      <input className={styles["header-search"]} type="text" placeholder="종목명 또는 종목코드 검색" />
+      
+      <div className={styles["header-right"]}>
+        <div>home</div>
+        <div>commu</div>
+        <div>user</div>
       </div>
     </div>
   </header>
