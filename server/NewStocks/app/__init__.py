@@ -1,16 +1,26 @@
+import os
+
+import dotenv
 from flask import Flask
 from pykrx import stock
 import pandas as pd
 import pymysql
-
+from dotenv import load_dotenv
+dotenv_file=dotenv.find_dotenv()
+dotenv.load_dotenv(dotenv_file)
 app = Flask(__name__)
-
+# .env 파일에서 환경 변수 로드
+load_dotenv()
+# .env 파일에서 데이터베이스 연결 정보 가져오기
+DB_URL = os.environ['DB_URL']
+DB_ID = os.environ['DB_ID']
+DB_PWD = os.environ['DB_PWD']
 # MySQL 연결 설정
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'root',
-    'database': 'newstocks',
+    'host': DB_URL,
+    'user': DB_ID,
+    'password': DB_PWD,
+    'database': 'newstocks_rds',  # 데이터베이스 이름
 }
 
 # 삼성전자(005930) 주식의 일봉 데이터 가져오기
