@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table
 @NoArgsConstructor
 public class FavoriteStock {
 
@@ -16,7 +15,7 @@ public class FavoriteStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "stock_id")
+    @Column(nullable = false)
     private String stockId;
 
     @ManyToOne(fetch = FetchType.LAZY)

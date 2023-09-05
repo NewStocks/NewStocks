@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table
 @NoArgsConstructor
-public class Chart{
+public class Chart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,24 +20,24 @@ public class Chart{
     @Enumerated(EnumType.STRING)
     private GraphType graphType;
 
-    @Column(nullable = false, name = "start_price")
+    @Column(nullable = false)
     private int startPrice;
 
-    @Column(nullable = false, name = "end_price")
+    @Column(nullable = false)
     private int endPrice;
 
-    @Column(nullable = false, name = "high_price")
+    @Column(nullable = false)
     private int highPrice;
 
-    @Column(nullable = false, name = "low_price")
+    @Column(nullable = false)
     private int lowPrice;
 
-    @Column(nullable = false, name = "date")
+    @Column(nullable = false)
     private LocalDate date;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="stock_id")
+    @JoinColumn(name = "stock_id")
     private Stock stock;
 
     @Builder

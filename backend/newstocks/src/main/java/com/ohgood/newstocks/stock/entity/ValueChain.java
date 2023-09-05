@@ -19,7 +19,7 @@ public class ValueChain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "value_chain_name")
+    @Column(nullable = false)
     private String ValueChainName;
 
     @OneToMany(mappedBy = "valueChain")
@@ -29,6 +29,6 @@ public class ValueChain {
     @Builder
     public ValueChain(String valueChainName) {
         ValueChainName = valueChainName;
-        this.stockValueChainList = new ArrayList<StockValueChain>();
+        this.stockValueChainList = new ArrayList<>();
     }
 }

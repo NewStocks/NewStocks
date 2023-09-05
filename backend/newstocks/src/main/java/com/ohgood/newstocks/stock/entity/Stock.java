@@ -16,33 +16,34 @@ import org.hibernate.annotations.FetchMode;
 @Getter
 @Table
 @NoArgsConstructor
-public class Stock{
+public class Stock {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, name = "listing_date")
+    @Column(nullable = false)
     private String listingDate;
 
     @Column(nullable = false)
     private String sector;
 
-    @Column(nullable = false, name = "market_cap")
+    @Column(nullable = false)
     private String marketCap;
 
-    @Column(nullable = false, name = "listed_shares")
+    @Column(nullable = false)
     private String listedShares;
 
-    @Column(nullable = false, name = "trade_volume")
+    @Column(nullable = false)
     private String tradeVolume;
 
-    @Column(nullable = false, name = "trade_value")
+    @Column(nullable = false)
     private String tradeValue;
 
-    @Column(nullable = false, name = "foreign_shares")
+    @Column(nullable = false)
     private String foreignShares;
 
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
@@ -64,9 +65,7 @@ public class Stock{
     @Builder
     public Stock(String name, String listingDate, String sector, String marketCap,
         String listedShares,
-        String tradeVolume, String tradeValue, String foreignShares, List<Chart> chartList,
-        List<StockValueChain> stockValueChainList, List<ReviewNote> reviewNoteList,
-        List<News> newsList) {
+        String tradeVolume, String tradeValue, String foreignShares) {
         this.name = name;
         this.listingDate = listingDate;
         this.sector = sector;
