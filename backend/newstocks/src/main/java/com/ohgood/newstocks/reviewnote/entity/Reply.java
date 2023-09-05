@@ -26,16 +26,14 @@ public class Reply extends BaseTimeEntity {
     private String content;
 
     @Column(nullable = false)
-    @Builder.Default
-    private Integer likeCount = 0;
+    private Integer likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_note_id")
     private ReviewNote reviewNote;
 
     @OneToMany(mappedBy = "reply")
-    @Builder.Default
     @Fetch(FetchMode.JOIN)
-    private List<ReplyComment> replyCommentList = new ArrayList<>();
+    private List<ReplyComment> replyCommentList;
 
 }
