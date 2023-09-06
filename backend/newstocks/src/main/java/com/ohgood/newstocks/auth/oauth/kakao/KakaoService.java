@@ -36,7 +36,6 @@ public class KakaoService {
                 .uri(getTokenURL)
                 .retrieve()
                 .bodyToMono(KakaoTokenDto.class).block();
-
     }
 
     public KakaoUserDto getKakaoUser(String kakaoAccessToken) {
@@ -74,9 +73,6 @@ public class KakaoService {
             );
             return memberRepository.save(newMember);
         }
-
         return memberRepository.save(new Member(null, null, null, SocialType.Kakao, kakaoUserDto.getAuthenticationCode()));
     }
-
-
 }
