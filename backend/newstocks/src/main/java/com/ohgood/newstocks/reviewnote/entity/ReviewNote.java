@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
+import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
