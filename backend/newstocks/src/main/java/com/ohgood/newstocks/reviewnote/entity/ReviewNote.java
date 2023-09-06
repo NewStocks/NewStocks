@@ -2,6 +2,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
@@ -52,6 +53,10 @@ public class ReviewNote extends BaseTimeEntity {
     @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<Reply> replyList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 
     @Builder
     public ReviewNote(LocalDateTime settingTime, Integer likeCount, Integer scrapCount, Boolean privacy, Member member) {

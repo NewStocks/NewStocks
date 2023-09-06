@@ -2,6 +2,7 @@ package com.ohgood.newstocks.member.entity;
 
 import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.reviewnote.entity.*;
+import com.ohgood.newstocks.stock.entity.FavoriteStock;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
@@ -65,6 +66,11 @@ public class Member extends BaseEntity {
     @ToString.Exclude
     private List<ReplyCommentLike> replyCommentLikeList;
 
+    @OneToMany(mappedBy = "member")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<FavoriteStock> favoriteStockList;
+
     @Builder
     public Member(String name, String email, String profileImage, SocialType socialType, String socialId) {
         this.name = name == null ? "이름" : name;
@@ -77,5 +83,6 @@ public class Member extends BaseEntity {
         this.reviewNoteScrapList = new ArrayList<>();
         this.replyLikeList = new ArrayList<>();
         this.replyCommentLikeList = new ArrayList<>();
+        this.favoriteStockList = new ArrayList<>();
     }
 }

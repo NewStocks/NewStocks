@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.news.entity;
 
+import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,22 +36,16 @@ public class News {
     @Column(nullable = false)
     private LocalDateTime publishTime;
 
-    @Column(nullable = false)
-    private String stockId;
-
-//    Stock Entity가 생기면 아래로 수정 예정
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "stock_id")
-//    private Stock stock;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 
     @Builder
-    public News(Long id, String title, String company, String url, LocalDateTime publishTime,
-        String stockId) {
-        this.id = id;
+    public News(String title, String company, String url, LocalDateTime publishTime, Stock stock) {
         this.title = title;
         this.company = company;
         this.url = url;
         this.publishTime = publishTime;
-        this.stockId = stockId;
+        this.stock = stock;
     }
 }
