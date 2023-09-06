@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
   
-  height: 50px;
+  height: 48px;
   color: #fff;
 
   /* border: 1px dotted red; */
@@ -39,7 +39,7 @@
 
 /* 검색 input 박스*/
 .header-search {
-  width: 500px;
+  width: 450px;
   height: 33px;
   border-radius: 20px;
   border: transparent;
