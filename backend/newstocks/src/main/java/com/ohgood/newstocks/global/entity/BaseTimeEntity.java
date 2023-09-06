@@ -1,4 +1,4 @@
-package com.ohgood.newstocks.reviewnote.entity;
+package com.ohgood.newstocks.global.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

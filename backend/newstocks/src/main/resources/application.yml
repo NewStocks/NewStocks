@@ -23,3 +23,7 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 1000
+
+logging:
+  level:
+    root: info

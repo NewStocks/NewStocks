@@ -1,21 +1,20 @@
 package com.ohgood.newstocks.member.entity;
 
+import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.reviewnote.entity.*;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
 @Table
-@NoArgsConstructor
-public class Member {
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +39,12 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     @Fetch(FetchMode.SUBSELECT)
+    @ToString.Exclude
     private List<ReviewNote> reviewNoteList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     @Fetch(FetchMode.SUBSELECT)
+    @ToString.Exclude
     private List<ReviewNoteScrap> reviewNoteScrapList = new ArrayList<>();
 
     // 좋아요 누른 댓글인지 여부를 DB 접근 없이 확인하기 위함
@@ -51,21 +52,24 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private List<ReviewNoteLike> reviewNoteLikeList;
 
     @OneToMany(mappedBy = "member")
     @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private List<ReplyLike> replyLikeList;
 
     @OneToMany(mappedBy = "member")
     @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private List<ReplyCommentLike> replyCommentLikeList;
 
     @Builder
     public Member(String name, String email, String profileImage, SocialType socialType, String socialId) {
-        this.name = name;
-        this.email = email;
-        this.profileImage = profileImage;
+        this.name = name == null ? "이름" : name;
+        this.email = email == null ? "이메일" : email;
+        this.profileImage = profileImage == null ? "" : profileImage;
         this.socialType = socialType;
         this.socialId = socialId;
         this.reviewNoteList = new ArrayList<>();
