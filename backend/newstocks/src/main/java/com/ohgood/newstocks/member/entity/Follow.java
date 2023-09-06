@@ -2,13 +2,14 @@ package com.ohgood.newstocks.member.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
         @UniqueConstraint(name="follow_uq", columnNames = {"follower_id", "following_id"})
 })

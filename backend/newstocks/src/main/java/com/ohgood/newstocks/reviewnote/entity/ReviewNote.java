@@ -3,6 +3,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNote extends BaseTimeEntity {
 
     @Id
