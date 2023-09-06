@@ -9,6 +9,26 @@ body {
   overflow-x: hidden;
 }
 
+html { 
+  /* width: 250px; */
+  /* height: 100px; */
+  overflow-y: scroll; 
+}
+
+/* 스크롤바의 폭 너비 */
+html::-webkit-scrollbar {
+    width: 10px;  
+}
+
+html::-webkit-scrollbar-thumb {
+    background: rgba(79, 79, 79, 0.27);/* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+html::-webkit-scrollbar-track {
+    background: rgba(91, 91, 91, 0.1);  /*스크롤바 뒷 배경 색상*/
+}
+
 body {
   /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
