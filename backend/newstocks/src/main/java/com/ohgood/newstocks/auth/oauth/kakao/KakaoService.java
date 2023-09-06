@@ -68,11 +68,11 @@ public class KakaoService {
                     kakaoUserDto.getProperties().getName(),
                     kakaoUserDto.getKakaoAccount().getEmail(),
                     kakaoUserDto.getProperties().getProfileImage(),
-                    SocialType.Kakao,
+                    SocialType.KAKAO,
                     kakaoUserDto.getAuthenticationCode()
             );
             return memberRepository.save(newMember);
         }
-        return memberRepository.save(new Member(null, null, null, SocialType.Kakao, kakaoUserDto.getAuthenticationCode()));
+        return memberRepository.save(new Member(null, null, null, SocialType.KAKAO, kakaoUserDto.getAuthenticationCode()));
     }
 }
