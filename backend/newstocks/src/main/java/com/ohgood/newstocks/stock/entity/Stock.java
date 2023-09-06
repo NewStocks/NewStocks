@@ -18,7 +18,6 @@ import org.hibernate.annotations.FetchMode;
 public class Stock {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(nullable = false)

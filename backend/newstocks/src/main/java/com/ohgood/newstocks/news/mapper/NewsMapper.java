@@ -12,7 +12,7 @@ public class NewsMapper {
     public NewsResDto NewsEntityToNewsResDto(News news) {
         return NewsResDto.builder()
             .title(news.getTitle())
-            .stockId(news.getStockId())
+            .stockId(news.getStock().getId())
             .company(news.getCompany())
             .url(news.getUrl())
             .publishTime(news.getPublishTime())
