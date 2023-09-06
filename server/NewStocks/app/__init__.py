@@ -36,28 +36,73 @@ def connection_mysql():
 @app.route('/saveAllKoreaStockInfo', methods=['POST'])
 def save_stock_info_data():
     try:
-        kospi_code_list = stock.get_market_ticker_list(market="KOSPI")
-        print("코스피 주식 코드와 이름 목록:")
-        # 코스피 시장 주식코드로 주식명 가져오기
-        kospi_stock_list=dict()
-        for stock_id in kospi_code_list:
-            kospi_stock_list[stock_id]={"이름": stock.get_market_ticker_name(stock_id)}
-        print(kospi_stock_list)
-        print(len(kospi_stock_list))
+        # POST 요청에서 stockDto 데이터 추출
+        range_data = request.json  # Assuming the request data is in JSON format
+        # stockDto에서 필요한 데이터 추출
+        start_date = range_data['startDate']
+        end_date = range_data['endDate']
 
-        stock_list=[]
-        # 코스닥 시장의 주식 코드 가져오기
-        kosdaq_code_list = stock.get_market_ticker_list(market="KOSDAQ")
-        print("\n코스닥 주식 코드와 이름 목록:")
-        kosdaq_code_name_list=dict()
-        for code in kosdaq_code_list:
-            stock_list.append({})
-            kosdaq_code_name_list[code]={"이름": stock.get_market_ticker_name(code)}
-        print(kosdaq_code_name_list)
-        print(len(kosdaq_code_name_list))
+        conn=connection_mysql()
+        cursor = conn.cursor()
+
+        stock_info_list=stock.get_market_cap(start_date)
+        pd.set_option('display.max_rows', None)
+
+        # 큰 리스트를 초기화
+        all_stock_data = []
+
+        # print(stock_info_list)
+        # 데이터프레임을 순회하면서 주식 정보 추출
+        for index, row in stock_info_list.iterrows():
+            stock_code = index  # 주식 코드
+            stock_name = stock.get_market_ticker_name(stock_code)  # 주식 이름
+
+            # 이미 포함된 정보 활용
+            listed_shares = row['상장주식수']  # 상장주식수
+            market_cap = row['시가총액']  # 시가총액
+
+            try:
+                # 외국인 주식 비율 및 외국인 주식수 정보 가져오기
+                foreign_info = stock.get_exhaustion_rates_of_foreign_investment(start_date, end_date, stock_code)
+                # print(foreign_info)
+                # foreign_holding_ratio = foreign_info['외국인한도주식수'] / listed_shares  # 외국인 주식 비율
+                # foreign_holding_volume = foreign_info['외국인보유주식수']  # 외국인 주식수
+            except Exception as e:
+                # 외국인 정보를 가져오지 못한 경우에 대한 예외 처리
+                # print(f"외국인 정보를 가져오지 못했습니다: {str(e)}")
+                foreign_info = None
+
+                # 필요한 정보를 리스트로 저장
+            stock_data = [stock_name, stock_code, market_cap, listed_shares, 0, 0]
+
+            if foreign_info is not None:
+                # 외국인 정보가 있는 경우에만 해당 정보로 업데이트
+                for index, row in foreign_info.iterrows():
+                    stock_data[4] = row['지분율']
+                    stock_data[5] = row['보유수량']  # 외국인 주식수
+            print(stock_data)
+            # 큰 리스트에 주식 데이터 추가
+            all_stock_data.append(stock_data)
+
+        # 큰 리스트에 저장된 주식 데이터를 MySQL 테이블에 저장하는 로직 추가
+        #
+        # for i in all_stock_data:
+        #     print(i)
+        # stock_list=[]
+        # # 코스닥 시장의 주식 코드 가져오기
+        # kosdaq_code_list = stock.get_market_ticker_list(market="KOSDAQ")
+        # print("\n코스닥 주식 코드와 이름 목록:")
+        # kosdaq_code_name_list=dict()
+        # for code in kosdaq_code_list:
+        #     stock_list.append({})
+        #     kosdaq_code_name_list[code]={"이름": stock.get_market_ticker_name(code)}
+        # print(kosdaq_code_name_list)
+        # print(len(kosdaq_code_name_list))
     except Exception as e:
-        print(str(e))
-        return str(e)
+        return f"오류 발생: {str(e)}"
+    finally:
+        cursor.close()
+        conn.close()
     return "주식 데이터가 성공적으로 저장되었습니다."
 @app.route('/saveAllDailyStockData', methods=['POST'])
 def save_daily_chart_data():
