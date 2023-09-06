@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class KakaoUserDto {
 
     @JsonProperty("id")
@@ -37,5 +36,13 @@ public class KakaoUserDto {
         private String name;
         @JsonProperty("profile_image")
         private String profileImage;
+    }
+
+    @Builder
+    public KakaoUserDto(String authenticationCode, Timestamp connectedAt, KakaoAccount kakaoAccount, Properties properties) {
+        this.authenticationCode = authenticationCode;
+        this.connectedAt = connectedAt;
+        this.kakaoAccount = kakaoAccount;
+        this.properties = properties;
     }
 }

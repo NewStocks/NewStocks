@@ -7,8 +7,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class KakaoTokenDto {
 
     @NotNull(message = "accessToken may not be null")
@@ -19,4 +18,9 @@ public class KakaoTokenDto {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
+    @Builder
+    public KakaoTokenDto(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 }
