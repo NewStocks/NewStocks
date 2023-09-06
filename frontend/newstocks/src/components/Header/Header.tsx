@@ -1,24 +1,34 @@
+'use client';
 import React from 'react';
 
-import { Button } from '../Button/Button';
 import styles from './Header.module.css';
+import Link from 'next/link';
 
-type User = {
-  name: string;
-};
+// 검색창 아이콘
+import { BiSearch } from "react-icons/bi"
+// 메뉴 아이콘
+import { BiHomeAlt2 } from "react-icons/bi";
+import { AiOutlineGlobal } from "react-icons/ai";
+import { FaRegUserCircle } from "react-icons/fa";
 
-interface HeaderProps {
-  user?: User;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
-}
+// type User = {
+//   name: string;
+// };
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
+// interface HeaderProps {
+//   user?: User;
+//   onLogin: () => void;
+//   onLogout: () => void;
+//   onCreateAccount: () => void;
+// }
+
+export default function Header() {
+
+return (
   <header>
-    <div className={styles["storybook-header"]}>
-      <div>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <div className={styles["header"]}>
+      <div className={styles["header-left"]}>
+        <svg width="30" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" fillRule="evenodd">
             <path
               d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
@@ -34,23 +44,20 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
             />
           </g>
         </svg>
-        <h1>Acme</h1>
+        <h1>NEWStocks</h1>
       </div>
-      <div>
-        {user ? (
-          <>
-            <span className={styles["welcome"]}>
-              Welcome, <b>{user.name}</b>!
-            </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
-          </>
-        ) : (
-          <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
-        )}
+      
+      <div className={styles["header-search"]}>
+        <div><BiSearch size="22"/></div>
+        <input type="text" placeholder="종목명 또는 종목코드 검색" />
+      </div>
+      
+      <div className={styles["header-right"]}>
+        <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
+        <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
+        <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link>
       </div>
     </div>
   </header>
 );
+}

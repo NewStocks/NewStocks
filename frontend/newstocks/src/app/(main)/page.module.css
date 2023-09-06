@@ -1,4 +1,7 @@
 .main {
+  /* background-color: #00051E;
+  color: white; */
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
