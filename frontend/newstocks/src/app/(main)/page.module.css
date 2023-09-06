@@ -9,6 +9,10 @@
   padding: 6rem;
   min-height: 100vh;
 }
+.chart {
+  display: flex;
+  justify-content: center;
+}
 
 .description {
   display: inherit;
