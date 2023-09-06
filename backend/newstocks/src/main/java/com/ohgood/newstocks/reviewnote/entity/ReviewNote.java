@@ -3,10 +3,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNote extends BaseTimeEntity {
 
@@ -42,14 +40,17 @@ public class ReviewNote extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @ToString.Exclude
     private Member member;
 
     @OneToMany(mappedBy = "reviewNote")
     @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private List<ReviewNoteImage> reviewNoteImageList;
 
     @OneToMany(mappedBy = "reviewNote")
     @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private List<Reply> replyList;
 
     @Builder
