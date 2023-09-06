@@ -8,6 +8,8 @@
 .profile-box {
   display: flex;
   padding: 0 10px;
+
+  cursor: pointer;
 }
 
 .profile-box p {
@@ -51,9 +53,44 @@
   margin: 5px 0 0 5px;
 }
 
-.nav-container div {
-  height: 35px;
-  width: 140px;
+.nav-container {
+  /* border: 1px dotted white; */
+}
 
-  margin: 30px auto;
+.nav-container div {
+  display: flex;
+  align-items: center;
+
+  height: 55px;
+  width: 140px;
+  margin: 20px auto;
+  cursor: pointer;
+
+  /* border: 1px dotted red; */
+}
+
+.nav-mynote {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 2px 0 0 0;
+  /* border: 1px dotted red; */
+}
+
+.nav-mynote p {
+  /* border: 1px dotted red; */
+}
+
+.nav-mynote-toggle {
+  width: 100px;
+  margin: 0 0 0 20px;
+}
+
+.nav-mynote-toggle li {
+  width: 90px;
+  list-style-type: none;
+  font-size: 13px;
+
+  margin: 0 0 20px 0;
 }
