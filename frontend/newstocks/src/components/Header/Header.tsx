@@ -4,6 +4,13 @@ import React from 'react';
 import styles from './Header.module.css';
 import Link from 'next/link';
 
+// 검색창 아이콘
+import { BiSearch } from "react-icons/bi"
+// 메뉴 아이콘
+import { BiHomeAlt2 } from "react-icons/bi";
+import { AiOutlineGlobal } from "react-icons/ai";
+import { FaRegUserCircle } from "react-icons/fa";
+
 // type User = {
 //   name: string;
 // };
@@ -39,13 +46,16 @@ return (
         </svg>
         <h1>NEWStocks</h1>
       </div>
-
-      <input className={styles["header-search"]} type="text" placeholder="종목명 또는 종목코드 검색" />
+      
+      <div className={styles["header-search"]}>
+        <div><BiSearch size="22"/></div>
+        <input type="text" placeholder="종목명 또는 종목코드 검색" />
+      </div>
       
       <div className={styles["header-right"]}>
-        <Link className={styles["header-link"]} href='/'>home</Link>
-        <Link className={styles["header-link"]} href='/community'>commu</Link>
-        <Link className={styles["header-link"]} href='/community/user'>user</Link>
+        <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
+        <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
+        <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link>
       </div>
     </div>
   </header>
