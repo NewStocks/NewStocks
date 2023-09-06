@@ -9,6 +9,12 @@
   padding: 6rem;
   min-height: 100vh;
 }
+.components {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .chart {
   display: flex;
   justify-content: center;

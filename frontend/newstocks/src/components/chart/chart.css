@@ -23,10 +23,14 @@
   }
   .chart {
     border: 1px solid #4FE7B0;
+    /* justify-content: center; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    margin-left:15%;
   }
   .chartbox {
     display: flex;
-    justify-content: center;
+    /* justify-content: center;
     flex-direction: column;
-    align-items: center;
+    align-items: center; */
   }

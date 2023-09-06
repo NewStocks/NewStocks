@@ -63,7 +63,7 @@ export default function Chart() {
         type: 'datetime',
         labels: {
           style: {
-            colors: '#4FE7B0'
+            colors: '#fff'
           }
         },
         zoom: {
@@ -77,7 +77,7 @@ export default function Chart() {
         min: 6550,
         labels: {
           style: {
-            colors: '#4FE7B0'
+            colors: '#fff'
           }
         },
       },
@@ -611,8 +611,276 @@ export default function Chart() {
     ],
   });
 
+  const [newVolumeData, setNewVolumeData] = useState({
+    options: {
+      theme: {
+        mode: "dark",
+      },
+      chart: {
+        toolbar:{
+          show: false,
+        },
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800,
+          animateGradually: {
+              enabled: true,
+              delay: 150
+          },
+      },
+        type: 'bar',
+        height: 350,
+        background: '#00051E',
+        foreColor: '#fff',
+      },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: false,
+        fontSize: '12px',
+      },
+      title: {
+        text: '거래량',
+        align: 'left',
+        margin: 0
+      },
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          style: {
+            colors: '#fff'
+          }
+        },
+        zoom: {
+          enabled: true,
+        },
+      },
+      yaxis: {
+        forceNiceScale: true,
+        showAlways: true,
+        opposite: true,
+        min: 1000,
+        labels: {
+          style: {
+            colors: '#fff'
+          }
+        },
+      },
+      tooltip: {
+        intersect: false,
+        enabled: true,
+        shared: true,
+        followCursor: false,
+        inverseOrder: false,
+      },
+      grid: {
+        show: true, 
+        borderColor: 'rgba(144, 164, 174, 0.5)',
+        xaxis: {
+          lines: {
+              show: true
+            }
+          },   
+          yaxis: {
+              lines: {
+                  show: true
+              }
+          },  
+      },
+      plotOptions: {
+        bar: {
+            horizontal: false,
+            borderRadius: 0,
+            borderRadiusApplication: 'around',
+            borderRadiusWhenStacked: 'last',
+            columnWidth: '80%',
+            barHeight: '70%',
+        }
+    }
+    },
+    series: [
+      {
+        name: '거래량',
+        type: 'bar',
+        data: [
+          {
+            x: '05/06/2014',
+            y: 1000
+          },
+          {
+            x: '05/07/2014',
+            y: 5000.05
+          },
+          {
+            x: '05/08/2014',
+            y: 8000
+          },
+          {
+            x: '05/09/2014',
+            y: 8000
+          },
+          {
+            x: '05/10/2014',
+            y: 8000
+          },
+          {
+            x: '05/11/2014',
+            y: 8000
+          },
+          {
+            x: '05/12/2014',
+            y: 8000          
+          },
+          {
+            x: '05/13/2014',
+            y: 3000
+          },
+          {
+            x: '05/14/2014',
+            y: 8000
+          },
+          {
+            x: '05/15/2014',
+            y: 4000
+          },
+          {
+            x: '05/16/2014',
+            y: 8000
+          },
+          {
+            x: '05/17/2014',
+            y: 8000
+          },
+          {
+            x: '05/18/2014',
+            y: 7000
+          },
+          {
+            x: '05/19/2014',
+            y: 8000
+          },
+          {
+            x: '05/20/2014',
+            y: 8000
+          },
+          {
+            x: '05/21/2014',
+            y: 2000
+          },
+          {
+            x: '05/22/2014',
+            y: 4000
+          },
+          {
+            x: '05/23/2014',
+            y: 8000         
+          },
+          {
+            x: '05/24/2014',
+            y: 8000
+          },
+          {
+            x: '05/25/2014',
+            y: 8000
+          },
+          {
+            x: '05/26/2014',
+            y: 8000
+          },
+          {
+            x: '05/27/2014',
+            y: 8000         
+          },
+          {
+            x: '05/28/2014',
+            y: 8000
+          },
+          {
+            x: '05/29/2014',
+            y: 8000
+          },
+          {
+            x: '05/30/2014',
+            y: 8000
+          },
+          {
+            x: '05/31/2014',
+            y: 8000
+          },
+          {
+            x: '06/01/2014',
+            y: 8000
+          },
+          {
+            x: '06/02/2014',
+            y: 8000      
+          },
+          {
+            x: '06/03/2014',
+            y: 8000
+          },
+          {
+            x: '06/04/2014',
+            y: 6565
+          },
+          {
+            x: '06/05/2014',
+            y: 0
+          },
+          {
+            x: '06/06/2014',
+            y: 0
+          },
+          {
+            x: '06/07/2014',
+            y: 0
+          },
+          {
+            x: '06/08/2014',
+            y: 0
+          },
+          {
+            x: '06/09/2014',
+            y: 0
+          },
+          {
+            x: '06/10/2014',
+            y: 0          
+          },
+          {
+            x: '06/11/2014',
+            y: 0
+          },
+          {
+            x: '06/12/2014',
+            y: 0
+          },
+        ],
+      },
+    ]
+  });
+
+
   useEffect(() => {
     const fetchData = () => {
+      axios
+        .get('baseurl/stock/{stock-id}/chart')
+        .then((response) => {
+          const { series } = response.data.series;
+          const { title } = response.data.title;
+          setChartData((prevData) => ({
+            ...prevData, 
+            series,
+            title,
+          }));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    const fetchNewVolumeData = () => {
       axios
         .get('baseurl/stock/{stock-id}/chart')
         .then((response) => {
@@ -629,6 +897,7 @@ export default function Chart() {
         });
     };
     fetchData();
+    fetchNewVolumeData();
     const intervalId = setInterval(fetchData, 100000);
   
     return () => clearInterval(intervalId);
@@ -642,25 +911,21 @@ export default function Chart() {
             options={chartData.options}
             series={chartData.series}
             type="scatter"
-            width={800}
-            height={450}
+            width={900}
+            height={400}
           />
           <br />
-          <div className="chartbox" id="data-point-info">
+          <ApexCharts
+            options={newVolumeData.options}
+            series={newVolumeData.series}
+            type="line"
+            width={900}
+            height={150}
+          />
+          <div id="data-point-info">
+          </div>
         </div>
       </div>
-      
-        
-      </div>
-      {/* <div id="chart">
-        <ApexCharts
-          options={chartData.options}
-          series={chartData.series}
-          type="line"
-          width={700}
-        />
-      </div> */}
-
     </div>
   );
 };
