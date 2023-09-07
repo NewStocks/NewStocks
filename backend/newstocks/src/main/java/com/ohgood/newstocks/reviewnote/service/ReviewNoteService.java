@@ -32,8 +32,8 @@ public class ReviewNoteService {
 
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.reviewNoteReqDtoToReviewNoteResDto(reviewNoteReqDto);
 
-//        reviewNoteResDto.setMember(member);
-//        reviewNoteResDto.setStock(stock);
+        reviewNoteResDto.setMember(member);
+        reviewNoteResDto.setStock(stock);
 
         ReviewNote reviewNote = ReviewNoteMapper.INSTANCE.reviewNoteResDtoToEntity(reviewNoteResDto);
 
