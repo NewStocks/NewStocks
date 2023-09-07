@@ -46,8 +46,13 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-          <div className='components'>
-            <Chart />
+          <div>
+            <div className='components'>
+              <Chart />
+            </div>
+            <div>
+              뉴스 보여지는 곳
+            </div>
           </div>
             <div>
               {/* {children} */}

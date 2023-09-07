@@ -1,3 +1,7 @@
+.main {
+
+}
+
 .header {
 	width: 24.9vw;
 	height: 8vh;
@@ -11,12 +15,17 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
+}
+.selected-item {
+	color: #4FE7B0;
 }
 
 #item-icon {
 	display: flex;
 	align-items: center;
-	color: #4FE7B0;
   height: 30px;
   width: auto;
 }
