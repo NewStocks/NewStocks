@@ -35,13 +35,18 @@ public class ReviewNoteService {
         Member member = findMemberById(userId);
         Stock stock = findStockById(reviewNoteReqDto.getStockId());
 
+        // DTO -> Entity Mapstruct 위한 실제 객체 저장
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.reviewNoteReqDtoToReviewNoteResDto(reviewNoteReqDto);
         reviewNoteResDto.addDetails(member, stock);
+
         ReviewNote reviewNote = ReviewNoteMapper.INSTANCE.reviewNoteResDtoToEntity(reviewNoteResDto);
 
         reviewNote.getMember().getReviewNoteList().add(reviewNote);
-        reviewNoteRepository.save(reviewNote);
+        reviewNote = reviewNoteRepository.save(reviewNote);
 
+        reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
+        // Member, Stock 등 DTO 정보 저장
+        reviewNoteResDto.addDetailDtos(member, stock);
         log.info("오답노트의 멤버 " + reviewNote.getMember());
 
         log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
