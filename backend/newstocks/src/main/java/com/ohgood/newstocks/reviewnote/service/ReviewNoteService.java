@@ -1,6 +1,7 @@
 package com.ohgood.newstocks.reviewnote.service;
 
 import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
@@ -8,6 +9,7 @@ import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteMapper;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
+import com.ohgood.newstocks.stock.mapper.StockMapper;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,19 +29,23 @@ public class ReviewNoteService {
     @Transactional
     public ReviewNoteResDto insertReviewNote(ReviewNoteReqDto reviewNoteReqDto, Long userId) {
 
+        log.info("insertReviewNote Start");
+
+        // Security 적용 전 테스트용
         Member member = findMemberById(userId);
-        Stock stock = findStockById("test");
+        Stock stock = findStockById(reviewNoteReqDto.getStockId());
 
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.reviewNoteReqDtoToReviewNoteResDto(reviewNoteReqDto);
-
-        reviewNoteResDto.setMember(member);
-        reviewNoteResDto.setStock(stock);
-
+        reviewNoteResDto.addDetails(member, stock);
         ReviewNote reviewNote = ReviewNoteMapper.INSTANCE.reviewNoteResDtoToEntity(reviewNoteResDto);
 
-        log.info("" + reviewNote);
+        reviewNote.getMember().getReviewNoteList().add(reviewNote);
+        reviewNoteRepository.save(reviewNote);
 
-        return ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNoteRepository.save(reviewNote));
+        log.info("오답노트의 멤버 " + reviewNote.getMember());
+
+        log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
+        return reviewNoteResDto;
     }
 
 
