@@ -116,9 +116,13 @@
 .nav-mynote-toggle li {
   width: 90px;
   list-style-type: none;
-  font-size: 13.5px;
+  font-size: 14px;
 
   margin: 0 0 23px 0;
+}
+
+.nav-mynote-toggle li:hover {
+  font-weight: 1000;
 }
 
 .nav-selected {

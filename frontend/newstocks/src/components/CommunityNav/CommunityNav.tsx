@@ -48,6 +48,14 @@ export default function CommunityNav() {
   
       highlight.style.height = tabHeight + 'px';
       highlight.style.top = tabTop + 'px';
+
+      if (pathname?.slice(11)=="mine") {
+        setMytoggle(true)
+        // mynote.style.setProperty("--toggle", "90deg");
+      } else {
+        setMytoggle(false)
+        // mynote.style.setProperty("--toggle", "0deg");
+      }
     }
   }, [])
 
@@ -76,9 +84,9 @@ export default function CommunityNav() {
           {/* <p><IoIosArrowForward className={styles["nav-mynote-arrow"]}/></p> */}
         </div>
         <ul className={styles["nav-mynote-toggle"]} style={{ display: mytoggle ? "block" : "none" }}>
-          <li>나의 노트</li>
-          <li>스크랩 노트</li>
-          <li>팔로잉 노트</li>
+          <Link href='/community/mine?page=my' style={{ textDecoration: "none", color: "white"}}><li>나의 노트</li></Link>
+          <Link href='/community/mine?page=scrap' style={{ textDecoration: "none", color: "white"}}><li>스크랩 노트</li></Link>
+          <Link href='/community/mine?page=follwing' style={{ textDecoration: "none", color: "white"}}><li>팔로잉 노트</li></Link>
         </ul>
 
         <div className="tab all">
