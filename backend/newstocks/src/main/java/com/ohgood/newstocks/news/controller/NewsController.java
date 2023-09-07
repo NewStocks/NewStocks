@@ -29,7 +29,7 @@ public class NewsController {
     public ResponseEntity<List<NewsResDto>> findDateNewsByStockId(
         @PathVariable("stock-id") String stockId, @PathVariable("date")
     String date) {
-        List<NewsResDto> newsResDtos = newsService.findDateNewsByStockId(stockId, date);
-        return new ResponseEntity<List<NewsResDto>>(newsResDtos, HttpStatus.OK);
+        List<NewsResDto> newsResDtoList = newsService.findDateNewsByStockId(stockId, date);
+        return new ResponseEntity<List<NewsResDto>>(newsResDtoList, HttpStatus.OK);
     }
 }

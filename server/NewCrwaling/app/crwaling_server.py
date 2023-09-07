@@ -1,12 +1,10 @@
-from flask import Flask, request
+from flask import Flask
 from bs4 import BeautifulSoup
-import requests
-import re
-import pandas as pd
 import pymysql
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+from urllib.request import urlopen
 
 app = Flask(__name__)
 load_dotenv()
@@ -24,12 +22,12 @@ def crawler(stock_ids):
 
     infos = []
     for stock_id in stock_ids:
-        print("stock_id: ", stock_id)
+        print("stock_id:", stock_id)
         page = 1
         while True:
             url = 'https://finance.naver.com/item/news_news.nhn?code=' + \
                 stock_id + '&page=' + str(page)
-            source_code = requests.get(url).text
+            source_code = urlopen(url)
             html = BeautifulSoup(source_code, 'html.parser')
             titles = html.select('.title')
             links = html.select('.title')
@@ -66,7 +64,7 @@ def crawler(stock_ids):
     return infos
 
 
-@app.route('/save-news', methods=['GET'])
+@app.route('/save-news', methods=['POST'])
 def save_news():
     try:
         # MySQL 연결
