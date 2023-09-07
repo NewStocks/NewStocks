@@ -1,6 +1,7 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.news.entity.News;
@@ -20,7 +21,7 @@ import java.util.List;
 @Table
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewNote {
+public class ReviewNote extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
