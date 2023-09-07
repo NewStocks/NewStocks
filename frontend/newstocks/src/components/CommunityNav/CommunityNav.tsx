@@ -39,7 +39,8 @@ export default function CommunityNav() {
           }
         });
       });
-
+      
+      if (pathname?.slice(11)) {
       const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`)
       selected.classList.add('active');
   
@@ -48,7 +49,7 @@ export default function CommunityNav() {
   
       highlight.style.height = tabHeight + 'px';
       highlight.style.top = tabTop + 'px';
-  
+    }
   }, [])
 
 
