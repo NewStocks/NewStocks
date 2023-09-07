@@ -1,54 +1,73 @@
 'use client';
 
 import React from 'react';
-import './Button.css';
+import styles from './Button.module.css';
 
-interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
-  label: string;
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void;
-}
+import { HiArrowNarrowRight } from "react-icons/hi";
+
+// interface ButtonProps {
+//   /**
+//    * Is this the principal call to action on the page?
+//    */
+//   primary?: boolean;
+//   /**
+//    * What background color to use
+//    */
+//   backgroundColor?: string;
+//   /**
+//    * How large should the button be?
+//    */
+//   size?: 'small' | 'medium' | 'large';
+//   /**
+//    * Button contents
+//    */
+//   label: string;
+//   /**
+//    * Optional click handler
+//    */
+//   onClick?: () => void;
+// }
 
 /**
  * Primary UI component for user interaction
  */
-export const Button = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
-  label,
-  ...props
-}: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+// export const Button = ({
+//   primary = false,
+//   size = 'medium',
+//   backgroundColor,
+//   label,
+//   ...props
+// }: ButtonProps) => {
+//   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+//   return (
+//     <button
+//       type="button"
+//       className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
+//       {...props}
+//     >
+//       {label}
+//       <style jsx>{`
+//         button {
+//           background-color: ${backgroundColor};
+//         }
+//       `}</style>
+//     </button>
+//   );
+// };
+
+type Props = {
+  text: string,
+  highlight: boolean,
+  arrow: boolean,
+  func: () => void,
+}
+
+export default function Button({ text, highlight, arrow }: Props) {
+
   return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      {...props}
-    >
-      {label}
-      <style jsx>{`
-        button {
-          background-color: ${backgroundColor};
-        }
-      `}</style>
+    <button className={styles["button-box"]} style={highlight ? { color: "#4FE7B0", border: "2px solid #4FE7B0" } : { color: "white" }}>
+      <div>{text}</div>
+      <HiArrowNarrowRight size="14"/>
     </button>
   );
 };

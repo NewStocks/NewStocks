@@ -28,3 +28,26 @@
   font-size: 16px;
   padding: 12px 24px;
 }
+
+/* */
+.button-box {
+  width: 118px;
+  height: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 65.153px;
+
+  cursor: pointer;
+}
+
+.button-box div{
+  margin-right: 4px;
+
+}

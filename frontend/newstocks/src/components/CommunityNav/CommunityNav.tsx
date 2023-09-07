@@ -2,13 +2,12 @@
 import styles from './CommunityNav.module.css';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { IoIosArrowForward } from "react-icons/io";
 
 export default function CommunityNav() {
   const [mytoggle, setMytoggle] = useState(false);
-  const [usehighlight, setuseHighlight] = useState(false);
   const tabsRef = useRef(null);
   const highlightRef = useRef(null);
   const mynoteRef = useRef(null);
