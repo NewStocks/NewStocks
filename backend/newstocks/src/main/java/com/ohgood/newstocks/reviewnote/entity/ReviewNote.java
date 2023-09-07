@@ -93,7 +93,7 @@ public class ReviewNote extends BaseEntity {
     private List<ReviewNoteNews> reviewNoteNewsList;
 
     @Builder
-    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, String content, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, Stock stock) {
+    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, String content, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList, Stock stock) {
         this.likeCount = 0;
         this.scrapCount = 0;
         this.privacy = privacy;
@@ -110,6 +110,7 @@ public class ReviewNote extends BaseEntity {
         this.member = member;
         this.reviewNoteImageList = reviewNoteImageList;
         this.replyList = new ArrayList<>();
+        this.reviewNoteNewsList = reviewNoteNewsList;
         this.stock = stock;
     }
 }
