@@ -24,7 +24,7 @@ def crawler(stock_ids):
 
     infos = []
     for stock_id in stock_ids:
-        print(stock_id)
+        print("stock_id: ", stock_id)
         page = 1
         while True:
             url = 'https://finance.naver.com/item/news_news.nhn?code=' + \
@@ -81,7 +81,7 @@ def save_news():
 
         # 데이터프레임을 MySQL 테이블에 저장
         infos = crawler(stock_ids)
-        print(*infos, sep='\n')
+        # print(*infos, sep='\n')
 
         for (company, publish_time, title, url, stock_id) in infos:
             insert_query = '''
