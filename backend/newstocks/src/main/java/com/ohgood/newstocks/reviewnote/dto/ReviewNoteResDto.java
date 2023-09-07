@@ -1,8 +1,10 @@
 package com.ohgood.newstocks.reviewnote.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.reviewnote.entity.NoteType;
-import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
+import com.ohgood.newstocks.stock.dto.StockDto;
 import com.ohgood.newstocks.stock.entity.Stock;
 import lombok.*;
 
@@ -25,8 +27,8 @@ public class ReviewNoteResDto {
     private NoteType type;
     private Boolean display;
     private Boolean privacy;
-    private Stock stock;
-    private Member member;
-    private List<ReviewNoteImage> reviewNoteImageList;
+    private StockDto stockDto;
+    private MemberDto memberDto;
+    private List<ReviewNoteImageDto> reviewNoteImageDtoList;
 
 }

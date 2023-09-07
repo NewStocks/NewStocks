@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.news.entity.News;
@@ -69,6 +70,7 @@ public class ReviewNote extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @ToString.Exclude
+    @JsonIgnore
     private Member member;
 
     @OneToMany(mappedBy = "reviewNote")
@@ -84,6 +86,7 @@ public class ReviewNote extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     @ToString.Exclude
+    @JsonIgnore
     private Stock stock;
 
 //    @OneToMany(mappedBy = "reviewNote")
