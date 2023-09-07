@@ -2,6 +2,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.news.entity.News;
 import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -43,16 +44,20 @@ public class ReviewNote extends BaseTimeEntity {
     private LocalDateTime sellDate;
 
     @Column
-    private int buyPrice;
+    private Integer buyPrice;
 
     @Column
-    private int sellPrice;
+    private Integer sellPrice;
 
     @Column
-    private int buyQuantity;
+    private Integer buyQuantity;
 
     @Column
-    private int sellQuantity;
+    private Integer sellQuantity;
+
+    @NotNull
+    @Column(length = 3000)
+    private String content;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -81,8 +86,13 @@ public class ReviewNote extends BaseTimeEntity {
     @ToString.Exclude
     private Stock stock;
 
+//    @OneToMany(mappedBy = "reviewNote")
+//    @Fetch(FetchMode.JOIN)
+//    @ToString.Exclude
+//    private List<News> newsList;
+
     @Builder
-    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, Stock stock) {
+    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, String content, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, Stock stock) {
         this.likeCount = 0;
         this.scrapCount = 0;
         this.privacy = privacy;
@@ -93,6 +103,7 @@ public class ReviewNote extends BaseTimeEntity {
         this.sellPrice = sellPrice;
         this.buyQuantity = buyQuantity;
         this.sellQuantity = sellQuantity;
+        this.content = content;
         this.type = type;
         this.display = display;
         this.member = member;
