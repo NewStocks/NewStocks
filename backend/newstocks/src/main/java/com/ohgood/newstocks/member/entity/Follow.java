@@ -2,6 +2,7 @@ package com.ohgood.newstocks.member.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -17,10 +18,12 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "follower_id")
+    @NotNull
+    @Column(name = "follower_id")
     private Long followerId;
 
-    @Column(nullable = false, name = "following_id")
+    @NotNull
+    @Column(name = "following_id")
     private Long followingId;
 
     @Builder

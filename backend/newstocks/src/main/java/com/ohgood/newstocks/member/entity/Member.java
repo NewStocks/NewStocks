@@ -4,6 +4,7 @@ import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.reviewnote.entity.*;
 import com.ohgood.newstocks.stock.entity.FavoriteStock;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -19,23 +20,22 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
-    @Column(nullable = false)
+    @NotNull
     private String email;
 
-    @Column(nullable = false)
+    @NotNull
     private String profileImage;
 
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
-    @Column(nullable = false)
+    @NotNull
     private String socialId;
 
     @OneToMany(mappedBy = "member")
