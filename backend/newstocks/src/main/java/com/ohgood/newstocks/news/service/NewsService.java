@@ -19,8 +19,8 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
 
-    public List<NewsResDto> findAllNews() {
-        List<News> newsList = newsRepository.findAll();
+    public List<NewsResDto> findAllNews(String stockId) {
+        List<News> newsList = newsRepository.findAllByStockId(stockId);
         List<NewsResDto> newsResList = new ArrayList<>();
 
         for (News news : newsList) {
