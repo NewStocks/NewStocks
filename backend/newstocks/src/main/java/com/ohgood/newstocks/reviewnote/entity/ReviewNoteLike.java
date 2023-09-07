@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class ReviewNoteLike {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

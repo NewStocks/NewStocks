@@ -4,6 +4,7 @@ import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -20,17 +21,16 @@ import java.util.List;
 public class ReviewNote extends BaseTimeEntity {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private int likeCount;
 
-    @Column(nullable = false)
+    @NotNull
     private int scrapCount;
 
-    @Column(nullable = false)
+    @NotNull
     private Boolean privacy;
 
     @Column
@@ -54,11 +54,11 @@ public class ReviewNote extends BaseTimeEntity {
     @Column
     private int sellQuantity;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private NoteType type;
 
-    @Column(nullable = false)
+    @NotNull
     private Boolean display;
 
     @ManyToOne(fetch = FetchType.LAZY)

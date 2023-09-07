@@ -2,6 +2,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -17,14 +18,14 @@ import java.util.List;
 public class Reply extends BaseTimeEntity {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 1000, nullable = false)
+    @NotNull
+    @Column(length = 1000)
     private String content;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class ReplyLike {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
