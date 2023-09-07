@@ -2,20 +2,22 @@ package com.ohgood.newstocks.stock.entity;
 
 import com.ohgood.newstocks.member.entity.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FavoriteStock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String stockId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,7 +25,7 @@ public class FavoriteStock {
     private Member member;
 
     @Builder
-    public FavoriteStock(String stockId, Member member) {
+    public FavoriteStock(@NotNull String stockId, Member member) {
         this.stockId = stockId;
         this.member = member;
     }
