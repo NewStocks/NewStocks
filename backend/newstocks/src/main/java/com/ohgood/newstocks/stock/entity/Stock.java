@@ -38,6 +38,9 @@ public class Stock {
     private double foreignPercent;
 
     @NotNull
+    private int stockMarket;
+
+    @NotNull
     private Boolean delisting;
 
     @NotNull
@@ -66,13 +69,14 @@ public class Stock {
     @Builder
     public Stock(String id, @NotNull String name, @NotNull Long marketCap,
         @NotNull Long listedShares, @NotNull Long foreignShares, @NotNull double foreignPercent,
-        @NotNull Boolean delisting, @NotNull String sector) {
+        @NotNull int stockMarket, @NotNull Boolean delisting, @NotNull String sector) {
         this.id = id;
         this.name = name;
         this.marketCap = marketCap;
         this.listedShares = listedShares;
         this.foreignShares = foreignShares;
         this.foreignPercent = foreignPercent;
+        this.stockMarket = stockMarket;
         this.delisting = delisting;
         this.sector = sector;
         this.chartList = new ArrayList<>();
