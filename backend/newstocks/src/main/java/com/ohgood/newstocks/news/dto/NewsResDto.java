@@ -3,10 +3,10 @@ package com.ohgood.newstocks.news.dto;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NewsResDto {
 
