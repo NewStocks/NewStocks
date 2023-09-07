@@ -38,5 +38,6 @@
     "@storybook/react": "^7.4.0",
     "@storybook/testing-library": "^0.2.0",
     "storybook": "^7.4.0"
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
