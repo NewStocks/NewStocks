@@ -169,7 +169,7 @@ def save_stock_info_data():
                 foreign_info = None
 
                 # 필요한 정보를 리스트로 저장
-            stock_data = [stock_code, stock_name, market_cap, listed_shares, 0, 0, 0, 0]
+            stock_data = [stock_code, stock_name, market_cap, listed_shares, 0, 0, 0, "empty", 0]
 
             # 주식 코드를 집합을 사용하여 검색합니다.
             if stock_code in kospi_code_set:
@@ -189,13 +189,29 @@ def save_stock_info_data():
                     stock_data[5] = row['보유수량']  # 외국인 주식수
             print(stock_data)
             # 큰 리스트에 주식 데이터 추가
-            all_stock_data.append(stock_data)
+            # all_stock_data.append(stock_data)
+            stock_code, stock_name, market_cap, listed_shares, foreign_percent, foreign_shares, stock_market, sector, delisting = stock_data
+            cursor.execute("SELECT id FROM stock WHERE id = %s", stock_code)
+            existing_record = cursor.fetchone()
+
+            if existing_record:
+                cursor.execute(
+                    "UPDATE stock SET name = %s, market_cap = %s, listed_shares = %s, foreign_percent = %s, foreign_shares = %s, stock_market = %s, sector = %s, delisting = %s WHERE id = %s",
+                    (stock_name, int(market_cap), int(listed_shares), float(foreign_percent), int(foreign_shares), int(stock_market), sector, int(delisting)))
+            else:
+                cursor.execute(
+                    "INSERT INTO stock (id, name, market_cap, listed_shares, foreign_percent, foreign_shares, delisting, sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                    (stock_code, stock_name, int(market_cap), int(listed_shares), float(foreign_percent), int(foreign_shares), int(stock_market), sector, int(delisting)))
+            conn.commit()
+            # Commit changes to the database
     except Exception as e:
         return f"오류 발생: {str(e)}"
     finally:
         cursor.close()
         conn.close()
     return "주식 데이터가 성공적으로 저장되었습니다."
+
+
 @app.route('/save-all-daily-stock-data', methods=['POST'])
 def save_daily_chart_data():
     try:
@@ -209,21 +225,6 @@ def save_daily_chart_data():
         # MySQL 연결
         conn = connection_mysql()
         cursor = conn.cursor()
-        # 테이블 생성 (이미 존재하는 경우 무시)
-        create_table_query = """
-        CREATE TABLE IF NOT EXISTS chart (
-            id BIGINT AUTO_INCREMENT PRIMARY KEY,
-            stock_id VARCHAR(10),
-            date DATE,
-            start_price INT,
-            end_price INT,
-            high_price INT,
-            low_price INT,
-            volume BIGINT
-        )
-        """
-        cursor.execute(create_table_query)
-        conn.commit()
 
         #원문 양식
         # stock_chart= stock.get_market_ohlcv_by_date("20210401", "20230904", "005930")
