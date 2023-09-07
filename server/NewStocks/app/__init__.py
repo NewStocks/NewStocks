@@ -6,7 +6,6 @@ import pandas as pd
 import pymysql
 from dotenv import load_dotenv
 
-
 dotenv_file=dotenv.find_dotenv()
 dotenv.load_dotenv(dotenv_file)
 app = Flask(__name__)
@@ -23,6 +22,99 @@ db_config = {
     'password': DB_PWD,
     'database': 'newstocks',  # 데이터베이스 이름
 }
+
+class IndustryCategory:
+    def __init__(self, name):
+        self.name = name
+        self.data = []
+
+kospi_industry_data = {
+    1005: {"name": "음식료품", "data": ()},
+    1006: {"name": "섬유의복", "data": ()},
+    1007: {"name": "종이목재", "data": ()},
+    1008: {"name": "화학", "data": ()},
+    1009: {"name": "의약품", "data": ()},
+    1010: {"name": "비금속광물", "data": ()},
+    1011: {"name": "철강금속", "data": ()},
+    1012: {"name": "기계", "data": ()},
+    1013: {"name": "전기전자", "data": ()},
+    1014: {"name": "의료정밀", "data": ()},
+    1015: {"name": "운수장비", "data": ()},
+    1016: {"name": "유통업", "data": ()},
+    1017: {"name": "전기가스업", "data": ()},
+    1018: {"name": "건설업", "data": ()},
+    1019: {"name": "운수창고업", "data": ()},
+    1020: {"name": "통신업", "data": ()},
+    1021: {"name": "금융업", "data": ()},
+    1022: {"name": "은행", "data": ()},
+    1024: {"name": "증권", "data": ()},
+    1025: {"name": "보험", "data": ()},
+    1026: {"name": "서비스업", "data": ()},
+    1027: {"name": "제조업", "data": ()}
+}
+kosdac_industry_data ={
+    2015: {"name": "코스닥 IT", "data": ()},
+    2024: {"name": "제조", "data": ()},
+    2026: {"name": "건설", "data": ()},
+    2027: {"name": "유통", "data": ()},
+    2029: {"name": "운송", "data": ()},
+    2031: {"name": "금융", "data": ()},
+    2037: {"name": "오락,문화", "data": ()},
+    2041: {"name": "통신방송서비스", "data": ()},
+    2042: {"name": "IT S/W & SVC", "data": ()},
+    2043: {"name": "IT H/W", "data": ()},
+    2056: {"name": "음식료·담배", "data": ()},
+    2058: {"name": "섬유·의류", "data": ()},
+    2062: {"name": "종이·목재", "data": ()},
+    2063: {"name": "출판·매체복제", "data": ()},
+    2065: {"name": "화학", "data": ()},
+    2066: {"name": "제약", "data": ()},
+    2067: {"name": "비금속", "data": ()},
+    2068: {"name": "금속", "data": ()},
+    2070: {"name": "기계·장비", "data": ()},
+    2072: {"name": "일반전기전자", "data": ()},
+    2074: {"name": "의료·정밀기기", "data": ()},
+    2075: {"name": "운송장비·부품", "data": ()},
+    2077: {"name": "기타 제조", "data": ()},
+    2151: {"name": "통신서비스", "data": ()},
+    2152: {"name": "방송서비스", "data": ()},
+    2153: {"name": "인터넷", "data": ()},
+    2154: {"name": "디지털컨텐츠", "data": ()},
+    2155: {"name": "소프트웨어", "data": ()},
+    2156: {"name": "컴퓨터서비스", "data": ()},
+    2157: {"name": "통신장비", "data": ()},
+    2158: {"name": "정보기기", "data": ()},
+    2159: {"name": "반도체", "data": ()},
+    2160: {"name": "IT부품", "data": ()},
+}
+def set_category_where(industry_data):
+    for industry_code,category_info in industry_data.items():
+        try:
+            # 주식 종목 가져오기
+            stock_list = stock.get_index_portfolio_deposit_file(str(industry_code))
+            # 데이터 배열에 저장
+            category_info["data"] = set(stock_list)
+            print(industry_code, category_info["data"])
+        except Exception as e:
+            print(f"업종 코드 {industry_code} 데이터를 가져오는 중 오류 발생: {str(e)}")
+    return
+@app.route('/get-category', methods=['GET'])
+def set_category():
+    try:
+        #코스피
+        set_category_where(kospi_industry_data)
+        #코스닥
+        set_category_where(kosdac_industry_data)
+    except Exception as e:
+        print(e)
+        return e
+    for j in kospi_industry_data:
+        print(j)
+    for i in kosdac_industry_data:
+        print(i)
+    return "success"
+
+
 # MySQL 연결 함수
 def connection_mysql():
     try:
@@ -31,9 +123,8 @@ def connection_mysql():
         print(str(e))
     return conn
 
-#
 #stockId 기반으로 일봉 데이터 받아와 DB에 저장
-@app.route('/saveAllKoreaStockInfo', methods=['POST'])
+@app.route('/save-all-korea-stock-info', methods=['POST'])
 def save_stock_info_data():
     try:
         # POST 요청에서 stockDto 데이터 추출
@@ -42,11 +133,21 @@ def save_stock_info_data():
         start_date = range_data['startDate']
         end_date = range_data['endDate']
 
+        #DB에 즉시 절대 연결
         conn=connection_mysql()
         cursor = conn.cursor()
 
+        #전체주식 리스트 가져오기
         stock_info_list=stock.get_market_cap(start_date)
         pd.set_option('display.max_rows', None)
+
+        # 코스닥 시장의 주식 코드 가져오기
+        kosdaq_code_list = stock.get_market_ticker_list(market="KOSDAQ")
+        kospi_code_list = stock.get_market_ticker_list(market="KOSPI")
+
+        #O(1)로 탐색최적화하깅
+        kospi_code_set = set(kospi_code_list)
+        kosdaq_code_set = set(kosdaq_code_list)
 
         # 큰 리스트를 초기화
         all_stock_data = []
@@ -64,16 +165,23 @@ def save_stock_info_data():
             try:
                 # 외국인 주식 비율 및 외국인 주식수 정보 가져오기
                 foreign_info = stock.get_exhaustion_rates_of_foreign_investment(start_date, end_date, stock_code)
-                # print(foreign_info)
-                # foreign_holding_ratio = foreign_info['외국인한도주식수'] / listed_shares  # 외국인 주식 비율
-                # foreign_holding_volume = foreign_info['외국인보유주식수']  # 외국인 주식수
             except Exception as e:
                 # 외국인 정보를 가져오지 못한 경우에 대한 예외 처리
-                # print(f"외국인 정보를 가져오지 못했습니다: {str(e)}")
                 foreign_info = None
 
                 # 필요한 정보를 리스트로 저장
-            stock_data = [stock_name, stock_code, market_cap, listed_shares, 0, 0]
+            stock_data = [stock_name, stock_code, market_cap, listed_shares, 0, 0, 0]
+
+            # 주식 코드를 집합을 사용하여 검색합니다.
+            if stock_code in kospi_code_set:
+                #1이면 코스피
+                market = 1
+            elif stock_code in kosdaq_code_set:
+                #2면 코스닥
+                market = 2
+            else:
+                market = 0
+            stock_data[6]=market
 
             if foreign_info is not None:
                 # 외국인 정보가 있는 경우에만 해당 정보로 업데이트
@@ -83,28 +191,13 @@ def save_stock_info_data():
             print(stock_data)
             # 큰 리스트에 주식 데이터 추가
             all_stock_data.append(stock_data)
-
-        # 큰 리스트에 저장된 주식 데이터를 MySQL 테이블에 저장하는 로직 추가
-        #
-        # for i in all_stock_data:
-        #     print(i)
-        # stock_list=[]
-        # # 코스닥 시장의 주식 코드 가져오기
-        # kosdaq_code_list = stock.get_market_ticker_list(market="KOSDAQ")
-        # print("\n코스닥 주식 코드와 이름 목록:")
-        # kosdaq_code_name_list=dict()
-        # for code in kosdaq_code_list:
-        #     stock_list.append({})
-        #     kosdaq_code_name_list[code]={"이름": stock.get_market_ticker_name(code)}
-        # print(kosdaq_code_name_list)
-        # print(len(kosdaq_code_name_list))
     except Exception as e:
         return f"오류 발생: {str(e)}"
     finally:
         cursor.close()
         conn.close()
     return "주식 데이터가 성공적으로 저장되었습니다."
-@app.route('/saveAllDailyStockData', methods=['POST'])
+@app.route('/save-all-daily-stock-data', methods=['POST'])
 def save_daily_chart_data():
     try:
         # POST 요청에서 stockDto 데이터 추출
