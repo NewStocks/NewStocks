@@ -54,11 +54,23 @@ public class ReviewNoteService {
     }
 
 
+    public ReviewNoteResDto findReviewNote(Long reviewNoteId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
+        reviewNoteResDto.addDetailDtos(reviewNote.getMember(), reviewNote.getStock());
+
+        return reviewNoteResDto;
+    }
+
+    public ReviewNote findReviewNoteById(Long reviewNoteId) {
+        return reviewNoteRepository.findByIdAndDeletedFalse(reviewNoteId).orElseThrow(() -> new ArithmeticException("해당하는 오답노트가 없습니다."));
+    }
+
     public Member findMemberById(Long userId) {
-        return memberRepository.findByIdAndDeletedFalse(userId).orElseThrow(() -> new ArithmeticException("일치하는 회원이 없습니다."));
+        return memberRepository.findByIdAndDeletedFalse(userId).orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
     }
 
     public Stock findStockById(String stockId) {
-        return stockRepository.findById(stockId).orElseThrow(() -> new ArithmeticException("일치하는 주식이 없습니다."));
+        return stockRepository.findById(stockId).orElseThrow(() -> new ArithmeticException("해당하는 주식이 없습니다."));
     }
 }
