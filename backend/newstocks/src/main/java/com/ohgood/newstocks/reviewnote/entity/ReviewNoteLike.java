@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNoteLike {
 

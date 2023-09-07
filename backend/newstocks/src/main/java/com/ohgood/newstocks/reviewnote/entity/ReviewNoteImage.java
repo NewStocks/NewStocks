@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNoteImage {
 

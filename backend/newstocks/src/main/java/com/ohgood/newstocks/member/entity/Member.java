@@ -13,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
