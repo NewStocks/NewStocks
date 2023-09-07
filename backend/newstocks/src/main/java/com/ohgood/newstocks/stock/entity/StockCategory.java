@@ -1,6 +1,10 @@
 package com.ohgood.newstocks.stock.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,23 +13,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StockValueChain {
+public class StockCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int categoryCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     private Stock stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "value_chain_id")
-    private ValueChain valueChain;
-
     @Builder
-    public StockValueChain(Stock stock, ValueChain valueChain) {
+    public StockCategory(int categoryCode, Stock stock) {
+        this.categoryCode = categoryCode;
         this.stock = stock;
-        this.valueChain = valueChain;
     }
 }

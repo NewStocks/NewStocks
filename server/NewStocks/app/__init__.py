@@ -15,12 +15,13 @@ load_dotenv()
 DB_URL = os.environ['DB_URL']
 DB_ID = os.environ['DB_ID']
 DB_PWD = os.environ['DB_PWD']
+DB_NAME = os.environ['DB_NAME']
 # MySQL 연결 설정
 db_config = {
     'host': DB_URL,
     'user': DB_ID,
     'password': DB_PWD,
-    'database': 'newstocks',  # 데이터베이스 이름
+    'database': DB_NAME,  # 데이터베이스 이름
 }
 
 class IndustryCategory:
@@ -105,13 +106,11 @@ def set_category():
         set_category_where(kospi_industry_data)
         #코스닥
         set_category_where(kosdac_industry_data)
+        conn=connection_mysql()
+
     except Exception as e:
         print(e)
         return e
-    for j in kospi_industry_data:
-        print(j)
-    for i in kosdac_industry_data:
-        print(i)
     return "success"
 
 
@@ -170,7 +169,7 @@ def save_stock_info_data():
                 foreign_info = None
 
                 # 필요한 정보를 리스트로 저장
-            stock_data = [stock_name, stock_code, market_cap, listed_shares, 0, 0, 0]
+            stock_data = [stock_code, stock_name, market_cap, listed_shares, 0, 0, 0, 0]
 
             # 주식 코드를 집합을 사용하여 검색합니다.
             if stock_code in kospi_code_set:

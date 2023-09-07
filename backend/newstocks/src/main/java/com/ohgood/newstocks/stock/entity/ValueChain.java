@@ -1,24 +1,26 @@
 package com.ohgood.newstocks.stock.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-@Getter
 @Entity
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ValueChain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String ValueChainName;
 
     @OneToMany(mappedBy = "valueChain")
@@ -26,7 +28,7 @@ public class ValueChain {
     private List<StockValueChain> stockValueChainList;
 
     @Builder
-    public ValueChain(String valueChainName) {
+    public ValueChain(@NotNull String valueChainName) {
         ValueChainName = valueChainName;
         this.stockValueChainList = new ArrayList<>();
     }

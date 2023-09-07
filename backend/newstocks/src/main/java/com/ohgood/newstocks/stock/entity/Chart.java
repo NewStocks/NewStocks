@@ -2,53 +2,54 @@ package com.ohgood.newstocks.stock.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private GraphType graphType;
-
-    @Column(nullable = false)
+    @NotNull
     private int startPrice;
 
-    @Column(nullable = false)
+    @NotNull
     private int endPrice;
 
-    @Column(nullable = false)
+    @NotNull
     private int highPrice;
 
-    @Column(nullable = false)
+    @NotNull
     private int lowPrice;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate date;
 
+    @NotNull
+    private Long volume;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     private Stock stock;
 
     @Builder
-    public Chart(GraphType graphType, int startPrice, int endPrice, int highPrice, int lowPrice,
-        LocalDate date, Stock stock) {
-        this.graphType = graphType;
+
+    public Chart(@NotNull int startPrice, @NotNull int endPrice, @NotNull int highPrice,
+        @NotNull int lowPrice, @NotNull LocalDate date, @NotNull Long volume, Stock stock) {
         this.startPrice = startPrice;
         this.endPrice = endPrice;
         this.highPrice = highPrice;
         this.lowPrice = lowPrice;
         this.date = date;
+        this.volume = volume;
         this.stock = stock;
     }
 }
