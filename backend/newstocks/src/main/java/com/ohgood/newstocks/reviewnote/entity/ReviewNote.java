@@ -25,19 +25,41 @@ public class ReviewNote extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime settingTime;
+    private int likeCount;
 
     @Column(nullable = false)
-    private Integer likeCount;
-
-    @Column(nullable = false)
-    private Integer scrapCount;
+    private int scrapCount;
 
     @Column(nullable = false)
     private Boolean privacy;
 
-    // TODO
-    //  오답노트 템플릿 추가 필요
+    @Column
+    private LocalDateTime settingDate;
+
+    @Column
+    private LocalDateTime buyDate;
+
+    @Column
+    private LocalDateTime sellDate;
+
+    @Column
+    private int buyPrice;
+
+    @Column
+    private int sellPrice;
+
+    @Column
+    private int buyQuantity;
+
+    @Column
+    private int sellQuantity;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NoteType type;
+
+    @Column(nullable = false)
+    private Boolean display;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -56,16 +78,26 @@ public class ReviewNote extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
+    @ToString.Exclude
     private Stock stock;
 
     @Builder
-    public ReviewNote(LocalDateTime settingTime, Integer likeCount, Integer scrapCount, Boolean privacy, Member member) {
-        this.settingTime = settingTime;
-        this.likeCount = likeCount;
-        this.scrapCount = scrapCount;
+    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, Stock stock) {
+        this.likeCount = 0;
+        this.scrapCount = 0;
         this.privacy = privacy;
+        this.settingDate = settingDate;
+        this.buyDate = buyDate;
+        this.sellDate = sellDate;
+        this.buyPrice = buyPrice;
+        this.sellPrice = sellPrice;
+        this.buyQuantity = buyQuantity;
+        this.sellQuantity = sellQuantity;
+        this.type = type;
+        this.display = display;
         this.member = member;
-        this.reviewNoteImageList = new ArrayList<>();
+        this.reviewNoteImageList = reviewNoteImageList;
         this.replyList = new ArrayList<>();
+        this.stock = stock;
     }
 }
