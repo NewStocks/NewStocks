@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 public class ReviewNoteResDto {
 
+    private Long id;
     private Integer buyPrice;
     private Integer sellPrice;
     private Integer sellQuantity;
@@ -41,8 +42,11 @@ public class ReviewNoteResDto {
 
     public void addDetails(Member member, Stock stock) {
         this.member = member;
-        this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(member);
         this.stock = stock;
+    }
+
+    public void addDetailDtos(Member member, Stock stock) {
+        this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(member);
         this.stockDto = StockMapper.INSTANCE.entityToStockDto(stock);
     }
 }

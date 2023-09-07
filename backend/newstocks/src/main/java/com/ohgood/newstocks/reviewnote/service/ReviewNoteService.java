@@ -35,13 +35,18 @@ public class ReviewNoteService {
         Member member = findMemberById(userId);
         Stock stock = findStockById(reviewNoteReqDto.getStockId());
 
+        // DTO -> Entity Mapstruct 위한 실제 객체 저장
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.reviewNoteReqDtoToReviewNoteResDto(reviewNoteReqDto);
         reviewNoteResDto.addDetails(member, stock);
+
         ReviewNote reviewNote = ReviewNoteMapper.INSTANCE.reviewNoteResDtoToEntity(reviewNoteResDto);
 
         reviewNote.getMember().getReviewNoteList().add(reviewNote);
-        reviewNoteRepository.save(reviewNote);
+        reviewNote = reviewNoteRepository.save(reviewNote);
 
+        reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
+        // Member, Stock 등 DTO 정보 저장
+        reviewNoteResDto.addDetailDtos(member, stock);
         log.info("오답노트의 멤버 " + reviewNote.getMember());
 
         log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
@@ -49,11 +54,23 @@ public class ReviewNoteService {
     }
 
 
+    public ReviewNoteResDto findReviewNote(Long reviewNoteId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
+        reviewNoteResDto.addDetailDtos(reviewNote.getMember(), reviewNote.getStock());
+
+        return reviewNoteResDto;
+    }
+
+    public ReviewNote findReviewNoteById(Long reviewNoteId) {
+        return reviewNoteRepository.findByIdAndDeletedFalse(reviewNoteId).orElseThrow(() -> new ArithmeticException("해당하는 오답노트가 없습니다."));
+    }
+
     public Member findMemberById(Long userId) {
-        return memberRepository.findByIdAndDeletedFalse(userId).orElseThrow(() -> new ArithmeticException("일치하는 회원이 없습니다."));
+        return memberRepository.findByIdAndDeletedFalse(userId).orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
     }
 
     public Stock findStockById(String stockId) {
-        return stockRepository.findById(stockId).orElseThrow(() -> new ArithmeticException("일치하는 주식이 없습니다."));
+        return stockRepository.findById(stockId).orElseThrow(() -> new ArithmeticException("해당하는 주식이 없습니다."));
     }
 }

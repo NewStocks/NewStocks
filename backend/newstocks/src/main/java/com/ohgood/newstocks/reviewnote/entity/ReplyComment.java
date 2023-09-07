@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
+import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ import lombok.*;
 /**
  * 대댓글 Entity
  */
-public class ReplyComment extends BaseTimeEntity {
+public class ReplyComment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

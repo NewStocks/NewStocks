@@ -1,6 +1,6 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
-import com.ohgood.newstocks.global.entity.BaseTimeEntity;
+import com.ohgood.newstocks.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -12,10 +12,9 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Reply extends BaseTimeEntity {
+public class Reply extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
