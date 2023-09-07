@@ -1,8 +1,12 @@
-.profile-container {
-  height: 70px;
-  border-bottom: 2px solid #4FE7B0;
+.nav-space {
+  height: 20px;
+}
 
-  margin: 10px auto;
+.profile-container {
+  height: 65px;
+  border-bottom: 2px solid #4FE7B0;
+  margin: 6px auto;
+  /* margin-top: 15px;  */
 }
 
 .profile-box {
@@ -25,10 +29,23 @@
 .profile-name {
   width: 105px;
   margin: 0 0 0 10px;
+
+  color: white;
+  /* border: 1px dotted red; */
 }
 
 .profile-name div {
-  height: 2px;
+  padding: 2px 0 0 0;
+  font-size: 13px;
+  height: 1px;
+}
+
+.profile-name p {
+  font-size: 20px;
+  font-weight: 700;
+  height: 1px;
+
+  padding: 0;
 }
 
 .profile-image {
@@ -69,6 +86,10 @@
   /* border: 1px dotted red; */
 }
 
+.nav-container div:hover {
+  font-weight: 800;
+}
+
 .nav-mynote {
   display: flex;
   justify-content: space-between;
@@ -80,6 +101,11 @@
 
 .nav-mynote p {
   /* border: 1px dotted red; */
+}
+
+.nav-mynote-arrow {
+  transition: transform 200ms ease-out 0s;
+  transform: rotateZ(var(--toggle));
 }
 
 .nav-mynote-toggle {
@@ -94,3 +120,22 @@
 
   margin: 0 0 20px 0;
 }
+
+.nav-selected {
+  height: 50px;
+  width: 160px;
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 10%;
+  position: absolute;
+  transition: top 0.3s ease;
+
+  margin: 4px 0 0 0;
+  /* border: 1px dotted red; */
+}
+
+/* .nav-selected-pos {
+  width: 4px;
+  height: 48px;
+  background-color: #4FE7B0;
+  border-radius: 35%;
+} */
