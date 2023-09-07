@@ -20,8 +20,8 @@ public class ScheduledTask {
     @Value("${INSERT_NEWS_URI}")
     private String INSERT_NEWS_URI;
 
-//    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "*/10 * * * * *") 10초마다 적용
     public void updateNewsList() {
         log.info("들어온거 확인");
         // 빈 요청 본문(body)
