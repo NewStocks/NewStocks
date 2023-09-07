@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
+import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ import java.util.List;
 @Table
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Reply extends BaseTimeEntity {
+public class Reply extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

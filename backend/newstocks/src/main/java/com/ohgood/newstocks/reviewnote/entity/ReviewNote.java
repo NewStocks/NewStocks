@@ -20,7 +20,7 @@ import java.util.List;
 @Table
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewNote extends BaseTimeEntity {
+public class ReviewNote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
