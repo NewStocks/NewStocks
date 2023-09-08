@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
+import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.reviewnote.entity.NoteType;
 import com.ohgood.newstocks.stock.dto.StockDto;
 import com.ohgood.newstocks.stock.entity.Stock;
@@ -11,6 +12,7 @@ import com.ohgood.newstocks.stock.mapper.StockMapper;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +35,8 @@ public class ReviewNoteResDto {
     private Boolean privacy;
     private StockDto stockDto;
     private MemberDto memberDto;
-    private List<ReviewNoteImageDto> reviewNoteImageDtoList;
+    private List<ReviewNoteImageDto> reviewNoteImageDtoList = new ArrayList<>();
+    private List<NewsDto> newsDtoList = new ArrayList<>();
 
     @JsonIgnore
     private Member member;

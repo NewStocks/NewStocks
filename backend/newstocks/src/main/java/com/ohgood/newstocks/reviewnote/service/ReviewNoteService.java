@@ -1,20 +1,26 @@
 package com.ohgood.newstocks.reviewnote.service;
 
 import com.ohgood.newstocks.member.entity.Member;
-import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.member.repository.MemberRepository;
+import com.ohgood.newstocks.news.dto.NewsDto;
+import com.ohgood.newstocks.news.entity.News;
+import com.ohgood.newstocks.news.mapper.NewsMapStruct;
+import com.ohgood.newstocks.news.repository.NewsRepository;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteNews;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteNewsRepository;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteMapper;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
-import com.ohgood.newstocks.stock.mapper.StockMapper;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -25,6 +31,8 @@ public class ReviewNoteService {
     private final ReviewNoteRepository reviewNoteRepository;
     private final MemberRepository memberRepository;
     private final StockRepository stockRepository;
+    private final NewsRepository newsRepository;
+    private final ReviewNoteNewsRepository reviewNoteNewsRepository;
 
     @Transactional
     public ReviewNoteResDto insertReviewNote(ReviewNoteReqDto reviewNoteReqDto, Long userId) {
@@ -40,11 +48,23 @@ public class ReviewNoteService {
         reviewNoteResDto.addDetails(member, stock);
 
         ReviewNote reviewNote = ReviewNoteMapper.INSTANCE.reviewNoteResDtoToEntity(reviewNoteResDto);
+        reviewNote = reviewNoteRepository.save(reviewNote);
+        reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
+
+        // TODO Stock, Member와는 형식이 다른데 통일할지 고민
+        List<Long> newsIdList = reviewNoteReqDto.getNewsIdList();
+        if (newsIdList != null) {
+            for (Long newsId : newsIdList) {
+                News news = findNewsById(newsId);
+                ReviewNoteNews reviewNoteNews = reviewNoteNewsRepository.save(new ReviewNoteNews(reviewNote, news));
+                reviewNote.getReviewNoteNewsList().add(reviewNoteNews);
+                NewsDto newsDto = NewsMapStruct.INSTANCE.entityToNewsDto(news);
+                reviewNoteResDto.getNewsDtoList().add(newsDto);
+            }
+        }
 
         reviewNote.getMember().getReviewNoteList().add(reviewNote);
-        reviewNote = reviewNoteRepository.save(reviewNote);
 
-        reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
         // Member, Stock 등 DTO 정보 저장
         reviewNoteResDto.addDetailDtos(member, stock);
         log.info("오답노트의 멤버 " + reviewNote.getMember());
@@ -52,7 +72,6 @@ public class ReviewNoteService {
         log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
         return reviewNoteResDto;
     }
-
 
     public ReviewNoteResDto findReviewNote(Long reviewNoteId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
@@ -72,5 +91,9 @@ public class ReviewNoteService {
 
     public Stock findStockById(String stockId) {
         return stockRepository.findById(stockId).orElseThrow(() -> new ArithmeticException("해당하는 주식이 없습니다."));
+    }
+
+    public News findNewsById(Long newsId) {
+        return newsRepository.findById(newsId).orElseThrow(() -> new ArithmeticException("해당하는 뉴스가 없습니다."));
     }
 }

@@ -2,9 +2,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ohgood.newstocks.global.entity.BaseEntity;
-import com.ohgood.newstocks.global.entity.BaseTimeEntity;
 import com.ohgood.newstocks.member.entity.Member;
-import com.ohgood.newstocks.news.entity.News;
 import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +16,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Table
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNote extends BaseEntity {
@@ -90,13 +87,13 @@ public class ReviewNote extends BaseEntity {
     @JsonIgnore
     private Stock stock;
 
-//    @OneToMany(mappedBy = "reviewNote")
-//    @Fetch(FetchMode.JOIN)
-//    @ToString.Exclude
-//    private List<News> newsList;
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteNews> reviewNoteNewsList;
 
     @Builder
-    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, String content, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, Stock stock) {
+    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, String content, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList, Stock stock) {
         this.likeCount = 0;
         this.scrapCount = 0;
         this.privacy = privacy;
@@ -113,6 +110,7 @@ public class ReviewNote extends BaseEntity {
         this.member = member;
         this.reviewNoteImageList = reviewNoteImageList;
         this.replyList = new ArrayList<>();
+        this.reviewNoteNewsList = new ArrayList<>();
         this.stock = stock;
     }
 }
