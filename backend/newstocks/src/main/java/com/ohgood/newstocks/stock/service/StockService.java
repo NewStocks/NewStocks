@@ -7,14 +7,25 @@ import com.ohgood.newstocks.stock.dto.DataDto;
 import com.ohgood.newstocks.stock.entity.Chart;
 import com.ohgood.newstocks.stock.mapper.ChartMapper;
 import com.ohgood.newstocks.stock.repository.ChartRepository;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class StockService {
+
+    @Value("${python.server.stock.url}")
+    private String pythonStockServerUrl;
 
     private final ChartRepository chartRepository;
 
@@ -62,5 +73,22 @@ public class StockService {
             chartDtoList.add(ChartMapper.INSTANCE.chartEntityToChartDto(chart));
         }
         return chartDtoList;
+    }
+
+    public Mono<String> saveAllKoreaStockInfo() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedTime = currentTime.format(formatter);
+
+        String jsonRequest = String.format("{\"startDate\": \"%s\", \"endDate\": \"%s\"}", formattedTime, formattedTime);
+
+        return WebClient.create()
+            .post()
+            .uri(pythonStockServerUrl + "/save-all-korea-stock-info")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+            .body(BodyInserters.fromValue(jsonRequest))
+            .retrieve()
+            .bodyToMono(String.class);
     }
 }
