@@ -11,8 +11,6 @@ public class NewsDto {
 
     private String title;
 
-    private String stockId;
-
     private String company;
 
     private String url;
