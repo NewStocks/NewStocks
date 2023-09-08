@@ -41,7 +41,6 @@ public class Chart {
     private Stock stock;
 
     @Builder
-
     public Chart(@NotNull int startPrice, @NotNull int endPrice, @NotNull int highPrice,
         @NotNull int lowPrice, @NotNull LocalDate date, @NotNull Long volume, Stock stock) {
         this.startPrice = startPrice;
