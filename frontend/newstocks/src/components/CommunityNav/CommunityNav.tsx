@@ -94,7 +94,7 @@ export default function CommunityNav() {
           <Link href='/community/mine?page=scrap' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('scrap')}>
             <li id={pagename=='scrap' ? styles["selected"] : ""}>스크랩 노트</li>
           </Link>
-          <Link href='/community/mine?page=follwing' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('following')}>
+          <Link href='/community/mine?page=following' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('following')}>
             <li id={pagename=='following' ? styles["selected"] : ""}>팔로잉 노트</li>
           </Link>
         </ul>
