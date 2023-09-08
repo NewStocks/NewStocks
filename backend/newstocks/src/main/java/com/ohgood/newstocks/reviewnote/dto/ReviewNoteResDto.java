@@ -12,6 +12,7 @@ import com.ohgood.newstocks.stock.mapper.StockMapper;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,8 +35,8 @@ public class ReviewNoteResDto {
     private Boolean privacy;
     private StockDto stockDto;
     private MemberDto memberDto;
-    private List<ReviewNoteImageDto> reviewNoteImageDtoList;
-    private List<NewsDto> newsDtoList;
+    private List<ReviewNoteImageDto> reviewNoteImageDtoList = new ArrayList<>();
+    private List<NewsDto> newsDtoList = new ArrayList<>();
 
     @JsonIgnore
     private Member member;

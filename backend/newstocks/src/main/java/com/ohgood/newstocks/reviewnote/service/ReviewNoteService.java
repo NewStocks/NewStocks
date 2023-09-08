@@ -51,13 +51,16 @@ public class ReviewNoteService {
         reviewNote = reviewNoteRepository.save(reviewNote);
         reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
 
+        // TODO Stock, Member와는 형식이 다른데 통일할지 고민
         List<Long> newsIdList = reviewNoteReqDto.getNewsIdList();
-        for (Long newsId : newsIdList) {
-            News news = findNewsById(newsId);
-            ReviewNoteNews reviewNoteNews = reviewNoteNewsRepository.save(new ReviewNoteNews(reviewNote, news));
-            reviewNote.getReviewNoteNewsList().add(reviewNoteNews);
-            NewsDto newsDto = NewsMapStruct.INSTANCE.entityToNewsDto(news);
-            reviewNoteResDto.getNewsDtoList().add(newsDto);
+        if (newsIdList != null) {
+            for (Long newsId : newsIdList) {
+                News news = findNewsById(newsId);
+                ReviewNoteNews reviewNoteNews = reviewNoteNewsRepository.save(new ReviewNoteNews(reviewNote, news));
+                reviewNote.getReviewNoteNewsList().add(reviewNoteNews);
+                NewsDto newsDto = NewsMapStruct.INSTANCE.entityToNewsDto(news);
+                reviewNoteResDto.getNewsDtoList().add(newsDto);
+            }
         }
 
         reviewNote.getMember().getReviewNoteList().add(reviewNote);

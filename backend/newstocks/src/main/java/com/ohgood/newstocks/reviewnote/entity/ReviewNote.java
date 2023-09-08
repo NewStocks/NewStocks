@@ -110,7 +110,7 @@ public class ReviewNote extends BaseEntity {
         this.member = member;
         this.reviewNoteImageList = reviewNoteImageList;
         this.replyList = new ArrayList<>();
-        this.reviewNoteNewsList = reviewNoteNewsList;
+        this.reviewNoteNewsList = new ArrayList<>();
         this.stock = stock;
     }
 }
