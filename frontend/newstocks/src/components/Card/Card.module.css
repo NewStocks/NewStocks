@@ -1,0 +1,77 @@
+.card-container {
+  width: 43%;
+  height: 451px;
+  border-radius: 10px;
+  border: 1px solid #D9D9D9;
+}
+
+.title-container {
+  height: 100px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.title-left {
+  width: 90%;
+  padding: 20px 0 0 0;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.stock-info-box {
+  display: flex;
+  margin-top: 5px;
+  /* border: 1px dotted violet; */
+}
+
+.stock-image {
+  width: 25px;
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.455);
+  border-radius: 100%;
+  margin: 5px 5px;
+}
+
+.stock-name {
+  font-size: 17px;
+  font-weight: 400;
+  padding: 5px 0 0 0;
+
+  margin: 0 3px;
+}
+
+.tag-boxes {
+  margin-top: 5px;
+}
+
+/* 글자수에 따라 width 조정되도록 추후 스타일 설정 보충 필요*/
+.tag {
+  width: 60px;
+  height: 25px;
+  margin: 0 5px;
+}
+
+.title-right {
+  width: 10%;
+  padding: 27px 0 0 15px;
+}
+
+/* 이미지 영역 */
+.image-container {
+  width: 80%;
+  height: 198px;
+
+  margin: 0 auto;
+  margin-top: 5px;
+  background-color:#d9d9d96f;
+  border-radius: 10px;
+}
+
+.content-container {
+}

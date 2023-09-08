@@ -11,6 +11,7 @@ type Props = {
 }
 
 import Button from '@/components/Button/Button'
+import Card from '@/components/Card/Card'
 
 export default function MynotesPage({ searchParams }: Props) {
 
@@ -24,6 +25,11 @@ export default function MynotesPage({ searchParams }: Props) {
           <div className={styles["my-button-box"]}>
             <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted"></Button></div>
             <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted"></Button></div>
+          </div>
+
+          <div className={styles["cards-container"]}>
+            <Card />
+            <Card />
           </div>
           </>
         )}

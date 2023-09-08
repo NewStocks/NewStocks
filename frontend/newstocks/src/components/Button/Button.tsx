@@ -72,11 +72,17 @@ export default function Button({ text, highlight, kindof }: Props) {
         <HiArrowNarrowRight size="14"/>
       </button>
     );
-  } else if (kindof="sorted") {
+  } else if (kindof=="sorted") {
     return (
       <button className={styles["button-box"]} id={styles["sorted"]} style={highlight ? { color: "#4FE7B0", border: "2px solid #4FE7B0" } : { color: "white" }}>
         <div>{text}</div>
         <MdKeyboardArrowDown size="23"/>
+      </button>
+    )
+  } else {
+    return (
+      <button className={styles["button-box"]} id={styles["sorted"]} style={highlight ? { color: "#4FE7B0", border: "2px solid #4FE7B0" } : { color: "white" }}>
+        <div>{text}</div>
       </button>
     )
   }
