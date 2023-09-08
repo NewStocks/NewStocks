@@ -2,18 +2,21 @@
 import styles from './CommunityNav.module.css';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import { IoIosArrowForward } from "react-icons/io";
 
 export default function CommunityNav() {
   const [mytoggle, setMytoggle] = useState(false);
+  const [pagename, setpageName] = useState(null);
   const tabsRef = useRef(null);
   const highlightRef = useRef(null);
   const mynoteRef = useRef(null);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   
   useEffect(() => {
+      setpageName(searchParams?.get('page'))
 
       const highlight = highlightRef.current;
       const tabs = tabsRef.current.querySelectorAll('.tab');
@@ -59,7 +62,6 @@ export default function CommunityNav() {
     }
   }, [])
 
-
   return(
     <div className={styles["communitynav-container"]} ref={tabsRef}>
       <div ref={highlightRef} className={`${styles["nav-selected"]} highlight`}>
@@ -80,13 +82,21 @@ export default function CommunityNav() {
 
       <div className={styles["nav-container"]}>
         <div className={`${styles["nav-mynote"]} tab mine`}>
-          <Link ref={mynoteRef} href='/community/mine' style={{ textDecoration: "none", color: "white"}}><p>나의 노트</p></Link>
+          <Link ref={mynoteRef} href='/community/mine?page=my' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('my')}>
+            <p>나의 노트</p>
+          </Link>
           {/* <p><IoIosArrowForward className={styles["nav-mynote-arrow"]}/></p> */}
         </div>
         <ul className={styles["nav-mynote-toggle"]} style={{ display: mytoggle ? "block" : "none" }}>
-          <Link href='/community/mine?page=my' style={{ textDecoration: "none", color: "white"}}><li>나의 노트</li></Link>
-          <Link href='/community/mine?page=scrap' style={{ textDecoration: "none", color: "white"}}><li>스크랩 노트</li></Link>
-          <Link href='/community/mine?page=follwing' style={{ textDecoration: "none", color: "white"}}><li>팔로잉 노트</li></Link>
+          <Link href='/community/mine?page=my' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('my')}>
+            <li id={pagename=='my' ? styles["selected"] : ""}>나의 노트</li>
+          </Link>
+          <Link href='/community/mine?page=scrap' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('scrap')}>
+            <li id={pagename=='scrap' ? styles["selected"] : ""}>스크랩 노트</li>
+          </Link>
+          <Link href='/community/mine?page=follwing' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('following')}>
+            <li id={pagename=='following' ? styles["selected"] : ""}>팔로잉 노트</li>
+          </Link>
         </ul>
 
         <div className="tab all">

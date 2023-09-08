@@ -143,3 +143,8 @@
   background-color: #4FE7B0;
   border-radius: 35%;
 } */
+
+#selected {
+  font-weight: 800;
+  color: #4FE7B0;
+}
