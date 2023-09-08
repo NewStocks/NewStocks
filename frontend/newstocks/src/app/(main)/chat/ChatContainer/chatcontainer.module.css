@@ -67,3 +67,46 @@
   background: #4fe7b0;
   box-shadow: 3px 3px 12px 0px rgba(23, 195, 206, 0.35);
 }
+
+.animated-svg {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  padding: 0px;
+  justify-content: center;
+  align-items: center;
+  transform-origin: center;
+  animation: rotate4 2s linear infinite;
+ }
+ 
+ .animated-svg circle {
+  fill: none;
+  stroke: #4fe7b0;
+  stroke-width: 2;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash4 1.5s ease-in-out infinite;
+ }
+ 
+ @keyframes rotate4 {
+  100% {
+   transform: rotate(360deg);
+  }
+ }
+ 
+ @keyframes dash4 {
+  0% {
+   stroke-dasharray: 1, 200;
+   stroke-dashoffset: 0;
+  }
+ 
+  50% {
+   stroke-dasharray: 90, 200;
+   stroke-dashoffset: -35px;
+  }
+ 
+  100% {
+   stroke-dashoffset: -125px;
+  }
+ }

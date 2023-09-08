@@ -12,6 +12,7 @@ interface Message {
 
 export default function MessageInput() {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState<Message[]>([
     {
@@ -53,8 +54,8 @@ export default function MessageInput() {
   ]);
 
   useEffect(() => {
-    if (messageEndRef.current){
-      messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatHistory]);
 
@@ -64,7 +65,7 @@ export default function MessageInput() {
     const api_url = "http://localhost:8000/chat";
     const data = {
       message: message,
-      history: "",
+      history: "", 
     };
 
     if (message.trim() === "") {
@@ -72,9 +73,15 @@ export default function MessageInput() {
       return;
     }
 
+    if (isLoadingMessage) {
+      setMessage("");
+      return; 
+    }
+
+
+
     try {
-
-
+      setIsLoadingMessage(true);
       setChatHistory((prev) => [...prev, { role: "human", message: message }]);
 
       setMessage("");
@@ -90,18 +97,19 @@ export default function MessageInput() {
         };
 
         setChatHistory((prev) => [...prev, answer_message]);
+        setIsLoadingMessage(false);
       }
     } catch (e) {
       console.error(e);
-    } 
-
+      setIsLoadingMessage(false);
+    }
   };
 
   return (
     <div className={styles["container"]}>
       <div className={styles["chat-container"]}>
         {chatHistory.map((chat, idx) => {
-          return <ChatMessage key={idx} chatmessage={chat}/>;
+          return <ChatMessage key={idx} chatmessage={chat} />;
         })}
         <div ref={messageEndRef}></div>
       </div>
@@ -118,26 +126,31 @@ export default function MessageInput() {
           }}
         ></textarea>
 
-        <div
-          onClick={handleClick}
-          className={styles["button-wrap"]}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="31"
-            height="31"
-            viewBox="0 0 31 31"
-            fill="none"
-          >
-            <path
-              d="M8.03126 15.4071L14.3687 15.3983M12.1151 6.53322L22.1207 11.536C26.6108 13.7811 26.602 17.4492 22.1207 19.7031L12.1151 24.7059C5.38875 28.0735 2.63104 25.3157 5.99863 18.5894L7.48356 15.6195L5.99863 12.6497C2.63104 5.92334 5.37992 3.17446 12.1151 6.53322Z"
-              stroke="white"
-              strokeWidth="2.10714"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
+        {isLoadingMessage ? (
+          <div>
+            <svg className={styles["animated-svg"]} viewBox="25 25 50 50">
+              <circle r="10" cy="50" cx="50"></circle>
+            </svg>
+          </div>
+        ) : (
+          <div onClick={handleClick} className={styles["button-wrap"]}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="31"
+              height="31"
+              viewBox="0 0 31 31"
+              fill="none"
+            >
+              <path
+                d="M8.03126 15.4071L14.3687 15.3983M12.1151 6.53322L22.1207 11.536C26.6108 13.7811 26.602 17.4492 22.1207 19.7031L12.1151 24.7059C5.38875 28.0735 2.63104 25.3157 5.99863 18.5894L7.48356 15.6195L5.99863 12.6497C2.63104 5.92334 5.37992 3.17446 12.1151 6.53322Z"
+                stroke="white"
+                strokeWidth="2.10714"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   );
