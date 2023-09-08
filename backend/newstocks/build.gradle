@@ -36,6 +36,9 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
+	// S3
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }

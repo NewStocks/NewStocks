@@ -27,3 +27,17 @@ spring:
 logging:
   level:
     root: info
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS}
+      secret-key: ${AWS_SECRET}
+    s3:
+      bucket: ${S3_BUCKET}
+      url: ${S3_URL}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
