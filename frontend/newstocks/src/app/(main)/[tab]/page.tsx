@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react';
 import styles from './tab.module.css';
 import Link from 'next/link';
@@ -51,7 +52,9 @@ export default function MainTabsPage({ params: { tab } }: Props) {
           <div className={styles["item-text"]}>AI 챗봇</div>
         </Link>
       </div>
-      <p>{tab}</p>
+      <div className={styles["content"]}>
+        <p>{tab}</p>
+      </div>
 
     </div>
 

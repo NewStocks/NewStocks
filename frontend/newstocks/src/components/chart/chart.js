@@ -4,9 +4,16 @@ import React, { useState, useEffect } from 'react';
 import './chart.css';
 import axios from 'axios';
 import dynamic from 'next/dynamic'
+import { title } from 'process';
+import { LiaQuestionCircleSolid } from "react-icons/lia";
+import { FaRegStar, FaStar } from "react-icons/fa";
+import Valuequestion from '@/components/chart/ValuechainQuestion'
+
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Chart() {
+
+  const stock = '???'
 
   const [chartData, setChartData] = useState({
     options: {
@@ -56,7 +63,7 @@ export default function Chart() {
         fontSize: '12px',
       },
       title: {
-        text: '삼성전자 현재가',
+        text: `${stock}`,
         align: 'left'
       },
       xaxis: {
@@ -137,476 +144,17 @@ export default function Chart() {
       {
         name: 'stocks',
         type: 'candlestick',
-        data: [
-          {
-            x: '2014/05/06',
-            y: [6629.81, 6650.5, 6623.04, 6633.33, 6000]
-          },
-          {
-            x: '05/07/2014',
-            y: [6632.01, 6643.59, 6620, 6630.11]
-          },
-          {
-            x: '05/08/2014',
-            y: [6630.71, 6648.95, 6623.34, 6635.65]
-          },
-          {
-            x: '05/09/2014',
-            y: [6635.65, 6651, 6629.67, 6638.24]
-          },
-          {
-            x: '05/10/2014',
-            y: [6638.24, 6640, 6620, 6624.47]
-          },
-          {
-            x: '05/11/2014',
-            y: [6624.53, 6636.03, 6621.68, 6624.31]
-          },
-          {
-            x: '05/12/2014',
-            y: [6624.61, 6632.2, 6617, 6626.02]
-          },
-          {
-            x: '05/13/2014',
-            y: [6627, 6627.62, 6584.22, 6603.02]
-          },
-          {
-            x: '05/14/2014',
-            y: [6605, 6608.03, 6598.95, 6604.01]
-          },
-          {
-            x: '05/15/2014',
-            y: [6604.5, 6614.4, 6602.26, 6608.02]
-          },
-          {
-            x: '05/16/2014',
-            y: [6608.02, 6610.68, 6601.99, 6608.91]
-          },
-          {
-            x: '05/17/2014',
-            y: [6608.91, 6618.99, 6608.01, 6612]
-          },
-          {
-            x: '05/18/2014',
-            y: [6612, 6615.13, 6605.09, 6612]
-          },
-          {
-            x: '05/19/2014',
-            y: [6612, 6624.12, 6608.43, 6622.95]
-          },
-          {
-            x: '05/20/2014',
-            y: [6623.91, 6623.91, 6615, 6615.67]
-          },
-          {
-            x: '05/21/2014',
-            y: [6618.69, 6618.74, 6610, 6610.4]
-          },
-          {
-            x: '05/22/2014',
-            y: [6611, 6622.78, 6610.4, 6614.9]
-          },
-          {
-            x: '05/23/2014',
-            y: [6614.9, 6626.2, 6613.33, 6623.45]
-          },
-          {
-            x: '05/24/2014',
-            y: [6623.48, 6627, 6618.38, 6620.35]
-          },
-          {
-            x: '05/25/2014',
-            y: [6619.43, 6620.35, 6610.05, 6615.53]
-          },
-          {
-            x: '05/26/2014',
-            y: [6615.53, 6617.93, 6610, 6615.19]
-          },
-          {
-            x: '05/27/2014',
-            y: [6615.19, 6621.6, 6608.2, 6620]
-          },
-          {
-            x: '05/28/2014',
-            y: [6619.54, 6625.17, 6614.15, 6620]
-          },
-          {
-            x: '05/29/2014',
-            y: [6620.33, 6634.15, 6617.24, 6624.61]
-          },
-          {
-            x: '05/30/2014',
-            y: [6625.95, 6626, 6611.66, 6617.58]
-          },
-          {
-            x: '05/31/2014',
-            y: [6619, 6625.97, 6595.27, 6598.86]
-          },
-          {
-            x: '06/01/2014',
-            y: [6598.86, 6598.88, 6570, 6587.16]
-          },
-          {
-            x: '06/02/2014',
-            y: [6588.86, 6600, 6580, 6593.4]
-          },
-          {
-            x: '06/03/2014',
-            y: [6593.99, 6598.89, 6585, 6587.81]
-          },
-          {
-            x: '06/04/2014',
-            y: [6587.81, 6592.73, 6567.14, 6578]
-          },
-          {
-            x: '06/05/2014',
-            y: [6578.35, 6581.72, 6567.39, 6579]
-          },
-          {
-            x: '06/06/2014',
-            y: [6579.38, 6580.92, 6566.77, 6575.96]
-          },
-          {
-            x: '06/07/2014',
-            y: [6575.96, 6589, 6571.77, 6588.92]
-          },
-          {
-            x: '06/08/2014',
-            y: [6588.92, 6594, 6577.55, 6589.22]
-          },
-          {
-            x: '06/09/2014',
-            y: [6589.3, 6598.89, 6589.1, 6596.08]
-          },
-          {
-            x: '06/10/2014',
-            y: [6597.5, 6600, 6588.39, 6596.25]
-          },
-          {
-            x: '06/11/2014',
-            y: [6598.03, 6600, 6588.73, 6595.97]
-          },
-          {
-            x: '06/12/2014',
-            y: [6595.97, 6602.01, 6588.17, 6602]
-          },
-        ],
+        data: []
       },
       {
         name: '뉴스',
         type: 'scatter',
-        data: [
-          {
-            x: '05/06/2014',
-            y: 0
-          },
-          {
-            x: '05/07/2014',
-            y: 0
-          },
-          {
-            x: '05/08/2014',
-            y: 0
-          },
-          {
-            x: '05/09/2014',
-            y: 0
-          },
-          {
-            x: '05/10/2014',
-            y: 0
-          },
-          {
-            x: '05/11/2014',
-            y: 6638
-          },
-          {
-            x: '05/12/2014',
-            y:0
-          },
-          {
-            x: '05/13/2014',
-            y: 0
-          },
-          {
-            x: '05/14/2014',
-            y: 0
-          },
-          {
-            x: '05/15/2014',
-            y: 0
-          },
-          {
-            x: '05/16/2014',
-            y: 0
-          },
-          {
-            x: '05/17/2014',
-            y: 0
-          },
-          {
-            x: '05/18/2014',
-            y: 0
-          },
-          {
-            x: '05/19/2014',
-            y: 0
-          },
-          {
-            x: '05/20/2014',
-            y: 0
-          },
-          {
-            x: '05/21/2014',
-            y: 0
-          },
-          {
-            x: '05/22/2014',
-            y: 0
-          },
-          {
-            x: '05/23/2014',
-            y:0          
-          },
-          {
-            x: '05/24/2014',
-            y: 0
-          },
-          {
-            x: '05/25/2014',
-            y: 0
-          },
-          {
-            x: '05/26/2014',
-            y: 0
-          },
-          {
-            x: '05/27/2014',
-            y: 0         
-          },
-          {
-            x: '05/28/2014',
-            y: 0
-          },
-          {
-            x: '05/29/2014',
-            y: 0
-          },
-          {
-            x: '05/30/2014',
-            y: 6630
-          },
-          {
-            x: '05/31/2014',
-            y: 0
-          },
-          {
-            x: '06/01/2014',
-            y: 0
-          },
-          {
-            x: '06/02/2014',
-            y: 0      
-          },
-          {
-            x: '06/03/2014',
-            y: 0
-          },
-          {
-            x: '06/04/2014',
-            y: 6595
-          },
-          {
-            x: '06/05/2014',
-            y: 0
-          },
-          {
-            x: '06/06/2014',
-            y: 0
-          },
-          {
-            x: '06/07/2014',
-            y: 0
-          },
-          {
-            x: '06/08/2014',
-            y: 0
-          },
-          {
-            x: '06/09/2014',
-            y: 0
-          },
-          {
-            x: '06/10/2014',
-            y: 0          
-          },
-          {
-            x: '06/11/2014',
-            y: 0
-          },
-          {
-            x: '06/12/2014',
-            y: 0
-          },
-        ],
+        data: []
       },
       {
         name: '오답노트',
         type: 'scatter',
-        data: [
-          {
-            x: '05/06/2014',
-            y: 0
-          },
-          {
-            x: '05/07/2014',
-            y: 0
-          },
-          {
-            x: '05/08/2014',
-            y: 0
-          },
-          {
-            x: '05/09/2014',
-            y: 0
-          },
-          {
-            x: '05/10/2014',
-            y: 0
-          },
-          {
-            x: '05/11/2014',
-            y: 6619
-          },
-          {
-            x: '05/12/2014',
-            y:0
-          },
-          {
-            x: '05/13/2014',
-            y: 0
-          },
-          {
-            x: '05/14/2014',
-            y: 0
-          },
-          {
-            x: '05/15/2014',
-            y: 0
-          },
-          {
-            x: '05/16/2014',
-            y: 0
-          },
-          {
-            x: '05/17/2014',
-            y: 0
-          },
-          {
-            x: '05/18/2014',
-            y: 0
-          },
-          {
-            x: '05/19/2014',
-            y: 0
-          },
-          {
-            x: '05/20/2014',
-            y: 0
-          },
-          {
-            x: '05/21/2014',
-            y: 0
-          },
-          {
-            x: '05/22/2014',
-            y: 0
-          },
-          {
-            x: '05/23/2014',
-            y:0          
-          },
-          {
-            x: '05/24/2014',
-            y: 0
-          },
-          {
-            x: '05/25/2014',
-            y: 0
-          },
-          {
-            x: '05/26/2014',
-            y: 0
-          },
-          {
-            x: '05/27/2014',
-            y: 0         
-          },
-          {
-            x: '05/28/2014',
-            y: 0
-          },
-          {
-            x: '05/29/2014',
-            y: 0
-          },
-          {
-            x: '05/30/2014',
-            y: 0
-          },
-          {
-            x: '05/31/2014',
-            y: 0
-          },
-          {
-            x: '06/01/2014',
-            y: 0
-          },
-          {
-            x: '06/02/2014',
-            y: 0      
-          },
-          {
-            x: '06/03/2014',
-            y: 0
-          },
-          {
-            x: '06/04/2014',
-            y: 6565
-          },
-          {
-            x: '06/05/2014',
-            y: 0
-          },
-          {
-            x: '06/06/2014',
-            y: 0
-          },
-          {
-            x: '06/07/2014',
-            y: 0
-          },
-          {
-            x: '06/08/2014',
-            y: 0
-          },
-          {
-            x: '06/09/2014',
-            y: 0
-          },
-          {
-            x: '06/10/2014',
-            y: 0          
-          },
-          {
-            x: '06/11/2014',
-            y: 0
-          },
-          {
-            x: '06/12/2014',
-            y: 0
-          },
-        ],
+        data: []
       },
     ],
   });
@@ -865,46 +413,110 @@ export default function Chart() {
 
   useEffect(() => {
     const fetchData = () => {
-      axios
-        .get('baseurl/stock/{stock-id}/chart')
-        .then((response) => {
-          const { series } = response.data.series;
-          const { title } = response.data.title;
-          setChartData((prevData) => ({
-            ...prevData, 
-            series,
-            title,
-          }));
+      axios({
+        method: "get",
+        url: "http://localhost:8080/stock/find-chart/005930",
+      })
+        .then((res) => {
+          console.log(res.data);
+          const series  = res.data.series;
+          console.log(series)
+          Chart.updateSeries([{
+            name:'ss',
+            data: series
+          }])
+
+          // setChartData((prevData) => ({
+          //   ...prevData, 
+          //   series: series,
+          // }));
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((err) => {
+          console.log(err);
         });
+      // axios
+      //   .get(`/stock/find-chart/005930`)
+      //   .then((response) => {
+      //     console.log(response)
+          // const { data } = response.data.series.data;
+          // const { text } = response.data.title;
+          // setChartData((prevData) => ({
+          //   ...prevData, 
+          //   ...series,
+          //   data,
+          // }));
+          // setChartData((prevData) => ({
+          //   ...prevData, 
+          //   ...options,
+          //   ...title,
+          //   text,
+          // }));
+          // setChartData({
+          //   ...chartData,
+          //   series: series, 
+          //   options: {
+          //     ...chartData.options,
+          //     ...options, 
+          //   },
+          //   title: {
+          //     ...chartData.title,
+          //     text: title, 
+          //   },
+          // });
+        // })
+        // .catch((error) => {
+        //   console.error(error);
+        // });
     };
-    const fetchNewVolumeData = () => {
-      axios
-        .get('baseurl/stock/{stock-id}/chart')
-        .then((response) => {
-          const { series } = response.data.series;
-          const { title } = response.data.title;
-          setChartData((prevData) => ({
-            ...prevData, // 이전 데이터를 유지한 채 업데이트
-            series,
-            title,
-          }));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+    // const fetchNewVolumeData = () => {
+    //   axios
+    //     .get('baseurl/stock/{stock-id}/chart')
+    //     .then((response) => {
+    //       const { data } = response.data.series.data;
+    //       setChartData((prevData) => ({
+    //         ...prevData, 
+    //         ...series,
+    //         data
+    //       }));
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // };
     fetchData();
-    fetchNewVolumeData();
+    // fetchNewVolumeData();
     const intervalId = setInterval(fetchData, 100000);
   
     return () => clearInterval(intervalId);
   }, []); 
 
+
+  // 관심종목 추가
+  const [isStarred, setIsStarred] = useState(false);
+  const toggleStar = () => {
+    setIsStarred(!isStarred);
+  };
+
+  // const [showModal, setShowModal] = useState(false)
+  // const clickModal = () => setShowModal(!showModal)
+
   return (
     <div>
+      <div className='chartheader'>
+        <div className='headerinfo'>
+          <div className='stockname' onClick={toggleStar}>{chartData.options.title.text}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+          <div className='stockinfo'>현재가</div>
+          <div className='stockinfo'>거래량</div>
+          <div className='stockinfo'>국내증시</div>
+          <div className='stockinfo'>해외증시</div>
+        </div>
+        <div className='valuechain'>
+          <div className='value'>밸류 체인</div>
+          <div><LiaQuestionCircleSolid id='valueinfo'/></div>
+          
+        </div>
+      </div>
+
       <div className="chartbox">
         <div className="chart">
           <ApexCharts
@@ -912,22 +524,23 @@ export default function Chart() {
             series={chartData.series}
             type="scatter"
             width={900}
-            height={400}
+            height='400vh'
           />
-          <br />
           <ApexCharts
             options={newVolumeData.options}
             series={newVolumeData.series}
             type="line"
             width={900}
-            height={150}
+            height='150vh'
           />
           <div id="data-point-info">
           </div>
         </div>
       </div>
+
     </div>
   );
 };
+
 
 

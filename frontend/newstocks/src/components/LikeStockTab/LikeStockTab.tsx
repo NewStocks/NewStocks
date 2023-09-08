@@ -12,8 +12,8 @@ export default function LikeStockTab() {
   return(
     <div className={styles["liketab-container"]}>
       <div className={styles["like-container"]}>
-        <div className={styles["liketab-title"]}><LiaStar id={styles["like-button-icon"]}/>관심 종목</div>  
-        <div className={styles["like-button"]} onClick={() => setAddtoggle((prev) => !prev)}><IoIosAddCircleOutline id={styles["like-button-icon"]}/>종목 추가</div>
+        <div className={styles["liketab-title"]}>관심 종목</div>  
+        <div className={styles["like-button"]} onClick={() => setAddtoggle((prev) => !prev)}>종목 추가<IoIosAddCircleOutline id={styles["like-button-icon"]}/></div>
         <div className={styles["like-button"]} style={{ display: addtoggle ? "block" : "none" }}>
           <div className={styles["like-search"]}>
               <input type="text" placeholder="종목명 또는 종목코드를 입력하세요" />
@@ -22,7 +22,7 @@ export default function LikeStockTab() {
       </div>
 
       <div className={styles["like-content"]}>
-          <p>삼성 전자</p>
+          <p>???</p>
       </div>
     </div>
   )

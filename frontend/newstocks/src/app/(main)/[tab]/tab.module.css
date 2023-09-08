@@ -1,13 +1,17 @@
 .main {
-
+	border-left: 1px solid #5a5a5ada;
+}
+.content {
+	margin-left: 5px;
 }
 
 .header {
 	width: 24.9vw;
 	height: 8vh;
-  display: flex;
+  	display: flex;
 	justify-content: space-around;
-	border: 1px solid #4FE7B0;
+	border-bottom: 1px solid #5a5a5ada;
+	/* border-left: 1px solid #4FE7B0; */
 }
 
 .header-item {

@@ -10,6 +10,7 @@ import LikeStockTab from '@/components/LikeStockTab/LikeStockTab'
 import MainTabsPage from './[tab]/page'
 import Chart from '@/components/chart/chart'
 
+
 import { usePathname } from "next/navigation";
 
 
@@ -56,6 +57,7 @@ export default function RootLayout({
           </div>
             <div>
               {/* {children} */}
+              <div id="portal"></div>
             </div>
             <div className={styles["Side-container"]}>
               <MainTabsPage params={{ tab }}/>
