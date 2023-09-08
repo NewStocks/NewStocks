@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
+import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.reviewnote.entity.NoteType;
 import com.ohgood.newstocks.stock.dto.StockDto;
 import com.ohgood.newstocks.stock.entity.Stock;
@@ -34,6 +35,7 @@ public class ReviewNoteResDto {
     private StockDto stockDto;
     private MemberDto memberDto;
     private List<ReviewNoteImageDto> reviewNoteImageDtoList;
+    private List<NewsDto> newsDtoList;
 
     @JsonIgnore
     private Member member;
