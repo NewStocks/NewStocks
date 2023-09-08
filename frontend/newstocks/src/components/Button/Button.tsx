@@ -58,9 +58,9 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 type Props = {
   text: string,
-  highlight: boolean,
-  kindof: string,
-  func: () => void,
+  highlight: boolean | null,
+  kindof: string | null,
+  // func: () => void | null,
 }
 
 export default function Button({ text, highlight, kindof }: Props) {

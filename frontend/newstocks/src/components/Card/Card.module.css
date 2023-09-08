@@ -1,5 +1,5 @@
 .card-container {
-  width: 43%;
+  width: 460px;
   height: 451px;
   border-radius: 10px;
   border: 1px solid #D9D9D9;
@@ -11,6 +11,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
+  margin-top: 2px;
 }
 
 .title-left {
@@ -19,7 +20,7 @@
 }
 
 .title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 600;
   margin-left: 4px;
 }

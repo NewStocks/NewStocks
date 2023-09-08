@@ -42,7 +42,7 @@ export default function CommunityPage() {
             <div>와우 대박 진짜 멋있는 전체 오답노트 모아보기</div>
           </div>
           <div id={styles["right-item"]} style={{ width: "120px" }}>
-          <div className={styles["Button-width"]}><Button text="전체노트" kindof="arrow"></Button></div>
+          <div className={styles["Button-width"]}><Button text="전체노트" kindof="arrow" highlight={false}></Button></div>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function CommunityPage() {
 
           <div className={styles["footer-box"]}>
             <div className={styles["footer-title"]}><span>뉴스탁스</span>의 새소식</div>
-            <div className={styles["Button-width"]}><Button text="공지사항" kindof="arrow"></Button></div>
+            <div className={styles["Button-width"]}><Button text="공지사항" kindof="arrow" highlight={false}></Button></div>
           </div>
 
 

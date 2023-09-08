@@ -16,7 +16,7 @@ export default function Card() {
             <div className={styles["stock-image"]}></div>
             <div className={styles["stock-name"]}>카카오</div>
             <div className={styles["tag-boxes"]}>
-              <div className={styles["tag"]}><Button text="#급락"></Button></div>
+              {/* <div className={styles["tag"]}><Button text="#급락"></Button></div> */}
             </div>
           </div>
         </div>
