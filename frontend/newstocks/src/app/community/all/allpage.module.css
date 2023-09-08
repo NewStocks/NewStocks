@@ -1,11 +1,37 @@
 .main {
-  /* background-color: #00051E;
-  color: white; */
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   padding: 6rem;
   min-height: 100vh;
+}
+
+.upper-title {
+  font-size: 25px;
+  font-weight: 400;
+
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+
+.page-title {
+  font-size: 48px; 
+  font-weight: 700;
+}
+
+.all-button-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.sort-button-box {
+  display: flex;
+}
+
+.sorted-Button-width {
+  width: 130px;
+  margin-right: 20px;
+}
+
+#ordered {
+  width: 110px;
+  margin-right: 0;
 }
