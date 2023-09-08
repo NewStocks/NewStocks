@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './Button.module.css';
 
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 // interface ButtonProps {
 //   /**
@@ -58,16 +59,25 @@ import { HiArrowNarrowRight } from "react-icons/hi";
 type Props = {
   text: string,
   highlight: boolean,
-  arrow: boolean,
+  kindof: string,
   func: () => void,
 }
 
-export default function Button({ text, highlight, arrow }: Props) {
+export default function Button({ text, highlight, kindof }: Props) {
 
-  return (
-    <button className={styles["button-box"]} style={highlight ? { color: "#4FE7B0", border: "2px solid #4FE7B0" } : { color: "white" }}>
-      <div>{text}</div>
-      <HiArrowNarrowRight size="14"/>
-    </button>
-  );
+  if (kindof=="arrow") {
+    return (
+      <button className={styles["button-box"]} style={highlight ? { color: "#4FE7B0", border: "2px solid #4FE7B0" } : { color: "white" }}>
+        <div>{text}</div>
+        <HiArrowNarrowRight size="14"/>
+      </button>
+    );
+  } else if (kindof="sorted") {
+    return (
+      <button className={styles["button-box"]} id={styles["sorted"]} style={highlight ? { color: "#4FE7B0", border: "2px solid #4FE7B0" } : { color: "white" }}>
+        <div>{text}</div>
+        <MdKeyboardArrowDown size="23"/>
+      </button>
+    )
+  }
 };

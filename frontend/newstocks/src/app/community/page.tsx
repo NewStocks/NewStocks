@@ -11,8 +11,8 @@ export default function CommunityPage() {
           <div className={styles["title"]}><span>NEWStocks</span> 커뮤니티에서</div> 
           <div className={styles["title"]}><span>주식 오답노트</span>를 공유해보세요</div>
           <div className={styles["title-botton-box"]}>
-            <Button text="공지사항" highlight={true} arrow={true}></Button>
-            <Button text="노트작성" highlight={false} arrow={true}></Button>
+            <div className={styles["Button-width"]}><Button text="공지사항" highlight={true} kindof="arrow"></Button></div>
+            <div className={styles["Button-width"]}><Button text="노트작성" highlight={false} kindof="arrow"></Button></div>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@ export default function CommunityPage() {
             <div>완전 멋있는 기능 짱 멋있는 기능 진짜 멋있음</div>
             <div>와우 대박 진짜 멋있는 전체 오답노트 모아보기</div>
           </div>
-          <Button text="나의노트" highlight={true}></Button>
+          <div className={styles["Button-width"]}><Button text="나의노트" highlight={true} kindof="arrow"></Button></div>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ export default function CommunityPage() {
             <div>와우 대박 진짜 멋있는 전체 오답노트 모아보기</div>
           </div>
           <div id={styles["right-item"]} style={{ width: "120px" }}>
-            <Button text="전체노트"></Button>
+          <div className={styles["Button-width"]}><Button text="전체노트" kindof="arrow"></Button></div>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function CommunityPage() {
 
           <div className={styles["footer-box"]}>
             <div className={styles["footer-title"]}><span>뉴스탁스</span>의 새소식</div>
-            <Button text="공지사항"></Button>
+            <div className={styles["Button-width"]}><Button text="공지사항" kindof="arrow"></Button></div>
           </div>
 
 

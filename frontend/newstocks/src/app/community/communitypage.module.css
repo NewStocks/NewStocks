@@ -3,6 +3,10 @@
   min-height: 100vh;
 }
 
+.Button-width {
+  width: 118px;
+}
+
 .landing-main-container {
   height: 350px;
   margin-top: 20px;

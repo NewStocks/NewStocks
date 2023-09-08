@@ -1,11 +1,31 @@
 .main {
-  /* background-color: #00051E;
-  color: white; */
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   padding: 6rem;
   min-height: 100vh;
+}
+
+.upper-title {
+  font-size: 25px;
+  font-weight: 400;
+
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+
+.page-title {
+  font-size: 48px; 
+  font-weight: 700;
+}
+
+.my-button-box {
+  display: flex;
+  margin-top: 40px;
+}
+
+.sorted-Button-width {
+  width: 110px;
+  margin-right: 20px;
+}
+
+#following {
+  width: 130px;
 }
