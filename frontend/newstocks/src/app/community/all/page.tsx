@@ -24,7 +24,6 @@ export default function AllnotesPage() {
         <Card />
         <Card />
         <Card />
-        <Card />
       </div>
     </div>
   )

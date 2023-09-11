@@ -6,6 +6,7 @@
   border-radius: 4px;
   background-color: rgba(176, 176, 176, 0.107);
   margin-bottom: 55px;
+  margin-right: 2.8%;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }
