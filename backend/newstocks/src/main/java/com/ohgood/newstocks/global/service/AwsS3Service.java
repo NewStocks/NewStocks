@@ -24,7 +24,10 @@ public class AwsS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName; //버킷 이름
 
-    public String uploadFile(MultipartFile multipartFile) {
+    public String uploadFile(String dir, MultipartFile multipartFile) {
+
+        String path = bucketName + dir;
+
         validateFileExists(multipartFile); //파일이 있는지 확인하는 메서드
 
         String fileName = CommonUtils.buildFileName(Objects.requireNonNull(multipartFile.getOriginalFilename())); //fileName
@@ -33,13 +36,13 @@ public class AwsS3Service {
         objectMetadata.setContentType(multipartFile.getContentType());
         try (InputStream inputStream = multipartFile.getInputStream()) {
 
-            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
+            amazonS3Client.putObject(new PutObjectRequest(path, fileName, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             log.error("Can not upload image, ", e);
             throw new ArithmeticException("cannot upload image");
         }
-        return amazonS3Client.getUrl(bucketName, fileName).toString();
+        return amazonS3Client.getUrl(path, fileName).toString();
     }
 
     private void validateFileExists(MultipartFile multipartFile) {
