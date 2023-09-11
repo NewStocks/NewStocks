@@ -5,7 +5,8 @@
 
 .user-info-box {
   display: flex;
-  height: 170px;
+  height: 155px;
+  /* border: 1px dotted red; */
 }
 
 .profile-box {
@@ -15,8 +16,8 @@
 }
 
 .profile-box div {
-  width: 130px;
-  height: 130px;
+  width: 115px;
+  height: 115px;
   background-color: white;
   border-radius: 100%;
   margin: 0 auto;
@@ -54,16 +55,18 @@
 }
 
 #nickname-curr {
-  font-size: 50px;
+  font-size: 45px;
   font-weight: 700;
 }
 
 .user-middle-box {
-  height: 165px;
-  margin: 40px 0;
+  height: 155px;
+  margin: 30px 0;
 
   display: flex;
   justify-content: space-between;
+
+  /* border: 1px dotted red; */
 }
 
 .email {
@@ -78,9 +81,9 @@
 }
 
 .email-box {
-  height: 130px;
+  height: 120px;
   width: 100%;
-  padding: 25px 20px;
+  padding: 20px 30px;
 
   border-radius: 15px;
   background: #0D1229;
@@ -92,13 +95,13 @@
 }
 
 #email-user {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 600;
 }
 
 #email-managedby {
   color: #4FE7B0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   margin-top: 15px;
 }
@@ -119,7 +122,7 @@
 
 .activity-box {
   width: 46%;
-  height: 130px;
+  height: 120px;
   border-radius: 16px;
   background: var(--primary-blue, #E3F5FF);
 
@@ -167,16 +170,14 @@
 
   display: flex;
   justify-content: space-between;
-
-  border: 1px dotted white;
 }
 
 .first-analysis {
-  width: 45%;
+  width: 47%;
   border: 1px dotted red;
 }
 
 .second-analysis {
-  width: 45%;
+  width: 47%;
   border: 1px dotted red;
 }
