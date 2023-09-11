@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class ChartDto {
+public class ChartDto extends DataDto{
 
     private int startPrice;
     private int endPrice;
