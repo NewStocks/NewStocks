@@ -11,6 +11,7 @@ import java.util.List;
  * 생성, 조회, 수정을 위한 DTO입니다.
  */
 @Data
+@NoArgsConstructor
 public class ReviewNoteReqDto {
     private Integer buyPrice;
     private Integer sellPrice;

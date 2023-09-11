@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.reviewnote.controller;
 
+import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.service.ReviewNoteService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewNoteController {
 
     private final ReviewNoteService reviewNoteService;
+    private final AwsS3Service awsS3Service;
+
 
     @PostMapping
     public ResponseEntity<ReviewNoteResDto> insertReviewNote(@RequestBody ReviewNoteReqDto reviewNoteReqDto) {
@@ -27,5 +30,4 @@ public class ReviewNoteController {
     public ResponseEntity<ReviewNoteResDto> findReviewNote(@PathVariable Long reviewNoteId) {
         return new ResponseEntity<>(reviewNoteService.findReviewNote(reviewNoteId), HttpStatus.OK);
     }
-
 }
