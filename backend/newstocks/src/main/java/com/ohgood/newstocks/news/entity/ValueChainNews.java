@@ -21,6 +21,9 @@ public class ValueChainNews {
     Long id;
 
     @NotNull
+    private String valueChainId;
+
+    @NotNull
     private String valueChainName;
 
     @NotNull
@@ -36,8 +39,10 @@ public class ValueChainNews {
     private LocalDateTime publishTime;
 
     @Builder
-    public ValueChainNews(@NotNull String valueChainName, @NotNull String title,
-        @NotNull String company, @NotNull String url, @NotNull LocalDateTime publishTime) {
+    public ValueChainNews(@NotNull String valueChainId, @NotNull String valueChainName,
+        @NotNull String title, @NotNull String company, @NotNull String url,
+        @NotNull LocalDateTime publishTime) {
+        this.valueChainId = valueChainId;
         this.valueChainName = valueChainName;
         this.title = title;
         this.company = company;

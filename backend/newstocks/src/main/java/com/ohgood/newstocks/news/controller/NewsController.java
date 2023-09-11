@@ -21,8 +21,8 @@ public class NewsController {
     @GetMapping("/find/{stock-id}")
     public ResponseEntity<List<NewsResDto>> findAllNewsByStockId(
         @PathVariable("stock-id") String stockId) {
-        List<NewsResDto> newsResDtos = newsService.findAllNewsByStockId(stockId);
-        return new ResponseEntity<List<NewsResDto>>(newsResDtos, HttpStatus.OK);
+        List<NewsResDto> newsResDtoList = newsService.findAllNewsByStockId(stockId);
+        return new ResponseEntity<>(newsResDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/find/{stock-id}/{date}")
@@ -30,6 +30,6 @@ public class NewsController {
         @PathVariable("stock-id") String stockId, @PathVariable("date")
     String date) {
         List<NewsResDto> newsResDtoList = newsService.findDateNewsByStockId(stockId, date);
-        return new ResponseEntity<List<NewsResDto>>(newsResDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(newsResDtoList, HttpStatus.OK);
     }
 }
