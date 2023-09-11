@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewNoteController {
 
     private final ReviewNoteService reviewNoteService;
-    private final AwsS3Service awsS3Service;
-
 
     @PostMapping
-    public ResponseEntity<ReviewNoteResDto> insertReviewNote(@RequestBody ReviewNoteReqDto reviewNoteReqDto) {
+    public ResponseEntity<ReviewNoteResDto> insertReviewNote(@ModelAttribute ReviewNoteReqDto reviewNoteReqDto) {
         // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(reviewNoteService.insertReviewNote(reviewNoteReqDto, 5L), HttpStatus.OK);
     }

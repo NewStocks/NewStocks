@@ -108,7 +108,7 @@ public class ReviewNote extends BaseEntity {
         this.type = type;
         this.display = display;
         this.member = member;
-        this.reviewNoteImageList = reviewNoteImageList;
+        this.reviewNoteImageList = new ArrayList<>();
         this.replyList = new ArrayList<>();
         this.reviewNoteNewsList = new ArrayList<>();
         this.stock = stock;

@@ -1,14 +1,18 @@
 package com.ohgood.newstocks.reviewnote.service;
 
+import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.entity.News;
 import com.ohgood.newstocks.news.mapper.NewsMapStruct;
 import com.ohgood.newstocks.news.repository.NewsRepository;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteImageDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteImageRepository;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteNews;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteNewsRepository;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteMapper;
@@ -19,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,12 +38,14 @@ public class ReviewNoteService {
     private final StockRepository stockRepository;
     private final NewsRepository newsRepository;
     private final ReviewNoteNewsRepository reviewNoteNewsRepository;
+    private final AwsS3Service awsS3Service;
+    private final ReviewNoteImageRepository reviewNoteImageRepository;
 
     @Transactional
     public ReviewNoteResDto insertReviewNote(ReviewNoteReqDto reviewNoteReqDto, Long userId) {
 
         log.info("insertReviewNote Start");
-
+        log.info("reviewNoteReqDto: " + reviewNoteReqDto);
         // Security 적용 전 테스트용
         Member member = findMemberById(userId);
         Stock stock = findStockById(reviewNoteReqDto.getStockId());
@@ -50,6 +57,16 @@ public class ReviewNoteService {
         ReviewNote reviewNote = ReviewNoteMapper.INSTANCE.reviewNoteResDtoToEntity(reviewNoteResDto);
         reviewNote = reviewNoteRepository.save(reviewNote);
         reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote);
+
+        // 이미지 처리
+        if (reviewNoteReqDto.getMultipartFileList() != null) {
+            for (MultipartFile multipartFile : reviewNoteReqDto.getMultipartFileList()) {
+                String url = awsS3Service.uploadFile("/review-note", multipartFile);
+                ReviewNoteImage reviewNoteImage = reviewNoteImageRepository.save(new ReviewNoteImage(url, reviewNote));
+                reviewNote.getReviewNoteImageList().add(reviewNoteImage);
+                reviewNoteResDto.getReviewNoteImageDtoList().add(new ReviewNoteImageDto(reviewNoteImage.getId(), url));
+            }
+        }
 
         // TODO Stock, Member와는 형식이 다른데 통일할지 고민
         List<Long> newsIdList = reviewNoteReqDto.getNewsIdList();
