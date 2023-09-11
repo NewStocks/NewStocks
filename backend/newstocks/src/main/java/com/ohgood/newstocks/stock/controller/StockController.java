@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,10 +22,5 @@ public class StockController {
         @PathVariable("stock-id") String stockId) {
         ChartResDto chartResDto = stockService.findChartSeries(stockId);
         return new ResponseEntity<>(chartResDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/save-all-korea-stock-info")
-    public Mono<String> saveAllKoreaStockInfo(){
-        return stockService.saveAllKoreaStockInfo();
     }
 }
