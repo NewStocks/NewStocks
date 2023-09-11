@@ -17,8 +17,7 @@ import org.hibernate.annotations.FetchMode;
 public class ValueChain {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotNull
     private String ValueChainName;
@@ -28,7 +27,9 @@ public class ValueChain {
     private List<StockValueChain> stockValueChainList;
 
     @Builder
-    public ValueChain(@NotNull String valueChainName) {
+
+    public ValueChain(String id, @NotNull String valueChainName) {
+        this.id = id;
         ValueChainName = valueChainName;
         this.stockValueChainList = new ArrayList<>();
     }
