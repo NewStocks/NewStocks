@@ -136,7 +136,7 @@ def save_news():
         ) in infos:
             insert_query = """
             INSERT INTO value_chain_news
-            (item_code, title, company, publish_time, url, value_chain_name)
+            (value_chain_id, title, company, publish_time, url, value_chain_name)
             VALUES (%s, %s, %s, %s, %s, %s)
             """
             cursor.execute(
