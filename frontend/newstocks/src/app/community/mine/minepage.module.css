@@ -1,5 +1,5 @@
 .main {
-  padding: 5rem;
+  padding: 4rem 5rem;
   min-height: 100vh;
 }
 
@@ -18,7 +18,7 @@
 
 .my-button-box {
   display: flex;
-  margin-top: 40px;
+  margin-top: 34px;
 }
 
 .sorted-Button-width {
@@ -33,9 +33,9 @@
 
 /* content 영역 */
 .cards-container {
-  width: 100%;
+  width: 103.3%;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
   /* flex-direction: column; */
   margin: 35px 0 0 0;

@@ -1,5 +1,5 @@
 .main {
-  padding: 5rem;
+  padding: 4rem 5rem;
   min-height: 100vh;
 }
 
@@ -19,7 +19,7 @@
 .all-button-box {
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 34px;
 }
 
 .sort-button-box {
@@ -38,10 +38,17 @@
 }
 
 .cards-container {
-  width: 100%;
+  width: 103.3%;
   display: flex;
-  /* justify-content: space-between; */
   flex-wrap: wrap;
   /* flex-direction: column; */
   margin: 35px 0 0 0;
+}
+
+.card {
+  margin-right: 20px;
+}
+
+.card:not(:last-child) {
+  margin-right: 10px; /* 마지막 아이템을 제외한 아이템들에게만 오른쪽 간격을 적용 */
 }

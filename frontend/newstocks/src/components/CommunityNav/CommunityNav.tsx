@@ -47,27 +47,27 @@ export default function CommunityNav() {
         });
       });
       
-      if (pathname?.slice(11)) {
-      const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
+    //   if (pathname?.slice(11)) {
+    //   const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
 
-      selected.classList.add('active');
+    //   selected.classList.add('active');
   
-      const tabHeight = selected.offsetHeight;
-      const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
+    //   const tabHeight = selected.offsetHeight;
+    //   const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
 
-      if (highlight) {
-      highlight.style.height = tabHeight + 'px';
-      highlight.style.top = tabTop + 'px';
-      }
+    //   if (highlight) {
+    //   highlight.style.height = tabHeight + 'px';
+    //   highlight.style.top = tabTop + 'px';
+    //   }
 
-      if (pathname?.slice(11)=="mine") {
-        setMytoggle(true)
-        // mynote.style.setProperty("--toggle", "90deg");
-      } else {
-        setMytoggle(false)
-        // mynote.style.setProperty("--toggle", "0deg");
-      }
-    }
+    //   if (pathname?.slice(11)=="mine") {
+    //     setMytoggle(true)
+    //     // mynote.style.setProperty("--toggle", "90deg");
+    //   } else {
+    //     setMytoggle(false)
+    //     // mynote.style.setProperty("--toggle", "0deg");
+    //   }
+    // }
   }
   }, [])
 

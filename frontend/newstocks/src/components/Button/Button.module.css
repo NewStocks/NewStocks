@@ -55,3 +55,12 @@
 /* "sorted" option*/
 #sorted {
 }
+
+#basic {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  margin-left: 13px;
+}
