@@ -1,78 +1,130 @@
 .card-container {
-  width: 460px;
+  display: block;
+  width: 30.5%;
+  max-width: 600px;
   height: 451px;
-  border-radius: 10px;
-  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  background-color: rgba(176, 176, 176, 0.107);
+  margin-bottom: 55px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
 
-.title-container {
-  height: 100px;
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  margin-top: 2px;
-}
-
-.title-left {
-  width: 90%;
-  padding: 20px 0 0 0;
-}
-
-.title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-left: 4px;
-}
-
-.stock-info-box {
-  display: flex;
-  margin-top: 5px;
-  /* border: 1px dotted violet; */
-}
-
-.stock-image {
-  width: 25px;
-  height: 25px;
-  background-color: rgba(255, 255, 255, 0.455);
-  border-radius: 100%;
-  margin: 5px 5px;
-}
-
-.stock-name {
-  font-size: 17px;
-  font-weight: 400;
-  padding: 5px 0 0 0;
-
-  margin: 0 3px;
-}
-
-.tag-boxes {
-  margin-top: 5px;
-}
-
-/* 글자수에 따라 width 조정되도록 추후 스타일 설정 보충 필요*/
-.tag {
-  width: 60px;
-  height: 25px;
-  margin: 0 5px;
-}
-
-.title-right {
-  width: 10%;
-  padding: 27px 0 0 15px;
+.card-container:hover {
+  transform: translate(-5px, -5px);
 }
 
 /* 이미지 영역 */
 .image-container {
-  width: 80%;
-  height: 198px;
+  width: 100%;
+  height: 175px;
 
   margin: 0 auto;
   margin-top: 5px;
   background-color:#d9d9d96f;
-  border-radius: 10px;
+  border-radius: 2px;
 }
 
+/* title 영역 */
+.title-container {
+  display: flex;
+  padding: 10px 13px;
+}
+
+.title-left {
+  width: 90%;
+}
+
+.stock-box {
+  display: flex;
+}
+
+.stock-img {
+  width: 25px;
+  height: 25px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 6px;
+}
+
+.stock-name {
+  font-size: 17px;
+  margin: 3px 0 0 0;
+}
+
+.title-right {
+  width: 10%;
+  padding: 2% 0 0 3%;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 18.5px;
+  margin-top: 10px;
+}
+
+/* 내용 및 프로필 영역 */
 .content-container {
+  padding: 7px 15px;
+  height: 120px;
+}
+
+.content {
+  font-size: 13.5px;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.818);
+}
+
+.content-bottom-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.profile-container {
+  display: flex;
+}
+
+.time {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.818);
+  padding: 5px 0 0 0;
+}
+
+.bottom-container {
+  padding: 0 16px;
+  margin: 10px 0;
+  display: flex;
+}
+
+.icons-container {
+  display: flex;
+  font-size: 15px;
+  margin-left: auto;
+}
+
+.icons-container div{
+  display: flex;
+  font-size: 15px;
+}
+ 
+.icons-container p {
+  margin: 0;
+  margin-right: 5px;
+  margin-left: 3px;
+}
+
+.tag-container {
+  display: flex;
+  width: 60%;
+}
+
+.tag-container div {
+  border-radius: 50px;
+  font-size: 13px;
+  height: 25px;
+  padding: 0 8px;
+  padding-top: 1px;
+  background-color: #4fe7af4f;
+  margin-right: 6px;
 }

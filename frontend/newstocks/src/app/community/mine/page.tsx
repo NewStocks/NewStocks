@@ -26,10 +26,6 @@ export default function MynotesPage({ searchParams }: Props) {
             <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
             <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div>
           </div>
-
-          <div className={styles["cards-container"]}>
-            <Card />
-          </div>
           </>
         )}
         {searchParams.page=='scrap' && (
@@ -50,6 +46,14 @@ export default function MynotesPage({ searchParams }: Props) {
           </div>
           </>
         )}
+        <div className={styles["cards-container"]}>
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
       </div>
 
     </div>

@@ -47,14 +47,13 @@ export default function CommunityNav() {
         });
       });
       
-      if (pathname?.slice(11) && tabsRef.current) {
+      if (pathname?.slice(11)) {
       const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
-      if (selected) {
+
       selected.classList.add('active');
   
       const tabHeight = selected.offsetHeight;
       const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
-      }
 
       if (highlight) {
       highlight.style.height = tabHeight + 'px';
