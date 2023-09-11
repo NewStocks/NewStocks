@@ -133,4 +133,4 @@ def save_news():
 if __name__ == "__main__":
     start_time = time.time()
     print("start_time time:", start_time)
-    app.run()
+    app.run(port=5000)
