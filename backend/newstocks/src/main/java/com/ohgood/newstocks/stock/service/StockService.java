@@ -21,7 +21,7 @@ public class StockService {
     public ChartResDto findChartSeries(String stockId) {
         List<ChartSeriesDto> chartSeriesDtoList = new ArrayList<>();
         String[] names = {"주식정보", "뉴스정보", "오답노트 정보"};
-        String[] types = {"candlestic", "scatter", "scatter"};
+        String[] types = {"candlestick", "scatter", "scatter"};
         for (int branch = 0; branch < 3; branch++) {
             chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[branch]).type(types[branch])
                 .data(findAllData(branch, stockId)).build());
