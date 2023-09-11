@@ -13,18 +13,87 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Chart() {
 
-  const stock = '???'
-
   const [chartData, setChartData] = useState({
     options: {
+      stacked: true,
       theme: {
         mode: "dark",
       },
       chart: {
-        toolbar:{
-          autoSelected: 'pan'
+        zoom: {
+          enabled: true,
+          type: 'xy',
+          autoScaleYaxis: true
         },
-        
+        toolbar:{
+          autoSelected: 'pan',
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            customIcons: [
+              {
+                icon: '<img src="/static/icons/chart-carpet.png" width="20">',
+                index: 4,
+                title: 'tooltip of the icon',
+                class: 'custom-icon',
+                click: function (chart, options, e) {
+                  // console.log(options.config.yaxis[0].min+10000)
+                  // console.log(options.config.xaxis.min+86400000)
+                  const xmin = options.config.xaxis.min + 86400000*14 
+                  // const xminchange = xmin.getFullYear() + "/" + (xmin.getMonth()+1) + "/" + xmin.getDate()
+                  // console.log(xminchange)
+                  setChartData((prevData) => ({
+                    ...prevData,
+                    options: {
+                      ...prevData.options,
+                      yaxis: {
+                        ...prevData.options.yaxis,
+                        min: options.config.yaxis[0].min+2000,
+                        max: options.config.yaxis[0].max-2000, 
+                      },
+                      xaxis: {
+                        ...prevData.options.xaxis,
+                        min: xmin, 
+                        // max: options.config.xaxis.max - 86400000, 
+                      },
+                    }, 
+                  }));
+                  console.log(options)
+                }
+              },
+              {
+                icon: '<img src="/static/icons/chart-carpet.png" width="20">',
+                index: 5,
+                title: 'tooltip of the icon',
+                class: 'custom-icon',
+                click: function (chart, options, e) {
+                  const xmin = options.config.xaxis.min - 86400000*14
+                  setChartData((prevData) => ({
+                    ...prevData,
+                    options: {
+                      ...prevData.options,
+                      yaxis: {
+                        ...prevData.options.yaxis,
+                        min: options.config.yaxis[0].min-2000,
+                        max: options.config.yaxis[0].max+2000, 
+                      },
+                      xaxis: {
+                        ...prevData.options.xaxis,
+                        min: xmin, 
+                        // max: options.config.xaxis.max - 86400000, 
+                      },
+                    }, 
+                  }));
+                  // console.log(options)
+                }
+              }
+            ]
+          },
+        },
         type: 'scatter',
         height: 350,
         background: '#00051E',
@@ -33,13 +102,13 @@ export default function Chart() {
           dataPointSelection: function(event, chartContext, config) {        
           const index = config.dataPointIndex
           const stockdata = config.w.config.series[0].data[index]
-          const newsdata = config.w.config.series[1].data[index]
-          newsdata.url = "https://finance.naver.com/item/news.naver?code=005930";
-          const notedata = config.w.config.series[2].data[index]
+          // const newsdata = config.w.config.series[1].data[index]
+          // newsdata.url = "https://finance.naver.com/item/news.naver?code=005930";
+          // const notedata = config.w.config.series[2].data[index]
           console.log(index)
           console.log(config.w.config.series[0].data[index])
 
-          const infoContainer = document.getElementById('data-point-info'); // 정보를 표시할 컨테이너 요소
+          const infoContainer = document.getElementById('data-point-info'); 
           infoContainer.innerHTML = `<div><주식 데이터></div>`;
           infoContainer.innerHTML += `<div>시가 : ${JSON.stringify(stockdata.y[0])}</div>`;
           infoContainer.innerHTML += `<div>고가 : ${JSON.stringify(stockdata.y[1])}</div>`;
@@ -47,9 +116,12 @@ export default function Chart() {
           infoContainer.innerHTML += `<div>종가 : ${JSON.stringify(stockdata.y[3])}</div>`;
           infoContainer.innerHTML += `<div>거래량 : ${JSON.stringify(stockdata.y[4])}</div>`;
           if (newsdata.y !== 0) {
+            const newsdata = config.w.config.series[1].data[index]
+            newsdata.url = "https://finance.naver.com/item/news.naver?code=005930";
             infoContainer.innerHTML += `<div>뉴스 데이터: ${JSON.stringify(newsdata.x)} 뉴스가 존재</div> <a href="${newsdata.url}" target="_blank">뉴스 보기</a>`;
           }
           if (notedata.y !== 0) {
+            const notedata = config.w.config.series[2].data[index]
             infoContainer.innerHTML += `<div>오답노트 데이터: ${JSON.stringify(notedata.x)} 오답노트 존재</div>`;
           }
           }
@@ -63,29 +135,44 @@ export default function Chart() {
         fontSize: '12px',
       },
       title: {
-        text: `${stock}`,
+        text: ``,
         align: 'left'
       },
       xaxis: {
         type: 'datetime',
+        min: new Date('2023-06-01').getTime(),
+        // max: new Date('2023-08-01').getTime(),
+        // range: 10000000000,
         labels: {
           style: {
             colors: '#fff'
           }
-        },
-        zoom: {
-          enabled: true,
         },
       },
       yaxis: {
         forceNiceScale: true,
-        showAlways: true,
+        // showAlways: true,
         opposite: true,
-        min: 6550,
+        min: 50000,
+        max: 82000,
+        logarithmic: false,
         labels: {
           style: {
             colors: '#fff'
           }
+        },
+        crosshairs: {
+          show: true,
+          position: 'front',
+          stroke: {
+              color: '#b6b6b6',
+              width: 1,
+              dashArray: 3,
+          },
+        },
+        tooltip: {
+          enabled: true,
+          offsetX: 0,
         },
       },
       tooltip: {
@@ -158,7 +245,7 @@ export default function Chart() {
       },
     ],
   });
-
+  
   const [newVolumeData, setNewVolumeData] = useState({
     options: {
       theme: {
@@ -166,7 +253,7 @@ export default function Chart() {
       },
       chart: {
         toolbar:{
-          show: false,
+          autoSelected: 'pan',
         },
         animations: {
           enabled: true,
@@ -189,13 +276,16 @@ export default function Chart() {
         floating: false,
         fontSize: '12px',
       },
-      title: {
-        text: '거래량',
-        align: 'left',
-        margin: 0
-      },
+      // title: {
+      //   text: '거래량(단위:만)',
+      //   align: 'left',
+      //   margin: 0
+      // },
       xaxis: {
         type: 'datetime',
+        min: new Date('2023-06-01').getTime(),
+        // max: new Date('2023-08-01').getTime(),
+        // range: 10000000000,
         labels: {
           style: {
             colors: '#fff'
@@ -209,7 +299,7 @@ export default function Chart() {
         forceNiceScale: true,
         showAlways: true,
         opposite: true,
-        min: 1000,
+        // min: 1000,
         labels: {
           style: {
             colors: '#fff'
@@ -222,6 +312,14 @@ export default function Chart() {
         shared: true,
         followCursor: false,
         inverseOrder: false,
+        custom: function ({ seriesIndex, dataPointIndex, w }) {
+          const seriesData = w.config.series[seriesIndex].data[dataPointIndex];
+          let content = '<div class="custom-tooltip">';  
+          content += `<div class="tooltip-label">${seriesData.x}</div><hr>`;
+          content += `<div class="tooltip-value">거래량: ${seriesData.y}만</div>`;
+
+          return content;
+        },
       },
       grid: {
         show: true, 
@@ -253,158 +351,6 @@ export default function Chart() {
         name: '거래량',
         type: 'bar',
         data: [
-          {
-            x: '05/06/2014',
-            y: 1000
-          },
-          {
-            x: '05/07/2014',
-            y: 5000.05
-          },
-          {
-            x: '05/08/2014',
-            y: 8000
-          },
-          {
-            x: '05/09/2014',
-            y: 8000
-          },
-          {
-            x: '05/10/2014',
-            y: 8000
-          },
-          {
-            x: '05/11/2014',
-            y: 8000
-          },
-          {
-            x: '05/12/2014',
-            y: 8000          
-          },
-          {
-            x: '05/13/2014',
-            y: 3000
-          },
-          {
-            x: '05/14/2014',
-            y: 8000
-          },
-          {
-            x: '05/15/2014',
-            y: 4000
-          },
-          {
-            x: '05/16/2014',
-            y: 8000
-          },
-          {
-            x: '05/17/2014',
-            y: 8000
-          },
-          {
-            x: '05/18/2014',
-            y: 7000
-          },
-          {
-            x: '05/19/2014',
-            y: 8000
-          },
-          {
-            x: '05/20/2014',
-            y: 8000
-          },
-          {
-            x: '05/21/2014',
-            y: 2000
-          },
-          {
-            x: '05/22/2014',
-            y: 4000
-          },
-          {
-            x: '05/23/2014',
-            y: 8000         
-          },
-          {
-            x: '05/24/2014',
-            y: 8000
-          },
-          {
-            x: '05/25/2014',
-            y: 8000
-          },
-          {
-            x: '05/26/2014',
-            y: 8000
-          },
-          {
-            x: '05/27/2014',
-            y: 8000         
-          },
-          {
-            x: '05/28/2014',
-            y: 8000
-          },
-          {
-            x: '05/29/2014',
-            y: 8000
-          },
-          {
-            x: '05/30/2014',
-            y: 8000
-          },
-          {
-            x: '05/31/2014',
-            y: 8000
-          },
-          {
-            x: '06/01/2014',
-            y: 8000
-          },
-          {
-            x: '06/02/2014',
-            y: 8000      
-          },
-          {
-            x: '06/03/2014',
-            y: 8000
-          },
-          {
-            x: '06/04/2014',
-            y: 6565
-          },
-          {
-            x: '06/05/2014',
-            y: 0
-          },
-          {
-            x: '06/06/2014',
-            y: 0
-          },
-          {
-            x: '06/07/2014',
-            y: 0
-          },
-          {
-            x: '06/08/2014',
-            y: 0
-          },
-          {
-            x: '06/09/2014',
-            y: 0
-          },
-          {
-            x: '06/10/2014',
-            y: 0          
-          },
-          {
-            x: '06/11/2014',
-            y: 0
-          },
-          {
-            x: '06/12/2014',
-            y: 0
-          },
         ],
       },
     ]
@@ -417,79 +363,104 @@ export default function Chart() {
         method: "get",
         url: "http://localhost:8080/stock/find-chart/005930",
       })
-        .then((res) => {
-          console.log(res.data);
-          const series  = res.data.series;
-          console.log(series)
-          Chart.updateSeries([{
-            name:'ss',
-            data: series
-          }])
+      .then((res) => {
+        console.log(res.data);
+        const data = res.data.series[0].data;
+        let maxY1 = Number.MIN_VALUE;
+        let minY2 = Number.MAX_VALUE;
 
-          // setChartData((prevData) => ({
-          //   ...prevData, 
-          //   series: series,
-          // }));
-        })
+        const processedData = data.map((item) => {
+          const y1Value = item.y[1]; // y[1] 값
+          const y2Value = item.y[2]; // y[2] 값
+          maxY1 = Math.max(maxY1, y1Value);
+          minY2 = Math.min(minY2, y2Value);
+        });
+
+        // console.log(maxY1,minY2);
+
+        const stock = res.data.name
+        setChartData((prevData) => ({
+          ...prevData,
+          options: {
+            ...prevData.options,
+            yaxis: {
+              ...prevData.options.yaxis,
+              min: minY2,
+              max: maxY1, 
+            },
+            title: {
+              text: stock
+            }
+          }, 
+          series: 
+          [{
+            ...prevData.series,
+            name:'stock',
+            type:'candlestick',
+            data:res.data.series[0].data
+          },
+          {...prevData.series,
+            name:'news',
+            type:'scatter',
+            data:[
+              {
+                x:'2023/05/05',
+                y: 77000
+              },
+              {
+                x:'2023/05/06',
+                y: 77000
+              }
+          ]
+          },
+          {...prevData.series,
+            name:'오답노트',
+            type:'scatter',
+            data:[]}
+        ]
+        }));
+      })
         .catch((err) => {
           console.log(err);
         });
-      // axios
-      //   .get(`/stock/find-chart/005930`)
-      //   .then((response) => {
-      //     console.log(response)
-          // const { data } = response.data.series.data;
-          // const { text } = response.data.title;
-          // setChartData((prevData) => ({
-          //   ...prevData, 
-          //   ...series,
-          //   data,
-          // }));
-          // setChartData((prevData) => ({
-          //   ...prevData, 
-          //   ...options,
-          //   ...title,
-          //   text,
-          // }));
-          // setChartData({
-          //   ...chartData,
-          //   series: series, 
-          //   options: {
-          //     ...chartData.options,
-          //     ...options, 
-          //   },
-          //   title: {
-          //     ...chartData.title,
-          //     text: title, 
-          //   },
-          // });
-        // })
-        // .catch((error) => {
-        //   console.error(error);
-        // });
     };
-    // const fetchNewVolumeData = () => {
-    //   axios
-    //     .get('baseurl/stock/{stock-id}/chart')
-    //     .then((response) => {
-    //       const { data } = response.data.series.data;
-    //       setChartData((prevData) => ({
-    //         ...prevData, 
-    //         ...series,
-    //         data
-    //       }));
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // };
+    const fetchNewVolumeData = () => {
+      axios({
+        method: "get",
+        url: "http://localhost:8080/stock/find-chart/005930",
+        })
+        .then((response) => {
+          const data = response.data.series[0].data;
+          console.log(data)
+          const processedData = data.map((item) => {
+            return {
+              x: item.x, // x 값은 그대로 유지
+              y: Math.floor(item.y[4]/10000) // y 값은 5번째 데이터(거래량)만 사용
+            };
+          });
+          console.log(processedData)
+          setNewVolumeData((prevData) => ({
+            ...prevData, 
+            series: [
+              {
+                ...prevData.series[0],
+                data: processedData,
+              },
+            ],
+          }));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
     fetchData();
-    // fetchNewVolumeData();
-    const intervalId = setInterval(fetchData, 100000);
+    fetchNewVolumeData();
+    // const intervalId = setInterval(fetchData, 100000);
   
-    return () => clearInterval(intervalId);
+    // return () => clearInterval(intervalId);
   }, []); 
 
+  
 
   // 관심종목 추가
   const [isStarred, setIsStarred] = useState(false);
