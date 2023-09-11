@@ -1,6 +1,5 @@
-import pymysql, os, requests, time
+import pymysql, os, time
 from flask import Flask
-from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from webdriver_manager.chrome import ChromeDriverManager
 from dotenv import load_dotenv
@@ -18,12 +17,12 @@ db_config = {
     "password": os.getenv("DB_PWD"),
     "database": os.getenv("DB_NAME"),
 }
-
+# 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
+one_day_ago = datetime.now() - timedelta(days=1)
 URL = "https://stockrow.com/"
 # 현재 날짜와 시간 가져오기
 current_datetime = datetime.now()
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
-one_day_ago = current_datetime - timedelta(days=1)
 start_time, end, cnt, driver = 0, 0, 0, 0
 urls, infos = [], []
 months = {
@@ -71,7 +70,7 @@ def convert_date(date, time_):
     return year + month + day + " " + str(hour) + ":" + minute
 
 
-def crawler(code, name):
+def crawler(code, name, is_all):
     global infos, driver
 
     url = URL + code
@@ -88,18 +87,50 @@ def crawler(code, name):
         companys = sng.find_elements(By.CLASS_NAME, "source")
 
         for title, time_, company in zip(titles, times, companys):
-            date = convert_date(groupDate.text, time_.text)
+            date_text = convert_date(groupDate.text, time_.text)
+
+            # 전체 데이터 조회가 아닐 경우
+            if is_all == False:
+                news_date = datetime.strptime(date_text.split()[0], "%Y-%m-%d").date()
+                if news_date > one_day_ago.date():
+                    continue
+                elif news_date < one_day_ago.date():
+                    break
+
             infos.append(
                 [
                     code,
                     title.text,
                     company.text,
-                    date,
+                    date_text,
                     title.get_attribute("href"),
                     name,
                 ]
             )
 
+    return
+
+
+def insert_infos(cursor, conn):
+    # 데이터프레임을 MySQL 테이블에 저장
+    for (
+        value_chain_id,
+        title,
+        company,
+        publish_time,
+        url,
+        value_chain_name,
+    ) in infos:
+        insert_query = """
+        INSERT INTO value_chain_news
+        (value_chain_id, title, company, publish_time, url, value_chain_name)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(
+            insert_query,
+            (value_chain_id, title, company, publish_time, url, value_chain_name),
+        )
+        conn.commit()
     return
 
 
@@ -112,6 +143,7 @@ def save_news():
         conn = pymysql.connect(**db_config)
         cursor = conn.cursor()
         driver = set_chromedriver()
+        infos = []
 
         # 밸류체인 명 가져오기
         cursor.execute("SELECT id, value_chain_name FROM value_chain")
@@ -120,33 +152,48 @@ def save_news():
         conn.commit()
 
         for code, name in codes:
-            crawler(code, name)
+            crawler(code, name, False)
 
-        print("뉴스 개수: ", len(infos))
-        cursor.execute("DELETE FROM value_chain_news")
-
-        # 데이터프레임을 MySQL 테이블에 저장
-        for (
-            value_chain_id,
-            title,
-            company,
-            publish_time,
-            url,
-            value_chain_name,
-        ) in infos:
-            insert_query = """
-            INSERT INTO value_chain_news
-            (value_chain_id, title, company, publish_time, url, value_chain_name)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            """
-            cursor.execute(
-                insert_query,
-                (value_chain_id, title, company, publish_time, url, value_chain_name),
-            )
-            conn.commit()
+        # cursor.execute("DELETE FROM value_chain_news")
+        insert_infos(cursor, conn)
 
         print("실행 시간: ", time.time() - start_time)
-        return "데이터가 MySQL에 저장되었습니다."
+        return "어제의 뉴스가 저장되었습니다."
+
+    except Exception as e:
+        return f"오류 발생: {str(e)}"
+
+    finally:
+        driver.quit()
+        cursor.close()
+        conn.close()
+
+
+@app.route("/insert-all", methods=["POST"])
+def save_all_news():
+    global infos, driver
+
+    try:
+        # MySQL 연결
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor()
+        driver = set_chromedriver()
+        infos = []
+
+        # 밸류체인 명 가져오기
+        cursor.execute("SELECT id, value_chain_name FROM value_chain")
+        lst = cursor.fetchall()
+        codes = [(k[0], k[1]) for k in lst]
+        conn.commit()
+
+        for code, name in codes:
+            crawler(code, name, True)
+
+        cursor.execute("DELETE FROM value_chain_news")
+        insert_infos(cursor, conn)
+
+        print("실행 시간: ", time.time() - start_time)
+        return "모든 뉴스가 저장되었습니다."
 
     except Exception as e:
         return f"오류 발생: {str(e)}"

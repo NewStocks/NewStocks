@@ -19,11 +19,8 @@ db_config = {
     "database": os.getenv("DB_NAME"),
 }
 
-# 현재 날짜와 시간 가져오기
-current_datetime = datetime.now()
-
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
-one_day_ago = current_datetime - timedelta(days=1)
+one_day_ago = datetime.now() - timedelta(days=1)
 
 start_time, end, cnt = 0, 0, 0
 urls, infos = [], []
