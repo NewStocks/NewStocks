@@ -68,7 +68,7 @@ async def chat_endpoint(request: Request):
     # web_research_retriever = WebResearchRetriever.from_llm(vectorstore=vectorstore, llm=model, search=search)
     # qa_chain = RetrievalQAWithSourcesChain.from_chain_type(model, retriever=web_research_retriever)
 
-    template = '다음 질문에 대해서 친절하게 답해줘. 잘 모르겠거나 답이 정확하지 않으면 지어내지 말고 잘 모르겠다고 말해줘. 답은 한국어로 해줘. ### 질문: {question}'
+    template = '역할: 너는 금융 전문가로, 전문적인 내용을 사용자가 이해하기 쉽게 풀어 설명하는 역할을 해. 정확한 정보를 전달하는 것이 중요해. 잘 모르겠거나 답이 정확하지 않으면 지어내지 말고 잘 모르겠다고 해. 메시지: 만약 질문이 금융에 관한 내용이 아니라면, 너는 금융 관련 챗봇으로 다른 분야는 잘 모르겠다고 답해줘. 금융 관련 질문이라면, 질문에 적합한 답을 해줘. 답은 한국어로 해줘. {question}'
 
     prompt = PromptTemplate(
         input_variables=["question"], 
