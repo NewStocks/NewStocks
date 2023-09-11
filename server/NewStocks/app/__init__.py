@@ -208,6 +208,9 @@ def save_stock_info_data():
     return "주식 데이터가 성공적으로 저장되었습니다."
 
 
+
+#endDate는 갱신하는 날짜로 하공, startDate는 정확히 2년전의 해당달의 1일로 하자
+#그래야 갱신이 편할듯
 @app.route('/save-all-daily-stock-data', methods=['POST'])
 def save_daily_chart_data():
     try:
@@ -217,7 +220,7 @@ def save_daily_chart_data():
         stock_id = stock_data['stockId']
         start_date = stock_data['startDate']
         end_date = stock_data['endDate']
-
+        print(start_date,end_date)
         # MySQL 연결
         conn = connection_mysql()
         cursor = conn.cursor()
@@ -225,11 +228,39 @@ def save_daily_chart_data():
         stock_chart = stock.get_market_ohlcv_by_date(start_date, end_date, stock_id)
         # 데이터프레임을 MySQL 테이블에 저장
         for index, row in stock_chart.iterrows():
-            insert_query = """
-            INSERT INTO chart (stock_id, date, start_price, end_price, high_price, low_price, volume)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """
-            cursor.execute(insert_query, (stock_id, index.strftime('%Y-%m-%d'), int(row['시가']), int(row['종가']), int(row['고가']), int(row['저가']), int(row['거래량'])))
+            # 중복 데이터 체크
+            check_query = """
+                       SELECT 1 FROM chart 
+                       WHERE stock_id = %s AND date = %s
+                       """
+            cursor.execute(check_query, (stock_id, index.strftime('%Y-%m-%d')))
+            result = cursor.fetchone()
+
+            if result:
+                # 중복 데이터가 있고 날짜가 endDate와 일치하면 업데이트
+                if index.strftime('%Y-%m-%d') == end_date:
+                    print("update")
+                    update_query = """
+                            UPDATE chart
+                            SET start_price = %s, end_price = %s, high_price = %s, low_price = %s, volume = %s
+                            WHERE stock_id = %s AND date = %s
+                            """
+                    cursor.execute(update_query, (
+                        int(row['시가']), int(row['종가']), int(row['고가']), int(row['저가']), int(row['거래량']),
+                        stock_id, index.strftime('%Y-%m-%d')))
+                else:
+                    print("already")
+                    continue
+            else:
+                # 중복 데이터가 없으면 새로운 데이터로 저장
+                print("save new")
+                insert_query = """
+                           INSERT INTO chart (stock_id, date, start_price, end_price, high_price, low_price, volume)
+                           VALUES (%s, %s, %s, %s, %s, %s, %s)
+                           """
+                cursor.execute(insert_query, (
+                stock_id, index.strftime('%Y-%m-%d'), int(row['시가']), int(row['종가']), int(row['고가']), int(row['저가']),
+                int(row['거래량'])))
         conn.commit()
         return "일봉 데이터가 MySQL에 저장되었습니다."
     except Exception as e:
