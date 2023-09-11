@@ -23,6 +23,11 @@
   margin-top: 5px;
   background-color:#d9d9d96f;
   border-radius: 2px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.image-container:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 /* title 영역 */
@@ -37,6 +42,10 @@
 
 .stock-box {
   display: flex;
+}
+
+.stock-box:hover {
+  font-weight: 550;
 }
 
 .stock-img {
@@ -63,10 +72,18 @@
   margin-top: 10px;
 }
 
+.title:hover {
+  font-weight: 550;
+}
+
 /* 내용 및 프로필 영역 */
 .content-container {
   padding: 7px 15px;
   height: 120px;
+}
+
+.content-container:hover {
+  font-weight: 550;
 }
 
 .content {
@@ -83,6 +100,10 @@
 
 .profile-container {
   display: flex;
+}
+
+.profile-container:hover {
+  font-weight: 450;
 }
 
 .time {
