@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -25,7 +24,7 @@ public class AwsS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName; //버킷 이름
 
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
+    public String uploadFile(MultipartFile multipartFile) {
         validateFileExists(multipartFile); //파일이 있는지 확인하는 메서드
 
         String fileName = CommonUtils.buildFileName(Objects.requireNonNull(multipartFile.getOriginalFilename())); //fileName
