@@ -147,7 +147,7 @@ def save_all_news():
         conn.commit()
 
         # urls.append("https://finance.naver.com/item/news_news.nhn?code=005930&page=")
-        for stock_id in stock_ids:
+        for stock_id in stock_ids[:1000]:
             urls.append(
                 "https://finance.naver.com/item/news_news.nhn?code="
                 + stock_id
