@@ -2,6 +2,10 @@ package com.ohgood.newstocks.stock.service;
 
 import com.ohgood.newstocks.news.dto.NewsResDto;
 import com.ohgood.newstocks.news.service.NewsService;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteDto;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
+import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteMapper;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
 import com.ohgood.newstocks.stock.dto.ChartDto;
 import com.ohgood.newstocks.stock.dto.ChartResDto;
 import com.ohgood.newstocks.stock.dto.ChartSeriesDto;
@@ -20,6 +24,7 @@ public class StockService {
 
     private final ChartRepository chartRepository;
     private final NewsService newsService;
+    private final ReviewNoteRepository reviewNoteRepository;
 
     public ChartResDto findChartSeriesByStockId(String stockId) {
         List<ChartSeriesDto> chartSeriesDtoList = new ArrayList<>();
@@ -44,19 +49,49 @@ public class StockService {
         List<DataDto> chartDataDtoList = new ArrayList<>();
         List<ChartDto> chartDtoList = findAllChartDto(stockId);
         for (ChartDto chartDto : chartDtoList) {
-            chartDataDtoList.add(ChartMapper.INSTANCE.chartDtoToChartDataDto(chartDto));
+            chartDataDtoList.add(ChartMapper.INSTANCE.chartDtoToDataDto(chartDto));
         }
         return chartDataDtoList;
     }
 
+    public List<ChartDto> findAllChartDto(String stockId) {
+        List<Chart> chartList = chartRepository.findAllChartByStockIdOrderByDate(stockId);
+        List<ChartDto> chartDtoList = new ArrayList<>();
+        for (Chart chart : chartList) {
+            chartDtoList.add(ChartMapper.INSTANCE.entityToChartDto(chart));
+        }
+        return chartDtoList;
+    }
+
+    //리뷰노트dto받고 리뷰노트datadto로 받아서 전달하기
     private List<DataDto> findAllReviewNoteDataByStockId(String stockId) {
         List<DataDto> reviewNoteDataDtoList = new ArrayList<>();
-        List<ChartDto> chartDtoList = findAllChartDto(stockId);
-        for (ChartDto chartDto : chartDtoList) {
-            reviewNoteDataDtoList.add(ChartMapper.INSTANCE.chartDtoToChartDataDto(chartDto));
+        List<ReviewNoteDto> reviewNoteDtoList = findAllReviewNoteDto(stockId);
+
+        for (ReviewNoteDto reviewNoteDto : reviewNoteDtoList) {
+            reviewNoteDataDtoList.add(
+                ReviewNoteMapper.INSTANCE.reviewNoteDtoToDataDto(reviewNoteDto));
         }
         return reviewNoteDataDtoList;
     }
+
+    public List<ReviewNoteDto> findAllReviewNoteDto(String stockId) {
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockId(stockId);
+        List<ReviewNoteDto> reviewNoteDtoList = new ArrayList<>();
+        for (ReviewNote reviewNote : reviewNoteList) {
+            reviewNoteDtoList.add(ReviewNoteMapper.INSTANCE.entityToReviewNoteDto(reviewNote));
+        }
+        return reviewNoteDtoList;
+    }
+
+    /*
+    여기서부터 아직 구현 안함
+
+
+
+
+     */
+
 
     private List<DataDto> findAllNewsDataByStockId(String stockId) {
         List<DataDto> newsDataDtoList = new ArrayList<>();
@@ -67,30 +102,11 @@ public class StockService {
         return newsDataDtoList;
     }
 
-
-    public List<ChartDto> findAllChartDto(String stockId) {
-        List<Chart> chartList = chartRepository.findAllChartByStockId(stockId);
-        List<ChartDto> chartDtoList = new ArrayList<>();
-        for (Chart chart : chartList) {
-            chartDtoList.add(ChartMapper.INSTANCE.chartEntityToChartDto(chart));
-        }
-        return chartDtoList;
-    }
-
-    public List<ChartDto> findAllReviewNoteDto(String stockId) {
-        List<Chart> chartList = chartRepository.findAllChartByStockId(stockId);
-        List<ChartDto> chartDtoList = new ArrayList<>();
-        for (Chart chart : chartList) {
-            chartDtoList.add(ChartMapper.INSTANCE.chartEntityToChartDto(chart));
-        }
-        return chartDtoList;
-    }
-
     public List<ChartDto> findAllNewsDto(String stockId) {
-        List<Chart> chartList = chartRepository.findAllChartByStockId(stockId);
+        List<Chart> chartList = chartRepository.findAllChartByStockIdOrderByDate(stockId);
         List<ChartDto> chartDtoList = new ArrayList<>();
         for (Chart chart : chartList) {
-            chartDtoList.add(ChartMapper.INSTANCE.chartEntityToChartDto(chart));
+            chartDtoList.add(ChartMapper.INSTANCE.entityToChartDto(chart));
         }
         return chartDtoList;
     }

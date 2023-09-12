@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ReviewNoteReqDto {
+
+    private String title;
     private Integer buyPrice;
     private Integer sellPrice;
     private Integer sellQuantity;
@@ -29,7 +31,11 @@ public class ReviewNoteReqDto {
     private List<MultipartFile> multipartFileList;
 
     @Builder
-    public ReviewNoteReqDto(int buyPrice, int sellPrice, int sellQuantity, int buyQuantity, String content, String stockId, LocalDateTime buyDate, LocalDateTime sellDate, LocalDateTime settingDate, NoteType type, Boolean display, Boolean privacy, List<Long> newsIdList, List<MultipartFile> multipartFileList) {
+    public ReviewNoteReqDto(String title, int buyPrice, int sellPrice, int sellQuantity,
+        int buyQuantity, String content, String stockId, LocalDateTime buyDate,
+        LocalDateTime sellDate, LocalDateTime settingDate, NoteType type, Boolean display,
+        Boolean privacy, List<Long> newsIdList, List<MultipartFile> multipartFileList) {
+        this.title = title;
         this.buyPrice = buyPrice;
         this.sellPrice = sellPrice;
         this.sellQuantity = sellQuantity;

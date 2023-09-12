@@ -7,5 +7,5 @@ import lombok.Data;
 public class DataDto {
 
     private String x;
-    private List<Integer> y;
+    private List<Object> y;
 }

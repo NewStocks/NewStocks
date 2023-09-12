@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChartRepository extends JpaRepository<Chart, Long> {
 
-    List<Chart> findAllChartByStockId(String stockId);
+    List<Chart> findAllChartByStockIdOrderByDate(String stockId);
 }

@@ -1,6 +1,6 @@
 package com.ohgood.newstocks.stock.mapper;
 
-import com.ohgood.newstocks.stock.dto.ChartDataDto;
+import com.ohgood.newstocks.stock.dto.DataDto;
 import com.ohgood.newstocks.stock.dto.ChartDto;
 import com.ohgood.newstocks.stock.entity.Chart;
 import java.util.ArrayList;
@@ -14,19 +14,19 @@ public interface ChartMapper {
 
     ChartMapper INSTANCE = Mappers.getMapper(ChartMapper.class);
 
-    ChartDto chartEntityToChartDto(Chart chart);
+    ChartDto entityToChartDto(Chart chart);
 
     @Mapping(source = "date", target = "x", dateFormat = "yyyy/MM/dd")
     @Mapping(target = "y", expression = "java(mapPrices(chartDto))")
-    ChartDataDto chartDtoToChartDataDto(ChartDto chartDto);
+    DataDto chartDtoToDataDto(ChartDto chartDto);
 
-    default List<Integer> mapPrices(ChartDto chartDto) {
-        List<Integer> prices = new ArrayList<>();
-        prices.add(chartDto.getStartPrice());
-        prices.add(chartDto.getHighPrice());
-        prices.add(chartDto.getLowPrice());
-        prices.add(chartDto.getEndPrice());
-        prices.add(chartDto.getVolume().intValue());
-        return prices;
+    default List<Object> mapPrices(ChartDto chartDto) {
+        List<Object> priceList = new ArrayList<>();
+        priceList.add(chartDto.getStartPrice());
+        priceList.add(chartDto.getHighPrice());
+        priceList.add(chartDto.getLowPrice());
+        priceList.add(chartDto.getEndPrice());
+        priceList.add(chartDto.getVolume().intValue());
+        return priceList;
     }
 }

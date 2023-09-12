@@ -25,6 +25,9 @@ public class ReviewNote extends BaseEntity {
     private Long id;
 
     @NotNull
+    private String title;
+
+    @NotNull
     private int likeCount;
 
     @NotNull
@@ -93,7 +96,12 @@ public class ReviewNote extends BaseEntity {
     private List<ReviewNoteNews> reviewNoteNewsList;
 
     @Builder
-    public ReviewNote(Boolean privacy, LocalDateTime settingDate, LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity, int sellQuantity, String content, NoteType type, Boolean display, Member member, List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList, Stock stock) {
+    public ReviewNote(String title, Boolean privacy, LocalDateTime settingDate,
+        LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity,
+        int sellQuantity, String content, NoteType type, Boolean display, Member member,
+        List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList,
+        Stock stock) {
+        this.title = title;
         this.likeCount = 0;
         this.scrapCount = 0;
         this.privacy = privacy;
