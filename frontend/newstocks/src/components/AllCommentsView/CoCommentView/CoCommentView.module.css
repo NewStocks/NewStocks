@@ -1,0 +1,56 @@
+.comment-container {
+  padding: 10px;
+  display: flex;
+}
+
+.left {
+  width: 10px;
+}
+
+.right {
+  width: 100%;
+  margin-left: 15px;
+}
+
+.profile {
+  display: flex;
+  padding: 10px;
+}
+
+.profile div {
+  margin-right: 8px;
+}
+
+.profile-img {
+  width: 25px;
+  height: 25px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 6px;
+}
+
+/* 댓글 */
+.content {
+  padding: 10px;
+  margin: 20px 0;
+}
+
+/* 좋아요, 대댓글 */
+.icons {
+  display: flex;
+  padding: 10px;
+}
+
+.icons div {
+  display: flex;
+  margin-right: 10px;
+}
+
+.icons div p {
+  margin: 0;
+  margin-left: 7px;
+}
+
+.comment-container hr {
+  color: white;
+}

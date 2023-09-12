@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './CommentInput.module.css'
 import Button from '../Button/Button'
 

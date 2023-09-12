@@ -6,9 +6,9 @@ import CoCommentView from './CoCommentView/CoCommentView'
 
 export default function AllCommentsView() {
   return (
-    <>
+    <div className={styles["all-comments-container"]}>
       <CommentView />
       <CoCommentView />
-    </>
+    </div>
   );
 }

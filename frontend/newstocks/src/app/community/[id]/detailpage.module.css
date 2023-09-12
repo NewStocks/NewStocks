@@ -157,6 +157,7 @@
 
 /* 댓글 작성 */
 .commentinput-container {
+  margin-bottom: 15px;
 }
 
 /* 댓글 view */
