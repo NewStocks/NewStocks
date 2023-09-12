@@ -19,22 +19,20 @@ db_config = {
     "database": os.getenv("DB_NAME"),
 }
 
-# 현재 날짜와 시간 가져오기
-current_datetime = datetime.now()
-
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
-one_day_ago = current_datetime - timedelta(days=1)
+one_day_ago = datetime.now() - timedelta(days=1)
 
-start_time, end, cnt = 0, 0, 0
+start_time, end, cnt, is_all = 0, 0, 0, False
 urls, infos = [], []
+all_page = 0
 
 
 def crawler(URL):
-    global cnt
+    global cnt, is_all, all_page
     print(cnt)
     cnt += 1
     page = 1
-    while True:
+    while page <= 400:
         url = URL + str(page)
         source_code = requests.get(url).text
         html = BeautifulSoup(source_code, "html.parser")
@@ -53,25 +51,28 @@ def crawler(URL):
             date_text = date.get_text()
             company_text = company.get_text()
 
-            # 날짜 문자열을 날짜로 변환
-            news_date = datetime.strptime(date_text.split()[0], "%Y.%m.%d").date()
-
-            # 어제 날짜보다 이전이면 반복문 종료
-            if news_date > one_day_ago.date():
-                continue
-            elif news_date < one_day_ago.date():
-                isEmpty = True
-                break
+            if not is_all:
+                # 날짜 문자열을 날짜로 변환
+                news_date = datetime.strptime(date_text.split()[0], "%Y.%m.%d").date()
+                # 어제 날짜보다 이전이면 반복문 종료
+                if news_date > one_day_ago.date():
+                    continue
+                elif news_date < one_day_ago.date():
+                    isEmpty = True
+                    break
 
             # 정보 추가
             infos.append([company_text, date_text, title_text, link_url, link_url[-6:]])
 
         # 해당 페이지에 기사가 더이상 없다면
-        if isEmpty:
+        last = html.select(".pgRR")
+        if isEmpty or len(last) == 0:
             break
 
         page += 1
+        all_page += 1
 
+    # print(infos[-1][4], page)
     return
 
 
@@ -120,7 +121,65 @@ def save_news():
             conn.commit()
 
         print("실행 시간: ", time.time() - start_time)
-        return "데이터가 MySQL에 저장되었습니다."
+        return "어제의 뉴스가 저장되었습니다."
+
+    except Exception as e:
+        return f"오류 발생: {str(e)}"
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.route("/save-all-news", methods=["POST"])
+def save_all_news():
+    global infos, is_all
+
+    try:
+        # MySQL 연결
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor()
+
+        # 종목 코드 가져오기
+        cursor.execute("SELECT id FROM stock")
+        lst = cursor.fetchall()
+        stock_ids = [k[0] for k in lst]
+        conn.commit()
+
+        # urls.append("https://finance.naver.com/item/news_news.nhn?code=005930&page=")
+        for stock_id in stock_ids:
+            urls.append(
+                "https://finance.naver.com/item/news_news.nhn?code="
+                + stock_id
+                + "&page="
+            )
+
+        is_all = True
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            executor.map(crawler, urls)
+
+        print("뉴스 개수: ", len(infos))
+        print("페이지 수: ", all_page)
+
+        # 데이터프레임을 MySQL 테이블에 저장
+        for company, publish_time, title, url, stock_id in infos:
+            # URL을 사용하여 데이터베이스에서 검색
+            cursor.execute("SELECT id FROM news WHERE url = %s", (url,))
+            existing_row = cursor.fetchone()
+
+            # URL이 데이터베이스에 없을 경우에만 데이터 삽입
+            if not existing_row:
+                insert_query = """
+                INSERT INTO news (company, publish_time, title, url, stock_id)
+                VALUES (%s, %s, %s, %s, %s)
+                """
+                cursor.execute(
+                    insert_query, (company, publish_time, title, url, stock_id)
+                )
+            conn.commit()
+
+        print("실행 시간: ", time.time() - start_time)
+        return "모든 뉴스가 저장되었습니다."
 
     except Exception as e:
         return f"오류 발생: {str(e)}"
