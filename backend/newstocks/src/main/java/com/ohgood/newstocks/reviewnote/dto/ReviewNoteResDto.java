@@ -22,6 +22,7 @@ import java.util.List;
 public class ReviewNoteResDto {
 
     private Long id;
+    private String title;
     private Integer buyPrice;
     private Integer sellPrice;
     private Integer sellQuantity;
