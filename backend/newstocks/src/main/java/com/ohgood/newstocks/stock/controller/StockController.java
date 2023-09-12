@@ -20,7 +20,7 @@ public class StockController {
     @GetMapping("/find-chart/{stock-id}")
     public ResponseEntity<ChartResDto> findChartSeriesByStockId(
         @PathVariable("stock-id") String stockId) {
-        ChartResDto chartResDto = stockService.findChartSeries(stockId);
+        ChartResDto chartResDto = stockService.findChartSeriesByStockId(stockId);
         return new ResponseEntity<>(chartResDto, HttpStatus.OK);
     }
 }
