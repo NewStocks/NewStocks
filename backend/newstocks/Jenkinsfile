@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Gradle Build') {
             steps {
-                dir('Backend') {
+                dir('backend/newstocks') {
                     sh 'chmod +x gradlew'
                     sh './gradlew clean build -x test'
                 }
@@ -13,7 +13,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                dir('Backend') {
+                dir('backend/newstocks') {
                     sh 'docker build -t newstocks:latest .'
                 }
             }
