@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Gradle Build') {
+            steps {
+                dir('Backend') {
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean build -x test'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                dir('Backend') {
+                    sh 'docker build -t newstocks:latest .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker rm -f back'
+                sh 'docker run -d --name back -p 8200:8200 -u root newstocks:latest'
+            }
+        }
+
+        stage('Finish') {
+            steps {
+                sh 'docker images -qf dangling=true | xargs -I{} docker rmi {}'
+            }
+        }
+    }
+}

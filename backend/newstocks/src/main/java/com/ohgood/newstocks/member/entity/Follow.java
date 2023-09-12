@@ -2,13 +2,13 @@ package com.ohgood.newstocks.member.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
         @UniqueConstraint(name="follow_uq", columnNames = {"follower_id", "following_id"})
 })
@@ -18,10 +18,12 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "follower_id")
     private Long followerId;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "following_id")
     private Long followingId;
 
     @Builder
