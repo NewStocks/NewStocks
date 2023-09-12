@@ -7,11 +7,11 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { IoIosArrowForward } from "react-icons/io";
 
 export default function CommunityNav() {
-  const [mytoggle, setMytoggle] = useState<boolean>(false);
-  const [pagename, setpageName] = useState<string | null>(null);
-  const tabsRef = useRef<HTMLDivElement | null>(null);
-  const highlightRef = useRef<HTMLDivElement | null>(null);
-  const mynoteRef = useRef<HTMLDivElement | null>(null);
+  const [mytoggle, setMytoggle] = useState(false);
+  const [pagename, setpageName] = useState(null);
+  const tabsRef = useRef(null);
+  const highlightRef = useRef(null);
+  const mynoteRef = useRef(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   
@@ -22,7 +22,7 @@ export default function CommunityNav() {
 
     const highlight = highlightRef.current;
     if (tabsRef.current !== null) {
-      const tabs = tabsRef.current.querySelectorAll('.tab') as NodeListOf<HTMLDivElement>;
+      const tabs = tabsRef.current.querySelectorAll('.tab');
 
       tabs.forEach(tab => {
         tab.addEventListener('click', (e) => {
@@ -37,7 +37,7 @@ export default function CommunityNav() {
             highlight.style.top = tabTop + 'px';
           }
   
-          if (e.target && (e.target as HTMLElement).innerHTML=="나의 노트") {
+          if (e.target && (e.target).innerHTML=="나의 노트") {
             setMytoggle(true)
             // mynote.style.setProperty("--toggle", "90deg");
           } else {
@@ -47,27 +47,27 @@ export default function CommunityNav() {
         });
       });
       
-    //   if (pathname?.slice(11)) {
-    //   const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
+      if (pathname?.slice(11)) {
+      const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
 
-    //   selected.classList.add('active');
+      selected.classList.add('active');
   
-    //   const tabHeight = selected.offsetHeight;
-    //   const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
+      const tabHeight = selected.offsetHeight;
+      const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
 
-    //   if (highlight) {
-    //   highlight.style.height = tabHeight + 'px';
-    //   highlight.style.top = tabTop + 'px';
-    //   }
+      if (highlight) {
+      highlight.style.height = tabHeight + 'px';
+      highlight.style.top = tabTop + 'px';
+      }
 
-    //   if (pathname?.slice(11)=="mine") {
-    //     setMytoggle(true)
-    //     // mynote.style.setProperty("--toggle", "90deg");
-    //   } else {
-    //     setMytoggle(false)
-    //     // mynote.style.setProperty("--toggle", "0deg");
-    //   }
-    // }
+      if (pathname?.slice(11)=="mine") {
+        setMytoggle(true)
+        // mynote.style.setProperty("--toggle", "90deg");
+      } else {
+        setMytoggle(false)
+        // mynote.style.setProperty("--toggle", "0deg");
+      }
+    }
   }
   }, [])
 
