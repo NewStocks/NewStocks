@@ -52,11 +52,11 @@ export default function RootLayout({
               <Chart />
             </div>
             <div>
-              뉴스 보여지는 곳
+              {/* 뉴스 보여지는 곳 */}
             </div>
           </div>
             <div>
-              {/* {children} */}
+              {children}
               <div id="portal"></div>
             </div>
             <div className={styles["Side-container"]}>
