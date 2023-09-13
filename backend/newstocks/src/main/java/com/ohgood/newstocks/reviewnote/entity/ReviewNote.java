@@ -90,10 +90,17 @@ public class ReviewNote extends BaseEntity {
     @JsonIgnore
     private Stock stock;
 
+
+    // 실제 사용하지 않기로 함
     @OneToMany(mappedBy = "reviewNote")
     @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<ReviewNoteNews> reviewNoteNewsList;
+
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteLink> reviewNoteLinkList;
 
     @Builder
     public ReviewNote(String title, Boolean privacy, LocalDateTime settingDate,
