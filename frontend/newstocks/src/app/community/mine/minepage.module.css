@@ -1,11 +1,42 @@
 .main {
-  /* background-color: #00051E;
-  color: white; */
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
+  padding: 4rem 5rem;
   min-height: 100vh;
+}
+
+.upper-title {
+  font-size: 20px;
+  font-weight: 400;
+
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+
+.page-title {
+  font-size: 43px; 
+  font-weight: 700;
+}
+
+.my-button-box {
+  display: flex;
+  margin-top: 34px;
+}
+
+.sorted-Button-width {
+  width: 110px;
+  height: 37px;
+  margin-right: 20px;
+}
+
+#following {
+  width: 130px;
+}
+
+/* content 영역 */
+.cards-container {
+  width: 103.3%;
+  display: flex;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  margin: 35px 0 0 0;
 }

@@ -1,0 +1,54 @@
+.stock-box {
+  display: flex;
+}
+
+/* 1 */
+.first-box {
+  display: flex;
+  margin-right: 5px;
+}
+
+.first-box div {
+  margin-right: 6px;
+}
+
+.stock-info {
+  color: #8C8C8C;
+  font-size: 14px;
+  padding-top: 1.5px;
+}
+
+.stock-img {
+  width: 25px;
+  height: 25px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 6px;
+}
+
+/* 2 */
+.second-box {
+  display: flex;
+  margin-right: 5px;
+}
+
+.second-box div {
+  margin-right: 6px;
+}
+
+.upper-case {
+  color: #F00;
+}
+
+#KOSPI {
+  font-size: 17px;
+}
+
+/* 3 */
+.third-box {
+  display: flex;
+}
+
+.third-box div {
+  margin-right: 6px;
+}
