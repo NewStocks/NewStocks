@@ -24,7 +24,7 @@ public class ReviewNoteReqDto {
     private LocalDateTime sellDate;
     private LocalDateTime settingDate;
     private NoteType type;
-    private Boolean display;
+//    private Boolean display;
     private Boolean privacy;
     private String stockId;
     private List<Long> newsIdList;
@@ -33,7 +33,7 @@ public class ReviewNoteReqDto {
     @Builder
     public ReviewNoteReqDto(String title, int buyPrice, int sellPrice, int sellQuantity,
         int buyQuantity, String content, String stockId, LocalDateTime buyDate,
-        LocalDateTime sellDate, LocalDateTime settingDate, NoteType type, Boolean display,
+        LocalDateTime sellDate, LocalDateTime settingDate, NoteType type,
         Boolean privacy, List<Long> newsIdList, List<MultipartFile> multipartFileList) {
         this.title = title;
         this.buyPrice = buyPrice;
@@ -46,7 +46,6 @@ public class ReviewNoteReqDto {
         this.settingDate = settingDate;
         this.type = type;
         this.stockId = stockId;
-        this.display = display;
         this.privacy = privacy;
         this.newsIdList = newsIdList;
         this.multipartFileList = multipartFileList;
