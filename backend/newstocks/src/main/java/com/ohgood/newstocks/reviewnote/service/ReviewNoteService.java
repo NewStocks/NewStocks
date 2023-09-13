@@ -8,10 +8,13 @@ import com.ohgood.newstocks.news.entity.News;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.repository.NewsRepository;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteImageDto;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteLinkDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLink;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteLinkRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteImageRepository;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteNews;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteNewsRepository;
@@ -32,6 +35,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReviewNoteService {
+
+    private final ReviewNoteLinkRepository reviewNoteLinkRepository;
 
     private final ReviewNoteRepository reviewNoteRepository;
     private final MemberRepository memberRepository;
@@ -68,6 +73,15 @@ public class ReviewNoteService {
             }
         }
 
+        // 링크 처리
+        if (reviewNoteReqDto.getLinkList() != null) {
+            for (String url : reviewNoteReqDto.getLinkList()) {
+                ReviewNoteLink reviewNoteLink = reviewNoteLinkRepository.save(new ReviewNoteLink(url, reviewNote));
+                reviewNote.getReviewNoteLinkList().add(reviewNoteLink);
+                reviewNoteResDto.getReviewNoteLinkList().add(new ReviewNoteLinkDto(reviewNoteLink.getId(), url));
+            }
+        }
+
         // TODO Stock, Member와는 형식이 다른데 통일할지 고민
         List<Long> newsIdList = reviewNoteReqDto.getNewsIdList();
         if (newsIdList != null) {
@@ -96,6 +110,10 @@ public class ReviewNoteService {
         reviewNoteResDto.addDetailDtos(reviewNote.getMember(), reviewNote.getStock());
 
         return reviewNoteResDto;
+    }
+
+    public ReviewNoteResDto updateReviewNote() {
+        return null;
     }
 
     public ReviewNote findReviewNoteById(Long reviewNoteId) {
