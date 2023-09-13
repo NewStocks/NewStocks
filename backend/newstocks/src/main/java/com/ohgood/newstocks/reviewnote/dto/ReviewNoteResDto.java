@@ -37,6 +37,7 @@ public class ReviewNoteResDto {
     private StockDto stockDto;
     private MemberDto memberDto;
     private List<ReviewNoteImageDto> reviewNoteImageDtoList = new ArrayList<>();
+    private List<ReviewNoteLinkDto> reviewNoteLinkList = new ArrayList<>();
     private List<NewsDto> newsDtoList = new ArrayList<>();
 
     @JsonIgnore

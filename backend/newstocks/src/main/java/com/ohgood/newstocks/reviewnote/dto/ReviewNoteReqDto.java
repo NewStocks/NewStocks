@@ -28,6 +28,7 @@ public class ReviewNoteReqDto {
     private Boolean privacy;
     private String stockId;
     private List<Long> newsIdList;
+    private List<String> linkList;
     private List<MultipartFile> multipartFileList;
 
     @Builder
