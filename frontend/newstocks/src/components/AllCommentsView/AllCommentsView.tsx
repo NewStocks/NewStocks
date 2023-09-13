@@ -7,6 +7,7 @@ import CoCommentView from './CoCommentView/CoCommentView'
 export default function AllCommentsView() {
   return (
     <div className={styles["all-comments-container"]}>
+      <h2>댓글 12</h2>
       <CommentView />
       <CoCommentView />
     </div>

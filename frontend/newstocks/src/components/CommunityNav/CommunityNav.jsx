@@ -161,8 +161,8 @@ export default function CommunityNav() {
         <Link href='/community/all' style={{ textDecoration: "none", color: "white"}}><p>전체노트</p></Link>
         </div>
 
-        <div className="tab">
-          공지사항
+        <div className="tab notice">
+          <Link href='/community/notice' style={{ textDecoration: "none", color: "white"}}><p>공지사항</p></Link>
         </div>
 
       </div>
