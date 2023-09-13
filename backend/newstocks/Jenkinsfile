@@ -21,8 +21,10 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker rm -f back'
-                sh 'docker run -d --env-file .env --name back -p 8200:8200 -u root newstocks:latest'
+                dir('backend/newstocks') {
+                    sh 'docker rm -f back'
+                    sh 'docker run -d --env-file .env --name back -p 8200:8200 -u root newstocks:latest'
+                }
             }
         }
 
