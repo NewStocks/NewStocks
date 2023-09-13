@@ -1,6 +1,7 @@
 package com.ohgood.newstocks.stock.service;
 
-import com.ohgood.newstocks.news.dto.NewsResDto;
+import com.ohgood.newstocks.news.dto.NewsDto;
+import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.service.NewsService;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
@@ -84,21 +85,12 @@ public class StockService {
         return reviewNoteDtoList;
     }
 
-    /*
-    여기서부터 아직 구현 안함
-
-
-
-
-     */
-
-
     private List<DataDto> findAllNewsDataByStockId(String stockId) {
         List<DataDto> newsDataDtoList = new ArrayList<>();
-        List<NewsResDto> NewsDtoList = newsService.findAllNewsByStockId(stockId);
-//        for (NewsResDto newsResDto : NewsDtoList) {
-//            newsDataDtoList.add(NewsMapper.INSTANCE.chartDtoToChartDataDto(chartDto));
-//        }
+        List<NewsDto> NewsDtoList = newsService.findAllNewsDtoByStockId(stockId);
+        for (NewsDto newsDto : NewsDtoList) {
+            newsDataDtoList.add(NewsMapper.INSTANCE.NewsDtoToDataDto(newsDto));
+        }
         return newsDataDtoList;
     }
 

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class NewsDto {
 
-    private Long id;
+    private String stockId;
 
     private String title;
 
