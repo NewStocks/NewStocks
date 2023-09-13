@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 // 빠른 작업위해 CSR로 작업하고, 추후 SSG로 개선 예정
 
 import styles from './minepage.module.css'
