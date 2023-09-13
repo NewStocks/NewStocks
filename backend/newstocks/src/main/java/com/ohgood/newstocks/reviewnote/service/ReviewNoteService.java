@@ -5,7 +5,7 @@ import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.entity.News;
-import com.ohgood.newstocks.news.mapper.NewsMapStruct;
+import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.repository.NewsRepository;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteImageDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
@@ -75,7 +75,7 @@ public class ReviewNoteService {
                 News news = findNewsById(newsId);
                 ReviewNoteNews reviewNoteNews = reviewNoteNewsRepository.save(new ReviewNoteNews(reviewNote, news));
                 reviewNote.getReviewNoteNewsList().add(reviewNoteNews);
-                NewsDto newsDto = NewsMapStruct.INSTANCE.entityToNewsDto(news);
+                NewsDto newsDto = NewsMapper.INSTANCE.entityToNewsDto(news);
                 reviewNoteResDto.getNewsDtoList().add(newsDto);
             }
         }

@@ -2,7 +2,7 @@ package com.ohgood.newstocks.news.service;
 
 import com.ohgood.newstocks.news.dto.ValueChainNewsDto;
 import com.ohgood.newstocks.news.entity.ValueChainNews;
-import com.ohgood.newstocks.news.mapper.NewsMapStruct;
+import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.repository.ValueChainNewsRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class ValueChainNewsService {
 
         for (ValueChainNews valueChainNews : valueChainNewsList) {
             valueChainNewsDtoList.add(
-                NewsMapStruct.INSTANCE.entityToValueChainNewsDto(valueChainNews));
+                NewsMapper.INSTANCE.entityToValueChainNewsDto(valueChainNews));
         }
 
         return valueChainNewsDtoList;
@@ -38,7 +38,7 @@ public class ValueChainNewsService {
 
         for (ValueChainNews valueChainNews : valueChainNewsList) {
             valueChainNewsDtoList.add(
-                NewsMapStruct.INSTANCE.entityToValueChainNewsDto(valueChainNews));
+                NewsMapper.INSTANCE.entityToValueChainNewsDto(valueChainNews));
         }
 
         return valueChainNewsDtoList;
