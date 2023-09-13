@@ -10,6 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-query": "^4.33.0",
@@ -20,6 +21,7 @@
     "axios": "^1.5.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "lightweight-charts": "^4.0.1",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.1",
