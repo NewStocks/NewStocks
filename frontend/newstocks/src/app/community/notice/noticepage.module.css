@@ -55,7 +55,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  
+  cursor: pointer;
+}
+
+.title:hover {
+  text-decoration: underline;
 }
 
 .time {

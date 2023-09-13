@@ -1,4 +1,14 @@
+'use client';
+
 import styles from './noticepage.module.css';
+
+import styled from 'styled-components'
+import Link from 'next/link';
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
 
 export default function NoticePage() {
   return (
@@ -14,7 +24,7 @@ export default function NoticePage() {
         <div className={styles["notice"]}>
           <div className={styles["title-box"]}>
             <div className={styles["highlight"]}>공지</div>
-            <div className={styles["title"]}>서버 점검 안내 (8/31)</div>
+            <div className={styles["title"]}><StyledLink href="/community/1">서버 점검 안내 (8/31)</StyledLink></div>
           </div>
           <div className={styles["time"]}>23.09.13 16:56</div>
         </div>
