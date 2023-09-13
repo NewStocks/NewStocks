@@ -7,6 +7,12 @@ import os
 import requests
 import time
 from concurrent.futures import ThreadPoolExecutor
+import re
+import hanja
+from sklearn.cluster import DBSCAN
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 app = Flask(__name__)
 load_dotenv()
@@ -22,16 +28,25 @@ db_config = {
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
 one_day_ago = datetime.now() - timedelta(days=1)
 
-start_time, end, cnt, is_all = 0, 0, 0, False
+start_time, end, process_count, is_all = 0, 0, 0, False
 urls, infos = [], []
+url_set = set()
+all_page = 0
+
+
+def reset_global_variable():
+    global process_count, urls, infos, url_set, all_page
+
+    process_count, urls, infos, url_set, all_page = 0, [], [], set(), 0
+    return
 
 
 def crawler(URL):
-    global cnt, is_all
-    print(cnt)
-    cnt += 1
-    page = 2304
-    while True:
+    global process_count, is_all, all_page, url_set
+    print(process_count, URL[-12:-6])
+    process_count += 1
+    page = 1
+    while page <= 400:
         url = URL + str(page)
         source_code = requests.get(url).text
         html = BeautifulSoup(source_code, "html.parser")
@@ -50,6 +65,10 @@ def crawler(URL):
             date_text = date.get_text()
             company_text = company.get_text()
 
+            if link_url in url_set:
+                continue
+            url_set.add(link_url)
+
             if not is_all:
                 # 날짜 문자열을 날짜로 변환
                 news_date = datetime.strptime(date_text.split()[0], "%Y.%m.%d").date()
@@ -61,73 +80,133 @@ def crawler(URL):
                     break
 
             # 정보 추가
-            infos.append([company_text, date_text, title_text, link_url, link_url[-6:]])
+            infos.append(
+                [company_text, date_text[1:], title_text, link_url, link_url[-6:]]
+            )
 
         # 해당 페이지에 기사가 더이상 없다면
-        if isEmpty or len(html.select(".pgRR")) == 0:
+        last = html.select(".pgRR")
+        if isEmpty or len(last) == 0:
             break
 
         page += 1
+        all_page += 1
 
+    # print(infos[-1][4], page)
     return
+
+
+def preprocessing(titles):
+    def cleansing_chinese(sentence=None):
+        """
+        한자를 변환하는 전처리를 하는 함수
+        :param sentence: 전처리 대상 문장
+        :return: 전처리 완료된 문장
+        """
+        # chinese character를 앞뒤로 괄호가 감싸고 있을 경우, 대부분 한글 번역임
+        sentence = re.sub(
+            "\([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+\)",
+            "",
+            sentence,
+        )
+        # 다른 한자가 있다면 한글로 치환
+        if (
+            re.search(
+                "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]",
+                sentence,
+            )
+            is not None
+        ):
+            sentence = hanja.translate(sentence, "substitution")
+
+        return sentence
+
+    # 전처리 함수 구성
+    def clean_text(text):
+        text = cleansing_chinese(text)
+        text = text.replace("&lt;", "<").replace("&gt;", ">")  # 괄호로 변경
+        # text = re.sub('(<([^>]+)>)', '', text) # 괄호내 문자와 괄호를 제거
+        text = text.replace("&#039", "").replace("&quot;", "")  # 의미 없는 문자 제거
+
+        pattern = "([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)"
+        text = re.sub(pattern=pattern, repl="", string=text)  # 이메일 제거
+
+        pattern = "(http|ftp|https)://(?:[-\w.]|(?:%[\da-fA-F]{2}))+"
+        text = re.sub(pattern=pattern, repl="", string=text)  # url 제거
+
+        pattern = "([ㄱ-ㅎㅏ-ㅣ]+)"
+        text = re.sub(pattern=pattern, repl="", string=text)  # 자음, 모음 만 존재시 제거
+
+        pattern = "[^\w\s.%]"
+        text = re.sub(
+            pattern=pattern, repl=" ", string=text
+        )  # 단어, 띄어쓰기, 문자"." 이외의 특수문자 모두 제거
+        text = text.strip()
+        text = " ".join(text.split())
+
+        return text
+
+    titles_preprocessed = [clean_text(title) for title in titles]
+
+    return titles_preprocessed
+
+
+def news_clustering(titles, idx):
+    titles_preprocessed = preprocessing(titles)
+    tfidf_vectorizer = TfidfVectorizer(min_df=1, ngram_range=(1, 2))
+    tfidf_vectorizer.fit(titles_preprocessed)
+
+    vector = tfidf_vectorizer.transform(titles_preprocessed).toarray()
+    vector = np.array(vector)
+    model = DBSCAN(eps=0.9, min_samples=1, metric="cosine")
+    result = model.fit_predict(vector)
+    for i in range(len(result)):
+        result[i] += idx
+    return result
 
 
 # @app.route("/save-all-news", methods=["POST"])
 def save_all_news():
     global infos, is_all
     is_all = True
-    crawler("https://finance.naver.com/item/news_news.nhn?code=005930&page=")
-    print(*infos, sep="\n")
-    # try:
-    #     # MySQL 연결
-    #     conn = pymysql.connect(**db_config)
-    #     cursor = conn.cursor()
 
-    #     # 종목 코드 가져오기
-    #     cursor.execute("SELECT id FROM stock")
-    #     lst = cursor.fetchall()
-    #     stock_ids = [k[0] for k in lst]
-    #     conn.commit()
+    # for stock_id in ["000020", "000040", "000050", "000070", "000075", "000080"]:
+    for stock_id in ["000050", "000070"]:
+        urls.append(
+            "https://finance.naver.com/item/news_news.nhn?code=" + stock_id + "&page="
+        )
 
-    #     for stock_id in stock_ids:
-    #         urls.append(
-    #             "https://finance.naver.com/item/news_news.nhn?code="
-    #             + stock_id
-    #             + "&page="
-    #         )
+    for url in urls:
+        crawler(url)
 
-    #     is_all = True
-    #     with ThreadPoolExecutor(max_workers=4) as executor:
-    #         executor.map(crawler, urls)
+    # 군집화
+    titles = []
+    all_titles = []
+    clustering = []
+    prev_date = infos[0][1][:7]  # 첫 뉴스의 발행 연도, 월
+    for _, date, title, _, _ in infos:
+        cur_date = date[:7]
+        if prev_date != cur_date:
+            print(titles)
+            clustering.extend(news_clustering(titles, len(clustering)))
+            prev_date = cur_date
+            titles = []
 
-    #     print("뉴스 개수: ", len(infos))
+        titles.append(title)
+        all_titles.append(title)
 
-    #     # 데이터프레임을 MySQL 테이블에 저장
-    #     for company, publish_time, title, url, stock_id in infos:
-    #         # URL을 사용하여 데이터베이스에서 검색
-    #         cursor.execute("SELECT id FROM news WHERE url = %s", (url,))
-    #         existing_row = cursor.fetchone()
+    clustering.extend(news_clustering(titles, len(clustering)))
 
-    #         # URL이 데이터베이스에 없을 경우에만 데이터 삽입
-    #         if not existing_row:
-    #             insert_query = """
-    #             INSERT INTO news (company, publish_time, title, url, stock_id)
-    #             VALUES (%s, %s, %s, %s, %s)
-    #             """
-    #             cursor.execute(
-    #                 insert_query, (company, publish_time, title, url, stock_id)
-    #             )
-    #         conn.commit()
+    clustered_list = set()
+    num_set = set()
+    for title, r in zip(all_titles, clustering):
+        if r not in num_set:
+            clustered_list.add((title))
+            num_set.add(r)
 
-    #     print("실행 시간: ", time.time() - start_time)
-    #     return "모든 뉴스가 저장되었습니다."
-
-    # except Exception as e:
-    #     return f"오류 발생: {str(e)}"
-
-    # finally:
-    #     cursor.close()
-    #     conn.close()
+    # print(*clustered_list, sep="\n")
+    print(len(clustered_list))
+    print(time.time() - start_time)
 
 
 if __name__ == "__main__":
