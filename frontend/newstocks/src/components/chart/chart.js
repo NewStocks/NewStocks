@@ -11,6 +11,7 @@ export default function ChartComponent() {
   const chart = useRef(null);
   const candlestickSeries = useRef(null);
   const tooltipRef = useRef(null);
+  const markertooltipRef = useRef(null);
   const chartApiRef = useRef(null);
   const volumeSeries = useRef(null);
 
@@ -24,43 +25,28 @@ export default function ChartComponent() {
         console.log(res.data);
         const code = res.data.name
         const data = res.data.series[0].data;
+        const seriesdata = res.data.series
         console.log(data)
+
+        setChartData((prevdata) => ({
+          ...prevdata,
+          title: code
+        }))
+
         const stockdata = data.map((item, index) => {
-          if (index<=494) {
-            return {
-              open: item.y[0], high: item.y[1], low: item.y[2], close: item.y[3], time: new Date(item.x).getTime()/1000
-            }
-          } else if (495<index<499){
-            return {
-              open: item.y[0], high: item.y[1], low: item.y[2], close: item.y[3], time: new Date(item.x).getTime()/1000+64072000
-            }
-          } else {
-            return {
-              open: item.y[0], high: item.y[1], low: item.y[2], close: item.y[3], time: new Date(item.x).getTime()/1000
-            }
+          return {
+            open: item.y[0], high: item.y[1], low: item.y[2], close: item.y[3], time: new Date(item.x).getTime()/1000
           }
         })
 
         const volumdata = data.map((item, index) => {
-          if (index<=494) {
-            return {
-              time: new Date(item.x).getTime()/1000, value: item.y[4]
-            }
-          } else if (495<index<499){
-            return {
-              time: new Date(item.x).getTime()/1000+64072000, value: item.y[4]
-            }
-          } else {
-            return {
-              time: new Date(item.x).getTime()/1000, value: item.y[4]
-            }
+          return {
+            time: new Date(item.x).getTime()/1000, value: item.y[4]
           }
         })
 
         console.log(stockdata)
         console.log(volumdata)
-
-
     
         candlestickSeries.current.setData(
           stockdata
@@ -68,20 +54,16 @@ export default function ChartComponent() {
         volumeSeries.current.setData(
           volumdata
         );
-        // chart.current.timeScale().fitContent();
-        
+
+        //tooltip 설정
         tooltipRef.current = document.createElement('div');
         tooltipRef.current.style = `width: 130px; height: 130px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.5)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
-        // tooltipRef.current.className = 'custom-tooltip'; // CSS 클래스를 정의해야 합니다.
-
         chartContainerRef.current.appendChild(tooltipRef.current);
-
         chartApiRef.current = chart.current;
 
-        // Crosshair 이벤트 핸들러를 등록하여 툴팁을 업데이트합니다.
         chartApiRef.current.subscribeCrosshairMove((param) => {
           if (
             param.point === undefined ||
@@ -101,7 +83,6 @@ export default function ChartComponent() {
             tooltipRef.current.style.display = 'block';
             const candledata = param.seriesData.get(candlestickSeries.current);
             const voldata = param.seriesData.get(volumeSeries.current);
-            // console.log(formattedTime, date)
             const { open, high, low, close, time } = candledata;
             const { value } = voldata;
             tooltipRef.current.innerHTML = 
@@ -118,22 +99,121 @@ export default function ChartComponent() {
                 <div>거래량 : ${value}</div>
               </div>
               `
-            // console.log(param.point.x)
             let left = param.point.x + 80;
             if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
               left = param.point.x - tooltipRef.current.offsetWidth + 200;
             }
- 
             let top = param.point.y + 10;
             // if (top > chartContainerRef.current.clientHeight - tooltipRef.current.offsetHeight) {
             //   top = param.point.y - tooltipRef.current.offsetHeight - 10;
             // }
-
             tooltipRef.current.style.left = `${left}px`
             tooltipRef.current.style.top = top + 'px';
           }
         });
         chartApiRef.current.timeScale().fitContent();
+
+        //markertooltip 설정
+        markertooltipRef.current = document.createElement('div');
+        markertooltipRef.current.style = `width: 200px; height: 0px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        markertooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.5)';
+        markertooltipRef.current.style.color = 'white';
+        markertooltipRef.current.style.borderColor = '#4FE7B0';
+        chartContainerRef.current.appendChild(markertooltipRef.current);
+        chartApiRef.current = chart.current;
+
+        // chartApiRef.current.subscribeCrosshairMove((param) => {
+        //   if (
+        //     param.point === undefined ||
+        //     !param.time ||
+        //     param.point.x < 0 ||
+        //     param.point.x > chartContainerRef.current.clientWidth ||
+        //     param.point.y < 0 ||
+        //     param.point.y > chartContainerRef.current.clientHeight
+        //   ) {
+        //     markertooltipRef.current.style.display = 'none';
+        //   } else {
+        //     const date = new Date(param.time*1000)
+        //     const year = date.getFullYear();
+        //     const month = String(date.getMonth() + 1).padStart(2, '0');
+        //     const day = String(date.getDate()).padStart(2, '0');
+        //     const formattedTime = `${year}-${month}-${day}`;
+        //     markertooltipRef.current.style.display = 'block';
+        //     const candledata = param.seriesData.get(candlestickSeries.current);
+        //     const voldata = param.seriesData.get(volumeSeries.current);
+        //     const { open, high, low, close, time } = candledata;
+        //     const { value } = voldata;
+        //     markertooltipRef.current.innerHTML = 
+        //     `
+        //       <div style="color: ${'#4FE7B0'}">${code}</div>
+        //       <div style="color: ${'white'}">
+        //       ${formattedTime}
+        //       </div>
+        //       <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+        //         <div>시가 : ${open}</div>
+        //         <div>고가 : ${high}</div>
+        //         <div>저가 : ${low}</div>
+        //         <div>종가 : ${close}</div>
+        //         <div>거래량 : ${value}</div>
+        //       </div>
+        //       `
+        //     let left = param.point.x + 80;
+        //     if (left > chartContainerRef.current.clientWidth - markertooltipRef.current.offsetWidth) {
+        //       left = param.point.x - markertooltipRef.current.offsetWidth + 200;
+        //     }
+        //     let top = param.point.y + 10;
+        //     // if (top > chartContainerRef.current.clientHeight - markertooltipRef.current.offsetHeight) {
+        //     //   top = param.point.y - markertooltipRef.current.offsetHeight - 10;
+        //     // }
+        //     markertooltipRef.current.style.left = `${left}px`
+        //     markertooltipRef.current.style.top = top + 'px';
+        //   }
+        // });
+        chartApiRef.current.timeScale().fitContent();
+
+        //marker 설정
+        const newsdata = seriesdata[1].data
+        const notedata = seriesdata[2].data
+
+        const allMarkers = [];
+        const uniqueNewsData = {};
+        const uniqueNoteData = {};
+
+        newsdata.forEach(item => {
+          const dateKey = new Date(item.x).getTime() / 1000;
+          if (!uniqueNewsData[dateKey]) {
+            uniqueNewsData[dateKey] = item;
+          }
+        });
+        notedata.forEach(item => {
+          const dateKey = new Date(item.x).getTime() / 1000;
+          if (!uniqueNoteData[dateKey]) {
+            uniqueNoteData[dateKey] = item;
+          }
+        });
+
+        Object.values(uniqueNewsData).forEach(item => {
+          allMarkers.push({
+            time: new Date(item.x).getTime() / 1000,
+            position: 'aboveBar',
+            color: 'rgba(167, 255, 3, 0.7)',
+            shape: 'circle',
+            text: '',
+          });
+        });
+
+        Object.values(uniqueNoteData).forEach(item => {
+          allMarkers.push({
+            time: new Date(item.x).getTime() / 1000,
+            position: 'belowBar',
+            color: 'rgba(255, 3, 251, 0.7)',
+            shape: 'circle',
+            text: '',
+          });
+        });
+
+        allMarkers.sort((a, b) => a.time - b.time);
+        candlestickSeries.current.setMarkers(allMarkers);
       })
       .catch((err) => {
         console.log(err);
@@ -193,6 +273,8 @@ export default function ChartComponent() {
         },
     });
 
+    
+
     chart.current.timeScale().fitContent();
 
      return () => {
@@ -207,23 +289,32 @@ export default function ChartComponent() {
     setIsStarred(!isStarred);
   };
 
-  const[chartData, setChartData] = useState()
+  const[chartData, setChartData] = useState({
+    title:'',
+    valuechain: true
+  })
+
 
   return (
     <div>
       <div className='chartheader'>
         <div className='headerinfo'>
-          <div className='stockname' onClick={toggleStar}>삼성전자{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+          <div className='stockname' onClick={toggleStar}>{chartData.title}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
           <div className='stockinfo'>국내증시</div>
           <div className='stockinfo'>해외증시</div>
         </div>
+        {chartData.valuechain ? (
         <div className='valuechain'>
           <div className='value'>밸류 체인</div>
           <div><LiaQuestionCircleSolid id='valueinfo'/></div>
-          
         </div>
+      ) : null}
+        {/* <div className='valuechain' >
+          <div className='value'>밸류 체인</div>
+          <div><LiaQuestionCircleSolid id='valueinfo'/></div>
+        </div> */}
       </div>
       <div className="chartbox">
         <div className="chart">
