@@ -16,16 +16,17 @@ export default function CoCommentView() {
       <div className={styles["right"]}>
         <div className={styles["profile"]}>
           <div className={styles["profile-img"]}></div>
-          <div>Anima Ag.</div>
-          <div>23.08.30</div>
+          <div className={styles["profile-name"]}>Anima Ag.</div>
+          <div className={styles["time"]}>23.08.30 11:41</div>
         </div>
 
         <div className={styles["content"]}>
-          plz
+          <div className={styles["replying-to"]}>Replying to <span>Anima Ag.</span></div>
+          <div>plz</div>
         </div>
 
         <div className={styles["icons"]}>
-          <div><FaRegThumbsUp size="20"/><p>12</p></div>
+          <div><FaRegThumbsUp size="20"/><p>12 Likes</p></div>
         </div>
       </div>
 
