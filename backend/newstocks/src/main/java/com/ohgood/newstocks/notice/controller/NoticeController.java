@@ -37,6 +37,7 @@ public class NoticeController {
 
     @GetMapping("/find-detail/{id}")
     public ResponseEntity<NoticeResDto> findDetailNoticeById(@PathVariable Long id){
+        System.out.println(id);
         return new ResponseEntity<>(noticeService.findDetailNoticeById(id), HttpStatus.OK);
     }
 }
