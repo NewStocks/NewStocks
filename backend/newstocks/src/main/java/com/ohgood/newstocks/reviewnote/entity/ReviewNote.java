@@ -16,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNote extends BaseEntity {
@@ -90,15 +91,22 @@ public class ReviewNote extends BaseEntity {
     @JsonIgnore
     private Stock stock;
 
+
+    // 실제 사용하지 않기로 함
     @OneToMany(mappedBy = "reviewNote")
     @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<ReviewNoteNews> reviewNoteNewsList;
 
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteLink> reviewNoteLinkList;
+
     @Builder
     public ReviewNote(String title, Boolean privacy, LocalDateTime settingDate,
         LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity,
-        int sellQuantity, String content, NoteType type, Boolean display, Member member,
+        int sellQuantity, String content, NoteType type, Member member,
         List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList,
         Stock stock) {
         this.title = title;
@@ -114,11 +122,12 @@ public class ReviewNote extends BaseEntity {
         this.sellQuantity = sellQuantity;
         this.content = content;
         this.type = type;
-        this.display = display;
+        this.display = true;
         this.member = member;
         this.reviewNoteImageList = new ArrayList<>();
         this.replyList = new ArrayList<>();
         this.reviewNoteNewsList = new ArrayList<>();
+        this.reviewNoteLinkList = new ArrayList<>();
         this.stock = stock;
     }
 }

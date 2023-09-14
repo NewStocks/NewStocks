@@ -3,15 +3,19 @@ package com.ohgood.newstocks.reviewnote.mapper;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.stock.dto.DataDto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -46,4 +50,6 @@ public interface ReviewNoteMapper {
             return null;
         }
     }
+
+    void updateReviewNote(ReviewNoteUpdateReqDto reviewNoteUpdateReqDto, @MappingTarget ReviewNote reviewNote);
 }
