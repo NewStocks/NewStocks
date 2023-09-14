@@ -33,9 +33,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 5.8vh;
+    height: 42px;
     border-left: 1px solid #5a5a5ada;
     border-right: 1px solid #5a5a5ada;
+    /* width: 900px */
   }
   .headerinfo {
     height: 6vh;
