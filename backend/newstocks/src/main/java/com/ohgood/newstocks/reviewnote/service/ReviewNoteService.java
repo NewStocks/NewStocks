@@ -69,18 +69,34 @@ public class ReviewNoteService {
         if (reviewNoteReqDto.getMultipartFileList() != null) {
             for (MultipartFile multipartFile : reviewNoteReqDto.getMultipartFileList()) {
                 String url = awsS3Service.uploadFile("/review-note", multipartFile);
-                ReviewNoteImage reviewNoteImage = reviewNoteImageRepository.save(new ReviewNoteImage(url, reviewNote));
+                ReviewNoteImage reviewNoteImage = reviewNoteImageRepository.save(
+                    ReviewNoteImage.builder()
+                        .url(url)
+                        .reviewNote(reviewNote)
+                        .build());
                 reviewNote.getReviewNoteImageList().add(reviewNoteImage);
-                reviewNoteResDto.getReviewNoteImageDtoList().add(new ReviewNoteImageDto(reviewNoteImage.getId(), url));
+                reviewNoteResDto.getReviewNoteImageDtoList().add(
+                    ReviewNoteImageDto.builder()
+                        .id(reviewNoteImage.getId())
+                        .url(url)
+                        .build());
             }
         }
 
         // 링크 처리
         if (reviewNoteReqDto.getLinkList() != null) {
             for (String url : reviewNoteReqDto.getLinkList()) {
-                ReviewNoteLink reviewNoteLink = reviewNoteLinkRepository.save(new ReviewNoteLink(url, reviewNote));
+                ReviewNoteLink reviewNoteLink = reviewNoteLinkRepository.save(
+                    ReviewNoteLink.builder()
+                        .url(url)
+                        .reviewNote(reviewNote)
+                        .build());
                 reviewNote.getReviewNoteLinkList().add(reviewNoteLink);
-                reviewNoteResDto.getReviewNoteLinkList().add(new ReviewNoteLinkDto(reviewNoteLink.getId(), url));
+                reviewNoteResDto.getReviewNoteLinkList().add(
+                    ReviewNoteLinkDto.builder()
+                        .id(reviewNoteLink.getId())
+                        .url(url)
+                        .build());
             }
         }
 
@@ -89,7 +105,11 @@ public class ReviewNoteService {
         if (newsIdList != null) {
             for (Long newsId : newsIdList) {
                 News news = findNewsById(newsId);
-                ReviewNoteNews reviewNoteNews = reviewNoteNewsRepository.save(new ReviewNoteNews(reviewNote, news));
+                ReviewNoteNews reviewNoteNews = reviewNoteNewsRepository.save(
+                    ReviewNoteNews.builder()
+                        .reviewNote(reviewNote)
+                        .news(news)
+                        .build());
                 reviewNote.getReviewNoteNewsList().add(reviewNoteNews);
                 NewsDto newsDto = NewsMapper.INSTANCE.entityToNewsDto(news);
                 reviewNoteResDto.getNewsDtoList().add(newsDto);
@@ -151,7 +171,11 @@ public class ReviewNoteService {
 
         for (String url : reviewNoteUpdateReqDto.getLinkList()) {
             reviewNote.getReviewNoteLinkList().add(
-                reviewNoteLinkRepository.save(new ReviewNoteLink(url, reviewNote)));
+                reviewNoteLinkRepository.save(
+                    ReviewNoteLink.builder()
+                        .reviewNote(reviewNote)
+                        .url(url)
+                        .build()));
         }
 
         return null;
