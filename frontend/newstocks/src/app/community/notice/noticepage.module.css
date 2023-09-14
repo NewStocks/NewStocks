@@ -1,0 +1,74 @@
+.main {
+  padding: 4rem 5rem;
+  min-height: 100vh;
+}
+
+.upper-title {
+  font-size: 20px;
+  font-weight: 400;
+
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+
+.page-title {
+  font-size: 43px; 
+  font-weight: 700;
+}
+
+.notice-container {
+  width: 103.3%;
+  margin: 35px 0 0 0;
+}
+
+.notice {
+  display: flex;
+  padding: 10px 0 20px 0;
+  margin-bottom: 10px;
+
+  border-bottom: 1px solid white;
+}
+
+.title-box {
+  display: flex;
+  width: 85%;
+}
+
+.highlight {
+  width: 120px;
+  height: 40px;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px 0 0 0;
+  color: #FF0000;
+  border: 2px solid #FF0000;
+  border-radius: 3rem;
+  margin-right: 10px;
+}
+
+.title {
+  max-width: 86%;
+  padding: 8px 10px 0 10px;
+  font-size: 16px;
+
+  /* 문자열이 특정 길이 넘어가면 ...으로 표시 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.title:hover {
+  text-decoration: underline;
+}
+
+.time {
+  width: 15%;
+  text-align: right;
+  padding: 7px 0 0 0;
+}
+
+#update {
+  color: #00C2FF;
+  border: 2px solid #00C2FF;
+}
