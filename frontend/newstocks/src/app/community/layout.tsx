@@ -19,9 +19,8 @@ export default function CommunityLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={sans.className}>
-        <Header />
+    <>
+        {/* <Header /> */}
 
         <div className={styles["community-container"]}>
           <div className={styles["community-nav"]}>
@@ -35,7 +34,6 @@ export default function CommunityLayout({
           </div>
         </div>
 
-      </body>
-    </html>
+    </>
   )
 }
