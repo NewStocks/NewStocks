@@ -199,12 +199,38 @@ export default function ChartComponent() {
             } else {
               tooltipRef.current.style.display = 'none';
             }
-          // });
-
-          
         });
 
         chartApiRef.current.timeScale().fitContent();
+
+            // 클릭 이벤트 핸들러 함수
+        const handleChartClick = (param) => {
+          const date = new Date(param.time*1000+32400)
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          const formattedTime = `${year}-${month}-${day}`;
+          const isFormattedTimeInData = Object.values(uniqueNoteData).some((item) => {
+            return item.x === formattedTime;
+          });  
+
+          if (!param.point) {
+            return;
+          } else if (isFormattedTimeInData) {
+            notedata.forEach(item => {
+              if (item.x == formattedTime) {
+                const notespec = item.y
+                console.log(notespec); //오답노트 제목이랑 id출력
+                //해당 오답노트 보여주기
+              }
+            });
+          }
+          console.log(notedata);
+        };
+
+        // chart.current에 클릭 이벤트 핸들러 등록
+        chart.current.subscribeClick(handleChartClick);
+        
 
       })
       .catch((err) => {
@@ -251,7 +277,7 @@ export default function ChartComponent() {
       wickDownColor: '#FF4444',
     });
     candlestickSeries.current.applyOptions({
-      zIndex: 1, // 예시로 0으로 설정했습니다. 필요에 따라 다른 값을 사용할 수 있습니다.
+      zIndex: 1, 
     });
 
     volumeSeries.current = chart.current.addHistogramSeries({
@@ -262,7 +288,7 @@ export default function ChartComponent() {
       },
     });
     volumeSeries.current.applyOptions({
-      zIndex: 0, // 예시로 0으로 설정했습니다. 필요에 따라 다른 값을 사용할 수 있습니다.
+      zIndex: 0, 
     });
       volumeSeries.current.priceScale().applyOptions({
         scaleMargins: {
@@ -271,6 +297,7 @@ export default function ChartComponent() {
         },
     });
     
+
 
     chart.current.timeScale().fitContent();
 
