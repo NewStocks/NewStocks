@@ -5,8 +5,11 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from 'react';
 import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType } from 'lightweight-charts';
 import axios from 'axios';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function ChartComponent() {
+  const tabName = usePathname();
+  console.log(tabName)
   const chartContainerRef = useRef(null);
   const chart = useRef(null);
   const candlestickSeries = useRef(null);
