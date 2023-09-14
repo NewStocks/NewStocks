@@ -32,11 +32,12 @@ public class ReviewNoteResDto {
     private LocalDateTime sellDate;
     private LocalDateTime settingDate;
     private NoteType type;
-    private Boolean display;
+//    private Boolean display;
     private Boolean privacy;
     private StockDto stockDto;
     private MemberDto memberDto;
     private List<ReviewNoteImageDto> reviewNoteImageDtoList = new ArrayList<>();
+    private List<ReviewNoteLinkDto> reviewNoteLinkList = new ArrayList<>();
     private List<NewsDto> newsDtoList = new ArrayList<>();
 
     @JsonIgnore

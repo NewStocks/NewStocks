@@ -89,13 +89,12 @@ def crawler(code, name, is_all):
         for title, time_, company in zip(titles, times, companys):
             date_text = convert_date(groupDate.text, time_.text)
 
+            news_date = datetime.strptime(date_text.split()[0], "%Y-%m-%d").date()
+            if news_date > one_day_ago.date():
+                continue
             # 전체 데이터 조회가 아닐 경우
-            if is_all == False:
-                news_date = datetime.strptime(date_text.split()[0], "%Y-%m-%d").date()
-                if news_date > one_day_ago.date():
-                    continue
-                elif news_date < one_day_ago.date():
-                    break
+            if not is_all and news_date < one_day_ago.date():
+                break
 
             infos.append(
                 [
@@ -154,7 +153,6 @@ def save_news():
         for code, name in codes:
             crawler(code, name, False)
 
-        # cursor.execute("DELETE FROM value_chain_news")
         insert_infos(cursor, conn)
 
         print("실행 시간: ", time.time() - start_time)

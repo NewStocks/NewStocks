@@ -1,17 +1,22 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
-import com.ohgood.newstocks.global.entity.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewNoteImage extends BaseEntity {
+public class ReviewNoteLink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +26,11 @@ public class ReviewNoteImage extends BaseEntity {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_note_id")
+    @JoinColumn(name = "review_note")
     private ReviewNote reviewNote;
 
     @Builder
-    public ReviewNoteImage(String url, ReviewNote reviewNote) {
+    public ReviewNoteLink(String url, ReviewNote reviewNote) {
         this.url = url;
         this.reviewNote = reviewNote;
     }
