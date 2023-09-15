@@ -77,7 +77,8 @@ public class JwtServiceImpl implements JwtService {
         String jwt = request.getHeader("access-token");
         Jws<Claims> claims;
         try {
-            claims = Jwts.parser().setSigningKey(SALT.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(jwt);
+            claims = Jwts.parser().setSigningKey(SALT.getBytes(StandardCharsets.UTF_8))
+                .parseClaimsJws(jwt);
         } catch (Exception e) {
             logger.error(e.getMessage());
             throw new UnAuthorizedException();
@@ -88,7 +89,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public long getMemberNoFromAccessToken(String accessToken) {
+    public long getMemberIdFromAccessToken(String accessToken) {
         Jws<Claims> claims;
         try {
             claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(accessToken);
@@ -96,6 +97,6 @@ public class JwtServiceImpl implements JwtService {
             logger.error(e.getMessage());
             throw new UnAuthorizedException();
         }
-        return claims.getBody().get("memberNo", Long.class);
+        return claims.getBody().get("id", Long.class);
     }
 }
