@@ -105,7 +105,7 @@ public class ReviewNoteService {
         Long userId) {
         // 권한 확인
         ReviewNote reviewNote = findReviewNoteById(reviewNoteUpdateReqDto.getId());
-        if (!reviewNote.getMember().getId().equals(userId)) {
+        if (!checkUserAuth(userId, reviewNote)) {
             log.debug("글을 수정할 권한이 없습니다.");
             throw new ArithmeticException("글을 수정할 권한이 없습니다.");
         }
@@ -150,6 +150,15 @@ public class ReviewNoteService {
         // Member, Stock -> res 추가 필요
 
         return reviewNoteResDto;
+    }
+
+    public void deleteReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        if (!checkUserAuth(userId, reviewNote)) {
+            throw new ArithmeticException("삭제 권한이 없습니다.");
+        }
+        reviewNote.delete();
+        reviewNoteRepository.save(reviewNote);
     }
 
     // -- 내부 메서드 코드 --
@@ -206,6 +215,11 @@ public class ReviewNoteService {
         }
 
         reviewNote.getMember().getReviewNoteList().add(reviewNote);
+    }
+
+    private boolean checkUserAuth(Long userId, ReviewNote reviewNote) {
+        // 관리자 권한 추가 생각하여 함수로 분리
+        return reviewNote.getMember().getId().equals(userId);
     }
 
     // -- 예외 처리용 코드 --

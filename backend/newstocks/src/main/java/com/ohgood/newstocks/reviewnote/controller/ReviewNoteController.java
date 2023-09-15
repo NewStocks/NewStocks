@@ -35,4 +35,11 @@ public class ReviewNoteController {
         // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(reviewNoteService.updateReviewNote(reviewNoteUpdateReqDto, 5L), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{reviewNoteId}")
+    public ResponseEntity<Void> deleteReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.deleteReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
