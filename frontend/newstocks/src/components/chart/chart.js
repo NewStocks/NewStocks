@@ -36,7 +36,7 @@ export default function ChartComponent() {
     const fetchData = () => {
       axios({
         method: "get",
-        url: "http://localhost:8080/stock/find-chart/005930",
+        url: `http://localhost:8080/stock/find-chart/${code}`,
       })
       .then((res) => {
         console.log(res.data);

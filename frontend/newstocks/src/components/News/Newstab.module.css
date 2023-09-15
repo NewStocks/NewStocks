@@ -1,0 +1,29 @@
+.newsmain {
+	border: 1px solid #5a5a5ada;
+}
+.newsconstent{
+	border: 1px solid #5a5a5ada;
+}
+.newstitle {
+	/* margin-bottom: 10px; */
+}
+.newsdate {
+	font-size: 9px;
+	display: flex;
+	justify-content: right;
+	margin-right: 10px;
+}
+.newsurl {
+	font-size: 9px;
+}
+.pagebuttonbox {
+	display: flex;
+	justify-content: center;
+}
+.pagebutton {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border: 1px solid #4FE7B0;
+	box-shadow: 'none';
+}
