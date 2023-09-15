@@ -2,3 +2,11 @@
   padding: 4rem 5rem;
   min-height: 100vh;
 }
+
+.top-menu div {
+  color: #4FE7B0;
+}
+
+.top-menu div:hover {
+  font-weight: 550;
+}
