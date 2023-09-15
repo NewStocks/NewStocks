@@ -130,4 +130,8 @@ public class ReviewNote extends BaseEntity {
         this.reviewNoteLinkList = new ArrayList<>();
         this.stock = stock;
     }
+
+    public void updateReviewNoteLink(List<ReviewNoteLink> reviewNoteLinkList) {
+        this.reviewNoteLinkList = reviewNoteLinkList;
+    }
 }

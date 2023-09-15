@@ -7,6 +7,8 @@ import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.entity.News;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.repository.NewsRepository;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteImageDto;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteLinkDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
@@ -24,6 +26,7 @@ import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -78,7 +81,7 @@ public class ReviewNoteService {
 
 
         // 사용하지 않게 된 코드
-//        insertReviewNoteNewsToReviewNote(reviewNote, reviewNoteReqDto, reviewNoteResDto);
+        // insertReviewNoteNewsToReviewNote(reviewNote, reviewNoteReqDto, reviewNoteResDto);
 
         // Member, Stock 등 DTO 정보 저장
         reviewNoteResDto.addDetailDtos(member, stock);
@@ -144,24 +147,26 @@ public class ReviewNoteService {
         // 링크 추가
         insertReviewNoteLinkToReviewNote(reviewNote, reviewNoteUpdateReqDto.getLinkList(), reviewNoteResDto);
 
+        // Member, Stock -> res 추가 필요
+
         return reviewNoteResDto;
     }
 
-    private void insertReviewNoteLinkToReviewNote(ReviewNote reviewNote, List<String> urlList, ReviewNoteResDto reviewNoteResDto) {
-        for (String url : urlList) {
-            ReviewNoteLink reviewNoteLink = reviewNoteLinkRepository.save(
-                ReviewNoteLink.builder()
-                    .reviewNote(reviewNote)
-                    .url(url)
-                    .build()
-            );
-            reviewNote.getReviewNoteLinkList().add(reviewNoteLink);
-            reviewNoteResDto.getReviewNoteLinkList().add(
-                ReviewNoteLinkMapper.INSTANCE.entityToReviewNoteLinkDto(reviewNoteLink));
-        }
-    }
-
     // -- 내부 메서드 코드 --
+
+    private void insertReviewNoteLinkToReviewNote(ReviewNote reviewNote, List<String> urlList, ReviewNoteResDto reviewNoteResDto) {
+        List<ReviewNoteLink> reviewNoteLinkList = urlList.stream()
+            .map(url -> reviewNoteLinkRepository.save(ReviewNoteLink.builder()
+                .url(url)
+                .reviewNote(reviewNote).build()))
+            .toList();
+        reviewNote.updateReviewNoteLink(reviewNoteLinkList);
+
+        List<ReviewNoteLinkDto> reviewNoteLinkDtoList = reviewNoteLinkList.stream()
+            .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto)
+            .toList();
+        reviewNoteResDto.setReviewNoteLinkList(reviewNoteLinkDtoList);
+    }
 
     private void uploadImageListToS3(ReviewNote reviewNote, List<MultipartFile> multipartFileList,
         ReviewNoteResDto reviewNoteResDto) {
@@ -173,6 +178,7 @@ public class ReviewNoteService {
                         .url(url)
                         .reviewNote(reviewNote)
                         .build());
+                // 기존의 이미지 삭제 X -> add 필요
                 reviewNote.getReviewNoteImageList().add(reviewNoteImage);
                 reviewNoteResDto.getReviewNoteImageDtoList().add(
                     ReviewNoteImageMapper.INSTANCE.entityToReviewNoteImageDto(reviewNoteImage));
