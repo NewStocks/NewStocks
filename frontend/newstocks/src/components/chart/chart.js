@@ -6,10 +6,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType } from 'lightweight-charts';
 import axios from 'axios';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function ChartComponent() {
+  const router = useRouter();
   const tabName = usePathname();
-  console.log(tabName)
+  const code = tabName.split('/').filter(Boolean)[0];
+  console.log(code)
   const chartContainerRef = useRef(null);
   const chart = useRef(null);
   const candlestickSeries = useRef(null);
@@ -29,6 +32,7 @@ export default function ChartComponent() {
   })
 
   useEffect(() => {
+    
     const fetchData = () => {
       axios({
         method: "get",
@@ -36,7 +40,7 @@ export default function ChartComponent() {
       })
       .then((res) => {
         console.log(res.data);
-        const code = res.data.name
+        // const code = res.data.name
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
@@ -121,7 +125,7 @@ export default function ChartComponent() {
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
-        tooltipRef.current.style = `width: 130px; height: 160px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        tooltipRef.current.style = `width: 130px; height: 210px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.5)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
@@ -136,17 +140,24 @@ export default function ChartComponent() {
             const day = String(date.getDate()).padStart(2, '0');
             const formattedTime = `${year}-${month}-${day}`;
             
-            const isFormattedTimeInData = Object.values(uniqueNoteData).some((item) => {
+            const newnews = Object.values(uniqueNewsData).some((item) => {
+              return item.x === formattedTime;
+            });
+            const newnote = Object.values(uniqueNoteData).some((item) => {
               return item.x === formattedTime;
             });
             // console.log(date, formattedTime, )
-            if (isFormattedTimeInData) {
+            if (newnote||newnews) {
               tooltipRef.current.style.display = 'block';
               const candledata = param.seriesData.get(candlestickSeries.current);
               const voldata = param.seriesData.get(volumeSeries.current);
               const { open, high, low, close, time } = candledata;
               const { value } = voldata;
-              tooltipRef.current.innerHTML = 
+
+              notedata.forEach(item => {
+                if (item.x == formattedTime) {
+                  const notespec = item.y[0]
+                  tooltipRef.current.innerHTML = 
               `
                 <div style="color: ${'#4FE7B0'}">${code}</div>
                 <div style="color: ${'white'}">
@@ -161,6 +172,40 @@ export default function ChartComponent() {
                 </div>
                 <hr/>
                 <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                  <div>뉴스 : </div>
+                  <div>오답노트 : ${notespec}</div>
+                </div>
+                `
+              let left = param.point.x + 80;
+                if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+                  left = param.point.x - tooltipRef.current.offsetWidth + 200;
+                }
+              let top = param.point.y + 10;
+
+              tooltipRef.current.style.left = `${left}px`
+              tooltipRef.current.style.top = top + 'px';
+                } 
+              });
+
+              newsdata.forEach(item => {
+                if (item.x == formattedTime) {
+                  const newsspec = item.y[0]
+                  tooltipRef.current.innerHTML = 
+              `
+                <div style="color: ${'#4FE7B0'}">${code}</div>
+                <div style="color: ${'white'}">
+                ${formattedTime}
+                </div>
+                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                  <div>시가 : ${open}</div>
+                  <div>고가 : ${high}</div>
+                  <div>저가 : ${low}</div>
+                  <div>종가 : ${close}</div>
+                  <div>거래량 : ${value}</div>
+                </div>
+                <hr/>
+                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                  <div>뉴스 :  ${newsspec}</div>
                   <div>오답노트 : </div>
                 </div>
                 `
@@ -172,6 +217,9 @@ export default function ChartComponent() {
 
               tooltipRef.current.style.left = `${left}px`
               tooltipRef.current.style.top = top + 'px';
+                }
+              });
+              
             } else if (param.time && [param.seriesData].length && tooltipRef.current){
               tooltipRef.current.style.display = 'block';
               const candledata = param.seriesData.get(candlestickSeries.current);
@@ -206,35 +254,46 @@ export default function ChartComponent() {
 
         chartApiRef.current.timeScale().fitContent();
 
-            // 클릭 이벤트 핸들러 함수
+        // 클릭 이벤트 핸들러 함수
+        
         const handleChartClick = (param) => {
           const date = new Date(param.time*1000+32400)
           const year = date.getFullYear();
           const month = String(date.getMonth() + 1).padStart(2, '0');
           const day = String(date.getDate()).padStart(2, '0');
           const formattedTime = `${year}-${month}-${day}`;
-          const isFormattedTimeInData = Object.values(uniqueNoteData).some((item) => {
+          const newnews = Object.values(uniqueNewsData).some((item) => {
+            return item.x === formattedTime;
+          });
+          const newnote = Object.values(uniqueNoteData).some((item) => {
             return item.x === formattedTime;
           });  
-
+  
           if (!param.point) {
             return;
-          } else if (isFormattedTimeInData) {
+          } else if (newnote || newnews) {
             notedata.forEach(item => {
               if (item.x == formattedTime) {
                 const notespec = item.y
-                console.log(notespec); //오답노트 제목이랑 id출력
+                console.log(notespec); //오답노트 제목, id출력
                 //해당 오답노트 보여주기
+                router.push(`/${code}?tab=notes`);
+              } 
+            });
+            newsdata.forEach(item => {
+              if (item.x == formattedTime) {
+                const newsspec = item.y
+                console.log(newsspec); //뉴스 제목, url출력
+                //해당 뉴스 보여주기
+                router.push(`/${code}?tab=news`);
               }
             });
-          }
+          } 
           console.log(notedata);
         };
-
         // chart.current에 클릭 이벤트 핸들러 등록
         chart.current.subscribeClick(handleChartClick);
-        
-
+      
       })
       .catch((err) => {
         console.log(err);
@@ -242,6 +301,9 @@ export default function ChartComponent() {
     };
     
     fetchData();
+
+
+    
 
     chart.current = createChart(chartContainerRef.current, {
       layout: {
