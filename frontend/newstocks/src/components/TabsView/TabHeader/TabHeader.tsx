@@ -64,9 +64,6 @@ export default function TabHeader() {
         </div>
         </StyledLink>
       </div>
-      <div className={styles["content"]}>
-      </div>
-
     </div>
 
   )

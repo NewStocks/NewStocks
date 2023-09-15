@@ -3,6 +3,7 @@ import styles from './TabsView.module.css'
 import TabHeader from './TabHeader/TabHeader'
 
 import { usePathname, useSearchParams } from 'next/navigation';
+import Chat from './Chat/Chat';
 
 export default function TabsView() {
   const tabName = useSearchParams();
@@ -10,10 +11,10 @@ export default function TabsView() {
   console.log(tabName?.get('tab'))
 
   return (
-    <div>
+    <div className={styles['tab-container']}>
     <TabHeader />
     {tabName?.get('tab') === 'chat' && 
-     '여기에 chatbot'}
+     <Chat />}
     </div>
   )
 }
