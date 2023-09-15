@@ -2,7 +2,10 @@
 	border: 1px solid #5a5a5ada;
 }
 .newsconstent{
-	border: 1px solid #5a5a5ada;
+	border-bottom: 1px solid #5a5a5ada;
+}
+.newsheader {
+	border-bottom: 1px solid #5a5a5ada;
 }
 .newstitle {
 	/* margin-bottom: 10px; */

@@ -67,7 +67,7 @@ export default function Newstab() {
 
   return (
     <div className={styles["newsmain"]}>
-      <div>
+      <div className={styles["newsheader"]}>
         {code}에 해당하는 뉴스
       </div>
       <div>
