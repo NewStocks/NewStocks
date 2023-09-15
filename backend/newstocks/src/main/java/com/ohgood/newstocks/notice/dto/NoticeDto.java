@@ -13,8 +13,9 @@ public class NoticeDto {
     private String title;
     private String content;
     private List<NoticeImageDto> noticeImageDtoList;
-    public void setNoticeImageDtoList(Notice notice){
-        this.noticeImageDtoList=notice.getNoticeImageList()
+
+    public void setNoticeImageDtoList(Notice notice) {
+        this.noticeImageDtoList = notice.getNoticeImageList()
             .stream()
             .map(NoticeMapper.INSTANCE::entityToNoticeImageDto)
             .collect(Collectors.toList());

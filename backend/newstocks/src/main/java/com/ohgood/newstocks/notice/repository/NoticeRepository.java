@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
-    List<Notice> findAll();
-    Optional<Notice> findById(Long id);
+    List<Notice> findByDeletedFalse();
+    Optional<Notice> findByIdAndDeletedFalse(Long id);
 }

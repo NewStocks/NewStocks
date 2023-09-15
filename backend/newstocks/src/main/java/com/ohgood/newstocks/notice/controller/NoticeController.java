@@ -1,6 +1,7 @@
 package com.ohgood.newstocks.notice.controller;
 
-import com.ohgood.newstocks.notice.dto.NoticeReqDto;
+import com.ohgood.newstocks.notice.dto.NoticeInsertReqDto;
+import com.ohgood.newstocks.notice.dto.NoticeInsertResDto;
 import com.ohgood.newstocks.notice.dto.NoticeResDto;
 import com.ohgood.newstocks.notice.service.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,10 +25,10 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PostMapping("/insert")
-    public ResponseEntity<NoticeResDto> insertNotice(@ModelAttribute NoticeReqDto noticeReqDto, HttpServletRequest request) {
+    public ResponseEntity<NoticeInsertResDto> insertNotice(@ModelAttribute NoticeInsertReqDto noticeInsertReqDto, HttpServletRequest request) {
         // Authentication 처리 전 임시 테스트
         //request에서 토큰 추출
-        return new ResponseEntity<>(noticeService.insertNotice(noticeReqDto, 5L), HttpStatus.OK);
+        return new ResponseEntity<>(noticeService.insertNotice(noticeInsertReqDto, 5L), HttpStatus.OK);
     }
 
     @GetMapping("/find-all")
