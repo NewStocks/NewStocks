@@ -96,35 +96,3 @@
   position: absolute;
   /* border: 1px dotted green; */
 }
-
-.footer {
-  margin-top: 250px;
-  margin-left: 8rem;
-}
-
-.footer-contents {
-  display: flex;
-}
-
-.footer-box {
-  width: 250px;
-  height: 260px;
-  margin-right: 40px;
-  border-right: 1px dotted white;
-}
-
-.footer-title {
-  font-size: 21px;
-  font-weight: 700;
-  margin-bottom: 33px;
-}
-
-.footer-title span {
-  color: #4FE7B0;
-}
-
-.footer-content {
-  font-size: 17px;
-
-  margin-bottom: 15px;
-}
