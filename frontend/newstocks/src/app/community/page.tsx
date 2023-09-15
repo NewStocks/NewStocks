@@ -1,15 +1,42 @@
 import styles from './communitypage.module.css';
+
+import LandingView from '@/components/LandingView/LandingView'
 import Button from '@/components/Button/Button'
 
 export default function CommunityPage() {
+  // const [isVisible, setIsVisible] = useState(false);
+
+  // useEffect(() => {
+      // 스크롤 이벤트 리스너 추가
+      // const handleScroll = () => {
+      //     const scrollY = window.scrollY;
+      //     // const targetPosition = 100;
+
+      //     if (scrollY >= 0) {
+      //         setIsVisible(true);
+      //     } else {
+      //         setIsVisible(false);
+      //     }
+      // };
+
+      // window.addEventListener('scroll', handleScroll);
+
+      // return () => {
+      //     // window.removeEventListener('scroll', handleScroll);
+      // };
+  // }, []);
+  
+
   return ( 
     <div className={styles.main}>
       <div>
         <div className={styles["landing-main-image"]}></div>
         <div className={styles["landing-main-container"]}>
+          <div className={styles["title-animation"]}>
           <div className={styles["title-mini"]}>100% 주식 오답노트 솔루션 📝</div>
           <div className={styles["title"]}><span>NEWStocks</span> 커뮤니티에서</div> 
           <div className={styles["title"]}><span>주식 오답노트</span>를 공유해보세요</div>
+          </div>
           <div className={styles["title-botton-box"]}>
             <div className={styles["Button-width"]}><Button text="공지사항" highlight={true} kindof="arrow"></Button></div>
             <div className={styles["Button-width"]}><Button text="노트작성" highlight={false} kindof="arrow"></Button></div>
@@ -17,36 +44,7 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      <div className={styles["landing-containers-num"]}>01</div>
-      <div className={styles["landing-containers"]}>
-        <div className={styles["content-box"]}>
-          <div className={styles["title"]}><span>나의</span> 오답노트 모아보기</div>
-          <div className={styles["description"]}>
-            <div>설명 설명 설명 설명 설명 설명 설명 멋있는 설멍</div>
-            <div>나의 오답노트 모아보기</div>
-            <div>완전 멋있는 기능 짱 멋있는 기능 진짜 멋있음</div>
-            <div>와우 대박 진짜 멋있는 전체 오답노트 모아보기</div>
-          </div>
-          <div className={styles["Button-width"]}><Button text="나의노트" highlight={true} kindof="arrow"></Button></div>
-        </div>
-      </div>
-
-      <div className={styles["landing-containers-num"]} id={styles["right-num"]}>02</div>
-      <div className={styles["landing-containers"]}>
-        <div className={styles["content-box"]} id={styles["right-item"]}>
-          <div className={styles["title"]} id={styles["right-desc"]}><span>전체</span> 오답노트 모아보기</div>
-          <div className={styles["description"]} id={styles["right-desc"]}>
-            <div>설명 설명 설명 설명 설명 설명 설명 멋있는 설멍</div>
-            <div>전체 오답노트 모아보기</div>
-            <div>완전 멋있는 기능 짱 멋있는 기능 진짜 멋있음</div>
-            <div>와우 대박 진짜 멋있는 전체 오답노트 모아보기</div>
-          </div>
-          <div id={styles["right-item"]} style={{ width: "120px" }}>
-          <div className={styles["Button-width"]}><Button text="전체노트" kindof="arrow" highlight={false}></Button></div>
-          </div>
-        </div>
-      </div>
-        
+      <LandingView />  
 
       <div className={styles["footer"]}>
         <div className={styles["footer-contents"]}>
