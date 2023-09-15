@@ -1,0 +1,88 @@
+.liketab-title {
+  padding: 10px 0 10px 0;
+  border-bottom: 1px solid #5a5a5ada;
+  display: flex;
+  align-items: center;
+}
+
+.like-container {
+  border-bottom: 1px solid #5a5a5ada;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.like-box {
+  display: flex;
+  padding: 0 10px;
+
+  cursor: pointer;
+}
+
+.like-box p {
+  width: 119px;
+  height: 10px;
+
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.like-name {
+  width: 105px;
+  margin: 0 0 0 10px;
+}
+
+.like-name div {
+  height: 2px;
+}
+
+.like-button {
+  cursor: pointer;
+  padding: 10px 0 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+#like-button-icon {
+  color: #4FE7B0;
+  margin-right: 5px;
+  height: 25px;
+  width: auto;
+}
+
+.like-search {
+  width: 220px;
+  height: 33px;
+  border-radius: 6px;
+  border: transparent;
+  background-color: rgba(255, 255, 255, 0.23);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-search div {
+  width: 30px;
+  margin: 0 0 0 20px;
+}
+
+.like-search input {
+  background: 0;
+  width: 220px;
+  height: 28px;
+  border: transparent;
+  color: #FFF;
+  justify-content: center;
+}
+
+.like-search input:focus {
+  outline: 0;
+}
+
+.like-content {
+
+}
+
+

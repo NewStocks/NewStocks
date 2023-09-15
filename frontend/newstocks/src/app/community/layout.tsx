@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google';
 import '../globals.css';
+import styles from './community.module.css'
 
 import Header from '@/components/Header/Header'
+import CommunityNav from '@/components/CommunityNav/CommunityNav'
 
 const sans = Open_Sans({ subsets: ['latin']});
 
@@ -17,12 +19,21 @@ export default function CommunityLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={sans.className}>
-        <Header />
-        <p>여기는 커뮤니티</p>
-        {children}
-      </body>
-    </html>
+    <>
+        {/* <Header /> */}
+
+        <div className={styles["community-container"]}>
+          <div className={styles["community-nav"]}>
+            <div className={styles["community-nav-sticky"]}>
+              <CommunityNav />
+            </div>
+          </div>
+
+          <div className={styles["community-content"]}>
+            {children}
+          </div>
+        </div>
+
+    </>
   )
 }

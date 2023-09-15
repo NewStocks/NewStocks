@@ -1,10 +1,11 @@
-import '../globals.css';
+
+import './globals.css';
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google';
 
-import Header from '@/components/Header/Header'
-
 const sans = Open_Sans({ subsets: ['latin']});
+
+import Header from '@/components/Header/Header'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -12,10 +13,12 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
+  
   children,
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       <body className={sans.className}>

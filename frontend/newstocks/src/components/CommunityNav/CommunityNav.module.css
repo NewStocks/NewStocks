@@ -1,0 +1,150 @@
+.nav-space {
+  height: 20px;
+}
+
+.profile-container {
+  height: 65px;
+  border-bottom: 2px solid #4FE7B0;
+  margin: 6px auto;
+  /* margin-top: 15px;  */
+}
+
+.profile-box {
+  display: flex;
+  padding: 0 10px;
+
+  cursor: pointer;
+}
+
+.profile-box p {
+  width: 119px;
+  height: 10px;
+
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.profile-name {
+  width: 105px;
+  margin: 0 0 0 10px;
+
+  color: white;
+  /* border: 1px dotted red; */
+}
+
+.profile-name div {
+  padding: 2px 0 0 0;
+  font-size: 13px;
+  height: 1px;
+}
+
+.profile-name p {
+  font-size: 20px;
+  font-weight: 700;
+  height: 1px;
+
+  padding: 0;
+}
+
+.profile-image {
+  margin: 5px 0 0 0;
+  width: 37px;
+  height: 37px;
+
+  border-radius: 30%;
+  background-color: white;
+}
+
+.profile-button {
+  width: 25px;
+  height: 25px;
+  margin: 10px 0 0 0;
+
+  border-radius: 100%;
+  background-color: #4FE7B0;
+}
+
+#profile-button-icon {
+  margin: 5px 0 0 5px;
+}
+
+.nav-container {
+  /* border: 1px dotted white; */
+}
+
+.nav-container div {
+  display: flex;
+  align-items: center;
+
+  height: 55px;
+  width: 140px;
+  margin: 20px auto;
+  cursor: pointer;
+
+  /* border: 1px dotted red; */
+}
+
+.nav-container div:hover {
+  font-weight: 800;
+}
+
+.nav-mynote {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 2px 0 0 0;
+  /* border: 1px dotted red; */
+}
+
+.nav-mynote p {
+  /* border: 1px dotted red; */
+}
+
+.nav-mynote-arrow {
+  transition: transform 200ms ease-out 0s;
+  transform: rotateZ(var(--toggle));
+}
+
+.nav-mynote-toggle {
+  width: 100px;
+  margin: 0 0 0 20px;
+}
+
+.nav-mynote-toggle li {
+  width: 90px;
+  list-style-type: none;
+  font-size: 14px;
+
+  margin: 0 0 23px 0;
+}
+
+.nav-mynote-toggle li:hover {
+  font-weight: 1000;
+}
+
+.nav-selected {
+  height: 50px;
+  width: 160px;
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 10%;
+  position: absolute;
+  transition: top 0.3s ease;
+
+  margin: 4px 0 0 0;
+  /* border: 1px dotted red; */
+}
+
+/* .nav-selected-pos {
+  width: 4px;
+  height: 48px;
+  background-color: #4FE7B0;
+  border-radius: 35%;
+} */
+
+#selected {
+  font-weight: 800;
+  color: #4FE7B0;
+}

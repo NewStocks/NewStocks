@@ -1,0 +1,54 @@
+.main {
+  padding: 4rem 5rem;
+  min-height: 100vh;
+}
+
+.upper-title {
+  font-size: 20px;
+  font-weight: 400;
+
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+
+.page-title {
+  font-size: 43px; 
+  font-weight: 700;
+}
+
+.all-button-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 34px;
+}
+
+.sort-button-box {
+  display: flex;
+}
+
+.sorted-Button-width {
+  width: 130px;
+  height: 37px;
+  margin-right: 20px;
+}
+
+#ordered {
+  width: 110px;
+  margin-right: 0;
+}
+
+.cards-container {
+  width: 103.3%;
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  margin: 35px 0 0 0;
+}
+
+.card {
+  margin-right: 20px;
+}
+
+.card:not(:last-child) {
+  margin-right: 10px; /* 마지막 아이템을 제외한 아이템들에게만 오른쪽 간격을 적용 */
+}
