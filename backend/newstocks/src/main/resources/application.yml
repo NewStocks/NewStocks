@@ -45,3 +45,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+server:
+  port: 8200
