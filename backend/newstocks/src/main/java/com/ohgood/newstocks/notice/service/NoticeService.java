@@ -35,17 +35,19 @@ public class NoticeService {
         Notice notice = NoticeMapper.INSTANCE.noticeReqDtoToEntity(noticeInsertReqDto);
         noticeRepository.save(notice);
         // 이미지 처리
-        List<NoticeImageDto> noticeImageDtoList= new ArrayList<>();
+        List<NoticeImageDto> noticeImageDtoList = new ArrayList<>();
         if (noticeInsertReqDto.getMultipartFileList() != null) {
             for (MultipartFile multipartFile : noticeInsertReqDto.getMultipartFileList()) {
                 String url = awsS3Service.uploadFile("/notice", multipartFile);
                 NoticeImage noticeImage = NoticeImage.builder().url(url).notice(notice).build();
-                NoticeImageDto noticeImageDto = NoticeImageMapper.INSTANCE.entityToNoticeImageDto(noticeImage);
+                NoticeImageDto noticeImageDto = NoticeImageMapper.INSTANCE.entityToNoticeImageDto(
+                    noticeImage);
                 noticeImageRepository.save(noticeImage);
                 noticeImageDtoList.add(noticeImageDto);
             }
         }
-        NoticeInsertResDto noticeInsertResDto=NoticeMapper.INSTANCE.entityToNoticeInsertResDto(notice);
+        NoticeInsertResDto noticeInsertResDto = NoticeMapper.INSTANCE.entityToNoticeInsertResDto(
+            notice);
         noticeInsertResDto.setNoticeImageDtoList(noticeImageDtoList);
         return noticeInsertResDto;
     }
@@ -53,7 +55,7 @@ public class NoticeService {
     public NoticeResDto findAllNotice() {
         List<Notice> noticeList = noticeRepository.findByDeletedFalse();
         List<NoticeDto> noticeDtoList = new ArrayList<>();
-        for(Notice notice: noticeList){
+        for (Notice notice : noticeList) {
             NoticeDto noticeDto = NoticeMapper.INSTANCE.entityToNoticeDto(notice);
             noticeDto.setNoticeImageDtoList(notice);
             noticeDtoList.add(noticeDto);
@@ -62,7 +64,8 @@ public class NoticeService {
     }
 
     public NoticeResDto findDetailNoticeById(Long id) {
-        Notice notice = noticeRepository.findByIdAndDeletedFalse(id).orElseThrow(() -> new ArithmeticException("해당하는 공지사항이 없습니다."));
+        Notice notice = noticeRepository.findByIdAndDeletedFalse(id)
+            .orElseThrow(() -> new ArithmeticException("해당하는 공지사항이 없습니다."));
         List<NoticeDto> noticeDtoList = new ArrayList<>();
         NoticeDto noticeDto = NoticeMapper.INSTANCE.entityToNoticeDto(notice);
         noticeDto.setNoticeImageDtoList(notice);

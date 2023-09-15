@@ -25,10 +25,12 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PostMapping("/insert")
-    public ResponseEntity<NoticeInsertResDto> insertNotice(@ModelAttribute NoticeInsertReqDto noticeInsertReqDto, HttpServletRequest request) {
+    public ResponseEntity<NoticeInsertResDto> insertNotice(
+        @ModelAttribute NoticeInsertReqDto noticeInsertReqDto, HttpServletRequest request) {
         // Authentication 처리 전 임시 테스트
         //request에서 토큰 추출
-        return new ResponseEntity<>(noticeService.insertNotice(noticeInsertReqDto, 5L), HttpStatus.OK);
+        return new ResponseEntity<>(noticeService.insertNotice(noticeInsertReqDto, 5L),
+            HttpStatus.OK);
     }
 
     @GetMapping("/find-all")
@@ -37,7 +39,7 @@ public class NoticeController {
     }
 
     @GetMapping("/find-detail/{id}")
-    public ResponseEntity<NoticeResDto> findDetailNoticeById(@PathVariable Long id){
+    public ResponseEntity<NoticeResDto> findDetailNoticeById(@PathVariable Long id) {
         System.out.println(id);
         return new ResponseEntity<>(noticeService.findDetailNoticeById(id), HttpStatus.OK);
     }

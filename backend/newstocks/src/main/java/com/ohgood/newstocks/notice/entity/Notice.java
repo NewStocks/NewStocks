@@ -34,6 +34,6 @@ public class Notice extends BaseEntity {
     public Notice(String title, String content) {
         this.title = title;
         this.content = content;
-        this.noticeImageList=new ArrayList<>();
+        this.noticeImageList = new ArrayList<>();
     }
 }
