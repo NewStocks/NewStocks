@@ -7,6 +7,7 @@ import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType 
 import axios from 'axios';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import ValueInfoModal from './ValuechainQuestion';
 
 export default function ChartComponent() {
   const router = useRouter();
@@ -20,6 +21,18 @@ export default function ChartComponent() {
   // const tooltipRef = useRef(null);
   const chartApiRef = useRef(null);
   const volumeSeries = useRef(null);
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  // 모달 열기 함수
+  const openValueInfoModal = () => {
+    setModalOpen(true);
+  };
+
+  // 모달 닫기 함수
+  const closeValueInfoModal = () => {
+    setModalOpen(false);
+  };
 
   const [isStarred, setIsStarred] = useState(false);
   const toggleStar = () => {
@@ -36,7 +49,7 @@ export default function ChartComponent() {
     const fetchData = () => {
       axios({
         method: "get",
-        url: `http://localhost:8080/stock/find-chart/${code}`,
+        url: `http://localhost:8200/stock/find-chart/${code}`,
       })
       .then((res) => {
         console.log(res.data);
@@ -105,7 +118,7 @@ export default function ChartComponent() {
             position: 'aboveBar',
             color: 'rgba(167, 255, 3, 0.7)',
             shape: 'circle',
-            text: '',
+            text: 'N',
           });
         });
 
@@ -115,7 +128,7 @@ export default function ChartComponent() {
             position: 'belowBar',
             color: 'rgba(255, 3, 251, 0.7)',
             shape: 'circle',
-            text: '',
+            text: 'R',
             
           });
         });
@@ -125,7 +138,7 @@ export default function ChartComponent() {
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
-        tooltipRef.current.style = `width: 130px; height: 210px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        tooltipRef.current.style = `width: 150px; max-height: 300px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.5)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
@@ -159,6 +172,7 @@ export default function ChartComponent() {
                   const notespec = item.y[0]
                   tooltipRef.current.innerHTML = 
               `
+              <div style="padding: 6px">
                 <div style="color: ${'#4FE7B0'}">${code}</div>
                 <div style="color: ${'white'}">
                 ${formattedTime}
@@ -170,12 +184,17 @@ export default function ChartComponent() {
                   <div>종가 : ${close}</div>
                   <div>거래량 : ${value}</div>
                 </div>
-                <hr/>
+              </div>
+              <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
                 <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>뉴스 : </div>
-                  <div>오답노트 : ${notespec}</div>
+                  <div>뉴스</div>
+                  <div>오답노트</div>
+                  <div>${notespec}</div>
                 </div>
+              <div/>
                 `
+
+              tooltipRef.current.style.maxHeight = '300px';
               let left = param.point.x + 80;
                 if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
                   left = param.point.x - tooltipRef.current.offsetWidth + 200;
@@ -189,9 +208,10 @@ export default function ChartComponent() {
 
               newsdata.forEach(item => {
                 if (item.x == formattedTime) {
-                  const newsspec = item.y[0]
+                  const newsnum = newsdata.length
                   tooltipRef.current.innerHTML = 
               `
+              <div style="padding: 6px">
                 <div style="color: ${'#4FE7B0'}">${code}</div>
                 <div style="color: ${'white'}">
                 ${formattedTime}
@@ -203,12 +223,17 @@ export default function ChartComponent() {
                   <div>종가 : ${close}</div>
                   <div>거래량 : ${value}</div>
                 </div>
-                <hr/>
+              <div/>
+              <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
                 <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>뉴스 :  ${newsspec}</div>
-                  <div>오답노트 : </div>
+                  <div>뉴스</div>
+                  <div>${newsnum}개의 뉴스가 있습니다</div>
+                  <div>오답노트</div>
                 </div>
+              <div/>
                 `
+
+              tooltipRef.current.style.maxHeight = '300px';
               let left = param.point.x + 80;
                 if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
                   left = param.point.x - tooltipRef.current.offsetWidth + 200;
@@ -228,6 +253,7 @@ export default function ChartComponent() {
               const { value } = voldata;
               tooltipRef.current.innerHTML = 
               `
+              <div style="padding: 6px">
                 <div style="color: ${'#4FE7B0'}">${code}</div>
                 <div style="color: ${'white'}">
                 ${formattedTime}
@@ -239,6 +265,7 @@ export default function ChartComponent() {
                   <div>종가 : ${close}</div>
                   <div>거래량 : ${value}</div>
                 </div>
+              </div>
                 `
               let left = param.point.x + 80;
               if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
@@ -388,18 +415,20 @@ export default function ChartComponent() {
     <div>
       <div className='chartheader'>
         <div className='headerinfo'>
-          <div className='stockname' onClick={toggleStar}>{chartData.title}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+          <div className='stockname' onClick={toggleStar}>{code}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
           <div className='stockinfo'>국내증시</div>
           <div className='stockinfo'>해외증시</div>
         </div>
+        <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
         {chartData.valuechain ? (
         <div className='valuechain'>
           <div className='value'>밸류 체인</div>
-          <div><LiaQuestionCircleSolid id='valueinfo'/></div>
+          <div><LiaQuestionCircleSolid onClick={openValueInfoModal} id='valueinfo'/></div>
         </div>
       ) : null}
+        
         {/* <div className='valuechain' >
           <div className='value'>밸류 체인</div>
           <div><LiaQuestionCircleSolid id='valueinfo'/></div>

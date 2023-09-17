@@ -27,6 +27,23 @@
 	margin: 10px;
 	color: aquamarine;
 	background-color: transparent;
-	border: 1px solid #4FE7B0;
+	/* border-radius: 5px; */
+	/* border: 1px solid #4FE7B0; */
+	border: none;
 	box-shadow: 'none';
+	cursor: pointer;
+}
+.pagenumber {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+.active {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border-bottom: 1px solid aquamarine;
+	cursor: pointer;
 }
