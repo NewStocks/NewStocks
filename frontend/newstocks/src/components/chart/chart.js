@@ -9,6 +9,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import ValueInfoModal from './ValuechainQuestion';
 import ValueChainModal from './ValuechainInfo';
+import StockProfile from "@/components/StockProfile/StockProfile";
 
 export default function ChartComponent() {
   const router = useRouter();
@@ -423,6 +424,13 @@ export default function ChartComponent() {
     <div>
       <div className='chartheader'>
         <div className='headerinfo'>
+        <StockProfile
+            stockName="삼성전자"
+            stockId=""
+            size="small"
+            stockMarket=""
+            stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
+          />
           <div className='stockname' onClick={toggleStar}>{code}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
