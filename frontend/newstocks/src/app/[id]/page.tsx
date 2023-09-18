@@ -1,38 +1,37 @@
 import styles from "./stock.module.css";
 
-import LikeStockTab from '@/components/LikeStockTab/LikeStockTab'
-import Chart from '@/components/chart/chart'
-import TabsView from '@/components/TabsView/TabsView'
-import Newstab from '@/components/News/Newstab'
+import LikeStockTab from "@/components/LikeStockTab/LikeStockTab";
+import Chart from "@/components/chart/chart";
+import TabsView from "@/components/TabsView/TabsView";
+import Newstab from "@/components/News/Newstab";
 
 type Props = {
   params: {
     id: string;
   };
   searchParams: {
-    [key: string]: string | string[] | undefined 
-  }
-  newsData: string;
-}
+    [key: string]: string | string[] | undefined;
+  };
+ 
+};
 
-export default function StockPage({ params, searchParams, newsData}: Props) {
+export default function StockPage({ params, searchParams}: Props) {
   return (
     <div>
       <div className={styles["mainpage"]}>
-          <div className={styles["like-container"]}>
-            <div className={styles["like-tab"]}>
-              <div className={styles["like-tab-sticky"]}>
-                <LikeStockTab />
-              </div>
+        <div className={styles["like-container"]}>
+          <div className={styles["like-tab"]}>
+            <div className={styles["like-tab-sticky"]}>
+              <LikeStockTab />
             </div>
           </div>
+        </div>
+        <div>
+          <div className="components">
+            <Chart />
+          </div>
           <div>
-            <div className='components'>
-              <Chart />
-            </div>
-            <div>
-              <Newstab />
-            </div>
+            <Newstab />
           </div>
         </div>
       </div>

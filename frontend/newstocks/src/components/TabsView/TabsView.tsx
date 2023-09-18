@@ -10,7 +10,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 export default function TabsView() {
   const tabName = useSearchParams();
   const tabcode: string | null = usePathname()
-  const code = tabcode.split('/').filter(Boolean)[0];
+  const code = tabcode ? tabcode.split('/').filter(Boolean)[0] : '';
 
   console.log(tabName?.get("tab"));
 
