@@ -35,6 +35,19 @@ public class NoticeService {
         Notice notice = NoticeMapper.INSTANCE.noticeReqDtoToEntity(noticeInsertReqDto);
         noticeRepository.save(notice);
         // 이미지 처리
+        return getNoticeInsertResDto(noticeInsertReqDto, notice);
+    }
+
+    @Transactional
+    public NoticeInsertResDto modifyNotice(NoticeInsertReqDto noticeInsertReqDto, Long id) {
+        Notice notice = noticeRepository.findById(id).orElseThrow(()-> new ArithmeticException("수정하려는 공지사항이 없습니다."));
+        notice = NoticeMapper.INSTANCE.noticeReqDtoToEntity(noticeInsertReqDto);
+        // 이미지 처리
+        return getNoticeInsertResDto(noticeInsertReqDto, notice);
+    }
+
+    private NoticeInsertResDto getNoticeInsertResDto(NoticeInsertReqDto noticeInsertReqDto,
+        Notice notice) {
         List<NoticeImageDto> noticeImageDtoList = new ArrayList<>();
         if (noticeInsertReqDto.getMultipartFileList() != null) {
             for (MultipartFile multipartFile : noticeInsertReqDto.getMultipartFileList()) {
@@ -46,8 +59,7 @@ public class NoticeService {
                 noticeImageDtoList.add(noticeImageDto);
             }
         }
-        NoticeInsertResDto noticeInsertResDto = NoticeMapper.INSTANCE.entityToNoticeInsertResDto(
-            notice);
+        NoticeInsertResDto noticeInsertResDto = NoticeMapper.INSTANCE.entityToNoticeInsertResDto(notice);
         noticeInsertResDto.setNoticeImageDtoList(noticeImageDtoList);
         return noticeInsertResDto;
     }

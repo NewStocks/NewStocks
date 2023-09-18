@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +43,10 @@ public class NoticeController {
     public ResponseEntity<NoticeResDto> findDetailNoticeById(@PathVariable Long id) {
         System.out.println(id);
         return new ResponseEntity<>(noticeService.findDetailNoticeById(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/modify/{id}")
+    public ResponseEntity<NoticeInsertResDto> modifyNotice(@PathVariable Long id,@ModelAttribute NoticeInsertReqDto noticeInsertReqDto){
+        return new ResponseEntity<>(noticeService.modifyNotice(noticeInsertReqDto,id), HttpStatus.OK);
     }
 }
