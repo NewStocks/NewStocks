@@ -175,7 +175,7 @@ public class ReviewNoteService {
     @Transactional
     public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByDeletedFalseAndPrivacyFalseOrMember(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
             member);
         List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
             .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();

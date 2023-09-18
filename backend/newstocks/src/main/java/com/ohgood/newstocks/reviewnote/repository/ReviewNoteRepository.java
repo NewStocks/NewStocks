@@ -17,6 +17,5 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
     List<ReviewNote> findReviewNotesByStockId(String stockId);
 
 
-    @Query("select rv from ReviewNote rv where rv.deleted = false and (rv.privacy = false or rv.member = :member)")
-    List<ReviewNote> findByDeletedFalseAndPrivacyFalseOrMember(Member member);
+    List<ReviewNote> findByPrivacyFalseOrMemberAndDeletedFalse(Member member);
 }
