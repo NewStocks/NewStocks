@@ -17,6 +17,7 @@ public class NoticeDto {
     public void setNoticeImageDtoList(Notice notice) {
         this.noticeImageDtoList = notice.getNoticeImageList()
             .stream()
+            .filter(noticeImage -> !noticeImage.getDeleted()) // deleted가 false인 것만 필터링
             .map(NoticeMapper.INSTANCE::entityToNoticeImageDto)
             .collect(Collectors.toList());
     }
