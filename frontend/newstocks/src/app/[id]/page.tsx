@@ -1,4 +1,4 @@
-import styles from './stock.module.css'
+import styles from "./stock.module.css";
 
 import LikeStockTab from '@/components/LikeStockTab/LikeStockTab'
 import Chart from '@/components/chart/chart'
@@ -7,8 +7,8 @@ import Newstab from '@/components/News/Newstab'
 
 type Props = {
   params: {
-    id: string,
-  }
+    id: string;
+  };
   searchParams: {
     [key: string]: string | string[] | undefined 
   }
@@ -34,13 +34,20 @@ export default function StockPage({ params, searchParams, newsData}: Props) {
               <Newstab />
             </div>
           </div>
-            <div> 
-              <div id="portal"></div>
-            </div>
-            <div className={styles["Side-container"]}>
-              <TabsView />
-            </div>
         </div>
+      </div>
+      <div>
+        <div className="components">
+          <Chart />
+        </div>
+        <div>{/* 뉴스 보여지는 곳 */}</div>
+      </div>
+      <div>
+        <div id="portal"></div>
+      </div>
+      <div id="side-container" className={styles["side-container"]}>
+        <TabsView />
+      </div>
     </div>
   );
 }
