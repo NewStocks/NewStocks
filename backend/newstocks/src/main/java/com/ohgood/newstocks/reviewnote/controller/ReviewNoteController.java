@@ -5,6 +5,7 @@ import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
 import com.ohgood.newstocks.reviewnote.service.ReviewNoteService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,11 @@ public class ReviewNoteController {
         // Authentication 처리 전 임시 테스트
         reviewNoteService.deleteReviewNote(reviewNoteId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/find-all")
+    public ResponseEntity<List<ReviewNoteResDto>> findReviewNoteList() {
+        // Authentication 처리 전 임시 테스트
+        return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
     }
 }

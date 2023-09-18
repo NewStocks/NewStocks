@@ -6,6 +6,11 @@ import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.reviewnote.entity.NoteType;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLike;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLink;
+import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteImageMapper;
+import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteLinkMapper;
 import com.ohgood.newstocks.stock.dto.StockDto;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.mapper.StockMapper;
@@ -32,12 +37,12 @@ public class ReviewNoteResDto {
     private LocalDateTime sellDate;
     private LocalDateTime settingDate;
     private NoteType type;
-//    private Boolean display;
+    //    private Boolean display;
     private Boolean privacy;
     private StockDto stockDto;
     private MemberDto memberDto;
     private List<ReviewNoteImageDto> reviewNoteImageDtoList = new ArrayList<>();
-    private List<ReviewNoteLinkDto> reviewNoteLinkList = new ArrayList<>();
+    private List<ReviewNoteLinkDto> reviewNoteLinkDtoList = new ArrayList<>();
     private List<NewsDto> newsDtoList = new ArrayList<>();
 
     private Boolean hasAuthority;
@@ -48,6 +53,10 @@ public class ReviewNoteResDto {
     private Member member;
     @JsonIgnore
     private Stock stock;
+    @JsonIgnore
+    private List<ReviewNoteImage> reviewNoteImageList;
+    @JsonIgnore
+    private List<ReviewNoteLink> reviewNoteLinkList;
 
     public void addDetails(Member member, Stock stock) {
         this.member = member;
@@ -60,5 +69,17 @@ public class ReviewNoteResDto {
         }
         this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(this.member);
         this.stockDto = StockMapper.INSTANCE.entityToStockDto(this.stock);
+        this.reviewNoteImageDtoList = this.reviewNoteImageList.stream()
+            .map(ReviewNoteImageMapper.INSTANCE::entityToReviewNoteImageDto).toList();
+        this.reviewNoteLinkDtoList = this.reviewNoteLinkList.stream()
+            .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto).toList();
+    }
+
+    public void checkMember(Member member) {
+        this.hasAuthority = this.getMember().equals(member);
+
+        // TODO 추후 변경 필요
+        this.isLiked = false;
+        this.isScrapped = false;
     }
 }
