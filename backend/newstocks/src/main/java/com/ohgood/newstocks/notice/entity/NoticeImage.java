@@ -30,10 +30,6 @@ public class NoticeImage extends BaseEntity {
     @JoinColumn(name = "notice_id")
     private Notice notice;
 
-    public void setDelete(Boolean toggle) {
-        this.delete();
-    }
-
     @Builder
     public NoticeImage(String url, Notice notice) {
         this.url = url;
