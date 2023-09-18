@@ -9,6 +9,7 @@ import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.reviewnote.mapper.ReplyMapper;
 import com.ohgood.newstocks.reviewnote.repository.ReplyRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,42 @@ public class ReplyService {
         return replyResDto;
     }
 
+    public List<ReplyResDto> findReply(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+
+        List<Reply> replyList = replyRepository.findByReviewNote(reviewNote);
+        List<ReplyResDto> replyResDtoList = replyList.stream()
+            .map(ReplyMapper.INSTANCE::entityToReplyResDto).toList();
+        replyResDtoList.forEach(ReplyResDto::addDetailDtos);
+        replyResDtoList.forEach(replyResDto -> replyResDto.checkMember(member));
+        return replyResDtoList;
+    }
+
+    @Transactional
+    public void updateReply(ReplyReqDto replyReqDto, Long replyId, Long userId) {
+        Reply reply = findReplyById(replyId);
+        checkUserAuth(userId, reply);
+        reply.updateReply(replyReqDto);
+        replyRepository.save(reply);
+    }
+
+    @Transactional
+    public void deleteReply(Long replyId, Long userId) {
+        Reply reply = findReplyById(replyId);
+        checkUserAuth(userId, reply);
+        reply.delete();
+        replyRepository.save(reply);
+    }
+
     // -- 내부 메서드 --
+
+    private void checkUserAuth(Long userId, Reply reply) {
+        // 관리자 권한 추가 생각하여 함수로 분리
+        if (!reply.getMember().getId().equals(userId)) {
+            throw new ArithmeticException("권한이 없습니다");
+        }
+    }
 
     // -- 예외 처리용 코드 --
 
@@ -56,4 +92,8 @@ public class ReplyService {
             .orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
     }
 
+    public Reply findReplyById(Long replyId) {
+        return replyRepository.findByIdAndDeletedFalse(replyId)
+            .orElseThrow(() -> new ArithmeticException("해당하는 댓글이 없습니다."));
+    }
 }

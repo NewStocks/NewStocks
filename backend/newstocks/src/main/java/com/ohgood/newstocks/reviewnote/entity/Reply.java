@@ -2,6 +2,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 
 import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.reviewnote.dto.ReplyReqDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -55,5 +56,9 @@ public class Reply extends BaseEntity {
     public void addDetails(Member member, ReviewNote reviewNote) {
         this.member = member;
         this.reviewNote = reviewNote;
+    }
+
+    public void updateReply(ReplyReqDto replyReqDto) {
+        this.content = replyReqDto.getContent();
     }
 }
