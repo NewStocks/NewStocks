@@ -19,34 +19,26 @@ export default function StockPage({ params, searchParams}: Props) {
   return (
     <div>
       <div className={styles["mainpage"]}>
-        <div className={styles["like-container"]}>
-          <div className={styles["like-tab"]}>
-            <div className={styles["like-tab-sticky"]}>
-              <LikeStockTab />
+          <div className={styles["like-container"]}>
+            <div className={styles["like-tab"]}>
+              <div className={styles["like-tab-sticky"]}>
+                <LikeStockTab />
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          <div className="components">
-            <Chart />
-          </div>
           <div>
-            <Newstab />
+            <div className='components'>
+              <Chart />
+            </div>
+            <div>
+              <Newstab />
+            </div>
           </div>
+            
+            <div className={styles["Side-container"]}>
+              <TabsView />
+            </div>
         </div>
-      </div>
-      <div>
-        <div className="components">
-          <Chart />
-        </div>
-        <div>{/* 뉴스 보여지는 곳 */}</div>
-      </div>
-      <div>
-        <div id="portal"></div>
-      </div>
-      <div id="side-container" className={styles["side-container"]}>
-        <TabsView />
-      </div>
     </div>
   );
 }
