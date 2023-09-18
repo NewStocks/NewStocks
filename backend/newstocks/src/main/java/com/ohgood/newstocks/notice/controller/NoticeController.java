@@ -3,6 +3,7 @@ package com.ohgood.newstocks.notice.controller;
 import com.ohgood.newstocks.notice.dto.NoticeInsertReqDto;
 import com.ohgood.newstocks.notice.dto.NoticeInsertResDto;
 import com.ohgood.newstocks.notice.dto.NoticeResDto;
+import com.ohgood.newstocks.notice.dto.NoticeUpdateReqDto;
 import com.ohgood.newstocks.notice.service.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,8 @@ public class NoticeController {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<NoticeInsertResDto> updateNotice(@PathVariable Long id,
-        @ModelAttribute NoticeInsertReqDto noticeInsertReqDto) {
-        return new ResponseEntity<>(noticeService.updateNotice(noticeInsertReqDto, id),
+        @ModelAttribute NoticeUpdateReqDto noticeUpdateReqDto) {
+        return new ResponseEntity<>(noticeService.updateNotice(noticeUpdateReqDto, id),
             HttpStatus.OK);
     }
 

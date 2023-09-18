@@ -1,7 +1,7 @@
 package com.ohgood.newstocks.notice.entity;
 
 import com.ohgood.newstocks.global.entity.BaseEntity;
-import com.ohgood.newstocks.notice.dto.NoticeInsertReqDto;
+import com.ohgood.newstocks.notice.dto.NoticeUpdateReqDto;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +33,9 @@ public class Notice extends BaseEntity {
     @Fetch(FetchMode.JOIN)
     private List<NoticeImage> noticeImageList;
 
-    public void updateNotice(NoticeInsertReqDto noticeInsertReqDto) {
-        this.title = noticeInsertReqDto.getTitle();
-        this.content = noticeInsertReqDto.getContent();
+    public void updateNotice(NoticeUpdateReqDto noticeUpdateReqDto) {
+        this.title = noticeUpdateReqDto.getTitle();
+        this.content = noticeUpdateReqDto.getContent();
     }
 
     @Builder

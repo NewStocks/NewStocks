@@ -6,6 +6,7 @@ import com.ohgood.newstocks.notice.dto.NoticeImageDto;
 import com.ohgood.newstocks.notice.dto.NoticeInsertReqDto;
 import com.ohgood.newstocks.notice.dto.NoticeInsertResDto;
 import com.ohgood.newstocks.notice.dto.NoticeResDto;
+import com.ohgood.newstocks.notice.dto.NoticeUpdateReqDto;
 import com.ohgood.newstocks.notice.entity.Notice;
 import com.ohgood.newstocks.notice.entity.NoticeImage;
 import com.ohgood.newstocks.notice.mapper.NoticeImageMapper;
@@ -13,6 +14,7 @@ import com.ohgood.newstocks.notice.mapper.NoticeMapper;
 import com.ohgood.newstocks.notice.repository.NoticeImageRepository;
 import com.ohgood.newstocks.notice.repository.NoticeRepository;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,29 +39,15 @@ public class NoticeService {
         return getNoticeInsertResDto(noticeInsertReqDto, notice);
     }
 
-    @Transactional
-    public NoticeInsertResDto updateNotice(NoticeInsertReqDto noticeInsertReqDto, Long id) {
-        Notice notice = noticeRepository.findById(id)
-            .orElseThrow(() -> new ArithmeticException("수정하려는 공지사항이 없습니다."));
-        System.out.println(notice.toString());
-        notice.updateNotice(noticeInsertReqDto);
-        return getNoticeInsertResDto(noticeInsertReqDto, notice);
-    }
-
     private NoticeInsertResDto getNoticeInsertResDto(NoticeInsertReqDto noticeInsertReqDto,
         Notice notice) {
-        List<NoticeImage> beforeNoticeImageList = notice.getNoticeImageList();
-        for (NoticeImage noticeImage : beforeNoticeImageList) {
-            noticeImage.delete();
-        }
         List<NoticeImageDto> noticeImageDtoList = new ArrayList<>();
         if (noticeInsertReqDto.getMultipartFileList() != null) {
             for (MultipartFile multipartFile : noticeInsertReqDto.getMultipartFileList()) {
                 String url = awsS3Service.uploadFile("/notice", multipartFile);
-                NoticeImage noticeImage = NoticeImage.builder().url(url).notice(notice).build();
+                NoticeImage noticeImage=noticeImageRepository.save(NoticeImage.builder().url(url).notice(notice).build());
                 NoticeImageDto noticeImageDto = NoticeImageMapper.INSTANCE.entityToNoticeImageDto(
                     noticeImage);
-                noticeImageRepository.save(noticeImage);
                 noticeImageDtoList.add(noticeImageDto);
                 notice.getNoticeImageList().add(noticeImage);
             }
@@ -69,6 +57,31 @@ public class NoticeService {
         noticeInsertResDto.setNoticeImageDtoList(noticeImageDtoList);
         return noticeInsertResDto;
     }
+
+    @Transactional
+    public NoticeInsertResDto updateNotice(NoticeUpdateReqDto noticeUpdateReqDto, Long id) {
+        Notice notice = noticeRepository.findById(id)
+            .orElseThrow(() -> new ArithmeticException("수정하려는 공지사항이 없습니다."));
+        System.out.println(notice.toString());
+        notice.updateNotice(noticeUpdateReqDto);
+        return getNoticeUpdateResDto(noticeUpdateReqDto, notice);
+    }
+
+    private NoticeInsertResDto getNoticeUpdateResDto(NoticeUpdateReqDto noticeUpdateReqDto, Notice notice) {
+        if (noticeUpdateReqDto.getDeletedImageIdList() != null) {
+            HashSet<Long> deletedImageIdList = new HashSet<>(
+                noticeUpdateReqDto.getDeletedImageIdList());
+            for (NoticeImage noticeImage : notice.getNoticeImageList()) {
+                if (deletedImageIdList.contains(noticeImage.getId())) {
+                    noticeImage.delete();
+                    noticeImageRepository.save(noticeImage);
+                }
+            }
+        }
+        return getNoticeInsertResDto(NoticeMapper.INSTANCE.noticeUpdateReqDtoToNoticeInsertResDto(noticeUpdateReqDto),notice);
+    }
+
+
 
     public NoticeResDto findAllNotice() {
         List<Notice> noticeList = noticeRepository.findByDeletedFalse();

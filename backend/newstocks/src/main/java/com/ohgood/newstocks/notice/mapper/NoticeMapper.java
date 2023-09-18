@@ -4,6 +4,7 @@ import com.ohgood.newstocks.notice.dto.NoticeDto;
 import com.ohgood.newstocks.notice.dto.NoticeImageDto;
 import com.ohgood.newstocks.notice.dto.NoticeInsertReqDto;
 import com.ohgood.newstocks.notice.dto.NoticeInsertResDto;
+import com.ohgood.newstocks.notice.dto.NoticeUpdateReqDto;
 import com.ohgood.newstocks.notice.entity.Notice;
 import com.ohgood.newstocks.notice.entity.NoticeImage;
 import org.mapstruct.Mapper;
@@ -23,4 +24,6 @@ public interface NoticeMapper {
     NoticeInsertResDto entityToNoticeInsertResDto(Notice notice);
 
     NoticeImageDto entityToNoticeImageDto(NoticeImage noticeImage);
+
+    NoticeInsertReqDto noticeUpdateReqDtoToNoticeInsertResDto(NoticeUpdateReqDto noticeUpdateReqDto);
 }
