@@ -8,6 +8,7 @@ import axios from 'axios';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import ValueInfoModal from './ValuechainQuestion';
+import ValueChainModal from './ValuechainInfo';
 
 export default function ChartComponent() {
   const router = useRouter();
@@ -23,15 +24,22 @@ export default function ChartComponent() {
   const volumeSeries = useRef(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isValueModalOpen, setValueModalOpen] = useState(false);
 
   // 모달 열기 함수
   const openValueInfoModal = () => {
     setModalOpen(true);
   };
+  const openValueChainModal = () => {
+    setValueModalOpen(true);
+  };
 
   // 모달 닫기 함수
   const closeValueInfoModal = () => {
     setModalOpen(false);
+  };
+  const closeValueChainModal = () => {
+    setValueModalOpen(false);
   };
 
   const [isStarred, setIsStarred] = useState(false);
@@ -422,9 +430,10 @@ export default function ChartComponent() {
           <div className='stockinfo'>해외증시</div>
         </div>
         <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
+        <ValueChainModal isOpen={isValueModalOpen} onClose={closeValueChainModal} code={code}/>
         {chartData.valuechain ? (
         <div className='valuechain'>
-          <div className='value'>밸류 체인</div>
+          <div className='value' onClick={openValueChainModal} id='valueinfo'>밸류 체인</div>
           <div><LiaQuestionCircleSolid onClick={openValueInfoModal} id='valueinfo'/></div>
         </div>
       ) : null}

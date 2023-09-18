@@ -122,7 +122,9 @@ export default function Newstab() {
         url: `http://localhost:8200/news/find/${code}`,
       })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data[0])
+          const date = new Date(res.data[0].publishTime).getTime()
+          console.log(date)
         })
         .catch((err) => {
           console.log(err);
