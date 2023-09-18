@@ -71,8 +71,10 @@ public class ReviewNoteResDto {
         this.stockDto = StockMapper.INSTANCE.entityToStockDto(this.stock);
         this.reviewNoteImageDtoList = this.reviewNoteImageList.stream()
             .map(ReviewNoteImageMapper.INSTANCE::entityToReviewNoteImageDto).toList();
-        this.reviewNoteLinkDtoList = this.reviewNoteLinkList.stream()
-            .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto).toList();
+        if (reviewNoteLinkList != null) {
+            this.reviewNoteLinkDtoList = this.reviewNoteLinkList.stream()
+                .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto).toList();
+        }
     }
 
     public void checkMember(Member member) {

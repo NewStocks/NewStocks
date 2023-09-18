@@ -199,6 +199,7 @@ public class ReviewNoteService {
         List<ReviewNoteLinkDto> reviewNoteLinkDtoList = reviewNoteLinkList.stream()
             .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto)
             .toList();
+        log.info("" + reviewNoteLinkDtoList);
         reviewNoteResDto.setReviewNoteLinkDtoList(reviewNoteLinkDtoList);
     }
 
