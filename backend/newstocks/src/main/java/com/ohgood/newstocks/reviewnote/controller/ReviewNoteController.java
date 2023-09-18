@@ -27,7 +27,7 @@ public class ReviewNoteController {
 
     @GetMapping("/{reviewNoteId}")
     public ResponseEntity<ReviewNoteResDto> findReviewNote(@PathVariable Long reviewNoteId) {
-        return new ResponseEntity<>(reviewNoteService.findReviewNote(reviewNoteId), HttpStatus.OK);
+        return new ResponseEntity<>(reviewNoteService.findReviewNote(reviewNoteId, 5L), HttpStatus.OK);
     }
 
     @PatchMapping

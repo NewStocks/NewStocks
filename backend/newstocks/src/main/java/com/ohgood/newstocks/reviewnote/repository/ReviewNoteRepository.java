@@ -13,4 +13,6 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
     Optional<ReviewNote> findByIdAndDeletedFalse(Long reviewNoteId);
 
     List<ReviewNote> findReviewNotesByStockId(String stockId);
+
+    List<ReviewNote> findAllByDeletedFalseAndPrivacyFalse();
 }

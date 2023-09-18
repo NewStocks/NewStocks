@@ -40,6 +40,10 @@ public class ReviewNoteResDto {
     private List<ReviewNoteLinkDto> reviewNoteLinkList = new ArrayList<>();
     private List<NewsDto> newsDtoList = new ArrayList<>();
 
+    private Boolean hasAuthority;
+    private Boolean isLiked;
+    private Boolean isScrapped;
+
     @JsonIgnore
     private Member member;
     @JsonIgnore
@@ -50,8 +54,11 @@ public class ReviewNoteResDto {
         this.stock = stock;
     }
 
-    public void addDetailDtos(Member member, Stock stock) {
-        this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(member);
-        this.stockDto = StockMapper.INSTANCE.entityToStockDto(stock);
+    public void addDetailDtos() {
+        if (this.member == null || this.stock == null) {
+            throw new ArithmeticException("설정된 멤버 혹은 주식이 없습니다.");
+        }
+        this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(this.member);
+        this.stockDto = StockMapper.INSTANCE.entityToStockDto(this.stock);
     }
 }

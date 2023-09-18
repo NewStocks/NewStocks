@@ -84,18 +84,28 @@ public class ReviewNoteService {
         // insertReviewNoteNewsToReviewNote(reviewNote, reviewNoteReqDto, reviewNoteResDto);
 
         // Member, Stock 등 DTO 정보 저장
-        reviewNoteResDto.addDetailDtos(member, stock);
+        reviewNoteResDto.addDetailDtos();
         log.info("오답노트의 멤버 " + reviewNote.getMember());
+
+        checkMember(member, reviewNoteResDto);
 
         log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
         return reviewNoteResDto;
     }
 
-    public ReviewNoteResDto findReviewNote(Long reviewNoteId) {
+    public ReviewNoteResDto findReviewNote(Long reviewNoteId, Long userId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+
+        if (Boolean.TRUE.equals(reviewNote.getPrivacy()) && !reviewNote.getMember().equals(member)) {
+            throw new ArithmeticException("오답노트 조회 권한이 없습니다.");
+        }
+
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
             reviewNote);
-        reviewNoteResDto.addDetailDtos(reviewNote.getMember(), reviewNote.getStock());
+        reviewNoteResDto.addDetailDtos();
+
+        checkMember(member, reviewNoteResDto);
 
         return reviewNoteResDto;
     }
@@ -105,6 +115,8 @@ public class ReviewNoteService {
         Long userId) {
         // 권한 확인
         ReviewNote reviewNote = findReviewNoteById(reviewNoteUpdateReqDto.getId());
+        Member member = findMemberById(userId);
+
         if (!checkUserAuth(userId, reviewNote)) {
             log.debug("글을 수정할 권한이 없습니다.");
             throw new ArithmeticException("글을 수정할 권한이 없습니다.");
@@ -134,11 +146,6 @@ public class ReviewNoteService {
         uploadImageListToS3(reviewNote, reviewNoteUpdateReqDto.getMultipartFileList(),
             reviewNoteResDto);
 
-        // TODO
-        //  해야할 것
-        //  1. res dto로 변경 (link 처리 해야함)
-        //  2. req -> reviewNote 갈 때 변경된 컬럼들 잘 되는지
-
         // 링크 추가 삭제 처리 (hard delete)
         // 좋은 방법 있는지 고민 필요
         reviewNoteLinkRepository.deleteAll(reviewNote.getReviewNoteLinkList());
@@ -147,11 +154,15 @@ public class ReviewNoteService {
         // 링크 추가
         insertReviewNoteLinkToReviewNote(reviewNote, reviewNoteUpdateReqDto.getLinkList(), reviewNoteResDto);
 
-        // Member, Stock -> res 추가 필요
+        // TODO Member, Stock -> res 추가 필요
+        reviewNoteResDto.addDetailDtos();
+
+        checkMember(member, reviewNoteResDto);
 
         return reviewNoteResDto;
     }
 
+    @Transactional
     public void deleteReviewNote(Long reviewNoteId, Long userId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
         if (!checkUserAuth(userId, reviewNote)) {
@@ -159,6 +170,12 @@ public class ReviewNoteService {
         }
         reviewNote.delete();
         reviewNoteRepository.save(reviewNote);
+    }
+
+    @Transactional
+    public void findAllReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+
     }
 
     // -- 내부 메서드 코드 --
@@ -220,6 +237,15 @@ public class ReviewNoteService {
     private boolean checkUserAuth(Long userId, ReviewNote reviewNote) {
         // 관리자 권한 추가 생각하여 함수로 분리
         return reviewNote.getMember().getId().equals(userId);
+    }
+
+    // TODO 이름 변경 할 것
+    private void checkMember(Member member, ReviewNoteResDto reviewNoteResDto) {
+        reviewNoteResDto.setHasAuthority(reviewNoteResDto.getMember().equals(member));
+
+        // TODO 추후 변경 필요
+        reviewNoteResDto.setIsLiked(false);
+        reviewNoteResDto.setIsScrapped(false);
     }
 
     // -- 예외 처리용 코드 --
