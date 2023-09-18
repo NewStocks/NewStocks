@@ -35,7 +35,7 @@ export default function StockPage({ params, searchParams}: Props) {
             </div>
           </div>
             
-            <div className={styles["Side-container"]}>
+            <div className={styles["side-container"]}>
               <TabsView />
             </div>
         </div>
