@@ -16,5 +16,4 @@ public interface ReplyMapper {
     Reply replyResDtoToEntity(ReplyResDto replyResDto);
 
     ReplyResDto entityToReplyResDto(Reply reply);
-
 }
