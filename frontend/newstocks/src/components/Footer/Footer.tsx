@@ -12,7 +12,7 @@ export default function Footer() {
     const handleScroll = () => {
         const scrollY = window.scrollY;
 
-        if (scrollY >= 1100) {
+        if (scrollY >= 1150) {
             setIsVisible(true);
         } else {
             setIsVisible(false);
