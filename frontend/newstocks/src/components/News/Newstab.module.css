@@ -1,0 +1,49 @@
+.newsmain {
+	border: 1px solid #5a5a5ada;
+}
+.newsconstent{
+	border-bottom: 1px solid #5a5a5ada;
+}
+.newsheader {
+	border-bottom: 1px solid #5a5a5ada;
+}
+.newstitle {
+	/* margin-bottom: 10px; */
+}
+.newsdate {
+	font-size: 9px;
+	display: flex;
+	justify-content: right;
+	margin-right: 10px;
+}
+.newsurl {
+	font-size: 9px;
+}
+.pagebuttonbox {
+	display: flex;
+	justify-content: center;
+}
+.pagebutton {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	/* border-radius: 5px; */
+	/* border: 1px solid #4FE7B0; */
+	border: none;
+	box-shadow: 'none';
+	cursor: pointer;
+}
+.pagenumber {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+.active {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border-bottom: 1px solid aquamarine;
+	cursor: pointer;
+}
