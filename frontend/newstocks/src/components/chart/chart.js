@@ -312,17 +312,17 @@ export default function ChartComponent() {
                 const notespec = item.y
                 console.log(notespec); //오답노트 제목, id출력
                 //해당 오답노트 보여주기
-                router.push(`/${code}?tab=notes`);
+                router.push(`/${code}?tab=notes&date=${formattedTime}`);
               } 
             });
-            newsdata.forEach(item => {
-              if (item.x == formattedTime) {
-                const newsspec = item.y
-                console.log(newsspec); //뉴스 제목, url출력
-                //해당 뉴스 보여주기
-                router.push(`/${code}?tab=news`);
-              }
-            });
+            // newsdata.forEach(item => {
+            //   if (item.x == formattedTime) {
+            //     const newsspec = item.y
+            //     console.log(newsspec); //뉴스 제목, url출력
+            //     //해당 뉴스 보여주기
+            //     router.push(`/${code}?tab=news`);
+            //   }
+            // });
           } 
           console.log(notedata);
         };

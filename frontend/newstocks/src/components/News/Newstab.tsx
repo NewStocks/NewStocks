@@ -5,8 +5,11 @@ import axios from 'axios';
 import styles from './Newstab.module.css'
 
 type NewsItem = {
-  x: string;
-  y: any[];
+  company: any
+  publishTime: string
+  stockId: string
+  title: string
+  url: string
 };
 
 type GroupedNewsData = {
@@ -86,26 +89,27 @@ export default function Newstab() {
         url: `http://localhost:8200/stock/find-chart/${code}`,
       })
         .then((res) => {
-          const newsItems: NewsItem[] = res.data.series[1].data;
-          console.log(newsItems)
-          // 같은 날짜별로 그룹화 하기
-          const groupedNewsData: GroupedNewsData[] = newsItems.reduce(
-            (acc: GroupedNewsData[], currentItem: NewsItem) => {
-              const currentDate = currentItem.x;
-              const existingGroup = acc.find((group) => group.date === currentDate);
+          console.log(res.data.series[1].data)
+          // const newsItems: NewsItem[] = res.data.series[1].data;
+          // console.log(newsItems)
+          // // 같은 날짜별로 그룹화 하기
+          // const groupedNewsData: GroupedNewsData[] = newsItems.reduce(
+          //   (acc: GroupedNewsData[], currentItem: NewsItem) => {
+          //     const currentDate = currentItem.x;
+          //     const existingGroup = acc.find((group) => group.date === currentDate);
 
-              if (existingGroup) {
-                existingGroup.newsItems.push(currentItem);
-              } else {
-                acc.push({ date: currentDate, newsItems: [currentItem] });
-              }
+          //     if (existingGroup) {
+          //       existingGroup.newsItems.push(currentItem);
+          //     } else {
+          //       acc.push({ date: currentDate, newsItems: [currentItem] });
+          //     }
 
-              return acc;
-            },
-            []
-          );
+          //     return acc;
+          //   },
+          //   []
+          // );
 
-          setNewsData(groupedNewsData);
+          // setNewsData(groupedNewsData);
         })
         .catch((err) => {
           console.log(err);
@@ -122,9 +126,33 @@ export default function Newstab() {
         url: `http://localhost:8200/news/find/${code}`,
       })
         .then((res) => {
-          console.log(res.data[0])
+          console.log(res.data)
           const date = new Date(res.data[0].publishTime).getTime()
           console.log(date)
+
+          const newsItems: NewsItem[] = res.data;
+          console.log(newsItems)
+          // 같은 날짜별로 그룹화 하기
+          const groupedNewsData: GroupedNewsData[] = newsItems.reduce(
+            (acc: GroupedNewsData[], currentItem: NewsItem) => {
+              // console.log(currentItem.publishTime)
+              // const currentDate = currentItem.publishTime;
+              const currentDate = new Date(currentItem.publishTime).toDateString();
+              // console.log(currentDate)
+              const existingGroup = acc.find((group) => group.date === currentDate);
+
+              if (existingGroup) {
+                existingGroup.newsItems.push(currentItem);
+              } else {
+                acc.push({ date: currentDate, newsItems: [currentItem] });
+              }
+
+              return acc;
+            },
+            []
+          );
+
+          setNewsData(groupedNewsData);
         })
         .catch((err) => {
           console.log(err);
@@ -158,19 +186,19 @@ export default function Newstab() {
         <div>
           {currentItems.map((newsItem, index) => (
             <div className={styles["newsconstent"]} key={index}>
-              <div className={styles["newsdate"]}>{newsItem.x}</div>
+              <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
               <div className={styles["newstitle"]}><a
-                  href={newsItem.y[3]}
+                  href={newsItem.url}
                   onClick={(e) => {
                     e.preventDefault();
-                    window.open(newsItem.y[3], '_blank', 'width=1000,height=600');
+                    window.open(newsItem.url, '_blank', 'width=1000,height=600');
                   }}
                   style={{ textDecoration:'none', color: 'inherit' }}
                 >
-                  {newsItem.y[0]}
+                  {newsItem.title}
                 </a></div>
               <div className={styles["newsurl"]}>
-                {newsItem.y[3]}
+                {newsItem.url}
               </div>
             </div>
           ))}
