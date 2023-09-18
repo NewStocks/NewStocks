@@ -78,7 +78,7 @@ export default function DetailnotePage({ params, searchParams, }: Props) {
       </div>
 
       <div className={styles["commentinput-container"]}>
-        <CommentInput type="comment" func={() => {}}/>
+        <CommentInput type="comment" func={null}/>
       </div>
 
       <div className={styles["commentview-container"]}>
