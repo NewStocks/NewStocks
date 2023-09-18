@@ -67,9 +67,10 @@ const PointText = styled.span`
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  code: any;
 };
 
-export default function Modal({ isOpen, onClose }: ModalProps) {
+export default function ValuechainModal({ isOpen, onClose, code }: ModalProps) {
   const [modalOpen, setModalOpen] = useState(isOpen);
 
   // 모달의 상태 변경
@@ -83,14 +84,13 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
     <ModalOverlay>
       <ModalContainer>
         <ModalHeader>
-          <h3><PointText>밸류체인(Value Chain)</PointText > 이란?</h3>
+          <h3><PointText>삼성 전자 {code}</PointText >의 밸류체인</h3>
           <CloseButton onClick={() => { onClose(); setModalOpen(false); }}>&times;</CloseButton>
         </ModalHeader>
         <ModalContent>
           <p>
-          <PointText>밸류체인</PointText >은 가치사슬이라는 의미로 제품을 생산하기 위해서 제조공정을 세분화해 <PointText>사슬
-            (Chain)</PointText >처럼 엮여 <PointText>가치 (Value)</PointText >를 창출하는 것을 의미합니다. 
-            기업이 제품 및 서비스를 생산해서 부가가치를 생성하는 모든 과정을 말합니다.
+            삼전이랑 연결된 밸류체인
+            코드는 {code}
           </p>
         </ModalContent>
       </ModalContainer>
