@@ -3,7 +3,6 @@ import styles from './createpage.module.css'
 import styled from 'styled-components'
 import Link from 'next/link';
 import dynamic from 'next/dynamic'
-
 const CreatePostForm = dynamic(() => import('@/components/CreatePostForm/CreatePostForm'))
 
 import { IoIosArrowBack } from 'react-icons/io'

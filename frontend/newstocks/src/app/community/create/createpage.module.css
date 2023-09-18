@@ -32,6 +32,7 @@
   color: white;
   background-color: transparent;
   border: 0;
+  cursor: pointer;
 }
 
 .stock-selected-box input:focus {
