@@ -16,8 +16,11 @@ public interface NoticeMapper {
     NoticeMapper INSTANCE = Mappers.getMapper(NoticeMapper.class);
 
     Notice noticeReqDtoToEntity(NoticeInsertReqDto dto);
+
     @Mapping(target = "noticeImageDtoList", ignore = true)
     NoticeDto entityToNoticeDto(Notice notice);
+
     NoticeInsertResDto entityToNoticeInsertResDto(Notice notice);
+
     NoticeImageDto entityToNoticeImageDto(NoticeImage noticeImage);
 }

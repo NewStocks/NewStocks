@@ -9,6 +9,6 @@ import org.mapstruct.factory.Mappers;
 public interface NoticeImageMapper {
 
     NoticeImageMapper INSTANCE = Mappers.getMapper(NoticeImageMapper.class);
-    NoticeImageDto entityToNoticeImageDto(NoticeImage noticeImage);
 
+    NoticeImageDto entityToNoticeImageDto(NoticeImage noticeImage);
 }

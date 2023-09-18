@@ -107,7 +107,6 @@ public class ReviewNote extends BaseEntity {
     public ReviewNote(String title, Boolean privacy, LocalDateTime settingDate,
         LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity,
         int sellQuantity, String content, NoteType type, Member member,
-        List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList,
         Stock stock) {
         this.title = title;
         this.likeCount = 0;
