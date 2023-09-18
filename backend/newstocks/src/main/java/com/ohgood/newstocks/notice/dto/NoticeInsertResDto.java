@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class NoticeInsertResDto {
 
+    private Long id;
     private String title;
     private String content;
     private List<NoticeImageDto> noticeImageDtoList;
@@ -18,7 +19,8 @@ public class NoticeInsertResDto {
     }
 
     @Builder
-    public NoticeInsertResDto(String title, String content) {
+    public NoticeInsertResDto(Long id, String title, String content) {
+        this.id=id;
         this.title = title;
         this.content = content;
         this.noticeImageDtoList = new ArrayList<>();

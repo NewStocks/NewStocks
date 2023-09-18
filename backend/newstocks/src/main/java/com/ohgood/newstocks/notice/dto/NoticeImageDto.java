@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class NoticeImageDto {
 
+    private Long id;
     private String url;
 }
