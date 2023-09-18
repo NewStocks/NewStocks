@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -45,8 +46,15 @@ public class NoticeController {
         return new ResponseEntity<>(noticeService.findDetailNoticeById(id), HttpStatus.OK);
     }
 
-    @PatchMapping("/modify/{id}")
-    public ResponseEntity<NoticeInsertResDto> modifyNotice(@PathVariable Long id,@ModelAttribute NoticeInsertReqDto noticeInsertReqDto){
-        return new ResponseEntity<>(noticeService.modifyNotice(noticeInsertReqDto,id), HttpStatus.OK);
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<NoticeInsertResDto> updateNotice(@PathVariable Long id,
+        @ModelAttribute NoticeInsertReqDto noticeInsertReqDto) {
+        return new ResponseEntity<>(noticeService.updateNotice(noticeInsertReqDto, id),
+            HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteNotice(@PathVariable Long id) {
+        return new ResponseEntity<>(noticeService.deleteNotice(id), HttpStatus.OK);
     }
 }

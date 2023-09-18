@@ -9,11 +9,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Entity
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice extends BaseEntity {
 
@@ -31,8 +33,9 @@ public class Notice extends BaseEntity {
     @Fetch(FetchMode.JOIN)
     private List<NoticeImage> noticeImageList;
 
-    public void noticeModify(NoticeInsertReqDto noticeInsertReqDto){
-
+    public void updateNotice(NoticeInsertReqDto noticeInsertReqDto) {
+        this.title = noticeInsertReqDto.getTitle();
+        this.content = noticeInsertReqDto.getContent();
     }
 
     @Builder
