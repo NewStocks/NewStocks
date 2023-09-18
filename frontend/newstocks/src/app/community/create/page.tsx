@@ -1,10 +1,10 @@
 'use client';
-
 import styles from './createpage.module.css'
 import styled from 'styled-components'
 import Link from 'next/link';
+import dynamic from 'next/dynamic'
 
-import CreatePostForm from '@/components/CreatePostForm/CreatePostForm'
+const CreatePostForm = dynamic(() => import('@/components/CreatePostForm/CreatePostForm'))
 
 import { IoIosArrowBack } from 'react-icons/io'
 
@@ -18,6 +18,10 @@ export default function CreatePage() {
       <div className={styles["top-menu"]}>
         <StyledLink href='/'><div><IoIosArrowBack />뒤로가기</div></StyledLink>
         <h2>오답노트 작성</h2>
+      </div>
+
+      <div className={styles["stock-selected-box"]}>
+        <input type="text" placeholder="🔍종목검색" />
       </div>
 
       <CreatePostForm />

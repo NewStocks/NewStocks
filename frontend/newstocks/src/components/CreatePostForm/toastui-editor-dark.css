@@ -1,6 +1,6 @@
 @charset "utf-8";
 .toastui-editor-dark.toastui-editor-defaultUI {
-  border-color: rgba(255, 255, 255, 0.23);
+  /* border-color: rgba(255, 255, 255, 0.23); */
   border: 2px solid rgba(255, 255, 255, 0.23);
   color: #eee;
 }
@@ -14,6 +14,13 @@
 .toastui-editor-dark .toastui-editor-defaultUI-toolbar {
   background-color: rgba(255, 255, 255, 0.23);
   border-bottom-color: #303238;
+  padding: 0 0 0 25%;
+}
+
+.toastui-editor-dark .toastui-editor-defaultUI-toolbar .toastui-editor-toolbar-group {
+  display: flex;
+  justify-content: center;
+  margin: 0 10px;
 }
 
 .toastui-editor-dark .toastui-editor-toolbar-icons {

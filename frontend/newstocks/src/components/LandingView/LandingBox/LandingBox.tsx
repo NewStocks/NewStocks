@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from '../../Button/Button'
 
 type Props = {
-  position: number | null,
+  position: number | 0,
   right: boolean
 }
 

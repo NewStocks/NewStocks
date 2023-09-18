@@ -10,3 +10,30 @@
 .top-menu div:hover {
   font-weight: 550;
 }
+
+/* 주식 검색창 */
+
+.stock-selected-box {
+  height: 38px;
+  width: 250px;
+  border: 0;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.23);
+  padding: 0 2%;
+
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.stock-selected-box input{
+  height: 30px;
+  width: 85%;
+  color: white;
+  background-color: transparent;
+  border: 0;
+}
+
+.stock-selected-box input:focus {
+  outline: none;
+}
