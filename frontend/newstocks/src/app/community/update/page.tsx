@@ -16,7 +16,7 @@ const StyledLink = styled(Link)`
 export default function UpdatePage() {
 
   const onAlertModalOpen = () => {
-    // alert('정말 뒤로 가시겠습니까 ?????')
+    alert('정말 뒤로 가시겠습니까 ?????')
   }
 
   const browserPreventEvent = (event: () => void) => {

@@ -13,7 +13,7 @@ import { AiOutlineShareAlt } from "react-icons/ai";
 
 type Props = {
   params: {
-    id: string;
+    id: number;
   };
   searchParams: {
     [key: string]: string | string[] | undefined;
