@@ -1,11 +1,16 @@
 .newsmain {
 	border: 1px solid #5a5a5ada;
 }
-.newsconstent{
+.newscontent{
 	border-bottom: 1px solid #5a5a5ada;
 }
 .newsheader {
 	border-bottom: 1px solid #5a5a5ada;
+	/* display: flex; */
+}
+.globalheader {
+	display: flex;
+	/* justify-content: center; */
 }
 .newstitle {
 	/* margin-bottom: 10px; */
@@ -47,3 +52,4 @@
 	border-bottom: 1px solid aquamarine;
 	cursor: pointer;
 }
+
