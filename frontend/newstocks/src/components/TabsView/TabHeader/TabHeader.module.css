@@ -6,8 +6,8 @@
 }
 
 .header {
-	width: 24.9vw;
-	height: 8vh;
+	width: 100%;
+	height: 60px;
   	display: flex;
 	justify-content: space-around;
 	border-bottom: 1px solid #5a5a5ada;

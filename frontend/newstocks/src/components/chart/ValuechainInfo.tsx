@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+'use client'
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 // styled-components 써보기.. 모달 스타일
@@ -29,7 +30,7 @@ const ModalContainer = styled.div`
   border: 1px solid #4FE7B0;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
-  max-width: 30%;
+  max-width: 100%;
   max-height: 80%;
   overflow-y: auto;
 `;
@@ -67,33 +68,74 @@ const PointText = styled.span`
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  code: any;
 };
 
-export default function Modal({ isOpen, onClose }: ModalProps) {
+export default function ValuechainModal({ isOpen, onClose, code }: ModalProps) {
   const [modalOpen, setModalOpen] = useState(isOpen);
+  // const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   // 모달의 상태 변경
   useEffect(() => {
     setModalOpen(isOpen);
   }, [isOpen]);
 
+  // useEffect(() => {
+  //   if (modalOpen && scriptRef.current) {
+  //     // 모달이 열린 상태에서 스크립트 추가
+  //     const script = document.createElement('script');
+  //     script.type = 'text/javascript';
+  //     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js';
+  //     script.async = true;
+  //     script.text = JSON.stringify({
+  //       colorTheme: 'dark',
+  //       isTransparent: false,
+  //       largeChartUrl: '',
+  //       displayMode: 'regular',
+  //       width: 800,
+  //       symbol: 'NASDAQ:AAPL',
+  //       locale: 'kr',
+  //     });
+
+  //     scriptRef.current.appendChild(script);
+  //   }
+  // }, [modalOpen]);
+
   if (!modalOpen) return null;
+
+  
 
   return (
     <ModalOverlay>
       <ModalContainer>
         <ModalHeader>
-          <h3><PointText>밸류체인(Value Chain)</PointText > 이란?</h3>
+          <h3><PointText>삼성 전자 {code}</PointText >의 밸류체인</h3>
           <CloseButton onClick={() => { onClose(); setModalOpen(false); }}>&times;</CloseButton>
         </ModalHeader>
         <ModalContent>
+          {/* <div ref={scriptRef}></div> */}
           <p>
-          <PointText>밸류체인</PointText >은 가치사슬이라는 의미로 제품을 생산하기 위해서 제조공정을 세분화해 <PointText>사슬
-            (Chain)</PointText >처럼 엮여 <PointText>가치 (Value)</PointText >를 창출하는 것을 의미합니다. 
-            기업이 제품 및 서비스를 생산해서 부가가치를 생성하는 모든 과정을 말합니다.
+            삼전이랑 연결된 밸류체인
+            코드는 {code}
           </p>
         </ModalContent>
       </ModalContainer>
     </ModalOverlay>
   );
 }
+
+// <!-- TradingView Widget BEGIN -->
+// <div class="tradingview-widget-container">
+//   <div class="tradingview-widget-container__widget"></div>
+//   <div class="tradingview-widget-copyright"><a href="https://kr.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">트레이딩뷰에서 모든 시장 추적</span></a></div>
+//   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js" async>
+//   {
+//   "symbol": "NASDAQ:AAPL",
+//   "width": 1000,
+//   "locale": "kr",
+//   "colorTheme": "dark",
+//   "isTransparent": false
+// }
+//   </script>
+// </div>
+// <!-- TradingView Widget END -->
