@@ -11,6 +11,6 @@ public class StockSearchDto {
 
     @Builder
     public StockSearchDto(List<StockDto> stockDtoList) {
-        this.stockDtoList =stockDtoList;
+        this.stockDtoList = stockDtoList;
     }
 }
