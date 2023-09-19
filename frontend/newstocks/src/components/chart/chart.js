@@ -382,7 +382,7 @@ export default function ChartComponent() {
               newsdata.forEach(item => {
                 if (item.x == formattedTime) {
                   const newsspec = item.y
-                  console.log(newsspec); // 뉴스 제목, URL 출력
+                  // console.log(newsspec); // 뉴스 제목, URL 출력
                   // 해당 뉴스 보여주기
                   router.push(`/${code}?tab=${tab}&newsdate=${formattedTime}`);
                 }

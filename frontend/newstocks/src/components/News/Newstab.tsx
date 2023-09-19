@@ -19,6 +19,22 @@ type DateNewsItem = {
   title: string
   url: string
 };
+type ValueNewsItem = {
+  company: any
+  publishTime: string
+  stockId: string
+  title: string
+  url: string
+  valueChainName: string
+};
+type DateValueNewsItem = {
+  company: any
+  publishTime: string
+  stockId: string
+  title: string
+  url: string
+  valueChainName: string
+};
 
 type GroupedNewsData = {
   date: string;
@@ -84,6 +100,7 @@ function Pagination({ currentPage, totalPageCount, onPageChange }: { currentPage
 }
 
 export default function Newstab() {
+  const [selectedView, setSelectedView] = useState('news'); 
 
   const handleShowAllNews = () => {
     // 현재 URL에서 &date 파라미터 제거
@@ -101,8 +118,10 @@ export default function Newstab() {
   const newsDate = useSearchParams()?.get('newsdate')
 	console.log(newsDate)
   
-	const [datenews, setdateNews] = useState<any[]>([])
+	const [datenews, setdateNews] = useState<any[]>([]);
   const [newsData, setNewsData] = useState<any[]>([]);
+  const [valuenews, setValuenews] = useState<any[]>([]);
+  const [datevaluenews, setdateValuenews] = useState<any[]>([]);
 
   const [itemsPerPage, setItemsPerPage] = useState(5); // 페이지당 뉴스 아이템 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
@@ -142,10 +161,23 @@ export default function Newstab() {
     const fetchValueData = () => {
       axios({
         method: 'get',
-        url: `http://localhost:8200//value-chain-news/find/005930/${code}`,
+        url: `http://localhost:8200/value-chain-news/find/${code}`,
       })
         .then((res) => {
-          console.log(res)
+          console.log(res.data)
+          const valuenews: ValueNewsItem[]= res.data;
+          setValuenews(valuenews)
+          console.log(valuenews)
+          const datevaluenews: DateValueNewsItem[]=[]
+          res.data.forEach((item:any) => {
+            const itemdate = item.publishTime.split(' ')
+            // console.log(itemdate)
+						if (itemdate[0] == newsDate) {
+							datevaluenews.push(item)
+						}
+					});
+          setdateValuenews(datevaluenews)
+          console.log()
         })
         .catch((err) => {
           console.log(err);
@@ -154,28 +186,37 @@ export default function Newstab() {
 
     fetchValueData();
 
-  }, [code]);
+  }, [code,newsDate]);
 
 
   // 전체 뉴스일떄
-  // 현재 페이지에 해당하는 뉴스 아이템만 추출
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
+    // 현재 페이지에 해당하는 뉴스 아이템만 추출
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // 전체 페이지 수 계산
-  const totalPageCount = Math.ceil(newsData.length / itemsPerPage);
+    // 전체 페이지 수 계산
+    const totalPageCount = Math.ceil(newsData.length / itemsPerPage);
 
-  // 페이지 변경 처리 함수
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+    // 페이지 변경 처리 함수
+    const handlePageChange = (page: number) => {
+      setCurrentPage(page);
+    };
 
-  //세부날짜 뉴스일때
-  const date_indexOfLastItem = currentPage * itemsPerPage;
-  const date_indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const date_currentItems = datenews.slice(indexOfFirstItem, indexOfLastItem);
-  const date_totalPageCount = Math.ceil(datenews.length / itemsPerPage);
+    //세부날짜 뉴스일때
+    const date_indexOfLastItem = currentPage * itemsPerPage;
+    const date_indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const date_currentItems = datenews.slice(indexOfFirstItem, indexOfLastItem);
+    const date_totalPageCount = Math.ceil(datenews.length / itemsPerPage);
+
+  //해외 뉴스
+  const valuecurrentItems = valuenews.slice(indexOfFirstItem, indexOfLastItem);
+  const valuetotalPageCount = Math.ceil(valuenews.length / itemsPerPage);
+  const date_valuecurrentItems = datevaluenews.slice(indexOfFirstItem, indexOfLastItem);
+  const date_valuetotalPageCount = Math.ceil(datevaluenews.length / itemsPerPage);
+
+
+
 
   const date_handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -187,40 +228,73 @@ export default function Newstab() {
       <div>
         <div className={styles["newsheader"]}>
           {code}에 해당하는 뉴스 {newsDate} <div onClick={handleShowAllNews}>전체보기</div>
+          {valuenews && <div><div onClick={() => setSelectedView('news')}>국내뉴스</div> <div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div></div>}
         </div>
         <div>
-          {date_currentItems.map((newsItem, index) => (
-            <div className={styles["newsconstent"]} key={index}>
-              <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
-              <div className={styles["newstitle"]}><a
-                  href={newsItem.url}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                  }}
-                  style={{ textDecoration:'none', color: 'inherit' }}
-                >
-                  {newsItem.title}
-                </a></div>
-              <div className={styles["newsurl"]}>
-                {newsItem.url}
+          {selectedView === 'news' && (
+              date_currentItems.map((newsItem, index) => (
+                <div className={styles["newsconstent"]} key={index}>
+                <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                <div className={styles["newstitle"]}><a
+                    href={newsItem.url}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                    }}
+                    style={{ textDecoration:'none', color: 'inherit' }}
+                  >
+                    {newsItem.title}
+                  </a></div>
+                <div className={styles["newsurl"]}>
+                  {newsItem.url}
+                </div>
               </div>
-            </div>
-          ))}
+              ))
+            )
+          }
+          {selectedView === 'overseasNews' && (
+              date_valuecurrentItems.map((newsItem, index) => (
+                <div className={styles["newsconstent"]} key={index}>
+                <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                <div className={styles["newstitle"]}><a
+                    href={newsItem.url}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                    }}
+                    style={{ textDecoration:'none', color: 'inherit' }}
+                  >
+                    {newsItem.title}
+                  </a></div>
+                <div className={styles["newsurl"]}>
+                  {newsItem.url}
+                </div>
+              </div>
+              ))
+            )}
         </div>
-        <div className={styles["pagebuttonbox"]}>
-          <Pagination currentPage={currentPage} totalPageCount={date_totalPageCount} onPageChange={date_handlePageChange} />
-        </div>
+        {selectedView === 'news' && 
+          <div className={styles["pagebuttonbox"]}>
+            <Pagination currentPage={currentPage} totalPageCount={date_totalPageCount} onPageChange={date_handlePageChange} />
+          </div>
+        }
+        {selectedView === 'overseasNews' && 
+          <div className={styles["pagebuttonbox"]}>
+            <Pagination currentPage={currentPage} totalPageCount={date_valuetotalPageCount} onPageChange={date_handlePageChange} />
+          </div>
+        }
       </div>
       }
       {!newsDate && 
       <div>
         <div className={styles["newsheader"]}>
           {code}에 해당하는 뉴스
+          {valuenews && <div><div onClick={() => setSelectedView('news')}>국내뉴스</div> <div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div></div>}
         </div>
         <div>
-          {currentItems.map((newsItem, index) => (
-            <div className={styles["newsconstent"]} key={index}>
+        {selectedView === 'news' && (
+            currentItems.map((newsItem, index) => (
+              <div className={styles["newsconstent"]} key={index}>
               <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
               <div className={styles["newstitle"]}><a
                   href={newsItem.url}
@@ -236,11 +310,39 @@ export default function Newstab() {
                 {newsItem.url}
               </div>
             </div>
-          ))}
+            ))
+          )}
+        {selectedView === 'overseasNews' && (
+          valuecurrentItems.map((newsItem, index) => (
+            <div className={styles["newsconstent"]} key={index}>
+            <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+            <div className={styles["newstitle"]}><a
+                href={newsItem.url}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                }}
+                style={{ textDecoration:'none', color: 'inherit' }}
+              >
+                {newsItem.title}
+              </a></div>
+            <div className={styles["newsurl"]}>
+              {newsItem.url}
+            </div>
+          </div>
+          ))
+          )}
         </div>
-        <div className={styles["pagebuttonbox"]}>
-          <Pagination currentPage={currentPage} totalPageCount={totalPageCount} onPageChange={handlePageChange} />
-        </div>
+        {selectedView === 'news' && 
+          <div className={styles["pagebuttonbox"]}>
+            <Pagination currentPage={currentPage} totalPageCount={totalPageCount} onPageChange={handlePageChange} />
+          </div>
+        }
+        {selectedView === 'overseasNews' && 
+          <div className={styles["pagebuttonbox"]}>
+            <Pagination currentPage={currentPage} totalPageCount={valuetotalPageCount} onPageChange={handlePageChange} />
+          </div>
+        }
       </div>
       }
     </div>

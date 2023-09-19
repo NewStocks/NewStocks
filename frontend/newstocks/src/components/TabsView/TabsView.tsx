@@ -12,7 +12,7 @@ export default function TabsView() {
   const tabcode: string | null = usePathname()
   const code = tabcode ? tabcode.split('/').filter(Boolean)[0] : '';
 
-  console.log(tabName?.get("tab"));
+  // console.log(tabName?.get("tab"));
 
   return (
     <div>
