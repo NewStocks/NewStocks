@@ -14,7 +14,7 @@ pipeline {
             steps {
                 dir('frontend/newstocks') {
                     sh 'docker rm -f front'
-                    sh 'docker run -d --name front -p 3000:3000 -u root newstocks_front:latest'
+                    sh 'docker run -d --name front -p 3126:3126 -u root newstocks_front:latest'
                 }
             }
         }
