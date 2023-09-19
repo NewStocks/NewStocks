@@ -1,6 +1,9 @@
 'use client';
 import styles from './createpostform.module.css'
+import styled from 'styled-components'
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+
 import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 // import '@toast-ui/editor/dist/theme/toastui-editor-dark.css'
@@ -18,12 +21,16 @@ import { AiOutlinePlusCircle } from 'react-icons/ai'
 
 import ImagePreview from './ImagePreview/ImagePreview'
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
+
 export default function CreatePostForm() {
   const editorRef = useRef();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [imageList, setimageList] = useState([]);
-  const [hereImage, setHereImage] = useState(false)
 
   const changeImageList = (url, file) => {
     setimageList([...imageList, { url, file }]);
@@ -132,13 +139,22 @@ export default function CreatePostForm() {
       }} 
     return () => {
       const dropzone = document.getElementById('dropzone');
-      dropzone.removeEventListener('drop', handleImage);
+      dropzone?.removeEventListener('drop', handleImage);
     }
   }, [imageList])
 
   
   return (
     <div>
+      <div className={styles["top-menu"]}>
+        <h2>오답노트 작성</h2>
+        <button className={styles["submit-button"]}>✍ 게시하기</button>
+      </div>
+
+      <div className={styles["stock-selected-box"]}>
+        <input type="text" placeholder="🔍종목검색" />
+      </div>
+
       <div className={styles["invest-container"]}>
         <div className={styles["invest-box"]}>
           <div className={styles["date-pick-box"]}>
@@ -206,7 +222,7 @@ export default function CreatePostForm() {
 
       <div id="editor" ref={editorRef}></div>
 
-      <button onClick={handleClick}>지금 작성한 내용 확인해보기</button>
+      {/* <button onClick={handleClick}>지금 작성한 내용 확인해보기</button> */}
     </div>
   ) 
 }

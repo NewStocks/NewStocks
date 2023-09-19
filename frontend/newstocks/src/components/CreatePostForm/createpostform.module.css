@@ -1,3 +1,54 @@
+.top-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-button {
+  width: 150px;
+  height: 50px;
+  border: 2px solid #d9d9d96f;
+  border-radius: 14px;
+  background-color: transparent;
+  color: white;
+  font-size: 17px;
+  padding: 6px 12px 6px 12px;
+  cursor: pointer;
+  margin: 10px 10px 10px 0;
+}
+
+.submit-button:hover {
+  border: 2.5px solid #d9d9d96f;
+  font-weight: 550;
+}
+
+/* 주식 검색창 */
+
+.stock-selected-box {
+  height: 38px;
+  width: 250px;
+  border: 0;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.23);
+  padding: 0 2%;
+
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.stock-selected-box input{
+  height: 30px;
+  width: 85%;
+  color: white;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.stock-selected-box input:focus {
+  outline: none;
+}
+
 .stock-input-box {
   height: 38px;
   width: 250px;
