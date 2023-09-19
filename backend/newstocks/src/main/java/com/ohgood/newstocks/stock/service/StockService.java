@@ -11,19 +11,28 @@ import com.ohgood.newstocks.stock.dto.ChartDto;
 import com.ohgood.newstocks.stock.dto.ChartResDto;
 import com.ohgood.newstocks.stock.dto.ChartSeriesDto;
 import com.ohgood.newstocks.stock.dto.DataDto;
+import com.ohgood.newstocks.stock.dto.StockDto;
+import com.ohgood.newstocks.stock.dto.StockResDto;
+import com.ohgood.newstocks.stock.dto.StockSearchDto;
 import com.ohgood.newstocks.stock.entity.Chart;
+import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.mapper.ChartMapper;
+import com.ohgood.newstocks.stock.mapper.StockMapper;
 import com.ohgood.newstocks.stock.repository.ChartRepository;
+import com.ohgood.newstocks.stock.repository.StockRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StockService {
 
     private final ChartRepository chartRepository;
+    private final StockRepository stockRepository;
     private final NewsService newsService;
     private final ReviewNoteRepository reviewNoteRepository;
 
@@ -64,7 +73,6 @@ public class StockService {
         return chartDtoList;
     }
 
-    //리뷰노트dto받고 리뷰노트datadto로 받아서 전달하기
     private List<DataDto> findAllReviewNoteDataByStockId(String stockId) {
         List<DataDto> reviewNoteDataDtoList = new ArrayList<>();
         List<ReviewNoteDto> reviewNoteDtoList = findAllReviewNoteDto(stockId);
@@ -87,6 +95,7 @@ public class StockService {
 
     private List<DataDto> findAllNewsDataByStockId(String stockId) {
         List<DataDto> newsDataDtoList = new ArrayList<>();
+        log.info("start");
         List<NewsDto> NewsDtoList = newsService.findAllNewsDtoByStockId(stockId);
         for (NewsDto newsDto : NewsDtoList) {
             newsDataDtoList.add(NewsMapper.INSTANCE.NewsDtoToDataDto(newsDto));
@@ -94,12 +103,21 @@ public class StockService {
         return newsDataDtoList;
     }
 
-    public List<ChartDto> findAllNewsDto(String stockId) {
-        List<Chart> chartList = chartRepository.findAllChartByStockIdOrderByDate(stockId);
-        List<ChartDto> chartDtoList = new ArrayList<>();
-        for (Chart chart : chartList) {
-            chartDtoList.add(ChartMapper.INSTANCE.entityToChartDto(chart));
+    public StockResDto findStockInfoByStockId(String stockId) {
+        Stock stock = stockRepository.findById(stockId)
+            .orElseThrow(() -> new ArithmeticException("관련 주식 정보가 존재하지 않습니다."));
+        return StockMapper.INSTANCE.entityToStockResDto(stock);
+    }
+
+    public StockSearchDto findAllStockForSearch() {
+        log.info("db start");
+        List<Stock> stockList = stockRepository.findAll();
+        log.info("start");
+        List<StockDto> stockDtoList = new ArrayList<>();
+        for (Stock stock : stockList) {
+            stockDtoList.add(StockMapper.INSTANCE.entityToStockDto(stock));
         }
-        return chartDtoList;
+        log.info("end");
+        return StockSearchDto.builder().stockDtoList(stockDtoList).build();
     }
 }
