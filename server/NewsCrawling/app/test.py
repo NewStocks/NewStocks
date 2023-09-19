@@ -12,7 +12,8 @@ import hanja
 from sklearn.cluster import DBSCAN
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
 
 app = Flask(__name__)
 load_dotenv()
@@ -46,7 +47,7 @@ def crawler(URL):
     print(process_count, URL[-12:-6])
     process_count += 1
     page = 1
-    while page <= 400:
+    while page <= 10:
         url = URL + str(page)
         source_code = requests.get(url).text
         html = BeautifulSoup(source_code, "html.parser")
@@ -151,6 +152,41 @@ def preprocessing(titles):
     return titles_preprocessed
 
 
+def sentiment_analysis(texts, lang="ko"):
+    if lang == "ko":
+        tokenizer = AutoTokenizer.from_pretrained("snunlp/KR-FinBert-SC")
+        model = AutoModelForSequenceClassification.from_pretrained(
+            "snunlp/KR-FinBert-SC"
+        )
+        id2label = {0: "NEGATIVE", 1: "NEUTRAL", 2: "POSITIVE"}
+
+    else:
+        tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+        model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+        id2label = {0: "POSITIVE", 1: "NEGATIVE", 2: "NEUTRAL"}
+
+    labels = []
+    probs = []
+
+    for text in texts:
+        inputs = tokenizer(text, return_tensors="pt")
+        with torch.no_grad():
+            logits = model(**inputs).logits
+            probabilities = torch.softmax(logits, dim=1)
+            predicted_class_id = probabilities.argmax(dim=1).item()
+            predicted_class_prob = probabilities[0][predicted_class_id].item()
+
+            labels.append(id2label[predicted_class_id])
+            probs.append(predicted_class_prob)
+
+    cnt = 0
+    for title, l, p in zip(texts, labels, probs):
+        print(title, l, p)
+        cnt += 1
+
+    print(cnt)
+
+
 def news_clustering(titles, idx):
     titles_preprocessed = preprocessing(titles)
     tfidf_vectorizer = TfidfVectorizer(min_df=1, ngram_range=(1, 2))
@@ -171,7 +207,7 @@ def save_all_news():
     is_all = True
 
     # for stock_id in ["000020", "000040", "000050", "000070", "000075", "000080"]:
-    for stock_id in ["000050", "000070"]:
+    for stock_id in ["035720"]:
         urls.append(
             "https://finance.naver.com/item/news_news.nhn?code=" + stock_id + "&page="
         )
@@ -205,7 +241,8 @@ def save_all_news():
             num_set.add(r)
 
     # print(*clustered_list, sep="\n")
-    print(len(clustered_list))
+    print("길이: ", len(clustered_list))
+    sentiment_analysis(clustered_list, "ko")
     print(time.time() - start_time)
 
 
