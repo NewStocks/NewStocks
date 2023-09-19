@@ -1,0 +1,102 @@
+.comment-container {
+  padding: 10px 0 10px 0;
+  display: flex;
+}
+
+.left {
+  width: 10px;
+}
+
+.right {
+  width: 100%;
+  margin-left: 15px;
+}
+
+.profile {
+  display: flex;
+  padding: 10px;
+}
+
+.profile div {
+  margin-right: 8px;
+}
+
+.profile-img {
+  width: 25px;
+  height: 25px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 6px;
+}
+
+.profile-name:hover {
+  /* text-decoration: underline; */
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.time {
+  color: #8C8C8C;
+  font-size: 14px;
+  padding: 3px 0 0 0;
+}
+
+/* 댓글 */
+.content {
+  padding: 10px;
+  margin: 7px 0 7px 33px;
+}
+
+.replying-to {
+  color: #8C8C8C;
+  font-size: 14px;
+  padding: 0 0 10px 0;
+}
+
+.replying-to span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.replying-to span:hover {
+  font-weight: 550;
+}
+
+/* 좋아요, 대댓글 */
+.icons {
+  display: flex;
+  padding: 10px;
+  margin: 0 0 0 33px;
+}
+
+.icons div {
+  display: flex;
+  width: 132px;
+  height: 40px;
+  border: 1px solid #d9d9d96f;
+  border-radius: 14px;
+  background-color: transparent;
+  color: white;
+  font-size: 17px;
+  padding: 7px 10px 7px 20px;
+  cursor: pointer;
+}
+
+.icons div:hover {
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.6px solid #d9d9d96f;
+}
+
+.submit-button:hover {
+  border: 1.8px solid #d9d9d96f;
+}
+
+.icons div p {
+  margin: 0;
+  margin-left: 7px;
+}
+
+.comment-container hr {
+  color: white;
+}

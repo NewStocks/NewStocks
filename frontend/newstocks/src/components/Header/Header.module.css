@@ -1,0 +1,85 @@
+.header {
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  border-bottom: 1px solid #4FE7B0;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  height: 48px;
+  color: #fff;
+
+  /* border: 1px dotted red; */
+}
+
+.header svg {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.header h1 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  margin: 6px 0 6px 10px;
+  display: inline-block;
+  vertical-align: top;
+  
+  color: #4FE7B0;
+}
+
+.header button + button {
+  margin-left: 10px;
+}
+
+.header-left {
+  width: 180px;
+  /* border: 1px dotted white; */
+}
+
+/* 검색 input 박스*/
+.header-search {
+  width: 450px;
+  height: 33px;
+  border-radius: 20px;
+  border: transparent;
+  background-color: rgba(255, 255, 255, 0.23);
+
+  margin: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.header-search div {
+  width: 30px;
+  margin: 0 0 0 20px;
+}
+
+.header-search input {
+  background: 0;
+  width: 430px;
+  height: 28px;
+  border: transparent;
+  color: #FFF;
+}
+
+.header-search input:focus {
+  outline: 0;
+}
+
+.header-right {
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px dotted red; */
+}
+
+.header-link{
+  width: 30px;
+  margin: 0 0 3px 0;
+  color: #FFF;
+  /* text-align: center; */
+  cursor: pointer;
+
+  /* border: 1px dotted white; */
+}

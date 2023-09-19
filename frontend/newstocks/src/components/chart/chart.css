@@ -1,0 +1,91 @@
+/* 차트 */
+.custom-tooltip {
+    background-color: #33333356;
+    color: #ffffff;
+    padding: 10px;
+    border:1px solid #4FE7B0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .tooltip-label {
+    font-weight: bold;
+    margin-left: 3px;
+  }
+  
+  .tooltip-value {
+    margin-left: 3px;
+  }
+  
+  .tooltip-info {
+    margin-top: 5px;
+    font-style: italic;
+  }
+  .chart {
+    border: 1px solid #5a5a5ada;
+  }
+  .chartbox {
+    display: flex;
+  }
+
+/* 차트 헤더 */
+  .chartheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 42px;
+    border-left: 1px solid #5a5a5ada;
+    border-right: 1px solid #5a5a5ada;
+    /* width: 900px */
+  }
+  .headerinfo {
+    height: 6vh;
+    display: flex;
+    align-items: center;
+    width: 30vw;
+    /* justify-content: left; */
+    font-size: 15px;
+  }
+  .stockname {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  .stockinfo {
+    margin-left: 10px;
+  }
+  #star {
+    color: yellow;
+    margin-left: 5px;
+    height: 20px;
+    width: auto;
+    cursor: pointer;
+  }
+  .valuechain {
+    display: flex;
+    float: right;
+    color: yellow;
+    align-items: center;
+    width: 9vw;
+    height: 6vh;
+  }
+  .value {
+    margin-right: 0.5vw;
+    padding: 2px 10px 2px 10px;
+    border: 2px solid yellow;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  #valueinfo {
+    display: flex;
+    height: 30px;
+    width: auto;
+    cursor: pointer;
+  }
+
+
+
+

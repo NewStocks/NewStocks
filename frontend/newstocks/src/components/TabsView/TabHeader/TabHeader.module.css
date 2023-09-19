@@ -1,0 +1,38 @@
+.main {
+	border-left: 1px solid #5a5a5ada;
+}
+.content {
+	margin-left: 5px;
+}
+
+.header {
+	width: 100%;
+	height: 60px;
+  	display: flex;
+	justify-content: space-around;
+	border-bottom: 1px solid #5a5a5ada;
+	/* border-left: 1px solid #4FE7B0; */
+}
+
+.header-item {
+	margin-top: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
+}
+.selected-item {
+	color: #4FE7B0;
+}
+
+#item-icon {
+	display: flex;
+	align-items: center;
+  height: 30px;
+  width: auto;
+}
+.item-text {
+	font-size: 13px;
+}
