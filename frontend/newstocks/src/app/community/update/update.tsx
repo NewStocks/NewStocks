@@ -1,5 +1,5 @@
 'use client';
-import styles from './createpage.module.css'
+import styles from '../create/createpage.module.css'
 import styled from 'styled-components'
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -13,7 +13,7 @@ const StyledLink = styled(Link)`
   color: white;
 `
 
-export default function CreatePage() {
+export default function UpdatePage() {
 
   const onAlertModalOpen = () => {
     // alert('정말 뒤로 가시겠습니까 ?????')
@@ -42,7 +42,7 @@ export default function CreatePage() {
       <div className={styles["top-menu"]}>
         <StyledLink href='/'><div><IoIosArrowBack />뒤로가기</div></StyledLink>
       </div>
-      <CreatePostForm type="create"/>
+      <CreatePostForm type="update"/>
     </div>
   )
 }
