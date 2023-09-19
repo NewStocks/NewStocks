@@ -69,6 +69,15 @@ export default function ChartComponent() {
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
+        const lastDataPoint = data[data.length - 1];
+        const lastDataPointTime = new Date(lastDataPoint.x).getTime() / 1000 + 32400;
+        // const oneYearAgo = lastDataPointTime - 31536000; // 31536000 seconds in a year
+        // const initialTime = oneYearAgo;
+        const today = new Date();
+        const sixMonthsAgo = new Date(today);
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 3);
+        const initialTime = sixMonthsAgo.getTime() / 1000;
+
 
         setChartData((prevdata) => ({
           ...prevdata,
@@ -392,6 +401,11 @@ export default function ChartComponent() {
         };
         // chart.current에 클릭 이벤트 핸들러 등록
         chart.current.subscribeClick(handleChartClick);
+
+        chart.current.timeScale().setVisibleRange({
+          from: initialTime,
+          to: lastDataPointTime, // Set the end time as the last data point's time
+        });
       
       })
       .catch((err) => {
@@ -462,9 +476,9 @@ export default function ChartComponent() {
     });
     
 
-    const initialTime = new Date('2022-09-01T00:00:00Z').getTime() / 1000;
+    
     // chart.current.timeScale().scrollToPosition(initialTime);
-    chart.current.timeScale(initialTime);
+    // chart.current.timeScale(initialTime);
 
      return () => {
       if (chart.current) {

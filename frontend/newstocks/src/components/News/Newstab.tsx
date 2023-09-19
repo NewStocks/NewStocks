@@ -230,8 +230,8 @@ export default function Newstab() {
       {newsDate && 
       <div>
         <div className={styles["newsheader"]}>
-          {code}에 해당하는 뉴스 {newsDate} <div onClick={handleShowAllNews}>전체보기</div>
-          {valuenews && <div className={styles["globalheader"]}><div onClick={() => setSelectedView('news')}>국내뉴스</div> <div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div></div>}
+          {newsDate} 
+          {valuenews && <div className={styles["globalheader"]}><div onClick={() => setSelectedView('news')}>국내뉴스</div>/<div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div>/<div onClick={handleShowAllNews}>전체보기</div></div>}
         </div>
         <div>
           {/* 국내뉴스 */}
@@ -305,8 +305,7 @@ export default function Newstab() {
       {!newsDate && 
       <div>
         <div className={styles["newsheader"]}>
-          {code}에 해당하는 뉴스
-          {valuenews && <div className={styles["globalheader"]}><div onClick={() => setSelectedView('news')}>국내뉴스</div> <div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div></div>}
+          {valuenews && <div className={styles["globalheader"]}><div onClick={() => setSelectedView('news')}>국내뉴스</div>/<div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div></div>}
         </div>
         <div>
         {/* 국내뉴스 */}
