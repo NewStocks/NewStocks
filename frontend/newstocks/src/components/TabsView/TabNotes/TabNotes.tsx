@@ -11,7 +11,7 @@ type TabProps = {
 
 export default function TabNotes({ code }: TabProps) {
 	const Date = useSearchParams()?.get('date')
-	console.log(Date)
+	// console.log(Date)
 	const [note, setNote] = useState<any[]>([])
 	const [datenote, setdateNote] = useState<any[]>([])
 
@@ -22,7 +22,7 @@ export default function TabNotes({ code }: TabProps) {
         url: `http://localhost:8200/review-note/find-all`,
       })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
 					const notecode:any[] = []
 					res.data.forEach((item:any) => {
 						if (item.stockDto.id == code) {
@@ -35,14 +35,13 @@ export default function TabNotes({ code }: TabProps) {
 						const itemdate = item.settingDate.split(' ');
 						if (itemdate[0] == Date) {
 							datenote.push(item)
-							console.log(itemdate)
+							// console.log(itemdate)
 						}
 					}) 
 					// setdateNote
-					console.log(datenote)
 					setdateNote(datenote)
-					console.log(notecode[0].settingDate)
-        })
+					// console.log(notecode[0].settingDate)
+				})
         .catch((err) => {
           console.log(err);
         });
@@ -54,7 +53,7 @@ export default function TabNotes({ code }: TabProps) {
 
 	
 
-  console.log(note)
+  // console.log(note)
 
   return (
 		<div>

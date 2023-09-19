@@ -9,12 +9,16 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import ValueInfoModal from './ValuechainQuestion';
 import ValueChainModal from './ValuechainInfo';
+import StockProfile from "@/components/StockProfile/StockProfile";
 
 export default function ChartComponent() {
   const router = useRouter();
-  const tabName = usePathname();
-  const code = tabName.split('/').filter(Boolean)[0];
+  const codeName = usePathname();
+  const code = codeName.split('/').filter(Boolean)[0];
   console.log(code)
+  const tabname = useSearchParams();
+  const tab = tabname?.get('tab')
+  console.log(tab)
   const chartContainerRef = useRef(null);
   const chart = useRef(null);
   const candlestickSeries = useRef(null);
@@ -65,7 +69,6 @@ export default function ChartComponent() {
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
-        console.log(data)
 
         setChartData((prevdata) => ({
           ...prevdata,
@@ -83,8 +86,8 @@ export default function ChartComponent() {
           }
         })
 
-        console.log(stockdata)
-        console.log(volumdata)
+        // console.log(stockdata)
+        // console.log(volumdata)
     
         candlestickSeries.current.setData(
           stockdata
@@ -117,24 +120,32 @@ export default function ChartComponent() {
         });
         
         console.log(Object.values(uniqueNewsData))
-        console.log(Object.values(uniqueNoteData))
+
+        function isWeekend(date) {
+          const day = date.getDay(); 
+          return day === 0 || day === 6; // Sunday 또는 Saturday일 경우 주말로 처리
+        }
 
         Object.values(uniqueNewsData).forEach(item => {
-          
-          allMarkers.push({
-            time: new Date(item.x).getTime() / 1000,
-            position: 'aboveBar',
-            color: 'rgba(167, 255, 3, 0.7)',
-            shape: 'circle',
-            text: 'N',
-          });
+          const date = new Date(item.x);
+
+          if (!isWeekend(date)) {
+            allMarkers.push({
+              time: date.getTime() / 1000,
+              position: 'belowBar',
+              color: 'rgba(167, 255, 3, 0.7)',
+              shape: 'circle',
+              text: 'N',
+              size:'small'
+            });
+          }
         });
 
         Object.values(uniqueNoteData).forEach(item => {
           allMarkers.push({
             time: new Date(item.x).getTime() / 1000,
-            position: 'belowBar',
-            color: 'rgba(255, 3, 251, 0.7)',
+            position: 'aboveBar',
+            color: 'rgba(255, 126, 56, 0.7)',
             shape: 'circle',
             text: 'R',
             
@@ -167,8 +178,9 @@ export default function ChartComponent() {
             const newnote = Object.values(uniqueNoteData).some((item) => {
               return item.x === formattedTime;
             });
-            // console.log(date, formattedTime, )
-            if (newnote||newnews) {
+            // newsdata.sort((a, b) => new Date(b.x) - new Date(a.x));
+            // 뉴스랑 오답노트 같은날에 둘다 있을때
+            if (newnote && newnews) {
               tooltipRef.current.style.display = 'block';
               const candledata = param.seriesData.get(candlestickSeries.current);
               const voldata = param.seriesData.get(volumeSeries.current);
@@ -178,81 +190,128 @@ export default function ChartComponent() {
               notedata.forEach(item => {
                 if (item.x == formattedTime) {
                   const notespec = item.y[0]
-                  tooltipRef.current.innerHTML = 
-              `
-              <div style="padding: 6px">
-                <div style="color: ${'#4FE7B0'}">${code}</div>
-                <div style="color: ${'white'}">
-                ${formattedTime}
-                </div>
-                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>시가 : ${open}</div>
-                  <div>고가 : ${high}</div>
-                  <div>저가 : ${low}</div>
-                  <div>종가 : ${close}</div>
-                  <div>거래량 : ${value}</div>
-                </div>
-              </div>
-              <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>뉴스</div>
-                  <div>오답노트</div>
-                  <div>${notespec}</div>
-                </div>
-              <div/>
-                `
+                  newsdata.forEach(item => {
+                    if (item.x == formattedTime) {
+                      const newsnum = item.y[0]
 
-              tooltipRef.current.style.maxHeight = '300px';
-              let left = param.point.x + 80;
-                if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-                  left = param.point.x - tooltipRef.current.offsetWidth + 200;
+                      tooltipRef.current.innerHTML = 
+                      `
+                      <div style="padding: 6px">
+                        <div style="color: ${'#4FE7B0'}">${code}</div>
+                        <div style="color: ${'white'}">
+                        ${formattedTime}
+                        </div>
+                        <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                          <div>시가 : ${open}</div>
+                          <div>고가 : ${high}</div>
+                          <div>저가 : ${low}</div>
+                          <div>종가 : ${close}</div>
+                          <div>거래량 : ${value}</div>
+                        </div>
+                      </div>
+                      <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+                        <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                          <div>News</div>
+                          <div>${newsnum}의 뉴스</div>
+                          <hr/>  
+                          <div>Review</div>
+                          <div>${notespec}</div>
+                        </div>
+                      <div/>
+                        `
+                      tooltipRef.current.style.maxHeight = '300px';
+                      let left = param.point.x + 80;
+                        if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+                          left = param.point.x - tooltipRef.current.offsetWidth + 200;
+                        }
+                      let top = param.point.y + 10;
+
+                      tooltipRef.current.style.left = `${left}px`
+                      tooltipRef.current.style.top = top + 'px';
+                        } 
+                      });
                 }
-              let top = param.point.y + 10;
-
-              tooltipRef.current.style.left = `${left}px`
-              tooltipRef.current.style.top = top + 'px';
-                } 
               });
+            // 뉴스랑 오답노트 같은날에 둘 중 하나만 있을때
+            } else if (newnote || newnews) {
+              tooltipRef.current.style.display = 'block';
+              const candledata = param.seriesData.get(candlestickSeries.current);
+              const voldata = param.seriesData.get(volumeSeries.current);
+              const { open, high, low, close, time } = candledata;
+              const { value } = voldata;
 
+              notedata.forEach(item => {
+                if (item.x == formattedTime) {
+                  const notespec = item.y[0]
+                    tooltipRef.current.innerHTML = 
+                    `
+                    <div style="padding: 6px">
+                      <div style="color: ${'#4FE7B0'}">${code}</div>
+                      <div style="color: ${'white'}">
+                      ${formattedTime}
+                      </div>
+                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                        <div>시가 : ${open}</div>
+                        <div>고가 : ${high}</div>
+                        <div>저가 : ${low}</div>
+                        <div>종가 : ${close}</div>
+                        <div>거래량 : ${value}</div>
+                      </div>
+                    </div>
+                    <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                        <div>Review</div>
+                        <div>${notespec}</div>
+
+                      </div>
+                    <div/>
+                      `
+                    tooltipRef.current.style.maxHeight = '300px';
+                    let left = param.point.x + 80;
+                      if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+                        left = param.point.x - tooltipRef.current.offsetWidth + 200;
+                      }
+                    let top = param.point.y + 10;
+                    tooltipRef.current.style.left = `${left}px`
+                    tooltipRef.current.style.top = top + 'px'; 
+                  }
+              });
               newsdata.forEach(item => {
                 if (item.x == formattedTime) {
-                  const newsnum = newsdata.length
-                  tooltipRef.current.innerHTML = 
-              `
-              <div style="padding: 6px">
-                <div style="color: ${'#4FE7B0'}">${code}</div>
-                <div style="color: ${'white'}">
-                ${formattedTime}
-                </div>
-                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>시가 : ${open}</div>
-                  <div>고가 : ${high}</div>
-                  <div>저가 : ${low}</div>
-                  <div>종가 : ${close}</div>
-                  <div>거래량 : ${value}</div>
-                </div>
-              <div/>
-              <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>뉴스</div>
-                  <div>${newsnum}개의 뉴스가 있습니다</div>
-                  <div>오답노트</div>
-                </div>
-              <div/>
-                `
-
-              tooltipRef.current.style.maxHeight = '300px';
-              let left = param.point.x + 80;
-                if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-                  left = param.point.x - tooltipRef.current.offsetWidth + 200;
-                }
-              let top = param.point.y + 10;
-
-              tooltipRef.current.style.left = `${left}px`
-              tooltipRef.current.style.top = top + 'px';
-                }
+                  const newstitle = item.y[0]
+                    tooltipRef.current.innerHTML = 
+                    `
+                    <div style="padding: 6px">
+                      <div style="color: ${'#4FE7B0'}">${code}</div>
+                      <div style="color: ${'white'}">
+                      ${formattedTime}
+                      </div>
+                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                        <div>시가 : ${open}</div>
+                        <div>고가 : ${high}</div>
+                        <div>저가 : ${low}</div>
+                        <div>종가 : ${close}</div>
+                        <div>거래량 : ${value}</div>
+                      </div>
+                    </div>
+                    <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                        <div>News</div>
+                        <div>${newstitle}개의 뉴스</div>
+                      </div>
+                    <div/>
+                      `
+                    tooltipRef.current.style.maxHeight = '300px';
+                    let left = param.point.x + 80;
+                      if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+                        left = param.point.x - tooltipRef.current.offsetWidth + 200;
+                      }
+                    let top = param.point.y + 10;
+                    tooltipRef.current.style.left = `${left}px`
+                    tooltipRef.current.style.top = top + 'px'; 
+                  }
               });
-              
+            // 뉴스 오답노트 둘다 없을때
             } else if (param.time && [param.seriesData].length && tooltipRef.current){
               tooltipRef.current.style.display = 'block';
               const candledata = param.seriesData.get(candlestickSeries.current);
@@ -306,25 +365,30 @@ export default function ChartComponent() {
   
           if (!param.point) {
             return;
-          } else if (newnote || newnews) {
-            notedata.forEach(item => {
-              if (item.x == formattedTime) {
-                const notespec = item.y
-                console.log(notespec); //오답노트 제목, id출력
-                //해당 오답노트 보여주기
-                router.push(`/${code}?tab=notes&date=${formattedTime}`);
-              } 
-            });
-            // newsdata.forEach(item => {
-            //   if (item.x == formattedTime) {
-            //     const newsspec = item.y
-            //     console.log(newsspec); //뉴스 제목, url출력
-            //     //해당 뉴스 보여주기
-            //     router.push(`/${code}?tab=news`);
-            //   }
-            // });
-          } 
-          console.log(notedata);
+          } else {
+            if (newnote && newnews) {
+              notedata.forEach(item => {
+                if (item.x == formattedTime) {
+                  router.push(`/${code}?tab=notes&newsdate=${formattedTime}&date=${formattedTime}`);
+                }
+              });
+            } else if (newnote) {
+              notedata.forEach(item => {
+                if (item.x == formattedTime) {
+                  router.push(`/${code}?tab=notes&date=${formattedTime}`);
+                }
+              });
+            } else if (newnews) {
+              newsdata.forEach(item => {
+                if (item.x == formattedTime) {
+                  const newsspec = item.y
+                  // console.log(newsspec); // 뉴스 제목, URL 출력
+                  // 해당 뉴스 보여주기
+                  router.push(`/${code}?tab=${tab}&newsdate=${formattedTime}`);
+                }
+              });
+            }
+          }
         };
         // chart.current에 클릭 이벤트 핸들러 등록
         chart.current.subscribeClick(handleChartClick);
@@ -398,15 +462,16 @@ export default function ChartComponent() {
     });
     
 
-
-    chart.current.timeScale().fitContent();
+    const initialTime = new Date('2022-09-01T00:00:00Z').getTime() / 1000;
+    // chart.current.timeScale().scrollToPosition(initialTime);
+    chart.current.timeScale(initialTime);
 
      return () => {
       if (chart.current) {
           chart.current.remove();
       }
     };
-  }, []);
+  }, [code, tab]);
 
   // const [isStarred, setIsStarred] = useState(false);
   // const toggleStar = () => {
@@ -423,6 +488,13 @@ export default function ChartComponent() {
     <div>
       <div className='chartheader'>
         <div className='headerinfo'>
+        <StockProfile
+            stockName="삼성전자"
+            stockId=""
+            size="small"
+            stockMarket=""
+            stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
+          />
           <div className='stockname' onClick={toggleStar}>{code}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
