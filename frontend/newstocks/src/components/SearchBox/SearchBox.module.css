@@ -1,0 +1,39 @@
+.container {
+  display: flex; 
+  flex-direction: column;
+  align-items:center;
+  position: relative; 
+}
+
+
+/* 검색 input 박스*/
+.header-search {
+  width: 450px;
+  height: 33px;
+  border-radius: 20px;
+  border: transparent;
+  background-color: rgba(255, 255, 255, 0.23);
+
+  margin: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.header-search div {
+  width: 30px;
+  margin: 0 0 0 20px;
+}
+
+.header-search input {
+  background: 0;
+  width: 430px;
+  height: 28px;
+  border: transparent;
+  color: #FFF;
+}
+
+.header-search input:focus {
+  outline: 0;
+}
