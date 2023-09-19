@@ -42,7 +42,7 @@ export default function TabNotes({ code }: TabProps) {
 					console.log(datenote)
 					setdateNote(datenote)
 					console.log(notecode[0].settingDate)
-        })
+				})
         .catch((err) => {
           console.log(err);
         });

@@ -1,10 +1,18 @@
 'use client'
-import { usePathname } from 'next/navigation';
+import { usePathname,useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './Newstab.module.css'
+import { useRouter } from 'next/navigation';
 
 type NewsItem = {
+  company: any
+  publishTime: string
+  stockId: string
+  title: string
+  url: string
+};
+type DateNewsItem = {
   company: any
   publishTime: string
   stockId: string
@@ -15,6 +23,7 @@ type NewsItem = {
 type GroupedNewsData = {
   date: string;
   newsItems: NewsItem[];
+  datenewsItems: DateNewsItem[];
 };
 
 // Pagination 컴포넌트 
@@ -75,49 +84,29 @@ function Pagination({ currentPage, totalPageCount, onPageChange }: { currentPage
 }
 
 export default function Newstab() {
+
+  const handleShowAllNews = () => {
+    // 현재 URL에서 &date 파라미터 제거
+    const currentUrl = window.location.href;
+    const updatedUrl = currentUrl.replace(/&newsdate=[^&]*/, '');
+    
+    // 제거된 URL로 이동
+    // window.location.href = updatedUrl;
+    router.push(updatedUrl)
+  };
+
+  const router = useRouter();
   const tabName = usePathname() || '';
   const code = tabName.split('/').filter(Boolean)[0];
+  const newsDate = useSearchParams()?.get('newsdate')
+	console.log(newsDate)
+  
+	const [datenews, setdateNews] = useState<any[]>([])
+  const [newsData, setNewsData] = useState<any[]>([]);
 
-  const [newsData, setNewsData] = useState<GroupedNewsData[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(5); // 페이지당 뉴스 아이템 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
 
-  useEffect(() => {
-    const fetchData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/stock/find-chart/${code}`,
-      })
-        .then((res) => {
-          console.log(res.data.series[1].data)
-          // const newsItems: NewsItem[] = res.data.series[1].data;
-          // console.log(newsItems)
-          // // 같은 날짜별로 그룹화 하기
-          // const groupedNewsData: GroupedNewsData[] = newsItems.reduce(
-          //   (acc: GroupedNewsData[], currentItem: NewsItem) => {
-          //     const currentDate = currentItem.x;
-          //     const existingGroup = acc.find((group) => group.date === currentDate);
-
-          //     if (existingGroup) {
-          //       existingGroup.newsItems.push(currentItem);
-          //     } else {
-          //       acc.push({ date: currentDate, newsItems: [currentItem] });
-          //     }
-
-          //     return acc;
-          //   },
-          //   []
-          // );
-
-          // setNewsData(groupedNewsData);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
-    fetchData();
-  }, [code]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -126,33 +115,19 @@ export default function Newstab() {
         url: `http://localhost:8200/news/find/${code}`,
       })
         .then((res) => {
-          console.log(res.data)
-          const date = new Date(res.data[0].publishTime).getTime()
-          console.log(date)
-
-          const newsItems: NewsItem[] = res.data;
-          console.log(newsItems)
-          // 같은 날짜별로 그룹화 하기
-          const groupedNewsData: GroupedNewsData[] = newsItems.reduce(
-            (acc: GroupedNewsData[], currentItem: NewsItem) => {
-              // console.log(currentItem.publishTime)
-              // const currentDate = currentItem.publishTime;
-              const currentDate = new Date(currentItem.publishTime).toDateString();
-              // console.log(currentDate)
-              const existingGroup = acc.find((group) => group.date === currentDate);
-
-              if (existingGroup) {
-                existingGroup.newsItems.push(currentItem);
-              } else {
-                acc.push({ date: currentDate, newsItems: [currentItem] });
-              }
-
-              return acc;
-            },
-            []
-          );
-
-          setNewsData(groupedNewsData);
+          // const date = new Date(res.data[0].publishTime).getTime()
+          const newsData: NewsItem[] = res.data;
+          setNewsData(newsData)
+          // console.log(newsData)
+          const datenews: DateNewsItem[]=[]
+					res.data.forEach((item:any) => {
+            const itemdate = item.publishTime.split(' ')
+            // console.log(itemdate)
+						if (itemdate[0] == newsDate) {
+							datenews.push(item)
+						}
+					});
+					setdateNews(datenews)
         })
         .catch((err) => {
           console.log(err);
@@ -161,28 +136,88 @@ export default function Newstab() {
 
     fetchData();
 
+  }, [code,newsDate]);
 
+  useEffect(() => {
+    const fetchValueData = () => {
+      axios({
+        method: 'get',
+        url: `http://localhost:8200//value-chain-news/find/005930/${code}`,
+      })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    fetchValueData();
 
   }, [code]);
+
+
+  // 전체 뉴스일떄
   // 현재 페이지에 해당하는 뉴스 아이템만 추출
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = newsData.flatMap((group) => group.newsItems).slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
 
   // 전체 페이지 수 계산
-  const totalPageCount = Math.ceil(newsData.flatMap((group) => group.newsItems).length / itemsPerPage);
+  const totalPageCount = Math.ceil(newsData.length / itemsPerPage);
 
   // 페이지 변경 처리 함수
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+  //세부날짜 뉴스일때
+  const date_indexOfLastItem = currentPage * itemsPerPage;
+  const date_indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const date_currentItems = datenews.slice(indexOfFirstItem, indexOfLastItem);
+  const date_totalPageCount = Math.ceil(datenews.length / itemsPerPage);
+
+  const date_handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className={styles["newsmain"]}>
-      <div className={styles["newsheader"]}>
-        {code}에 해당하는 뉴스
-      </div>
+      {newsDate && 
       <div>
+        <div className={styles["newsheader"]}>
+          {code}에 해당하는 뉴스 {newsDate} <div onClick={handleShowAllNews}>전체보기</div>
+        </div>
+        <div>
+          {date_currentItems.map((newsItem, index) => (
+            <div className={styles["newsconstent"]} key={index}>
+              <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+              <div className={styles["newstitle"]}><a
+                  href={newsItem.url}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                  }}
+                  style={{ textDecoration:'none', color: 'inherit' }}
+                >
+                  {newsItem.title}
+                </a></div>
+              <div className={styles["newsurl"]}>
+                {newsItem.url}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles["pagebuttonbox"]}>
+          <Pagination currentPage={currentPage} totalPageCount={date_totalPageCount} onPageChange={date_handlePageChange} />
+        </div>
+      </div>
+      }
+      {!newsDate && 
+      <div>
+        <div className={styles["newsheader"]}>
+          {code}에 해당하는 뉴스
+        </div>
         <div>
           {currentItems.map((newsItem, index) => (
             <div className={styles["newsconstent"]} key={index}>
@@ -204,10 +239,10 @@ export default function Newstab() {
           ))}
         </div>
         <div className={styles["pagebuttonbox"]}>
-          {/* Pagination 컴포넌트 */}
           <Pagination currentPage={currentPage} totalPageCount={totalPageCount} onPageChange={handlePageChange} />
         </div>
       </div>
+      }
     </div>
   );
 }
