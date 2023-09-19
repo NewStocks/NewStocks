@@ -243,7 +243,7 @@ def save_news():
         stock_ids = [k[0] for k in lst]
         conn.commit()
 
-        for stock_id in stock_ids[:1000]:
+        for stock_id in stock_ids:
             urls.append(
                 "https://finance.naver.com/item/news_news.nhn?code="
                 + stock_id
@@ -306,7 +306,7 @@ def save_all_news():
         stock_ids = [k[0] for k in lst]
         conn.commit()
 
-        for stock_id in stock_ids[:4]:
+        for stock_id in stock_ids:
             urls.append(
                 "https://finance.naver.com/item/news_news.nhn?code="
                 + stock_id
