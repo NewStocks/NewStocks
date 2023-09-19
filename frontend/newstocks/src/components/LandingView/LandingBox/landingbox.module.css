@@ -1,35 +1,6 @@
-.main {
-  padding: 5rem;
-  min-height: 100vh;
-}
-
 .Button-width {
   width: 118px;
   height: 37px;
-}
-
-.landing-main-container {
-  height: 350px;
-  margin-top: 20px;
-}
-
-.title-animation {
-  opacity: 0;
-  transform: translateY(25px); /* 시작 위치에서 아래로 숨김 */
-  animation: slide-up 1s ease forwards; /* @keyframes 애니메이션 적용 */
-}
-
-@keyframes slide-up {
-  to {
-      opacity: 1;
-      transform: translateY(0); /* 올라오는 위치 */
-  }
-}
-
-.title-mini {
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 500;
 }
 
 .title {
@@ -50,22 +21,34 @@
   margin-bottom: 30px;
 }
 
+.scroll-animation {
+  opacity: 0;
+  transform: translateY(50px); /* 시작 위치에서 아래로 숨김 */
+}
+
+.title-animation-show {
+  animation: slide-up 1s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+.description-animation-show {
+  animation: slide-up 1.7s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+.button-animation-show {
+  animation: slide-up 1.9s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+@keyframes slide-up {
+  to {
+      opacity: 1;
+      transform: translateY(0); /* 올라오는 위치 */
+  }
+}
+
 .content-box {
   margin-top: 18rem;
   margin-left: 1.3rem;
   width: 450px;
-}
-
-.title-botton-box {
-  display: flex;
-  justify-content: space-between;
-  
-  width: 250px;
-  margin-top: 20px;
-
-  opacity: 0;
-  transform: translateY(25px); /* 시작 위치에서 아래로 숨김 */
-  animation: slide-up 2s ease forwards; /* @keyframes 애니메이션 적용 */
 }
 
 .landing-main-image {
@@ -95,4 +78,16 @@
   
   position: absolute;
   /* border: 1px dotted green; */
+}
+
+#right-desc {
+  text-align: right;
+}
+
+#right-item {
+  margin-left: auto;
+}
+
+#right-num {
+  right: 7rem;
 }
