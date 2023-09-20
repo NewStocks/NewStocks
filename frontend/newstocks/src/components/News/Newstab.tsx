@@ -230,8 +230,25 @@ export default function Newstab() {
       {newsDate && 
       <div>
         <div className={styles["newsheader"]}>
-          {newsDate} 
-          {valuenews && <div className={styles["globalheader"]}><div onClick={() => setSelectedView('news')}>국내뉴스</div>/<div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div>/<div onClick={handleShowAllNews}>전체보기</div></div>}
+          {valuenews && (
+            <div className={styles["globalheader"]}>
+              <div
+                className={`${styles["headertab"]} ${
+                  selectedView === "news" ? styles["activeTab"] : ""}`}
+                onClick={() => setSelectedView("news")}>국내뉴스
+              </div>
+              <div
+                className={`${styles["headertab"]} ${
+                  selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
+                onClick={() => setSelectedView("overseasNews")}>해외뉴스
+              </div>
+              <div 
+                className={styles["headertab"]}
+                onClick={handleShowAllNews}>전체보기
+              </div>
+            </div>
+          )} 
+          <div className={styles["headertab"]}>{newsDate}</div>
         </div>
         <div>
           {/* 국내뉴스 */}
@@ -241,13 +258,16 @@ export default function Newstab() {
                   className={styles["newscontent"]}
                   key={index}
                   style={{
-                    // borderRight: 
-                    // newsItem.sentimentType === 'POSITIVE' ? '10px solid rgba(79, 231, 176, 1)' : newsItem.sentimentType === 'NEGATIVE' ? '2px solid rgba(255, 66, 66, 1)' : 'inherit',
                     borderLeft: 
                     newsItem.sentimentType === 'POSITIVE' ? '10px solid rgba(79, 231, 176, 1)' : newsItem.sentimentType === 'NEGATIVE' ? '10px solid rgba(255, 66, 66, 1)' : '10px solid rgba(0, 5, 30, 0.7)',
                   }}
                 >
-                <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                <div className={styles["newscontentup"]}>
+                  <div className={styles["newscompany"]}>
+                    {newsItem.company}
+                  </div>
+                  <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                </div>
                 <div className={styles["newstitle"]}>
                   <a
                     href={newsItem.url}
@@ -255,12 +275,9 @@ export default function Newstab() {
                       e.preventDefault();
                       window.open(newsItem.url, '_blank', 'width=1000,height=600');
                     }}
-                    style={{ textDecoration:'none', color: 'inherit' }}
-                  >
+                    style={{ textDecoration:'none', color: 'inherit' }}>
                     {newsItem.title}
-                  </a></div>
-                <div className={styles["newsurl"]}>
-                  {newsItem.url}
+                  </a>
                 </div>
               </div>
               ))
@@ -270,21 +287,23 @@ export default function Newstab() {
           {selectedView === 'overseasNews' && (
               date_valuecurrentItems.map((newsItem, index) => (
                 <div className={styles["newscontent"]} key={index}>
-                <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
-                <div className={styles["newstitle"]}>
-                  <a
-                    href={newsItem.url}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                    }}
-                    style={{ textDecoration:'none', color: 'inherit' }}
-                  >
-                    {newsItem.title}
-                  </a></div>
-                <div className={styles["newsurl"]}>
-                  {newsItem.url}
-                </div>
+                  <div className={styles["newscontentup"]}>
+                    <div className={styles["newscompany"]}>
+                      {newsItem.company}
+                    </div>
+                    <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                  </div>
+                  <div className={styles["newstitle"]}>
+                    <a
+                      href={newsItem.url}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                      }}
+                      style={{ textDecoration:'none', color: 'inherit' }}>
+                      {newsItem.title}
+                    </a>
+                  </div>
               </div>
               ))
             )}
@@ -305,7 +324,20 @@ export default function Newstab() {
       {!newsDate && 
       <div>
         <div className={styles["newsheader"]}>
-          {valuenews && <div className={styles["globalheader"]}><div onClick={() => setSelectedView('news')}>국내뉴스</div>/<div onClick={() => setSelectedView('overseasNews')}>해외뉴스</div></div>}
+          {valuenews && (
+            <div className={styles["globalheader"]}>
+              <div
+                className={`${styles["headertab"]} ${
+                  selectedView === "news" ? styles["activeTab"] : ""}`}
+                onClick={() => setSelectedView("news")}>국내뉴스
+              </div>
+              <div
+                className={`${styles["headertab"]} ${
+                  selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
+                onClick={() => setSelectedView("overseasNews")}>해외뉴스
+              </div>
+            </div>
+          )}
         </div>
         <div>
         {/* 국내뉴스 */}
@@ -315,50 +347,51 @@ export default function Newstab() {
                 className={styles["newscontent"]}
                 key={index}
                 style={{
-                  // borderRight: 
-                  // newsItem.sentimentType === 'POSITIVE' ? '10px solid rgba(79, 231, 176, 1)' : newsItem.sentimentType === 'NEGATIVE' ? '2px solid rgba(255, 66, 66, 1)' : 'inherit',
                   borderLeft: 
                   newsItem.sentimentType === 'POSITIVE' ? '10px solid rgba(79, 231, 176, 1)' : newsItem.sentimentType === 'NEGATIVE' ? '10px solid rgba(255, 66, 66, 1)' : '10px solid rgba(0, 5, 30, 0.7)',
-                }}
-                >
-              <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
-              <div className={styles["newstitle"]}>
-                <a
-                  href={newsItem.url}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                  }}
-                  style={{ textDecoration:'none', color: 'inherit' }}
-                >
-                  {newsItem.title}
-                </a></div>
-              <div className={styles["newsurl"]}>
-                {newsItem.url}
+                }}>
+                <div className={styles["newscontentup"]}>
+                  <div className={styles["newscompany"]}>
+                    {newsItem.company}
+                  </div>
+                  <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                </div>
+                <div className={styles["newstitle"]}>
+                  <a
+                    href={newsItem.url}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                    }}
+                    style={{ textDecoration:'none', color: 'inherit' }}>
+                    {newsItem.title}
+                  </a>
+                </div>
               </div>
-            </div>
             ))
         )}
         {/* 해외뉴스 */}
         {selectedView === 'overseasNews' && (
           valuecurrentItems.map((newsItem, index) => (
             <div className={styles["newscontent"]} key={index}>
-            <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
-            <div className={styles["newstitle"]}>
-              <a
-                href={newsItem.url}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                }}
-                style={{ textDecoration:'none', color: 'inherit' }}
-              >
-                {newsItem.title}
-              </a></div>
-            <div className={styles["newsurl"]}>
-              {newsItem.url}
+              <div className={styles["newscontentup"]}>
+                  <div className={styles["newscompany"]}>
+                    {newsItem.company}
+                  </div>
+                  <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                </div>
+                <div className={styles["newstitle"]}>
+                  <a
+                    href={newsItem.url}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                    }}
+                    style={{ textDecoration:'none', color: 'inherit' }}>
+                    {newsItem.title}
+                  </a>
+                </div>
             </div>
-          </div>
           ))
           )}
         </div>
