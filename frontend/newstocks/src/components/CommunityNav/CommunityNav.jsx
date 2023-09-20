@@ -56,6 +56,7 @@ export default function CommunityNav() {
   }
 
   useEffect(() => {
+    setHighlight(false)
     if (pathname?.slice(11)) {
       const path = pathname?.slice(11)
       if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {

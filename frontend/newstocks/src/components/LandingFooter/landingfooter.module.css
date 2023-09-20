@@ -1,0 +1,53 @@
+.scroll-animation {
+  opacity: 0;
+  transform: translateY(50px); /* 시작 위치에서 아래로 숨김 */
+}
+
+.footer-animation-show {
+  animation: slide-up 1s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+@keyframes slide-up {
+  to {
+      opacity: 1;
+      transform: translateY(0); /* 올라오는 위치 */
+  }
+}
+
+.Button-width {
+  width: 118px;
+  height: 37px;
+}
+
+.footer {
+  margin-top: 300px;
+  margin-left: 8rem;
+  margin-bottom: 2rem;
+}
+
+.footer-contents {
+  display: flex;
+}
+
+.footer-box {
+  width: 250px;
+  height: 260px;
+  margin-right: 40px;
+  border-right: 1px dotted white;
+}
+
+.footer-title {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 33px;
+}
+
+.footer-title span {
+  color: #4FE7B0;
+}
+
+.footer-content {
+  font-size: 17px;
+
+  margin-bottom: 15px;
+}

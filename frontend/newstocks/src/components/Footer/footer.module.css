@@ -1,52 +1,71 @@
-.scroll-animation {
-  opacity: 0;
-  transform: translateY(50px); /* 시작 위치에서 아래로 숨김 */
+.footer-container {
+  border-top: 1px solid #4FE7B0;
+  width: 100%;
+  padding: 40px 0 5px 0;
 }
 
-.footer-animation-show {
-  animation: slide-up 1s ease forwards; /* @keyframes 애니메이션 적용 */
-}
-
-@keyframes slide-up {
-  to {
-      opacity: 1;
-      transform: translateY(0); /* 올라오는 위치 */
-  }
-}
-
-.Button-width {
-  width: 118px;
-  height: 37px;
-}
-
-.footer {
-  margin-top: 250px;
-  margin-left: 8rem;
-}
-
-.footer-contents {
+/* .footer-container div {
   display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 0 30px 0;
+} */
+
+.footer-container div button {
+   border: 0;
+   background-color: transparent;
+   color: white;
+   cursor: pointer;
 }
 
-.footer-box {
-  width: 250px;
-  height: 260px;
-  margin-right: 40px;
-  border-right: 1px dotted white;
+.footer-container div button:hover {
+  font-weight: 550;
 }
 
-.footer-title {
-  font-size: 21px;
-  font-weight: 700;
-  margin-bottom: 33px;
+.LOGO{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 20px 0;
 }
 
-.footer-title span {
+.logo-title {
+  width: 150px;
+  height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#main-title {
   color: #4FE7B0;
+  font-size: 25px;
+  font-weight: 650;
+}
+
+#sub-title {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.51);
+  margin: 0 0 15px 0;
+}
+
+.LOGO p{
+  margin: 0 10px 15px 0;
 }
 
 .footer-content {
-  font-size: 17px;
+  margin: 0 0 20px 0;
+}
 
-  margin-bottom: 15px;
+.footer-content div {
+  margin: 0 auto;
+  text-align: center;
+  width: 600px;
+}
+
+#footer-content-text {
+  font-size: 13.5px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }

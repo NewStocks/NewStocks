@@ -3,6 +3,7 @@ import styles from './landingbox.module.css'
 import { useEffect, useState } from 'react';
 
 import Button from '../../Button/Button'
+import AllCardsImage from './AllCardsImage/AllCardsImage'
 
 type Props = {
   position: number | 0,
@@ -53,7 +54,11 @@ export default function LandingBox({ position, right }: Props) {
       : 
       <>
         <div className={styles["landing-containers-num"]} id={styles["right-num"]}>02</div>
-        <div className={styles["landing-containers"]}>
+        <div className={`${styles["landing-containers"]} ${styles['scroll-animation']} ${isVisible ? styles['title-animation-show'] : ''}`}>
+          <div className={styles["landing-iamge-box"]}>
+            <AllCardsImage />
+          </div>
+
           <div className={styles["content-box"]} id={styles["right-item"]}>
             <div className={`${styles['title']} ${styles['scroll-animation']} ${isVisible ? styles['title-animation-show'] : ''}`} id={styles["right-desc"]}><span>전체</span> 오답노트 모아보기</div>
             <div className={`${styles["description"]} ${styles['scroll-animation']} ${isVisible ? styles['description-animation-show'] : ''}`} id={styles["right-desc"]}>

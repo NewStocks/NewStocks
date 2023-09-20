@@ -26,7 +26,7 @@ const StyledLink = styled(Link)`
   color: white;
 `
 
-export default function CreatePostForm() {
+export default function CreatePostForm({ type }) {
   const editorRef = useRef();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -147,7 +147,7 @@ export default function CreatePostForm() {
   return (
     <div>
       <div className={styles["top-menu"]}>
-        <h2>오답노트 작성</h2>
+        <h2>오답노트 {type=="create" ? '작성' : '수정'}</h2>
         <button className={styles["submit-button"]}>✍ 게시하기</button>
       </div>
 

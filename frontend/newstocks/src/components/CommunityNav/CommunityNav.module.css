@@ -1,3 +1,7 @@
+.communitynav-container {
+  min-width: 200px;
+}
+
 .nav-space {
   height: 20px;
 }
@@ -127,7 +131,7 @@
 
 .nav-selected {
   height: 50px;
-  width: 160px;
+  width: 85%;
   background-color: rgba(255, 255, 255, 0.10);
   border-radius: 10%;
   position: absolute;
