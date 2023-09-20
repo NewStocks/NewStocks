@@ -1,7 +1,7 @@
 import styles from './communitypage.module.css';
 
 import LandingView from '@/components/LandingView/LandingView'
-import Footer from '@/components/Footer/Footer'
+import LandingFooter from '@/components/LandingFooter/LandingFooter'
 import Button from '@/components/Button/Button'
 
 export default function CommunityPage() {
@@ -25,7 +25,7 @@ export default function CommunityPage() {
 
       <LandingView />  
 
-      <Footer />
+      <LandingFooter />
 
     </div>
   )

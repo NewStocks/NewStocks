@@ -5,6 +5,7 @@ import styles from './community.module.css'
 
 import Header from '@/components/Header/Header'
 import CommunityNav from '@/components/CommunityNav/CommunityNav'
+import Footer from '@/components/Footer/Footer'
 
 const sans = Open_Sans({ subsets: ['latin']});
 
@@ -33,6 +34,8 @@ export default function CommunityLayout({
             {children}
           </div>
         </div>
+
+        <Footer />
 
     </>
   )
