@@ -1,14 +1,10 @@
 "use client";
-import styles from "./AutocompleteBox.module.css";
-import StockProfile from "@/components/StockProfile/StockProfile";
-import { forwardRef } from "react";
 
-type Stock = {
-  stockName: string;
-  stockId: string;
-  stockMarket?: string;
-  stockImageUrl?: string;
-};
+import { forwardRef } from "react";
+import StockProfile from "@/components/StockProfile/StockProfile";
+import styles from "./AutocompleteBox.module.css";
+import { Stock } from "@/types/stock";
+
 
 interface Props {
   stockSearchList: Stock[];
@@ -52,7 +48,6 @@ const AutocompleteBox = forwardRef<HTMLDivElement, Props>(
       <>
         <div className={styles["container"]}>
           <div className={styles["scroll-container"]}>{stockSearchListBox}</div>
-          <div></div>
         </div>
       </>
     );

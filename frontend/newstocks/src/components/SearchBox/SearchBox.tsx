@@ -1,11 +1,61 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+
 import AutocompleteBox from "./AutocompleteBox/AutocompleteBox";
+
+import { searchStock } from "@/util/searchStock";
+import { Stock } from "@/types/stock";
 
 import styles from "./SearchBox.module.css";
 import { BiSearch, BiX } from "react-icons/bi";
-import { useState, useEffect, useRef } from "react";
+
+
+const allStocks = [
+  {
+    stockName: "감자",
+    stockId: "035720",
+    stockMarket: "코스피",
+    stockImageUrl:
+      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/035720.png",
+  },
+  {
+    stockName: "난",
+    stockId: "005930",
+    stockMarket: "코스피",
+    stockImageUrl:
+      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
+  },
+  {
+    stockName: "체감",
+    stockId: "0059301",
+    stockMarket: "코스피",
+    stockImageUrl:
+      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
+  },
+  {
+    stockName: "강아지",
+    stockId: "0059302",
+    stockMarket: "코스피",
+    stockImageUrl:
+      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
+  },
+  {
+    stockName: "공주",
+    stockId: "0059303",
+    stockMarket: "코스피",
+    stockImageUrl:
+      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
+  },
+  {
+    stockName: "자개장",
+    stockId: "0059304",
+    stockMarket: "코스피",
+    stockImageUrl:
+      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
+  },
+];
 
 export default function SearchBox() {
   const router = useRouter();
@@ -15,50 +65,9 @@ export default function SearchBox() {
   const [inputText, setInputText] = useState("");
   const [showAutoBox, setShowAutoBox] = useState(false);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
-  const [searchList, setSearchList] = useState([
-    {
-      stockName: "카카오",
-      stockId: "035720",
-      stockMarket: "코스피",
-      stockImageUrl:
-        "https://file.alphasquare.co.kr/media/images/stock_logo/kr/035720.png",
-    },
-    {
-      stockName: "삼성전자",
-      stockId: "005930",
-      stockMarket: "코스피",
-      stockImageUrl:
-        "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-    },
-    {
-      stockName: "삼성전자",
-      stockId: "0059301",
-      stockMarket: "코스피",
-      stockImageUrl:
-        "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-    },
-    {
-      stockName: "삼성전자",
-      stockId: "0059302",
-      stockMarket: "코스피",
-      stockImageUrl:
-        "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-    },
-    {
-      stockName: "삼성전자",
-      stockId: "0059303",
-      stockMarket: "코스피",
-      stockImageUrl:
-        "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-    },
-    {
-      stockName: "삼성전자",
-      stockId: "0059304",
-      stockMarket: "코스피",
-      stockImageUrl:
-        "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-    },
-  ]);
+  const [searchList, setSearchList] = useState<Stock[]>([]);
+
+  // console.log(searchStock("ㄱㅈ", ["감자", "난", "체감", "강아지", "공주", "자개장", "english", "."]));
 
   // input 창 바깥 클릭 시 autocomplete box 숨기기
   useEffect(() => {
@@ -109,6 +118,8 @@ export default function SearchBox() {
   useEffect(() => {
     if (inputText.trim() !== "") {
       setShowAutoBox(true);
+      const autocompleteResults = searchStock(inputText, allStocks);
+      setSearchList(autocompleteResults);
     } else {
       setShowAutoBox(false);
     }
@@ -154,7 +165,7 @@ export default function SearchBox() {
 
   const handleEraseClick = () => {
     setInputText("");
-  }
+  };
 
   return (
     <>
