@@ -69,6 +69,15 @@ export default function ChartComponent() {
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
+        const lastDataPoint = data[data.length - 1];
+        const lastDataPointTime = new Date(lastDataPoint.x).getTime() / 1000 + 32400;
+        // const oneYearAgo = lastDataPointTime - 31536000; // 31536000 seconds in a year
+        // const initialTime = oneYearAgo;
+        const today = new Date();
+        const sixMonthsAgo = new Date(today);
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 3);
+        const initialTime = sixMonthsAgo.getTime() / 1000;
+
 
         setChartData((prevdata) => ({
           ...prevdata,
@@ -136,7 +145,6 @@ export default function ChartComponent() {
               color: 'rgba(167, 255, 3, 0.7)',
               shape: 'circle',
               text: 'N',
-              size:'small'
             });
           }
         });
@@ -145,7 +153,7 @@ export default function ChartComponent() {
           allMarkers.push({
             time: new Date(item.x).getTime() / 1000,
             position: 'aboveBar',
-            color: 'rgba(255, 126, 56, 0.7)',
+            color: 'rgba(255, 3, 144, 1)',
             shape: 'circle',
             text: 'R',
             
@@ -158,7 +166,7 @@ export default function ChartComponent() {
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
         tooltipRef.current.style = `width: 150px; max-height: 300px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
-        tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.5)';
+        tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.7)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
         chartContainerRef.current.appendChild(tooltipRef.current);
@@ -196,27 +204,29 @@ export default function ChartComponent() {
 
                       tooltipRef.current.innerHTML = 
                       `
-                      <div style="padding: 6px">
-                        <div style="color: ${'#4FE7B0'}">${code}</div>
-                        <div style="color: ${'white'}">
-                        ${formattedTime}
+                      <div>
+                        <div style="padding: 6px">
+                          <div style="color: ${'#4FE7B0'}">${code}</div>
+                          <div style="color: ${'white'}">
+                          ${formattedTime}
+                          </div>
+                          <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'}">
+                            <div>시가 : ${open}</div>
+                            <div>고가 : ${high}</div>
+                            <div>저가 : ${low}</div>
+                            <div>종가 : ${close}</div>
+                            <div>거래량 : ${value}</div>
+                          </div>
                         </div>
-                        <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                          <div>시가 : ${open}</div>
-                          <div>고가 : ${high}</div>
-                          <div>저가 : ${low}</div>
-                          <div>종가 : ${close}</div>
-                          <div>거래량 : ${value}</div>
-                        </div>
-                      </div>
-                      <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-                        <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                          <div>News</div>
-                          <div>${newsnum}의 뉴스</div>
-                          <hr/>  
-                          <div>Review</div>
-                          <div>${notespec}</div>
-                        </div>
+                        <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+                          <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'} border:1px solid #4FE7B0;">
+                            <div style="color: ${'#4FE7B0'}">News</div>
+                            <div>${newsnum}</div>
+                            <hr>
+                            <div style="color: ${'#4FE7B0'}">Review</div>
+                            <div>${notespec}</div>
+                          <div/>
+                        <div/>
                       <div/>
                         `
                       tooltipRef.current.style.maxHeight = '300px';
@@ -260,7 +270,7 @@ export default function ChartComponent() {
                     </div>
                     <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
                       <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                        <div>Review</div>
+                        <div style="color: ${'#4FE7B0'}">Review</div>
                         <div>${notespec}</div>
 
                       </div>
@@ -296,8 +306,8 @@ export default function ChartComponent() {
                     </div>
                     <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
                       <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                        <div>News</div>
-                        <div>${newstitle}개의 뉴스</div>
+                        <div style="color: ${'#4FE7B0'}">News</div>
+                        <div>${newstitle}</div>
                       </div>
                     <div/>
                       `
@@ -392,6 +402,11 @@ export default function ChartComponent() {
         };
         // chart.current에 클릭 이벤트 핸들러 등록
         chart.current.subscribeClick(handleChartClick);
+
+        chart.current.timeScale().setVisibleRange({
+          from: initialTime,
+          to: lastDataPointTime, // Set the end time as the last data point's time
+        });
       
       })
       .catch((err) => {
@@ -412,10 +427,10 @@ export default function ChartComponent() {
       },
       grid: {
         vertLines: {
-          color: 'rgba(197, 203, 206, 0.3)',
+          color: 'rgba(197, 203, 206, 0.1)',
         },
         horzLines: {
-          color: 'rgba(197, 203, 206, 0.3)',
+          color: 'rgba(197, 203, 206, 0.1)',
         },
       },
       ColorType: 'gradient',
@@ -462,9 +477,9 @@ export default function ChartComponent() {
     });
     
 
-    const initialTime = new Date('2022-09-01T00:00:00Z').getTime() / 1000;
+    
     // chart.current.timeScale().scrollToPosition(initialTime);
-    chart.current.timeScale(initialTime);
+    // chart.current.timeScale(initialTime);
 
      return () => {
       if (chart.current) {
@@ -473,33 +488,70 @@ export default function ChartComponent() {
     };
   }, [code, tab]);
 
-  // const [isStarred, setIsStarred] = useState(false);
-  // const toggleStar = () => {
-  //   setIsStarred(!isStarred);
-  // };
-
-  // const[chartData, setChartData] = useState({
-  //   title:'',
-  //   valuechain: true
-  // })
-
+    useEffect(() => {
+      // TradingView 위젯을 로드하는 스크립트를 동적으로 생성하고 추가
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        symbols: [
+          {
+            description: 'KRW 대 USD',
+            proName: 'FX_IDC:KRWUSD',
+          },
+          {
+            description: '삼성전자',
+            proName: 'KRX:005930',
+          },
+          {
+            description: '코스피',
+            proName: 'KRX:KOSPI',
+          },
+          {
+            description: '코스닥',
+            proName: 'KRX:KOSDAQ',
+          },
+        ],
+        showSymbolLogo: false,
+        colorTheme: 'dark',
+        isTransparent: true,
+        displayMode: 'regular',
+        locale: 'kr',
+        width:1000
+      });
+      document.getElementById('tradingview-widget-container').appendChild(script);
+  
+      // 컴포넌트가 언마운트 될 때 스크립트 제거
+      return () => {
+        document.getElementById('tradingview-widget-container').removeChild(script);
+      };
+    }, []);
 
   return (
     <div>
       <div className='chartheader'>
         <div className='headerinfo'>
-        <StockProfile
-            stockName="삼성전자"
-            stockId=""
-            size="small"
-            stockMarket=""
-            stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
-          />
-          <div className='stockname' onClick={toggleStar}>{code}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
-          <div className='stockinfo'>현재가</div>
+          
+        
+          <div className='stockname' onClick={toggleStar}>
+            <StockProfile
+              stockName="삼성전자"
+              stockId=""
+              size="small"
+              stockMarket=""
+              stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
+            />{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+          <div className='stockinfo'>
+
+            <div id="tradingview-widget-container">
+              {/* <div className="tradingview-widget-container__widget"></div> */}
+            </div>
+          </div>
+          {/* <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
           <div className='stockinfo'>국내증시</div>
-          <div className='stockinfo'>해외증시</div>
+          <div className='stockinfo'>해외증시</div> */}
         </div>
         <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
         <ValueChainModal isOpen={isValueModalOpen} onClose={closeValueChainModal} code={code}/>

@@ -1,28 +1,57 @@
 .newsmain {
 	border: 1px solid #5a5a5ada;
+	width: 902px;
 }
 .newscontent{
 	border-bottom: 1px solid #5a5a5ada;
+	padding-left: 5px;
 }
 .newsheader {
 	border-bottom: 1px solid #5a5a5ada;
+	display: flex;
+	justify-content: space-between;
 	/* display: flex; */
 }
 .globalheader {
 	display: flex;
 	/* justify-content: center; */
 }
+
+
+.headertab {
+	padding: 8px 12px;
+	cursor: pointer;
+	transition: background-color 0.3s ease; 
+}
+  
+/* .headertab + .headertab {
+	margin-left: 10px;
+  } */
+
+.activeTab {
+	background-color: #0070f3; /* 활성 탭 배경색 설정 */
+	color: white; /* 글자색 설정 */
+	/* padding: 8px 12px;  */
+	cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능한 것처럼 보이게 함 */
+  }
+
+.newscontentup {
+	display: flex;
+	justify-content: space-between;
+	padding-top: 5px;
+}
 .newstitle {
-	/* margin-bottom: 10px; */
+	margin-bottom: 5px;
 }
 .newsdate {
 	font-size: 9px;
-	display: flex;
+	/* display: flex; */
 	justify-content: right;
 	margin-right: 10px;
 }
-.newsurl {
+.newscompany {
 	font-size: 9px;
+	padding-bottom: 5px;
 }
 .pagebuttonbox {
 	display: flex;
