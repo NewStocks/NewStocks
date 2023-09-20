@@ -28,21 +28,21 @@ const allStocks = [
       "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
   },
   {
-    stockName: "체감",
+    stockName: "English0",
     stockId: "0059301",
     stockMarket: "코스피",
     stockImageUrl:
       "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
   },
   {
-    stockName: "강아지",
+    stockName: "강아지0",
     stockId: "0059302",
     stockMarket: "코스피",
     stockImageUrl:
       "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
   },
   {
-    stockName: "공주",
+    stockName: "공주1",
     stockId: "0059303",
     stockMarket: "코스피",
     stockImageUrl:
