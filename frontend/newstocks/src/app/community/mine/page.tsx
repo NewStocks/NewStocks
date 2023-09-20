@@ -47,12 +47,12 @@ export default function MynotesPage({ searchParams }: Props) {
           </>
         )}
         <div className={styles["cards-container"]}>
-          <Card type=""/>
-          <Card type=""/>
-          <Card type=""/>
-          <Card type=""/>
-          <Card type=""/>
-          <Card type=""/>
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
         </div>
       </div>
 
