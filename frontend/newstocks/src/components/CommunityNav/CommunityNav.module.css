@@ -13,6 +13,52 @@
   /* margin-top: 15px;  */
 }
 
+.login-subtitle {
+  font-size: 12px;
+  text-align: center;
+  padding: 1px 3px 0 0;
+}
+
+.login-subtitle span {
+  font-weight: 550;
+  color: #4FE7B0;
+}
+
+.profile-container button {
+  display: flex;
+  
+  width: 170px;
+  height: 33px;
+  background-color: rgba(255, 255, 255, 0.23);
+  border: 0;
+  /* border: 2px solid #4FE7B0; */
+  border-radius: 8px;
+  margin: 0 auto;
+  margin-top: 5px;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+}
+
+.profile-container button:hover {
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  font-weight: 500;
+}
+
+.login-title {
+  font-size: 13px;
+  font-weight: 550;
+  margin: 5.5px 12px;
+  color: white;
+}
+
+.login-icon {
+  margin-top: 4px;
+  color: #4FE7B0;
+}
+
 .profile-box {
   display: flex;
   padding: 0 10px;
@@ -152,3 +198,14 @@
   font-weight: 800;
   color: #4FE7B0;
 }
+
+/* 배경을 어둡게 하는 오버레이 */
+/* .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+} */

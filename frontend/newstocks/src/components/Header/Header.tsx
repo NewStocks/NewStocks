@@ -55,7 +55,8 @@ return (
       <div className={styles["header-right"]}>
         <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
         <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
-        <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link>
+        <button className={styles["login-button"]}>로그인</button>
+        {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
       </div>
     </div>
   </header>

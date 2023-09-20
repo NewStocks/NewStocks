@@ -4,12 +4,15 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-import { IoIosArrowForward } from "react-icons/io";
+import LoginModal from '@/components/LoginModal/LoginModal'
+
+import { PiArrowSquareRightBold } from "react-icons/pi"
 
 export default function CommunityNav() {
   const [mytoggle, setMytoggle] = useState(false);
   const [pagename, setpageName] = useState(null);
   const [highlight, setHighlight] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const tabsRef = useRef(null);
   const highlightRef = useRef(null);
   const mynoteRef = useRef(null);
@@ -29,7 +32,7 @@ export default function CommunityNav() {
   function switchHighlight() {
     if (pathname?.slice(11)) {
       const path = pathname?.slice(11)
-      if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {
+      if (path=='mine' | path=='all' | path=='notice' | path=='create') {
       const tabs = tabsRef.current.querySelectorAll('.tab');
       const highlight = highlightRef.current;
       
@@ -59,19 +62,20 @@ export default function CommunityNav() {
     setHighlight(false)
     if (pathname?.slice(11)) {
       const path = pathname?.slice(11)
-      if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {
+      if (path=='mine' | path=='all' | path=='notice' | path=='create') {
         setHighlight(true)
         setTimeout(async () => {
           switchPath()
         }, 100);
       } else {
         setHighlight(false)
+        mineToggle(pathname)
       }
   }}, [pathname])
   
   useEffect(() => {
     if (pathname?.slice(11)) {
-
+      
       if (searchParams) {
         setpageName(searchParams?.get('page'))
       }
@@ -90,11 +94,11 @@ export default function CommunityNav() {
         
         if (pathname?.slice(11)) {
           const path = pathname?.slice(11)
-          if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {
+          if (path=='mine' | path=='all' | path=='notice' | path=='create') {
           const selected = tabsRef.current?.querySelector(`.${path}`);
 
           selected.classList.add('active');
-      
+          
           const tabHeight = selected.offsetHeight;
           const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
 
@@ -105,16 +109,23 @@ export default function CommunityNav() {
         }
       }}
   }}, [])
-
+  
   return(
+    <>
+    {isModalOpen && (
+    <>
+      <div className={styles["overlay"]}></div>
+      <LoginModal />
+    </>
+    )}
     <div className={styles["communitynav-container"]} ref={tabsRef}>
       {highlight && <div ref={highlightRef} className={`${styles["nav-selected"]} highlight`}>
         <div className={styles["nav-selected-pos"]}></div>
       </div>}
-      <Link href='/community/user' style={{ textDecoration: "none"}}>
+      {/* <Link href='/community/user' style={{ textDecoration: "none"}}>
         <div className={`${styles["profile-container"]} tab user`}>
           <div className={styles["profile-box"]}>
-            <div className={styles["profile-image"]}></div>
+          <div className={styles["profile-image"]}></div>
             <div className={styles["profile-name"]}>
               <div>Hello 👋</div>
               <p>Anima Ag.</p>
@@ -122,7 +133,14 @@ export default function CommunityNav() {
             <div className={styles["profile-button"]}><IoIosArrowForward id={styles["profile-button-icon"]} color="white"/></div>
           </div>
         </div>
-      </Link>
+      </Link> */}
+      <div className={`${styles["profile-container"]} tab user`}>
+        <div className={styles["login-subtitle"]}><span>NEWStocks</span>의 회원이 되어보세요!</div>
+        <button onClick={() => setIsModalOpen(true)}>
+          <div className={styles["login-title"]}>로그인 | 회원가입</div>
+          <div className={styles["login-icon"]}><PiArrowSquareRightBold size="21"/></div>
+        </button>
+      </div>
 
       <div className={styles["nav-container"]}>
         <div className={`${styles["nav-mynote"]} tab mine`}>
@@ -157,5 +175,7 @@ export default function CommunityNav() {
 
       </div>
     </div>
+
+  </>
   )
 }

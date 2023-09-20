@@ -1,7 +1,7 @@
 .header {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   border-bottom: 1px solid #4FE7B0;
-  padding: 15px 20px;
+  padding: 15px 30px 15px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,7 +33,7 @@
 }
 
 .header-left {
-  width: 180px;
+  width: 220px;
   /* border: 1px dotted white; */
 }
 
@@ -68,18 +68,36 @@
 }
 
 .header-right {
-  width: 180px;
+  width: 220px;
   display: flex;
   justify-content: space-between;
-  /* border: 1px dotted red; */
 }
 
 .header-link{
-  width: 30px;
+  width: 60px;
   margin: 0 0 3px 0;
   color: #FFF;
   /* text-align: center; */
   cursor: pointer;
 
+  display: flex;
+  justify-content: center;
   /* border: 1px dotted white; */
+}
+
+.login-button {
+  margin-left: 13px;
+  width: 65px;
+  background-color: transparent;
+  color: #4FE7B0;
+  border: 2px solid #4FE7B0;
+  border-radius: 12px;
+  margin-bottom: 1px;
+
+  cursor: pointer;
+}
+
+.login-button:hover {
+  border: 2.5px solid #4FE7B0;
+  font-weight: 500;
 }
