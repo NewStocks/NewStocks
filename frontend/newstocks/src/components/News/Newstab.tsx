@@ -235,16 +235,16 @@ export default function Newstab() {
               <div
                 className={`${styles["headertab"]} ${
                   selectedView === "news" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("news")}>국내뉴스
+                onClick={() => setSelectedView("news")}>국내 뉴스
               </div>
               <div
                 className={`${styles["headertab"]} ${
                   selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("overseasNews")}>해외뉴스
+                onClick={() => setSelectedView("overseasNews")}>해외 뉴스
               </div>
               <div 
                 className={styles["headertab"]}
-                onClick={handleShowAllNews}>전체보기
+                onClick={handleShowAllNews}>전체 보기
               </div>
             </div>
           )} 
@@ -329,12 +329,12 @@ export default function Newstab() {
               <div
                 className={`${styles["headertab"]} ${
                   selectedView === "news" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("news")}>국내뉴스
+                onClick={() => setSelectedView("news")}>국내 뉴스
               </div>
               <div
                 className={`${styles["headertab"]} ${
                   selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("overseasNews")}>해외뉴스
+                onClick={() => setSelectedView("overseasNews")}>해외 뉴스
               </div>
             </div>
           )}

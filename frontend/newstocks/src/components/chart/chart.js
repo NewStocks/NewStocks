@@ -148,7 +148,7 @@ export default function ChartComponent() {
 
         function isWeekend(date) {
           const day = date.getDay(); 
-          return day === 0 || day === 6; // Sunday 또는 Saturday일 경우 주말로 처리
+          return day === 0 || day === 6; // 주말 처리
         }
 
         Object.values(uniqueNewsData).forEach(item => {
@@ -421,7 +421,7 @@ export default function ChartComponent() {
 
         chart.current.timeScale().setVisibleRange({
           from: initialTime,
-          to: lastDataPointTime, // Set the end time as the last data point's time
+          to: lastDataPointTime,
         });
       
       })
