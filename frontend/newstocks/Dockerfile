@@ -12,9 +12,7 @@ RUN npm install
 COPY . .
 
 # 5. 프로덕션용 빌드를 생성합니다.
-RUN npm run build
-
-COPY . .
+#RUN npm run build
 
 # 6. 애플리케이션을 실행합니다.
 CMD ["npm", "start"]
