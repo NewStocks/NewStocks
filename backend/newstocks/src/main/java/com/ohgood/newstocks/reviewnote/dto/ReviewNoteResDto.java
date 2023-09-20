@@ -44,6 +44,7 @@ public class ReviewNoteResDto {
     private List<ReviewNoteImageDto> reviewNoteImageDtoList = new ArrayList<>();
     private List<ReviewNoteLinkDto> reviewNoteLinkDtoList = new ArrayList<>();
     private List<NewsDto> newsDtoList = new ArrayList<>();
+    private List<ReplyResDto> replyResDtoList = new ArrayList<>();
 
     private Boolean hasAuthority;
     private Boolean isLiked;
@@ -83,5 +84,9 @@ public class ReviewNoteResDto {
         // TODO 추후 변경 필요
         this.isLiked = false;
         this.isScrapped = false;
+    }
+
+    public void addReply(List<ReplyResDto> replyResDtoList) {
+        this.replyResDtoList = replyResDtoList;
     }
 }
