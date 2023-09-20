@@ -12,7 +12,7 @@ export default function LandingFooter() {
     const handleScroll = () => {
         const scrollY = window.scrollY;
 
-        if (scrollY >= 1150) {
+        if (scrollY >= 1300) {
             setIsVisible(true);
         } else {
             setIsVisible(false);

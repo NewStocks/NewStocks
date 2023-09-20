@@ -46,9 +46,11 @@
 }
 
 .content-box {
-  margin-top: 18rem;
+  margin-top: 17.5rem;
   margin-left: 1.3rem;
   width: 450px;
+
+  border: 1px violet solid;
 }
 
 .landing-main-image {
@@ -63,9 +65,20 @@
 
 .landing-containers {
   height: 480px;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
+  display: flex;
 
   margin-bottom: 110px;
+  border: 1px dotted aqua;
+  position: relative;
+}
+
+.landing-iamge-box {
+  position: absolute;
+  top: 170px;
+  width: 68%;
+  height: 80%;
+  /* background-color: rgba(128, 128, 128, 0.196); */
 }
 
 .landing-containers-num {
@@ -77,7 +90,7 @@
   line-height: 450px;
   
   position: absolute;
-  /* border: 1px dotted green; */
+  border: 1px dotted green;
 }
 
 #right-desc {
