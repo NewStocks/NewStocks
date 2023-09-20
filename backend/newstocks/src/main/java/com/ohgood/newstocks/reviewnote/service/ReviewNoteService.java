@@ -47,6 +47,7 @@ public class ReviewNoteService {
     private final ReviewNoteNewsRepository reviewNoteNewsRepository;
     private final AwsS3Service awsS3Service;
     private final ReviewNoteImageRepository reviewNoteImageRepository;
+    private final ReplyService replyService;
 
     private static final String DIR = "/review-note";
 
@@ -105,7 +106,7 @@ public class ReviewNoteService {
         reviewNoteResDto.addDetailDtos();
 
         reviewNoteResDto.checkMember(member);
-
+        reviewNoteResDto.addReply(replyService.findReply(reviewNoteId, userId));
         return reviewNoteResDto;
     }
 
@@ -155,6 +156,7 @@ public class ReviewNoteService {
         reviewNoteResDto.addDetailDtos();
 
         reviewNoteResDto.checkMember(member);
+        reviewNoteResDto.addReply(replyService.findReply(reviewNote.getId(), userId));
 
         return reviewNoteResDto;
     }
