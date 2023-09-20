@@ -5,9 +5,10 @@
 .newscontent{
 	border-bottom: 1px solid #5a5a5ada;
 	padding-left: 5px;
+	height: 50px;
 }
 .newsheader {
-	border-bottom: 1px solid #5a5a5ada;
+	border-bottom: 1px solid #4FE7B0;
 	display: flex;
 	justify-content: space-between;
 	/* display: flex; */
@@ -29,10 +30,12 @@
   } */
 
 .activeTab {
-	background-color: #0070f3; /* 활성 탭 배경색 설정 */
-	color: white; /* 글자색 설정 */
-	/* padding: 8px 12px;  */
-	cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능한 것처럼 보이게 함 */
+	background-color: #4FE7B0; /* 활성 탭 배경색 */
+	color: rgb(0, 0, 0); 
+	cursor: pointer; 
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	font-weight: bold;
   }
 
 .newscontentup {
