@@ -20,8 +20,7 @@
 }
 
 
-
-.header-search div {
+.search-icon {
   width: 30px;
   margin: 0 0 0 20px;
 }
@@ -36,4 +35,9 @@
 
 .header-search input:focus {
   outline: 0;
+}
+
+.erase-button {
+  margin: 0px 15px;
+  cursor:pointer;
 }

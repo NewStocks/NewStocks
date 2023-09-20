@@ -1,13 +1,14 @@
-'use client';
+"use client";
 import styles from "./AutocompleteBox.module.css";
 import StockProfile from "@/components/StockProfile/StockProfile";
+import { forwardRef } from "react";
 
 type Stock = {
-  stockName: string; 
+  stockName: string;
   stockId: string;
   stockMarket?: string;
-  stockImageUrl?: string; 
-}
+  stockImageUrl?: string;
+};
 
 interface Props {
   stockSearchList: Stock[];
@@ -16,32 +17,46 @@ interface Props {
   handleItemHover: Function;
 }
 
-export default function AutocompleteBox({ stockSearchList, selectedItem, handleItemHover, handleItemClick }: Props) {
+const AutocompleteBox = forwardRef<HTMLDivElement, Props>(
+  ({
+    stockSearchList,
+    selectedItem,
+    handleItemHover,
+    handleItemClick,
+  }, ref) => {
+    const stockSearchListBox = stockSearchList.map(
+      ({ stockName, stockId, stockMarket, stockImageUrl }, idx) => {
+        return (
+          <div
+            key={stockId}
+            ref={idx === selectedItem ? ref : null}
+            className={`${styles["stock-item-box"]} ${
+              idx === selectedItem ? styles["stock-item-box-selected"] : ""
+            }`}
+            onMouseEnter={() => handleItemHover(idx)}
+            onClick={() => handleItemClick(idx)}
+          >
+            <StockProfile
+              stockName={stockName}
+              stockId={stockId}
+              stockMarket={stockMarket}
+              stockImageUrl={stockImageUrl}
+              size="small"
+            />
+          </div>
+        );
+      }
+    );
 
-  console.log("자식컴포넌트: "+selectedItem)
-
-
-  const stockSearchListBox = stockSearchList.map(
-    ({ stockName, stockId, stockMarket, stockImageUrl }, idx) => {
-      return (
-        <div key={stockId} className={`${styles["stock-item-box"]} ${idx === selectedItem ? styles["stock-item-box-selected"] : ""}`} onMouseEnter={()=> handleItemHover(idx)} onClick={()=>handleItemClick(idx)}>
-          <StockProfile
-            stockName={stockName}
-            stockId={stockId}
-            stockMarket={stockMarket}
-            stockImageUrl={stockImageUrl}
-            size="small"
-          />
+    return (
+      <>
+        <div className={styles["container"]}>
+          <div className={styles["scroll-container"]}>{stockSearchListBox}</div>
+          <div></div>
         </div>
-      );
-    }
-  );
+      </>
+    );
+  }
+);
 
-  return (
-    <>
-      <div className={styles["container"]}>
-        <div className={styles["scroll-container"]}>{stockSearchListBox}</div>
-      </div>
-    </>
-  );
-}
+export default AutocompleteBox;

@@ -4,13 +4,14 @@ import { useSearchParams, useRouter } from "next/navigation";
 import AutocompleteBox from "./AutocompleteBox/AutocompleteBox";
 
 import styles from "./SearchBox.module.css";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiX } from "react-icons/bi";
 import { useState, useEffect, useRef } from "react";
 
 export default function SearchBox() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const [inputText, setInputText] = useState("");
   const [showAutoBox, setShowAutoBox] = useState(false);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
@@ -77,17 +78,19 @@ export default function SearchBox() {
   // keyboard로 이동
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedItem && showAutoBox) {
-        e.preventDefault();
+      if (selectedItem !== null && showAutoBox) {
         if (e.key === "ArrowUp") {
+          e.preventDefault();
           if (selectedItem === 0) {
-            setSelectedItem(searchList.length-1)
+            setSelectedItem(searchList.length - 1);
           } else {
-            setSelectedItem((selectedItem - 1));
+            setSelectedItem(selectedItem - 1);
           }
         } else if (e.key === "ArrowDown") {
+          e.preventDefault();
           setSelectedItem((selectedItem + 1) % searchList.length);
         } else if (e.key === "Enter") {
+          e.preventDefault();
           handleItemClick(selectedItem);
         } else if (e.key === "Escape") {
           setShowAutoBox(false);
@@ -100,7 +103,7 @@ export default function SearchBox() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedItem, searchList]);
+  }, [selectedItem, searchList, showAutoBox]);
 
   // input 창 입력 텍스트 없을 경우 autocomplete box 숨기고, 있으면 나타내기
   useEffect(() => {
@@ -110,6 +113,10 @@ export default function SearchBox() {
       setShowAutoBox(false);
     }
   }, [inputText]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [selectedItem]);
 
   // input 창 입력 텍스트 있을 때 focus가 돌아오면 autocomplete box 나타내기
   const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -127,26 +134,33 @@ export default function SearchBox() {
 
   const handleSearch = (e: React.KeyboardEvent) => {
     if (selectedItem) {
+      setShowAutoBox(false);
+      setInputText("");
       const tabName = searchParams?.get("tab");
       router.push(`/${searchList[selectedItem].stockId}?tab=${tabName}`);
     }
   };
 
   const handleItemHover = (selectedItem: number) => {
-    console.log(selectedItem);
     setSelectedItem(selectedItem);
   };
 
   const handleItemClick = (selectedItem: number) => {
+    setShowAutoBox(false);
+    setInputText("");
     const tabName = searchParams?.get("tab");
     router.push(`/${searchList[selectedItem].stockId}?tab=${tabName}`);
   };
+
+  const handleEraseClick = () => {
+    setInputText("");
+  }
 
   return (
     <>
       <div className={styles["container"]}>
         <div className={styles["header-search"]}>
-          <div>
+          <div className={styles["search-icon"]}>
             <BiSearch size="22" />
           </div>
           <input
@@ -162,9 +176,15 @@ export default function SearchBox() {
               }
             }}
           />
+          {inputText && (
+            <div className={styles["erase-button"]} onClick={handleEraseClick}>
+              <BiX size="22" />
+            </div>
+          )}
         </div>
         {showAutoBox && (
           <AutocompleteBox
+            ref={scrollRef}
             stockSearchList={searchList}
             selectedItem={selectedItem}
             handleItemHover={handleItemHover}
