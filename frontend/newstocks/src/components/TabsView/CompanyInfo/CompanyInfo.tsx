@@ -16,6 +16,17 @@ type StockItem = {
   delisting: boolean,
   sector: string
 }
+function formatNumber(amount: number) {
+  if (amount >= 1e12) {
+    return (amount / 1e12).toFixed(1) + '조';
+  } else if (amount >= 1e8) {
+    return (amount / 1e8).toFixed(1) + '천억';
+  } else if (amount >= 1e4) {
+    return (amount / 1e4).toFixed(1) + '억';
+  } else {
+    return amount.toString();
+  }
+}
 
 export default function CompanyInfo() {
   const tabName = usePathname() || '';
@@ -48,6 +59,7 @@ export default function CompanyInfo() {
     // stockData가 null인 경우 로딩 상태 처리
     return <div>Loading...</div>;
   }
+  
 
   return (
     <>
@@ -65,19 +77,19 @@ export default function CompanyInfo() {
           <p>종합정보</p>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>시가총액</div>
-            <div className={styles["company-detail-content"]}>{stockData.marketCap}</div>
+            <div className={styles["company-detail-content"]}>{formatNumber(stockData.marketCap)}</div>
           </div>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>상장주식수</div>
-            <div className={styles["company-detail-content"]}>{stockData.listedShares}</div>
+            <div className={styles["company-detail-content"]}>{formatNumber(stockData.listedShares)} 주</div>
           </div>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>외국인 보유 주식수</div>
-            <div className={styles["company-detail-content"]}>{stockData.foreignShares}</div>
+            <div className={styles["company-detail-content"]}>{formatNumber(stockData.foreignShares)} 주</div>
           </div>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>외국인 비중</div>
-            <div className={styles["company-detail-content"]}>{stockData.foreignPercent}</div>
+            <div className={styles["company-detail-content"]}>{formatNumber(stockData.foreignPercent)}%</div>
           </div>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>산업군</div>
