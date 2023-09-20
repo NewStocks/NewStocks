@@ -64,6 +64,7 @@ export default function TabNotes({ code }: TabProps) {
   return (
 		<div>
 			{code}에 해당하는 오답노트
+			<div>오답노트 작성하기</div>
 			<ul>
 				{Date && datenote.map((item: any) => (
 						<li key={item.id}>{item.title} id : {item.id}</li>

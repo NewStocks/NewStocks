@@ -539,9 +539,17 @@ export default function ChartComponent() {
       });
       document.getElementById('tradingview-widget-container').appendChild(script);
   
-      // 컴포넌트가 언마운트 될 때 스크립트 제거
+      const container = document.getElementById('tradingview-widget-container');
+      if (container) {
+        container.appendChild(script);
+      }
+
+      // 페이지 이동시 함수 클리어??
       return () => {
-        document.getElementById('tradingview-widget-container').removeChild(script);
+        const container = document.getElementById('tradingview-widget-container');
+        if (container && script) {
+          container.removeChild(script);
+        }
       };
       
     }, []);
