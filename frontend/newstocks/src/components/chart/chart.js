@@ -18,12 +18,10 @@ export default function ChartComponent() {
   console.log(code)
   const tabname = useSearchParams();
   const tab = tabname?.get('tab')
-  console.log(tab)
   const chartContainerRef = useRef(null);
   const chart = useRef(null);
   const candlestickSeries = useRef(null);
   const tooltipRef = useRef(null);
-  // const tooltipRef = useRef(null);
   const chartApiRef = useRef(null);
   const volumeSeries = useRef(null);
 
@@ -52,12 +50,30 @@ export default function ChartComponent() {
   };
 
   const[chartData, setChartData] = useState({
-    title:'',
     valuechain: true,
+    name:'',
   })
 
   useEffect(() => {
-    
+    const fetchStockData = () => {
+      axios({
+        method: "get",
+        url: `http://localhost:8200/stock/find-stock-info/${code}`,
+      })
+      .then((res) => {
+        console.log(res.data.name);
+        const chartname = res.data.name
+        setChartData((prevdata) => ({
+          ...prevdata,
+          name: chartname
+        }))
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    };
+    fetchStockData(code);
+
     const fetchData = () => {
       axios({
         method: "get",
@@ -79,10 +95,10 @@ export default function ChartComponent() {
         const initialTime = sixMonthsAgo.getTime() / 1000;
 
 
-        setChartData((prevdata) => ({
-          ...prevdata,
-          title: code
-        }))
+        // setChartData((prevdata) => ({
+        //   ...prevdata,
+        //   title: code
+        // }))
 
         const stockdata = data.map((item, index) => {
           return {
@@ -489,7 +505,9 @@ export default function ChartComponent() {
   }, [code, tab]);
 
     useEffect(() => {
-      // TradingView 위젯을 로드하는 스크립트를 동적으로 생성하고 추가
+      const widgetContainer = document.createElement('div');
+      widgetContainer.id = 'tradingview-widget-container';
+
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
@@ -501,8 +519,8 @@ export default function ChartComponent() {
             proName: 'FX_IDC:KRWUSD',
           },
           {
-            description: '삼성전자',
-            proName: 'KRX:005930',
+            description: `${chartData.name}`,
+            proName: `KRX:${code}`,
           },
           {
             description: '코스피',
@@ -518,7 +536,6 @@ export default function ChartComponent() {
         isTransparent: true,
         displayMode: 'regular',
         locale: 'kr',
-        width:1000
       });
       document.getElementById('tradingview-widget-container').appendChild(script);
   
@@ -526,22 +543,21 @@ export default function ChartComponent() {
       return () => {
         document.getElementById('tradingview-widget-container').removeChild(script);
       };
+      
     }, []);
 
   return (
     <div>
       <div className='chartheader'>
         <div className='headerinfo'>
-          
-        
           <div className='stockname' onClick={toggleStar}>
             <StockProfile
-              stockName="삼성전자"
+              stockName=""
               stockId=""
               size="small"
               stockMarket=""
               stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
-            />{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+            />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
             <div id="tradingview-widget-container">

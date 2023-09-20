@@ -31,12 +31,18 @@ export default function TabNotes({ code }: TabProps) {
 					});
 					setNote(notecode)
 					const datenote:any[]=[]
+					console.log(notecode)
 					notecode.forEach((item:any) => {
-						const itemdate = item.settingDate.split(' ');
+						if (item.settingDate == null) {
+							return
+						} else {
+							const itemdate = item.settingDate.split(' ');
 						if (itemdate[0] == Date) {
 							datenote.push(item)
 							// console.log(itemdate)
 						}
+						}
+						
 					}) 
 					// setdateNote
 					setdateNote(datenote)
