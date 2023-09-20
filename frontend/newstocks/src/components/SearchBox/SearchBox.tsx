@@ -114,7 +114,7 @@ export default function SearchBox() {
     };
   }, [selectedItem, searchList, showAutoBox]);
 
-  // input 창 입력 텍스트 없을 경우 autocomplete box 숨기고, 있으면 나타내기
+  // input 창 입력 텍스트 없을 경우 autocomplete box 숨기고, 있으면 나타내기. 그리고 입력text에 따른 autocomplete 결과 업데이트
   useEffect(() => {
     if (inputText.trim() !== "") {
       setShowAutoBox(true);
