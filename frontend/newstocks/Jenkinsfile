@@ -5,7 +5,6 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('frontend/newstocks') {
-                    sh 'npm run build'
                     sh 'docker build -t newstocks_front:latest .'
                 }
             }
