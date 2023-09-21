@@ -440,7 +440,8 @@ def save_all_chart_data_custom():
 @app.route('/test', methods=['POST'])
 def test_response():
     print("test success")
-    return "success"
+    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 현재 시간을 문자열로 포맷팅
+    return current_time
 
 # 스케줄러 생성
 scheduler = BackgroundScheduler()
