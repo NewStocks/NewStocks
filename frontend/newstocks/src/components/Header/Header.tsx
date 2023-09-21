@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 
+import SearchBox from '../SearchBox/SearchBox';
+
 import styles from './Header.module.css';
 import Link from 'next/link';
 
@@ -46,10 +48,9 @@ return (
         </svg>
         <h1>NEWStocks</h1>
       </div>
-      
-      <div className={styles["header-search"]}>
-        <div><BiSearch size="22"/></div>
-        <input type="text" placeholder="종목명 또는 종목코드 검색" />
+
+      <div className={styles['search-box-container']}>
+        <SearchBox />
       </div>
       
       <div className={styles["header-right"]}>
