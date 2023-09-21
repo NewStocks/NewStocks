@@ -7,7 +7,6 @@ import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.entity.News;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.repository.NewsRepository;
-import com.ohgood.newstocks.reviewnote.dto.ReviewNoteImageDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteLinkDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
@@ -26,7 +25,6 @@ import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,6 +47,7 @@ public class ReviewNoteService {
     private final ReviewNoteNewsRepository reviewNoteNewsRepository;
     private final AwsS3Service awsS3Service;
     private final ReviewNoteImageRepository reviewNoteImageRepository;
+    private final ReplyService replyService;
 
     private static final String DIR = "/review-note";
 
@@ -77,26 +76,37 @@ public class ReviewNoteService {
         uploadImageListToS3(reviewNote, reviewNoteReqDto.getMultipartFileList(), reviewNoteResDto);
 
         // 링크 처리
-        insertReviewNoteLinkToReviewNote(reviewNote, reviewNoteReqDto.getLinkList(), reviewNoteResDto);
-
+        insertReviewNoteLinkToReviewNote(reviewNote, reviewNoteReqDto.getLinkList(),
+            reviewNoteResDto);
 
         // 사용하지 않게 된 코드
         // insertReviewNoteNewsToReviewNote(reviewNote, reviewNoteReqDto, reviewNoteResDto);
 
         // Member, Stock 등 DTO 정보 저장
-        reviewNoteResDto.addDetailDtos(member, stock);
+        reviewNoteResDto.addDetailDtos();
         log.info("오답노트의 멤버 " + reviewNote.getMember());
+
+        reviewNoteResDto.checkMember(member);
 
         log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
         return reviewNoteResDto;
     }
 
-    public ReviewNoteResDto findReviewNote(Long reviewNoteId) {
+    public ReviewNoteResDto findReviewNote(Long reviewNoteId, Long userId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+
+        if (Boolean.TRUE.equals(reviewNote.getPrivacy()) && !reviewNote.getMember()
+            .equals(member)) {
+            throw new ArithmeticException("오답노트 조회 권한이 없습니다.");
+        }
+
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
             reviewNote);
-        reviewNoteResDto.addDetailDtos(reviewNote.getMember(), reviewNote.getStock());
+        reviewNoteResDto.addDetailDtos();
 
+        reviewNoteResDto.checkMember(member);
+        reviewNoteResDto.addReply(replyService.findReply(reviewNoteId, userId));
         return reviewNoteResDto;
     }
 
@@ -105,10 +115,9 @@ public class ReviewNoteService {
         Long userId) {
         // 권한 확인
         ReviewNote reviewNote = findReviewNoteById(reviewNoteUpdateReqDto.getId());
-        if (!checkUserAuth(userId, reviewNote)) {
-            log.debug("글을 수정할 권한이 없습니다.");
-            throw new ArithmeticException("글을 수정할 권한이 없습니다.");
-        }
+        Member member = findMemberById(userId);
+
+        checkUserAuth(userId, reviewNote);
 
         // 수정 처리, 사용 하기 위해 Setter 엶
         ReviewNoteMapper.INSTANCE.updateReviewNote(reviewNoteUpdateReqDto, reviewNote);
@@ -134,47 +143,61 @@ public class ReviewNoteService {
         uploadImageListToS3(reviewNote, reviewNoteUpdateReqDto.getMultipartFileList(),
             reviewNoteResDto);
 
-        // TODO
-        //  해야할 것
-        //  1. res dto로 변경 (link 처리 해야함)
-        //  2. req -> reviewNote 갈 때 변경된 컬럼들 잘 되는지
-
         // 링크 추가 삭제 처리 (hard delete)
         // 좋은 방법 있는지 고민 필요
         reviewNoteLinkRepository.deleteAll(reviewNote.getReviewNoteLinkList());
         reviewNote.getReviewNoteLinkList().clear();
 
         // 링크 추가
-        insertReviewNoteLinkToReviewNote(reviewNote, reviewNoteUpdateReqDto.getLinkList(), reviewNoteResDto);
+        insertReviewNoteLinkToReviewNote(reviewNote, reviewNoteUpdateReqDto.getLinkList(),
+            reviewNoteResDto);
 
-        // Member, Stock -> res 추가 필요
+        // TODO Member, Stock -> res 추가 필요
+        reviewNoteResDto.addDetailDtos();
+
+        reviewNoteResDto.checkMember(member);
+        reviewNoteResDto.addReply(replyService.findReply(reviewNote.getId(), userId));
 
         return reviewNoteResDto;
     }
 
+    @Transactional
     public void deleteReviewNote(Long reviewNoteId, Long userId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
-        if (!checkUserAuth(userId, reviewNote)) {
-            throw new ArithmeticException("삭제 권한이 없습니다.");
-        }
+        checkUserAuth(userId, reviewNote);
         reviewNote.delete();
         reviewNoteRepository.save(reviewNote);
     }
 
+    @Transactional
+    public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
+            member);
+        List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
+            .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
+        reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
+        reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
+        return reviewNoteResDtoList;
+    }
+
     // -- 내부 메서드 코드 --
 
-    private void insertReviewNoteLinkToReviewNote(ReviewNote reviewNote, List<String> urlList, ReviewNoteResDto reviewNoteResDto) {
+    private void insertReviewNoteLinkToReviewNote(ReviewNote reviewNote, List<String> urlList,
+        ReviewNoteResDto reviewNoteResDto) {
         List<ReviewNoteLink> reviewNoteLinkList = urlList.stream()
             .map(url -> reviewNoteLinkRepository.save(ReviewNoteLink.builder()
                 .url(url)
                 .reviewNote(reviewNote).build()))
             .toList();
+        log.info("" + reviewNoteLinkList);
         reviewNote.updateReviewNoteLink(reviewNoteLinkList);
 
         List<ReviewNoteLinkDto> reviewNoteLinkDtoList = reviewNoteLinkList.stream()
             .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto)
             .toList();
-        reviewNoteResDto.setReviewNoteLinkList(reviewNoteLinkDtoList);
+        log.info("" + reviewNoteLinkDtoList);
+        reviewNoteResDto.setReviewNoteLinkDtoList(reviewNoteLinkDtoList);
     }
 
     private void uploadImageListToS3(ReviewNote reviewNote, List<MultipartFile> multipartFileList,
@@ -217,9 +240,11 @@ public class ReviewNoteService {
         reviewNote.getMember().getReviewNoteList().add(reviewNote);
     }
 
-    private boolean checkUserAuth(Long userId, ReviewNote reviewNote) {
+    private void checkUserAuth(Long userId, ReviewNote reviewNote) {
         // 관리자 권한 추가 생각하여 함수로 분리
-        return reviewNote.getMember().getId().equals(userId);
+        if (!reviewNote.getMember().getId().equals(userId)) {
+            throw new ArithmeticException("권한이 없습니다");
+        }
     }
 
     // -- 예외 처리용 코드 --

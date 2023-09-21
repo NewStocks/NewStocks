@@ -1,6 +1,8 @@
 package com.ohgood.newstocks.stock.controller;
 
 import com.ohgood.newstocks.stock.dto.ChartResDto;
+import com.ohgood.newstocks.stock.dto.StockResDto;
+import com.ohgood.newstocks.stock.dto.StockSearchDto;
 import com.ohgood.newstocks.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,17 @@ public class StockController {
     @GetMapping("/find-chart/{stock-id}")
     public ResponseEntity<ChartResDto> findChartSeriesByStockId(
         @PathVariable("stock-id") String stockId) {
-        ChartResDto chartResDto = stockService.findChartSeriesByStockId(stockId);
-        return new ResponseEntity<>(chartResDto, HttpStatus.OK);
+        return new ResponseEntity<>(stockService.findChartSeriesByStockId(stockId), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-stock-info/{stock-id}")
+    public ResponseEntity<StockResDto> findStockInfoByStockId(
+        @PathVariable("stock-id") String stockId) {
+        return new ResponseEntity<>(stockService.findStockInfoByStockId(stockId), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-all-stock-for-search")
+    public ResponseEntity<StockSearchDto> findAllStockForSearch() {
+        return new ResponseEntity<>(stockService.findAllStockForSearch(), HttpStatus.OK);
     }
 }

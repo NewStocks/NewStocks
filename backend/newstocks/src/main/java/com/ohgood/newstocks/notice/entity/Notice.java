@@ -1,19 +1,25 @@
 package com.ohgood.newstocks.notice.entity;
 
-import com.ohgood.newstocks.global.entity.BaseTimeEntity;
+import com.ohgood.newstocks.global.entity.BaseEntity;
+import com.ohgood.newstocks.notice.dto.NoticeUpdateReqDto;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Entity
-@Table
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notice extends BaseTimeEntity {
+public class Notice extends BaseEntity {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,4 +28,20 @@ public class Notice extends BaseTimeEntity {
 
     @Column(length = 3000)
     private String content;
+
+    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private List<NoticeImage> noticeImageList;
+
+    public void updateNotice(NoticeUpdateReqDto noticeUpdateReqDto) {
+        this.title = noticeUpdateReqDto.getTitle();
+        this.content = noticeUpdateReqDto.getContent();
+    }
+
+    @Builder
+    public Notice(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.noticeImageList = new ArrayList<>();
+    }
 }

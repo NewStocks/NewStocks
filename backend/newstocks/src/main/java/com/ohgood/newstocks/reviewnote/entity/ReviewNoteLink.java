@@ -12,9 +12,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNoteLink {
 
@@ -27,6 +29,7 @@ public class ReviewNoteLink {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_note")
+    @ToString.Exclude
     private ReviewNote reviewNote;
 
     @Builder

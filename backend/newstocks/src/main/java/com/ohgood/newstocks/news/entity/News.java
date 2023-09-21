@@ -2,6 +2,8 @@ package com.ohgood.newstocks.news.entity;
 
 import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,6 +38,10 @@ public class News {
     @NotNull
     private LocalDateTime publishTime;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private SentimentType sentimentType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     @NotNull
@@ -43,11 +49,13 @@ public class News {
 
     @Builder
     public News(@NotNull String title, @NotNull String company, @NotNull String url,
-        @NotNull LocalDateTime publishTime, @NotNull Stock stock) {
+        @NotNull LocalDateTime publishTime, @NotNull SentimentType sentimentType,
+        @NotNull Stock stock) {
         this.title = title;
         this.company = company;
         this.url = url;
         this.publishTime = publishTime;
+        this.sentimentType = sentimentType;
         this.stock = stock;
     }
 }

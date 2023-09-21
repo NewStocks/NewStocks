@@ -84,4 +84,9 @@ public class Member extends BaseEntity {
         this.replyCommentLikeList = new ArrayList<>();
         this.favoriteStockList = new ArrayList<>();
     }
+
+    public void update(String name, String profileImage) {
+        this.name = name == null ? this.name : name;
+        this.profileImage = profileImage == null ? this.profileImage : profileImage;
+    }
 }

@@ -12,7 +12,9 @@ import hanja
 from sklearn.cluster import DBSCAN
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+from collections import defaultdict
 
 app = Flask(__name__)
 load_dotenv()
@@ -58,7 +60,7 @@ def crawler(URL):
             isEmpty = False
             title_text = title.get_text().strip().replace("\n", "")  # title 수정
             link_url = (
-                "https://finance.naver.com" + link.find("a")["href"].split("&page")[0]
+                    "https://finance.naver.com" + link.find("a")["href"].split("&page")[0]
             )
             date_text = date.get_text()
             company_text = company.get_text()
@@ -105,11 +107,11 @@ def preprocessing(titles):
         )
         # 다른 한자가 있다면 한글로 치환
         if (
-            re.search(
-                "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]",
-                sentence,
-            )
-            is not None
+                re.search(
+                    "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]",
+                    sentence,
+                )
+                is not None
         ):
             sentence = hanja.translate(sentence, "substitution")
 
@@ -158,6 +160,39 @@ def news_clustering(titles, idx):
         result[i] += idx
     return result
 
+
+def sentiment_analysis(texts, lang="ko"):
+    if lang == "ko":
+        tokenizer = AutoTokenizer.from_pretrained("snunlp/KR-FinBert-SC")
+        model = AutoModelForSequenceClassification.from_pretrained(
+            "snunlp/KR-FinBert-SC"
+        )
+        id2label = {0: "NEGATIVE", 1: "NEUTRAL", 2: "POSITIVE"}
+
+    else:
+        tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+        model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+        id2label = {0: "POSITIVE", 1: "NEGATIVE", 2: "NEUTRAL"}
+
+    labels = []
+    probs = []
+
+    for text in texts:
+        inputs = tokenizer(text, return_tensors="pt")
+        with torch.no_grad():
+            logits = model(**inputs).logits
+            probabilities = torch.softmax(logits, dim=1)
+            predicted_class_id = probabilities.argmax(dim=1).item()
+            predicted_class_prob = probabilities[0][predicted_class_id].item()
+
+            labels.append(id2label[predicted_class_id])
+            probs.append(predicted_class_prob)
+
+    sentiment_dictionary = defaultdict(str)
+    for title, label, p in zip(texts, labels, probs):
+        sentiment_dictionary[title] = label
+
+    return sentiment_dictionary
 
 def cluster_title():
     # 군집화
@@ -220,9 +255,12 @@ def save_news():
 
         print("뉴스 개수: ", len(infos))
         print("군집화 직전까지 걸린 시간: ", time.time() - start_time)
-        title_set = cluster_title()  #  군집화한 뉴스 제목
+
+        title_set = cluster_title()  # 군집화한 뉴스 제목
+        sentiment_dictionary = sentiment_analysis(title_set, lang="ko")
 
         print("군집화한 뉴스 개수: ", len(title_set))
+
         # 데이터프레임을 MySQL 테이블에 저장
         check_duplicate = set()
         for company, publish_time, title, url, stock_id in infos:
@@ -231,10 +269,10 @@ def save_news():
 
             check_duplicate.add(title)
             insert_query = """
-            INSERT INTO news (company, publish_time, title, url, stock_id)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO news (company, publish_time, title, url, stock_id, sentiment_type)
+            VALUES (%s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(insert_query, (company, publish_time, title, url, stock_id))
+            cursor.execute(insert_query, (company, publish_time, title, url, stock_id, sentiment_dictionary[title]))
             conn.commit()
 
         print("실행 시간: ", time.time() - start_time)
@@ -280,9 +318,12 @@ def save_all_news():
 
         print("뉴스 개수: ", len(infos))
         print("군집화 직전까지 걸린 시간: ", time.time() - start_time)
-        title_set = cluster_title()
+
+        title_set = cluster_title()  # 군집화한 뉴스 제목
+        sentiment_dictionary = sentiment_analysis(title_set, lang="ko")
 
         print("군집화한 뉴스 개수: ", len(title_set))
+
         # 데이터프레임을 MySQL 테이블에 저장
         cursor.execute("DELETE FROM news")
         check_duplicate = set()
@@ -292,10 +333,10 @@ def save_all_news():
 
             check_duplicate.add(title)
             insert_query = """
-            INSERT INTO news (company, publish_time, title, url, stock_id)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO news (company, publish_time, title, url, stock_id, sentiment_type)
+            VALUES (%s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(insert_query, (company, publish_time, title, url, stock_id))
+            cursor.execute(insert_query, (company, publish_time, title, url, stock_id, sentiment_dictionary[title]))
             conn.commit()
 
         print("실행 시간: ", time.time() - start_time)

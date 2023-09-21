@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -17,6 +18,7 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Stock {
 
     @Id
@@ -47,23 +49,23 @@ public class Stock {
     private String sector;
 
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Chart> chartList;
 
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<StockValueChain> stockValueChainList;
 
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<ReviewNote> reviewNoteList;
 
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<News> newsList;
 
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<StockCategory> stockCategoryList;
 
     @Builder

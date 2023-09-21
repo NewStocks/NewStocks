@@ -18,19 +18,19 @@ public class ValueChainNewsController {
 
     private final ValueChainNewsService valueChainNewsService;
 
-    @GetMapping("/find/{value-chain-id}")
-    public ResponseEntity<List<ValueChainNewsDto>> findAllByValueChainId(
-        @PathVariable("value-chain-id") String valueChainId) {
-        List<ValueChainNewsDto> valueChainNewsDtoList = valueChainNewsService.findAllByValueChainId(
-            valueChainId);
+    @GetMapping("/find/{stock-id}")
+    public ResponseEntity<List<ValueChainNewsDto>> findAllByStockId(
+        @PathVariable("stock-id") String stockId) {
+        List<ValueChainNewsDto> valueChainNewsDtoList = valueChainNewsService.findAllByStockId(
+            stockId);
         return new ResponseEntity<>(valueChainNewsDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{value-chain-id}/{date}")
-    public ResponseEntity<List<ValueChainNewsDto>> findAllByValueChainId(
-        @PathVariable("value-chain-id") String valueChainId, @PathVariable("date") String date) {
-        List<ValueChainNewsDto> valueChainNewsDtoList = valueChainNewsService.findDateNewsByValueChainId(
-            valueChainId, date);
+    @GetMapping("/find/{stock-id}/{date}")
+    public ResponseEntity<List<ValueChainNewsDto>> findDateNewsByStockId(
+        @PathVariable("stock-id") String stockId, @PathVariable("date") String date) {
+        List<ValueChainNewsDto> valueChainNewsDtoList = valueChainNewsService.findDateNewsByStockId(
+            stockId, date);
         return new ResponseEntity<>(valueChainNewsDtoList, HttpStatus.OK);
     }
 }
