@@ -1,0 +1,30 @@
+.LOGO{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 20px 0;
+}
+
+.logo-title {
+  width: 150px;
+  height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#main-title {
+  color: #4FE7B0;
+  font-size: 24px;
+  font-weight: 650;
+  padding: 0;
+}
+
+#sub-title {
+  font-size: 10px;
+  color: rgba(140, 140, 140, 0.722);
+  margin: 0 0 10px 0;
+}
+
+.LOGO p{
+  margin: 0 10px 15px 0;
+}

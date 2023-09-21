@@ -10,10 +10,13 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { Button, ButtonGroup } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
+
+import Logo from '@/components/Logo/Logo'
 
 import { PiArrowSquareRightBold } from "react-icons/pi"
 
-import { useDisclosure } from '@chakra-ui/react'
+
 
 type Props = {
   type: 'nav' | 'header' | undefined
@@ -38,20 +41,20 @@ export default function LoginModal({type}: Props) {
           <button className={styles["login-button"]} onClick={onOpen}>로그인</button>
         </>) 
         } 
-      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader><Logo /></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {/* <Lorem count={2} /> */}
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
+            <Button mb={4} colorScheme={"#4FE7B0;"} w={"100%"} onClick={onClose}>
               Close
             </Button>
-            <Button variant='ghost'>Secondary Action</Button>
+            {/* <Button variant='ghost'>Secondary Action</Button> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
