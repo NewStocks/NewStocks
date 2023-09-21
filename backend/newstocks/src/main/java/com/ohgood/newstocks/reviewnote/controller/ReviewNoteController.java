@@ -51,4 +51,18 @@ public class ReviewNoteController {
         // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
     }
+
+    @PostMapping("/{reviewNoteId}/like")
+    public ResponseEntity<Void> likeReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.likeReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{reviewNoteId}/scrap")
+    public ResponseEntity<Void> scrapReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.scrapReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

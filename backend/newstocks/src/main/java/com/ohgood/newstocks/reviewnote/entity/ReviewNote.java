@@ -103,6 +103,16 @@ public class ReviewNote extends BaseEntity {
     @ToString.Exclude
     private List<ReviewNoteLink> reviewNoteLinkList;
 
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteLike> reviewNoteLikeList;
+
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteScrap> reviewNoteScrapList;
+
     @Builder
     public ReviewNote(String title, Boolean privacy, LocalDateTime settingDate,
         LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity,

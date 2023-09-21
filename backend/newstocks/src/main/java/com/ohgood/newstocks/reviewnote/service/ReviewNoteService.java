@@ -13,15 +13,19 @@ import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLike;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLink;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteScrap;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteImageMapper;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteLinkMapper;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteLikeRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteLinkRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteImageRepository;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteNews;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteNewsRepository;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteMapper;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteScrapRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import java.util.HashSet;
@@ -48,6 +52,8 @@ public class ReviewNoteService {
     private final AwsS3Service awsS3Service;
     private final ReviewNoteImageRepository reviewNoteImageRepository;
     private final ReplyService replyService;
+    private final ReviewNoteLikeRepository reviewNoteLikeRepository;
+    private final ReviewNoteScrapRepository reviewNoteScrapRepository;
 
     private static final String DIR = "/review-note";
 
@@ -180,6 +186,33 @@ public class ReviewNoteService {
         reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
         return reviewNoteResDtoList;
     }
+
+    @Transactional
+    public void likeReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        if (reviewNoteLikeRepository.findByReviewNoteAndMember(reviewNote, member).isPresent()) {
+            throw new ArithmeticException("이미 좋아요한 오답노트입니다.");
+        }
+        ReviewNoteLike reviewNoteLike = reviewNoteLikeRepository.save(
+            ReviewNoteLike.builder().reviewNote(reviewNote).member(member).build());
+        member.getReviewNoteLikeList().add(reviewNoteLike);
+        reviewNote.getReviewNoteLikeList().add(reviewNoteLike);
+    }
+
+    @Transactional
+    public void scrapReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        if (reviewNoteScrapRepository.findByReviewNoteAndMember(reviewNote, member).isPresent()) {
+            throw new ArithmeticException("이미 스크랩한 오답노트입니다.");
+        }
+        ReviewNoteScrap reviewNoteScrap = reviewNoteScrapRepository.save(
+            ReviewNoteScrap.builder().reviewNote(reviewNote).member(member).build());
+        member.getReviewNoteScrapList().add(reviewNoteScrap);
+        reviewNote.getReviewNoteScrapList().add(reviewNoteScrap);
+    }
+
 
     // -- 내부 메서드 코드 --
 
