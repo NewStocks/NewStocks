@@ -59,10 +59,24 @@ public class ReviewNoteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{reviewNoteId}/like")
+    public ResponseEntity<Void> deleteLikeReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.deleteLikeReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/{reviewNoteId}/scrap")
     public ResponseEntity<Void> scrapReviewNote(@PathVariable Long reviewNoteId) {
         // Authentication 처리 전 임시 테스트
         reviewNoteService.scrapReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{reviewNoteId}/scrap")
+    public ResponseEntity<Void> deleteScrapReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.deleteScrapReviewNote(reviewNoteId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
