@@ -3,11 +3,11 @@
 import styles from "./CommentInput.module.css";
 
 type Props = {
-  type?: 'comment' | 'cocomment',
-  func?: () => void | null,
-}
+  type: "comment" | "cocomment";
+  func?: () => void | undefined;
+};
 
-export default function CommentInput({ type='comment', func }: Props) {
+export default function CommentInput({ type="comment", func }: Props) {
   return (
     <div className={styles["commentinput-container"]}>
       <div className={styles["writer"]}></div>

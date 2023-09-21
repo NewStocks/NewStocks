@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './loginbuttons.module.css'
 
 import Link from 'next/link'
@@ -6,6 +8,16 @@ import { FaComment }from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 export default function LoginButtons() {
+  const kakaoLoginHandler = () => {
+    const REST_API_KEY = process.env.REST_API_KEY
+    const REDIRECT_URI = process.env.REDIRECT_URI
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  
+    window.location.href = link
+
+    console.log('success!!')
+  }
+
   return (
     <div className={styles["buttons-container"]}>
 
@@ -16,12 +28,12 @@ export default function LoginButtons() {
       <div className={styles["sub-greeting-box"]}>기존 계정으로 편리하게 로그인하세요</div>
       
       <div>
-        <Link href="https://kauth.kakao.com/oauth/authorize?client_id=63c9797738fedd0efff04b806ed9cba0&redirect_uri=http://localhost:8200/auth/login/kakao&response_type=code">
-          <div className={styles["social-login-button"]} style={{ backgroundColor: "#F7E600", color: "#3A1D1D"}}>
-            <div className={styles["social-icon"]}><FaComment size="20"/></div>
-            <div className={styles["social-title"]}>카카오 로그인</div>
-          </div>
-        </Link>
+        <button className={styles["social-login-button"]} style={{ backgroundColor: "#F7E600", color: "#3A1D1D"}}
+          onClick={kakaoLoginHandler}>
+          <div className={styles["social-icon"]}><FaComment size="20"/></div>
+          <div className={styles["social-title"]}>카카오 로그인</div>
+        </button>
+
 
         <div className={styles["social-login-button"]} id={styles["google-box"]}>
           <div className={styles["social-icon"]}><FcGoogle size="20"/></div>

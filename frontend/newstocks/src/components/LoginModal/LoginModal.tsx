@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './loginmodel.module.css'
 
 import {
@@ -46,7 +44,7 @@ export default function LoginModal({type}: Props) {
         <ModalOverlay />
         <ModalContent>
           {/* <ModalHeader><Logo /></ModalHeader> */}
-          {/* <ModalCloseButton colorScheme={"#4FE7B0;"}/> */}
+          <ModalCloseButton />
           <ModalBody>
             <div className={styles["logo"]}><Logo /></div>
             <LoginButtons />

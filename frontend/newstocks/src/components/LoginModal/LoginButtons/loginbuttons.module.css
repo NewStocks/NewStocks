@@ -23,6 +23,7 @@
 }
 
 .social-login-button {
+  width: 100%;
   height: 40px;
   display: flex;
   font-weight: 600;
@@ -41,6 +42,7 @@
 
 .social-icon {
   width: 12%;
+  height: 100%;
   border-right: 0.01rem dotted rgba(119, 119, 119, 0.63);
   display: flex;
   justify-content: center;
@@ -49,6 +51,7 @@
 
 .social-title {
   width: 88%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
