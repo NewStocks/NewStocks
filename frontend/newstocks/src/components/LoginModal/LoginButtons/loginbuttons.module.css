@@ -1,0 +1,71 @@
+.buttons-container {
+  color: black;
+  margin: 0 2px;
+}
+
+.greeting-box {
+  font-weight: 550;
+}
+
+.greeting {
+  font-size: 19.5px;
+}
+
+.greeting-box div span {
+  color: #4dd7a4;
+  font-weight: 700;
+}
+
+.sub-greeting-box {
+  color: rgb(119, 119, 119);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.social-login-button {
+  height: 40px;
+  display: flex;
+  font-weight: 600;
+  font-size: 14px;
+  /* border: 1px solid rgb(119, 119, 119); */
+  border-radius: 5px;
+  margin: 17px 2px;
+}
+
+.social-login-button:hover {
+}
+
+#google-box {
+  border: 0.01rem solid rgba(119, 119, 119, 0.375);
+}
+
+.social-icon {
+  width: 12%;
+  border-right: 0.01rem dotted rgba(119, 119, 119, 0.63);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-title {
+  width: 88%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 하단 사용자 설명 */
+
+.statement {
+  font-size: 11px;
+  color: rgb(119, 119, 119);
+}
+
+.statement span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.statement span:hover {
+  font-weight: 500;
+}

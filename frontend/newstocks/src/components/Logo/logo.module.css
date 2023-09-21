@@ -3,6 +3,8 @@
   justify-content: center;
   align-items: center;
   margin: 0 0 20px 0;
+
+  border: 1px dotted blue;
 }
 
 .logo-title {
@@ -14,6 +16,7 @@
 
 #main-title {
   color: #4FE7B0;
+  /* color: #43c092; */
   font-size: 24px;
   font-weight: 650;
   padding: 0;
