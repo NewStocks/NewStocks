@@ -13,7 +13,7 @@ import { AiOutlineShareAlt } from "react-icons/ai";
 
 type Props = {
   params: {
-    postId: string | null;
+    postId: string | undefined;
   };
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -21,6 +21,8 @@ type Props = {
 };
 
 export default function DetailnotePage({ params }: Props) {
+  const createComment = () => {}
+
   if (params.postId) {
     return (
       <div className={styles.main}>
@@ -93,7 +95,7 @@ export default function DetailnotePage({ params }: Props) {
         </div>
   
         <div className={styles["commentinput-container"]}>
-          <CommentInput type="comment" />
+          <CommentInput type="comment" func={createComment}/>
         </div>
   
         <div className={styles["commentview-container"]}>

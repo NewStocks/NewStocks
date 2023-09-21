@@ -4,10 +4,10 @@ import styles from "./CommentInput.module.css";
 
 type Props = {
   type: "comment" | "cocomment";
-  func: () => void | null;
+  func: () => void | undefined;
 };
 
-export default function CommentInput({ type = "comment" }: Props) {
+export default function CommentInput({ type, func }: Props) {
   return (
     <div className={styles["commentinput-container"]}>
       <div className={styles["writer"]}></div>
@@ -17,7 +17,7 @@ export default function CommentInput({ type = "comment" }: Props) {
         />
         <div className={styles["button-box"]}>
           <div className={styles["submit-comment"]}>
-            <button className={styles["submit-button"]}>
+            <button onClick={func ? () => func : () => {}} className={styles["submit-button"]}>
               {type == "comment" ? "🧹 초기화" : "🗑 취소"}
             </button>
           </div>
