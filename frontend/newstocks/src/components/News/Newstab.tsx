@@ -118,7 +118,7 @@ export default function Newstab() {
   const tabName = usePathname() || '';
   const code = tabName.split('/').filter(Boolean)[0];
   const newsDate = useSearchParams()?.get('newsdate')
-	console.log(newsDate)
+	// console.log(newsDate)
   
 	const [datenews, setdateNews] = useState<any[]>([]);
   const [newsData, setNewsData] = useState<any[]>([]);
