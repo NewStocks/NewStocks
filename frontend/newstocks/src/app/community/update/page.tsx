@@ -11,6 +11,8 @@ import { IoIosArrowBack } from 'react-icons/io'
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
+  display: flex;
+  color: #4FE7B0;
 `
 
 export default function UpdatePage() {
@@ -40,7 +42,7 @@ export default function UpdatePage() {
   return (
     <div className={styles["main"]}>
       <div className={styles["top-menu"]}>
-        <StyledLink href='/'><div><IoIosArrowBack />뒤로가기</div></StyledLink>
+        <StyledLink href='/'><IoIosArrowBack /><div>뒤로가기</div></StyledLink>
       </div>
       <CreatePostForm type="update"/>
     </div>

@@ -7,6 +7,8 @@ import Header from '@/components/Header/Header'
 import CommunityNav from '@/components/CommunityNav/CommunityNav'
 import Footer from '@/components/Footer/Footer'
 
+import { Provider } from '@/utils/ChakraProvider'
+
 const sans = Open_Sans({ subsets: ['latin']});
 
 export const metadata: Metadata = {
@@ -26,7 +28,9 @@ export default function CommunityLayout({
         <div className={styles["community-container"]}>
           <div className={styles["community-nav"]}>
             <div className={styles["community-nav-sticky"]}>
-              <CommunityNav />
+              <Provider>
+                <CommunityNav />
+              </Provider>
             </div>
           </div>
 
