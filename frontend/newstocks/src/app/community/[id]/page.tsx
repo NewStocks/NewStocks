@@ -13,7 +13,7 @@ import { AiOutlineShareAlt } from "react-icons/ai";
 
 type Props = {
   params: {
-    id: string;
+    id: number;
   };
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -50,12 +50,8 @@ export default function DetailnotePage({ params }: Props) {
           <div className={styles["title"]}>여기가 제목 영역입니다</div>
 
           <div className={styles["sub-Buttons"]}>
-            <div>
-              <Button text="수정하기" highlight={true} kindof="" />
-            </div>
-            <div>
-              <Button text="삭제하기" highlight={true} kindof="" />
-            </div>
+            <div><Button text="수정하기" highlight={true} kindof={null}/></div>
+            <div><Button text="삭제하기" highlight={true} kindof={null}/></div>
           </div>
         </div>
 

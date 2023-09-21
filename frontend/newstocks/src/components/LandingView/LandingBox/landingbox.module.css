@@ -1,0 +1,106 @@
+.Button-width {
+  width: 118px;
+  height: 37px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.title span {
+  color: #1DE9B6;
+}
+
+.description {
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.scroll-animation {
+  opacity: 0;
+  transform: translateY(50px); /* 시작 위치에서 아래로 숨김 */
+}
+
+.title-animation-show {
+  animation: slide-up 1s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+.description-animation-show {
+  animation: slide-up 1.7s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+.button-animation-show {
+  animation: slide-up 1.9s ease forwards; /* @keyframes 애니메이션 적용 */
+}
+
+@keyframes slide-up {
+  to {
+      opacity: 1;
+      transform: translateY(0); /* 올라오는 위치 */
+  }
+}
+
+.content-box {
+  margin-top: 17.5rem;
+  margin-left: 1.3rem;
+  width: 450px;
+
+  border: 1px violet solid;
+}
+
+.landing-main-image {
+  background-color: rgba(128, 128, 128, 0.196);
+  width: 780px;
+  height: 380.522px;
+  top: 11.5rem;
+  right: 6rem;
+
+  position: absolute;
+}
+
+.landing-containers {
+  height: 480px;
+  padding: 0 10px 10px 10px;
+  display: flex;
+
+  margin-bottom: 110px;
+  border: 1px dotted aqua;
+  position: relative;
+}
+
+.landing-iamge-box {
+  position: absolute;
+  top: 170px;
+  width: 68%;
+  height: 80%;
+  /* background-color: rgba(128, 128, 128, 0.196); */
+}
+
+.landing-containers-num {
+  width: 275px;
+  height: 240px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 250px;
+  font-weight: 700;
+  line-height: 450px;
+  
+  position: absolute;
+  border: 1px dotted green;
+}
+
+#right-desc {
+  text-align: right;
+}
+
+#right-item {
+  margin-left: auto;
+}
+
+#right-num {
+  right: 7rem;
+}

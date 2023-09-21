@@ -42,8 +42,8 @@
     height: 6vh;
     display: flex;
     align-items: center;
-    width: 30vw;
-    /* justify-content: left; */
+    /* width: 30vw; */
+    justify-content: space-between;
     font-size: 15px;
   }
   .stockname {
@@ -54,7 +54,8 @@
     margin-left: 10px;
   }
   .stockinfo {
-    margin-left: 10px;
+    margin-left: 20px;
+    width: 550px;
   }
   #star {
     color: yellow;
@@ -78,6 +79,8 @@
     border-radius: 30px;
     cursor: pointer;
     font-size: 15px;
+    display: flex;
+    align-items: center;
   }
   #valueinfo {
     display: flex;
@@ -85,6 +88,10 @@
     width: auto;
     cursor: pointer;
   }
+  
+  /* #value-widget-container {
+    width: 400px;
+  } */
 
 
 

@@ -1,39 +1,23 @@
 .card-container {
-  display: block;
-  width: 30.5%;
-  max-width: 600px;
-  height: 451px;
-  border-radius: 4px;
+  height: 340px;
+  width: 250px;
   background-color: rgba(176, 176, 176, 0.107);
-  margin-bottom: 55px;
-  margin-right: 2.8%;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-}
-.card-container:hover {
-  transform: translate(-5px, -5px);
 }
 
 /* 이미지 영역 */
 .image-container {
   width: 100%;
-  height: 175px;
+  height: 130px;
 
   margin: 0 auto;
-  margin-top: 5px;
   background-color:#d9d9d96f;
   border-radius: 2px;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.image-container:hover {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 /* title 영역 */
 .title-container {
   display: flex;
-  padding: 10px 13px;
+  padding: 8px 13px;
 }
 
 .title-left {
@@ -44,20 +28,16 @@
   display: flex;
 }
 
-.stock-box:hover {
-  font-weight: 550;
-}
-
 .stock-img {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   background-color: #d9d9d96f;
   border-radius: 100%;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .stock-name {
-  font-size: 17px;
+  font-size: 15px;
   margin: 3px 0 0 0;
 }
 
@@ -68,42 +48,30 @@
 
 .title {
   font-weight: 500;
-  font-size: 18.5px;
-  margin-top: 10px;
-}
-
-.title:hover {
-  font-weight: 550;
+  font-size: 15px;
+  margin-top: 7px;
 }
 
 /* 내용 및 프로필 영역 */
 .content-container {
-  padding: 7px 15px;
-  height: 120px;
-}
-
-.content-container:hover {
-  font-weight: 550;
+  padding: 5px 9px;
+  height: 85px;
 }
 
 .content {
-  font-size: 13.5px;
-  line-height: 22px;
+  font-size: 12px;
+  line-height: 18px;
   color: rgba(255, 255, 255, 0.818);
 }
 
 .content-bottom-container {
   display: flex;
   justify-content: space-between;
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 .profile-container {
   display: flex;
-}
-
-.profile-container:hover {
-  font-weight: 450;
 }
 
 .time {
@@ -113,7 +81,7 @@
 }
 
 .bottom-container {
-  padding: 0 16px;
+  padding: 0 10px;
   margin: 10px 0;
   display: flex;
 }
@@ -128,11 +96,12 @@
   display: flex;
   font-size: 15px;
 }
- 
+
 .icons-container p {
   margin: 0;
-  margin-right: 5px;
-  margin-left: 3px;
+  margin-right: 4px;
+  margin-left: 2px;
+  font-size: 12px;
 }
 
 .tag-container {
@@ -142,8 +111,8 @@
 
 .tag-container div {
   border-radius: 50px;
-  font-size: 13px;
-  height: 25px;
+  font-size: 10px;
+  height: 17px;
   padding: 0 8px;
   padding-top: 1px;
   background-color: #4fe7af4f;

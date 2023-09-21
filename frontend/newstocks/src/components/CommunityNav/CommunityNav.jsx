@@ -16,109 +16,95 @@ export default function CommunityNav() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // function mineToggle(pathname) {
-  //   if (pathname?.slice(11)=="mine") {
-  //     setMytoggle(true)
-  //     // mynote.style.setProperty("--toggle", "90deg");
-  //   } else {
-  //     setMytoggle(false)
-  //     // mynote.style.setProperty("--toggle", "0deg");
-  //   }
-  // }
+  function mineToggle(pathname) {
+    if (pathname?.slice(11)=="mine") {
+      setMytoggle(true)
+      // mynote.style.setProperty("--toggle", "90deg");
+    } else {
+      setMytoggle(false)
+      // mynote.style.setProperty("--toggle", "0deg");
+    }
+  }
 
-  // function switchHighlight() {
-  //   const tabs = tabsRef.current.querySelectorAll('.tab');
-  //   const highlight = highlightRef.current;
-  //   const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
+  function switchHighlight() {
+    if (pathname?.slice(11)) {
+      const path = pathname?.slice(11)
+      if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {
+      const tabs = tabsRef.current.querySelectorAll('.tab');
+      const highlight = highlightRef.current;
+      
+      const selected = tabsRef.current?.querySelector(`.${path}`);
+      
+        selected.classList.add('active');
+    
+        const tabHeight = selected.offsetHeight;
+        const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
+    
+        if (highlight) {
+        highlight.style.height = tabHeight + 'px';
+        highlight.style.top = tabTop + 'px';
+        }
+      }
+    }
+  }
 
-  //   selected.classList.add('active');
+  async function switchPath() {
+    mineToggle(pathname)
+    setTimeout(async () => {
+      await switchHighlight()
+    }, 100);
+  }
 
-  //   const tabHeight = selected.offsetHeight;
-  //   const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
-
-  //   if (highlight) {
-  //   highlight.style.height = tabHeight + 'px';
-  //   highlight.style.top = tabTop + 'px';
-  //   }
-  // }
-
-  // async function switchPath() {
-  //   mineToggle(pathname)
-  //   setTimeout(async () => {
-  //     await switchHighlight()
-  //   }, 100);
-  // }
-
-  // useEffect(() => {
-  //   if (pathname?.slice(11)) {
-  //     setHighlight(true)
-  //     setTimeout(async () => {
-  //       switchPath()
-  //     }, 100);
-  //   } else {
-  //     setHighlight(false)
-  //   }
-  // }, [pathname])
+  useEffect(() => {
+    setHighlight(false)
+    if (pathname?.slice(11)) {
+      const path = pathname?.slice(11)
+      if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {
+        setHighlight(true)
+        setTimeout(async () => {
+          switchPath()
+        }, 100);
+      } else {
+        setHighlight(false)
+      }
+  }}, [pathname])
   
-  // useEffect(() => {
-  //   if (pathname?.slice(11)) {
+  useEffect(() => {
+    if (pathname?.slice(11)) {
 
-  //     if (searchParams) {
-  //       setpageName(searchParams?.get('page'))
-  //     }
+      if (searchParams) {
+        setpageName(searchParams?.get('page'))
+      }
 
-  //     const highlight = highlightRef.current;
-  //     if (tabsRef.current !== null) {
-  //       const tabs = tabsRef.current.querySelectorAll('.tab');
+      const highlight = highlightRef.current;
+      if (tabsRef.current !== null) {
+        const tabs = tabsRef.current.querySelectorAll('.tab');
 
-  //       // tabs.forEach(tab => {
-
-  //         // tab.addEventListener('click', (e) => {
-  //         //   if (e.target && (e.target).innerHTML=="나의 노트") {
-  //         //     setMytoggle(true)
-  //         //     // mynote.style.setProperty("--toggle", "90deg");
-  //         //   } else {
-  //         //     setMytoggle(false)
-  //         //     // mynote.style.setProperty("--toggle", "0deg");
-  //         //   }
-
-  //           // tabs.forEach(t => t.classList.remove('active'));
-  //           // tab.classList.add('active');
-    
-  //           // const tabHeight = tab.offsetHeight;
-  //           // const tabTop = tab.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
-            
-  //           // if (highlight) {
-  //           //   highlight.style.height = tabHeight + 'px';
-  //           //   highlight.style.top = tabTop + 'px';
-  //           // }
-    
-  //       //   });
-  //       // });
-
-  //       if (pathname?.slice(11)=="mine") {
-  //         setMytoggle(true)
-  //         // mynote.style.setProperty("--toggle", "90deg");
-  //       } else {
-  //         setMytoggle(false)
-  //         // mynote.style.setProperty("--toggle", "0deg");
-  //       }
+        if (pathname?.slice(11)=="mine") {
+          setMytoggle(true)
+          // mynote.style.setProperty("--toggle", "90deg");
+        } else {
+          setMytoggle(false)
+          // mynote.style.setProperty("--toggle", "0deg");
+        }
         
-  //       if (pathname?.slice(11)) {
-  //       const selected = tabsRef.current?.querySelector(`.${pathname?.slice(11)}`);
+        if (pathname?.slice(11)) {
+          const path = pathname?.slice(11)
+          if (path=='mine' | path=='user' | path=='all' | path=='notice' | path=='create') {
+          const selected = tabsRef.current?.querySelector(`.${path}`);
 
-  //       selected.classList.add('active');
-    
-  //       const tabHeight = selected.offsetHeight;
-  //       const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
+          selected.classList.add('active');
+      
+          const tabHeight = selected.offsetHeight;
+          const tabTop = selected.getBoundingClientRect().top - tabs[0].getBoundingClientRect().top;
 
-  //       if (highlight) {
-  //       highlight.style.height = tabHeight + 'px';
-  //       highlight.style.top = tabTop + 'px';
-  //       }
-  //     }
-  //   }}
-  // }, [])
+          if (highlight) {
+            highlight.style.height = tabHeight + 'px';
+            highlight.style.top = tabTop + 'px';
+          }
+        }
+      }}
+  }}, [])
 
   return(
     <div className={styles["communitynav-container"]} ref={tabsRef}>
