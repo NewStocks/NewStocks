@@ -17,11 +17,16 @@ public class ReviewNoteLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_note_id")
+    private ReviewNote reviewNote;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public ReviewNoteLike(Member member) {
+    public ReviewNoteLike(ReviewNote reviewNote, Member member) {
+        this.reviewNote = reviewNote;
         this.member = member;
     }
 }
