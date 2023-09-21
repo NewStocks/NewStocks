@@ -4,18 +4,18 @@ import { LiaQuestionCircleSolid } from "react-icons/lia";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from 'react';
 import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType } from 'lightweight-charts';
-import axios from 'axios';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import ValueInfoModal from './ValuechainQuestion';
 import ValueChainModal from './ValuechainInfo';
 import StockProfile from "@/components/StockProfile/StockProfile";
 
+import { fetchStockInfo, fetchChartData } from '@/services/chart';
+
 export default function ChartComponent() {
   const router = useRouter();
   const codeName = usePathname();
   const code = codeName.split('/').filter(Boolean)[0];
-  console.log(code)
   const tabname = useSearchParams();
   const tab = tabname?.get('tab')
   const chartContainerRef = useRef(null);
@@ -56,12 +56,8 @@ export default function ChartComponent() {
 
   useEffect(() => {
     const fetchStockData = () => {
-      axios({
-        method: "get",
-        url: `http://localhost:8200/stock/find-stock-info/${code}`,
-      })
+      fetchStockInfo(code)
       .then((res) => {
-        console.log(res.data.name);
         const chartname = res.data.name
         setChartData((prevdata) => ({
           ...prevdata,
@@ -75,12 +71,8 @@ export default function ChartComponent() {
     fetchStockData(code);
 
     const fetchData = () => {
-      axios({
-        method: "get",
-        url: `http://localhost:8200/stock/find-chart/${code}`,
-      })
+      fetchChartData(code)
       .then((res) => {
-        console.log(res.data);
         // const code = res.data.name
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
@@ -144,7 +136,7 @@ export default function ChartComponent() {
           }
         });
         
-        console.log(Object.values(uniqueNewsData))
+        // console.log(Object.values(uniqueNewsData))
 
         function isWeekend(date) {
           const day = date.getDay(); 

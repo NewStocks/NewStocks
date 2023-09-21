@@ -1,9 +1,10 @@
 'use client'
 import { usePathname,useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import styles from './Newstab.module.css'
 import { useRouter } from 'next/navigation';
+
+import { fetchNewsData, fetchValueNewsData } from '@/services/chart';
 
 type NewsItem = {
   company: any
@@ -118,7 +119,7 @@ export default function Newstab() {
   const tabName = usePathname() || '';
   const code = tabName.split('/').filter(Boolean)[0];
   const newsDate = useSearchParams()?.get('newsdate')
-	console.log(newsDate)
+	// console.log(newsDate)
   
 	const [datenews, setdateNews] = useState<any[]>([]);
   const [newsData, setNewsData] = useState<any[]>([]);
@@ -131,15 +132,11 @@ export default function Newstab() {
 
   useEffect(() => {
     const fetchData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/news/find/${code}`,
-      })
+      fetchNewsData(code)
         .then((res) => {
           // const date = new Date(res.data[0].publishTime).getTime()
           const newsData: NewsItem[] = res.data;
           setNewsData(newsData)
-          console.log(newsData)
           const datenews: DateNewsItem[]=[]
 					res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
@@ -161,15 +158,10 @@ export default function Newstab() {
 
   useEffect(() => {
     const fetchValueData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/value-chain-news/find/${code}`,
-      })
+      fetchValueNewsData(code)
         .then((res) => {
-          console.log(res.data)
           const valuenews: ValueNewsItem[]= res.data;
           setValuenews(valuenews)
-          console.log(valuenews)
           const datevaluenews: DateValueNewsItem[]=[]
           res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
@@ -179,7 +171,6 @@ export default function Newstab() {
 						}
 					});
           setdateValuenews(datevaluenews)
-          console.log()
         })
         .catch((err) => {
           console.log(err);

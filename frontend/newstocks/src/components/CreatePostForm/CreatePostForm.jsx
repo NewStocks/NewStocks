@@ -99,7 +99,6 @@ export default function CreatePostForm({ type }) {
   const handleClick = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
     if (editorRef.current) {
-      console.log(editorRef.current)
       // console.log(editorRef.current.getInstance().getHTML());
       // // 입력창에 입력한 내용을 MarkDown 형태로 취득
       // console.log(editorRef.current.getInstance().getMarkdown());
