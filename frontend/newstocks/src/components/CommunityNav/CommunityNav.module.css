@@ -13,6 +13,29 @@
   /* margin-top: 15px;  */
 }
 
+.profile-container button {
+  display: flex;
+  
+  width: 170px;
+  height: 33px;
+  background-color: rgba(255, 255, 255, 0.23);
+  border: 0;
+  /* border: 2px solid #4FE7B0; */
+  border-radius: 8px;
+  margin: 0 auto;
+  margin-top: 5px;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+}
+
+.profile-container button:hover {
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  font-weight: 500;
+}
+
 .profile-box {
   display: flex;
   padding: 0 10px;
@@ -114,7 +137,7 @@
 
 .nav-mynote-toggle {
   width: 100px;
-  margin: 0 0 0 20px;
+  margin: 0 0 10px 60px;
 }
 
 .nav-mynote-toggle li {
@@ -152,3 +175,14 @@
   font-weight: 800;
   color: #4FE7B0;
 }
+
+/* 배경을 어둡게 하는 오버레이 */
+/* .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+} */

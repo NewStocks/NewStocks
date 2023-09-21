@@ -11,7 +11,8 @@ import { BiSearch } from "react-icons/bi"
 // 메뉴 아이콘
 import { BiHomeAlt2 } from "react-icons/bi";
 import { AiOutlineGlobal } from "react-icons/ai";
-import { FaRegUserCircle } from "react-icons/fa";
+
+import LoginModal from '@/components/LoginModal/LoginModal'
 
 // type User = {
 //   name: string;
@@ -52,11 +53,13 @@ return (
       <div className={styles['search-box-container']}>
         <SearchBox />
       </div>
+
       
       <div className={styles["header-right"]}>
         <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
         <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
-        <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link>
+        <LoginModal type="header"/>
+        {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
       </div>
     </div>
   </header>
