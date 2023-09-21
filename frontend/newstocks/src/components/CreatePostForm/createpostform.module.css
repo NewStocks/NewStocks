@@ -3,6 +3,11 @@
   justify-content: space-between;
 }
 
+.top-menu p {
+  font-size: 22px;
+  font-weight: 550;
+}
+
 .submit-button {
   width: 150px;
   height: 50px;
@@ -206,6 +211,12 @@
   background-color: rgba(255, 255, 255, 0.255);
   border-radius: 14px;
   color: rgba(255, 255, 255, 0.614);
+}
+
+.dropzone div {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
 }
 
 .dropzone p {

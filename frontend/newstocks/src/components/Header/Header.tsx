@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 
+import SearchBox from '../SearchBox/SearchBox';
+
 import styles from './Header.module.css';
 import Link from 'next/link';
 
@@ -9,7 +11,8 @@ import { BiSearch } from "react-icons/bi"
 // 메뉴 아이콘
 import { BiHomeAlt2 } from "react-icons/bi";
 import { AiOutlineGlobal } from "react-icons/ai";
-import { FaRegUserCircle } from "react-icons/fa";
+
+import LoginModal from '@/components/LoginModal/LoginModal'
 
 // type User = {
 //   name: string;
@@ -46,16 +49,17 @@ return (
         </svg>
         <h1>NEWStocks</h1>
       </div>
-      
-      <div className={styles["header-search"]}>
-        <div><BiSearch size="22"/></div>
-        <input type="text" placeholder="종목명 또는 종목코드 검색" />
+
+      <div className={styles['search-box-container']}>
+        <SearchBox />
       </div>
+
       
       <div className={styles["header-right"]}>
         <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
         <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
-        <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link>
+        <LoginModal type="header"/>
+        {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
       </div>
     </div>
   </header>

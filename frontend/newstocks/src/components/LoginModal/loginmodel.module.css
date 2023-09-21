@@ -1,0 +1,47 @@
+/* CommunityNav*/
+
+.login-title {
+  font-size: 13px;
+  font-weight: 550;
+  margin: 5.5px 12px;
+  color: white;
+}
+
+.login-icon {
+  margin-top: 4px;
+  color: #4FE7B0;
+}
+
+.login-subtitle {
+  font-size: 11px;
+  text-align: center;
+  padding: 1px 3px 0 0;
+}
+
+.login-subtitle span {
+  font-weight: 550;
+  color: #4FE7B0;
+}
+
+/* header */
+
+.login-button {
+  margin-left: 13px;
+  width: 65px;
+  background-color: transparent;
+  color: #4FE7B0;
+  border: 2px solid #4FE7B0;
+  border-radius: 12px;
+  margin-bottom: 1px;
+
+  cursor: pointer;
+}
+
+.login-button:hover {
+  border: 2.5px solid #4FE7B0;
+  font-weight: 500;
+}
+
+.logo {
+  margin-top: 12px;
+}

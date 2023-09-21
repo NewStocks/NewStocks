@@ -3,7 +3,8 @@ import styles from "./CompanyInfo.module.css";
 import StockProfile from "@/components/StockProfile/StockProfile";
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import axios from 'axios';
+
+import { fetchStockInfo} from '@/services/chart';
 
 type StockItem = {
   id: string
@@ -36,15 +37,11 @@ export default function CompanyInfo() {
 
   useEffect(() => {
     const fetchData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/stock/find-stock-info/${code}`,
-      })
+      fetchStockInfo(code)
         .then((res) => {
           // const date = new Date(res.data[0].publishTime).getTime()
           const stockData: StockItem = res.data;
           setStockData(stockData)
-          console.log(stockData)
         })
         .catch((err) => {
           console.log(err);

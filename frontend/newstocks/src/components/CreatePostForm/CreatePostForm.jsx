@@ -99,7 +99,6 @@ export default function CreatePostForm({ type }) {
   const handleClick = () => {
     // 입력창에 입력한 내용을 HTML 태그 형태로 취득
     if (editorRef.current) {
-      console.log(editorRef.current)
       // console.log(editorRef.current.getInstance().getHTML());
       // // 입력창에 입력한 내용을 MarkDown 형태로 취득
       // console.log(editorRef.current.getInstance().getMarkdown());
@@ -147,7 +146,7 @@ export default function CreatePostForm({ type }) {
   return (
     <div>
       <div className={styles["top-menu"]}>
-        <h2>오답노트 {type=="create" ? '작성' : '수정'}</h2>
+        <p>오답노트 {type=="create" ? '작성' : '수정'}</p>
         <button className={styles["submit-button"]}>✍ 게시하기</button>
       </div>
 
@@ -201,7 +200,8 @@ export default function CreatePostForm({ type }) {
         </button>
         
         <div className={styles["dropzone"]} id="dropzone" onClick={imageInput}>
-          <RiImageAddLine size="32"/><p>10mb 이하 jpeg, jpg, png 첨부</p>
+          <div><RiImageAddLine size="32"/></div>
+          <p>10mb 이하 jpeg, jpg, png 첨부</p>
         </div>
         <input type="file" accept=".png,.jpg,.jpeg" id="fileInput" style={{display: "none"}}></input>
         

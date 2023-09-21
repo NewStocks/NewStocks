@@ -12,6 +12,10 @@
   },
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-query": "^4.33.0",
     "@toast-ui/editor": "^3.2.2",
@@ -23,6 +27,7 @@
     "axios": "^1.5.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "framer-motion": "^10.16.4",
     "lightweight-charts": "^4.0.1",
     "next": "13.4.12",
     "react": "18.2.0",
