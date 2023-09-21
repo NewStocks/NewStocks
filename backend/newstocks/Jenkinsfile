@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Gradle Build') {
+            steps {
+                dir('backend/newstocks') {
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean build -x test'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                dir('backend/newstocks') {
+                    sh 'docker build -t newstocks:latest .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('backend/newstocks') {
+                    sh 'docker rm -f back'
+                    sh 'docker run -d --env-file .env --name back -p 8200:8200 -u root newstocks:latest'
+                }
+            }
+        }
+    }
+}
