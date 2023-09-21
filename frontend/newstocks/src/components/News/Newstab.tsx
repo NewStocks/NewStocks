@@ -1,9 +1,10 @@
 'use client'
 import { usePathname,useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import styles from './Newstab.module.css'
 import { useRouter } from 'next/navigation';
+
+import { fetchNewsData, fetchValueNewsData } from '@/services/chart';
 
 type NewsItem = {
   company: any
@@ -131,10 +132,7 @@ export default function Newstab() {
 
   useEffect(() => {
     const fetchData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/news/find/${code}`,
-      })
+      fetchNewsData(code)
         .then((res) => {
           // const date = new Date(res.data[0].publishTime).getTime()
           const newsData: NewsItem[] = res.data;
@@ -161,10 +159,7 @@ export default function Newstab() {
 
   useEffect(() => {
     const fetchValueData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/value-chain-news/find/${code}`,
-      })
+      fetchValueNewsData(code)
         .then((res) => {
           console.log(res.data)
           const valuenews: ValueNewsItem[]= res.data;
