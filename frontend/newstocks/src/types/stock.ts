@@ -1,6 +1,5 @@
 export type Stock = {
-  stockName: string;
-  stockId: string;
+  id: string;
+  name: string;
   stockMarket?: string;
-  stockImageUrl?: string;
 };

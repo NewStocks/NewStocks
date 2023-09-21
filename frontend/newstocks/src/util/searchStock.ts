@@ -73,20 +73,20 @@ export const searchStock = (input: string, stockList: Stock[]) => {
   const inputIsNum = !isNaN(parseInt(input));
   const [regex, subpatterns] = patternMatcher(input);
   const result = stockList.filter((stock) => {
-    return regex.test(stock.stockName) || stock.stockId.includes(input);
+    return regex.test(stock.name) || stock.id.includes(input);
   });
 
   const resultWithSort = result
     .map((stock) => {
       let sortIndex;
-      if (inputIsNum && stock.stockId.includes(input)) {
+      if (inputIsNum && stock.id.includes(input)) {
         sortIndex = 0;
       } else {
         let lastIndex = 0;
         let sortSum = "";
 
         for (let i = 0; i < subpatterns.length; i++) {
-          const match = stock.stockName.match(subpatterns[i]);
+          const match = stock.name.match(subpatterns[i]);
           let idx = 0;
           if (match && match.index !== undefined) {
             idx = match.index;

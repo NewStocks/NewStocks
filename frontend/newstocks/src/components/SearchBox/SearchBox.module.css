@@ -2,13 +2,13 @@
   display: flex; 
   flex-direction: column;
   align-items:center;
-  position: relative; 
+  position: relative;
+  width: 100%;  
 }
-
 
 /* 검색 input 박스*/
 .header-search {
-  width: 450px;
+  width: 100%;
   height: 33px;
   border-radius: 20px;
   border: transparent;
@@ -19,15 +19,14 @@
   align-items: center;
 }
 
-
 .search-icon {
   width: 30px;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 4%;
 }
 
 .header-search input {
   background: 0;
-  width: 430px;
+  width: 95%;
   height: 28px;
   border: transparent;
   color: #FFF;
@@ -38,6 +37,6 @@
 }
 
 .erase-button {
-  margin: 0px 15px;
+  margin: 0px 4%;
   cursor:pointer;
 }

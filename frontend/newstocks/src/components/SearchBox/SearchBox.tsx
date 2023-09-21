@@ -11,63 +11,36 @@ import { Stock } from "@/types/stock";
 import styles from "./SearchBox.module.css";
 import { BiSearch, BiX } from "react-icons/bi";
 
-
-const allStocks = [
-  {
-    stockName: "감자",
-    stockId: "035720",
-    stockMarket: "코스피",
-    stockImageUrl:
-      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/035720.png",
-  },
-  {
-    stockName: "난",
-    stockId: "005930",
-    stockMarket: "코스피",
-    stockImageUrl:
-      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-  },
-  {
-    stockName: "English0",
-    stockId: "0059301",
-    stockMarket: "코스피",
-    stockImageUrl:
-      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-  },
-  {
-    stockName: "강아지0",
-    stockId: "0059302",
-    stockMarket: "코스피",
-    stockImageUrl:
-      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-  },
-  {
-    stockName: "공주1",
-    stockId: "0059303",
-    stockMarket: "코스피",
-    stockImageUrl:
-      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-  },
-  {
-    stockName: "자개장",
-    stockId: "0059304",
-    stockMarket: "코스피",
-    stockImageUrl:
-      "https://file.alphasquare.co.kr/media/images/stock_logo/kr/005930.png",
-  },
-];
+import axios from "axios";
 
 export default function SearchBox() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  
   const [inputText, setInputText] = useState("");
   const [showAutoBox, setShowAutoBox] = useState(false);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [searchList, setSearchList] = useState<Stock[]>([]);
+  const [allStocks, setAllStocks] = useState<Stock[]>([]);
 
-  // console.log(searchStock("ㄱㅈ", ["감자", "난", "체감", "강아지", "공주", "자개장", "english", "."]));
+  useEffect(() => {
+    async function getAllStocks() {
+      try {
+        const response = await axios.get(
+          "http://localhost:8200/stock/find-all-stock-for-search"
+        );
+        const stockData = response.data.stockDtoList;
+        setAllStocks(stockData);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    getAllStocks();
+  }, []);
 
   // input 창 바깥 클릭 시 autocomplete box 숨기기
   useEffect(() => {
@@ -119,14 +92,14 @@ export default function SearchBox() {
     if (inputText.trim() !== "") {
       setShowAutoBox(true);
       const autocompleteResults = searchStock(inputText, allStocks);
-      setSearchList(autocompleteResults);
+      setSearchList(autocompleteResults.slice(0, 20));
     } else {
       setShowAutoBox(false);
     }
   }, [inputText]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedItem]);
 
   // input 창 입력 텍스트 있을 때 focus가 돌아오면 autocomplete box 나타내기
@@ -148,7 +121,7 @@ export default function SearchBox() {
       setShowAutoBox(false);
       setInputText("");
       const tabName = searchParams?.get("tab");
-      router.push(`/${searchList[selectedItem].stockId}?tab=${tabName}`);
+      router.push(`/${searchList[selectedItem].id}?tab=${tabName}`);
     }
   };
 
@@ -160,7 +133,7 @@ export default function SearchBox() {
     setShowAutoBox(false);
     setInputText("");
     const tabName = searchParams?.get("tab");
-    router.push(`/${searchList[selectedItem].stockId}?tab=${tabName}`);
+    router.push(`/${searchList[selectedItem].id}?tab=${tabName}`);
   };
 
   const handleEraseClick = () => {

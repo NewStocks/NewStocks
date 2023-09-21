@@ -21,10 +21,10 @@ const AutocompleteBox = forwardRef<HTMLDivElement, Props>(
     handleItemClick,
   }, ref) => {
     const stockSearchListBox = stockSearchList.map(
-      ({ stockName, stockId, stockMarket, stockImageUrl }, idx) => {
+      ({ name, id }, idx) => {
         return (
           <div
-            key={stockId}
+            key={id}
             ref={idx === selectedItem ? ref : null}
             className={`${styles["stock-item-box"]} ${
               idx === selectedItem ? styles["stock-item-box-selected"] : ""
@@ -33,10 +33,9 @@ const AutocompleteBox = forwardRef<HTMLDivElement, Props>(
             onClick={() => handleItemClick(idx)}
           >
             <StockProfile
-              stockName={stockName}
-              stockId={stockId}
-              stockMarket={stockMarket}
-              stockImageUrl={stockImageUrl}
+              stockName={name}
+              stockId={id}
+              stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${id}.png`}
               size="small"
             />
           </div>
