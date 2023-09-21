@@ -137,7 +137,6 @@ export default function Newstab() {
           // const date = new Date(res.data[0].publishTime).getTime()
           const newsData: NewsItem[] = res.data;
           setNewsData(newsData)
-          console.log(newsData)
           const datenews: DateNewsItem[]=[]
 					res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
@@ -161,10 +160,8 @@ export default function Newstab() {
     const fetchValueData = () => {
       fetchValueNewsData(code)
         .then((res) => {
-          console.log(res.data)
           const valuenews: ValueNewsItem[]= res.data;
           setValuenews(valuenews)
-          console.log(valuenews)
           const datevaluenews: DateValueNewsItem[]=[]
           res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
@@ -174,7 +171,6 @@ export default function Newstab() {
 						}
 					});
           setdateValuenews(datevaluenews)
-          console.log()
         })
         .catch((err) => {
           console.log(err);

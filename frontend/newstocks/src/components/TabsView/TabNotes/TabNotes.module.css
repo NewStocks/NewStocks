@@ -1,0 +1,23 @@
+.Notetab-head {
+	display: flex;
+	margin: 10px;
+}
+.Notetab-create {
+	display: flex;
+	justify-content: right;
+	font-size: 13px;
+}
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+.pagebuttonbox {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	/* border-radius: 5px; */
+	/* border: 1px solid #4FE7B0; */
+	border: none;
+	box-shadow: 'none';
+	cursor: pointer;
+}
