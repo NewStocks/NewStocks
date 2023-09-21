@@ -1,6 +1,8 @@
 package com.ohgood.newstocks.member.service;
 
+import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.member.dto.MemberDto;
+import com.ohgood.newstocks.member.dto.MemberUpdateDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.member.repository.MemberRepository;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AwsS3Service awsS3Service;
 
     public MemberDto findMember(Long findMemberId, Long myMemberId) {
 
@@ -26,6 +29,17 @@ public class MemberService {
         // 타인 정보 조회
         // 추후에 프로필 공개 여부 추가할 수 있어 분리
         return MemberMapper.INSTANCE.entityToMemberDto(findMemberById(findMemberId));
+    }
+
+    @Transactional
+    public MemberDto updateMember(MemberUpdateDto memberUpdateDto, Long memberId) {
+        Member member = findMemberById(memberId);
+        String url = null;
+        if (memberUpdateDto.getMultipartFile() != null) {
+            url = awsS3Service.uploadFile("/profile", memberUpdateDto.getMultipartFile());
+        }
+        member.update(memberUpdateDto.getName(), url);
+        return MemberMapper.INSTANCE.entityToMemberDto(memberRepository.save(member));
     }
 
     @Transactional

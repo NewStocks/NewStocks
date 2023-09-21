@@ -14,5 +14,4 @@ public interface MemberMapper {
     MemberDto entityToMemberDto(Member member);
 
     MemberLoginDto memberDtoToMemberLoginDto(MemberDto memberDto);
-
 }
