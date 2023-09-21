@@ -20,7 +20,7 @@ type Props = {
   };
 };
 
-export default function DetailnotePage({ params, searchParams }: Props) {
+export default function DetailnotePage({ params }: Props) {
   return (
     <div className={styles.main}>
       <div className={styles["detail-back"]}>
@@ -88,7 +88,7 @@ export default function DetailnotePage({ params, searchParams }: Props) {
       </div>
 
       <div className={styles["commentinput-container"]}>
-        <CommentInput type="comment" />
+        <CommentInput type="comment" func={() => {}}/>
       </div>
 
       <div className={styles["commentview-container"]}>

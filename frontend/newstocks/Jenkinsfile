@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Docker Build') {
+            steps {
+                dir('frontend/newstocks') {
+                    sh 'docker build -t newstocks_front:latest .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('frontend/newstocks') {
+                    sh 'docker rm -f front'
+                    sh 'docker run -d --name front -p 3000:3000 -u root newstocks_front:latest'
+                }
+            }
+        }
+    }
+}
