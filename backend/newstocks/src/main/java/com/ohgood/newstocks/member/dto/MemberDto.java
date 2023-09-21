@@ -8,6 +8,4 @@ public class MemberDto {
     private Long id;
     private String name;
     private String profileImage;
-
-
 }

@@ -9,5 +9,4 @@ public class MemberLoginDto {
 
     private MemberDto memberDto;
     private List<FavoriteStock> favoriteStockList;
-
 }
