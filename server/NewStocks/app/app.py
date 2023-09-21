@@ -460,7 +460,7 @@ def my_scheduled_method():
     print("스케줄러 작업 성공!")
 
 # 스케줄러에 작업 추가, 장마감이후 4시쯤이면 댈듯?
-scheduler.add_job(my_scheduled_method, 'cron', hour=7, minute=30)
+scheduler.add_job(my_scheduled_method, 'cron', hour=16, minute=30)
 # 스케줄러 실행
 scheduler.start()
 
