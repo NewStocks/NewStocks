@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import ValueInfoModal from './ValuechainQuestion';
 import ValueChainModal from './ValuechainInfo';
 import StockProfile from "@/components/StockProfile/StockProfile";
+import { TickerTape } from "react-ts-tradingview-widgets";
 
 import { fetchStockInfo, fetchChartData } from '@/services/chart';
 
@@ -483,11 +484,6 @@ export default function ChartComponent() {
             bottom: 0,
         },
     });
-    
-
-    
-    // chart.current.timeScale().scrollToPosition(initialTime);
-    // chart.current.timeScale(initialTime);
 
      return () => {
       if (chart.current) {
@@ -496,55 +492,6 @@ export default function ChartComponent() {
     };
   }, [code, tab]);
 
-    useEffect(() => {
-      const widgetContainer = document.createElement('div');
-      widgetContainer.id = 'tradingview-widget-container';
-
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
-      script.async = true;
-      script.innerHTML = JSON.stringify({
-        symbols: [
-          {
-            description: 'KRW 대 USD',
-            proName: 'FX_IDC:KRWUSD',
-          },
-          {
-            description: `${chartData.name}`,
-            proName: `KRX:${code}`,
-          },
-          {
-            description: '코스피',
-            proName: 'KRX:KOSPI',
-          },
-          {
-            description: '코스닥',
-            proName: 'KRX:KOSDAQ',
-          },
-        ],
-        showSymbolLogo: false,
-        colorTheme: 'dark',
-        isTransparent: true,
-        displayMode: 'regular',
-        locale: 'kr',
-      });
-      document.getElementById('tradingview-widget-container').appendChild(script);
-  
-      const container = document.getElementById('tradingview-widget-container');
-      if (container) {
-        container.appendChild(script);
-      }
-
-      // 페이지 이동시 함수 클리어??
-      return () => {
-        const container = document.getElementById('tradingview-widget-container');
-        if (container && script) {
-          container.removeChild(script);
-        }
-      };
-      
-    }, []);
 
   return (
     <div>
@@ -560,9 +507,32 @@ export default function ChartComponent() {
             />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
-            <div id="tradingview-widget-container">
-              {/* <div className="tradingview-widget-container__widget"></div> */}
-            </div>
+            <TickerTape 
+              colorTheme="dark"
+              isTransparent="true"
+              locale="kr"
+              showSymbolLogo="false"
+              displayMode="regular"
+              symbols={[
+                {
+                  description: 'KRW 대 USD',
+                  proName: 'FX_IDC:KRWUSD',
+                },
+                {
+                  description: chartData.name, 
+                  proName: `KRX:${code}`, 
+                },
+                {
+                  description: '코스피',
+                  proName: 'KRX:KOSPI',
+                },
+                {
+                  description: '코스닥',
+                  proName: 'KRX:KOSDAQ',
+                },
+              ]}
+            >
+            </TickerTape>
           </div>
           {/* <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
