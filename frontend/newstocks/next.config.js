@@ -18,15 +18,15 @@ const nextConfig = {
       }
     ]
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/",
-  //       destination: "/005930?tab=company",
-  //       permanent: false,
-  //     },
-  //   ];
-  // },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/005930?tab=company",
+        permanent: false,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

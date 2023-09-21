@@ -26,18 +26,18 @@ export default function StockPage({ params, searchParams}: Props) {
               </div>
             </div>
           </div>
-          {/*<div>*/}
-          {/*  <div className='components'>*/}
-          {/*    <Chart />*/}
-          {/*  </div>*/}
-          {/*  <div>*/}
-          {/*    <Newstab />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
-          {/*  */}
-          {/*  <div className={styles["side-container"]}>*/}
-          {/*    <TabsView />*/}
-          {/*  </div>*/}
+          <div>
+           <div className='components'>
+             <Chart />
+           </div>
+           <div>
+             <Newstab />
+           </div>
+          </div>
+          
+           <div className={styles["side-container"]}>
+             <TabsView />
+           </div>
         </div>
     </div>
   );
