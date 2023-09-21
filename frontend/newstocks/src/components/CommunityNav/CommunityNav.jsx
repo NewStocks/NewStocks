@@ -5,22 +5,16 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import LoginModal from '@/components/LoginModal/LoginModal'
-import { PiArrowSquareRightBold } from "react-icons/pi"
 
 export default function CommunityNav() {
   const [mytoggle, setMytoggle] = useState(false);
   const [pagename, setpageName] = useState(null);
   const [highlight, setHighlight] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const tabsRef = useRef(null);
   const highlightRef = useRef(null);
   const mynoteRef = useRef(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  const handleLoginModal = (status) => {
-    setIsModalOpen(status)
-  }
 
   function mineToggle(pathname) {
     if (pathname?.slice(11)=="mine") {
@@ -137,16 +131,9 @@ export default function CommunityNav() {
           </div>
         </div>
       </Link> */}
-
-      {/* <div className={`${styles["profile-container"]} tab user`}>
-        <div className={styles["login-subtitle"]}><span>NEWStocks</span>의 회원이 되어보세요!</div>
-        <button onClick={() => handleLoginModal(true)}>
-          <div className={styles["login-title"]}>로그인 | 회원가입</div>
-          <div className={styles["login-icon"]}><PiArrowSquareRightBold size="21"/></div>
-        </button>
-      </div> */}
+      
       <div className={`${styles["profile-container"]} tab user`}>
-        <LoginModal />
+        <LoginModal type="nav"/>
       </div>
 
       <div className={styles["nav-container"]}>

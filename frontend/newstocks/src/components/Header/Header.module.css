@@ -84,20 +84,3 @@
   justify-content: center;
   /* border: 1px dotted white; */
 }
-
-.login-button {
-  margin-left: 13px;
-  width: 65px;
-  background-color: transparent;
-  color: #4FE7B0;
-  border: 2px solid #4FE7B0;
-  border-radius: 12px;
-  margin-bottom: 1px;
-
-  cursor: pointer;
-}
-
-.login-button:hover {
-  border: 2.5px solid #4FE7B0;
-  font-weight: 500;
-}

@@ -9,7 +9,8 @@ import { BiSearch } from "react-icons/bi"
 // 메뉴 아이콘
 import { BiHomeAlt2 } from "react-icons/bi";
 import { AiOutlineGlobal } from "react-icons/ai";
-import { FaRegUserCircle } from "react-icons/fa";
+
+import LoginModal from '@/components/LoginModal/LoginModal'
 
 // type User = {
 //   name: string;
@@ -51,11 +52,12 @@ return (
         <div><BiSearch size="22"/></div>
         <input type="text" placeholder="종목명 또는 종목코드 검색" />
       </div>
+
       
       <div className={styles["header-right"]}>
         <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
         <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
-        <button className={styles["login-button"]}>로그인</button>
+        <LoginModal type="header"/>
         {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
       </div>
     </div>

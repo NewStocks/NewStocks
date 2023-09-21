@@ -13,17 +13,6 @@
   /* margin-top: 15px;  */
 }
 
-.login-subtitle {
-  font-size: 12px;
-  text-align: center;
-  padding: 1px 3px 0 0;
-}
-
-.login-subtitle span {
-  font-weight: 550;
-  color: #4FE7B0;
-}
-
 .profile-container button {
   display: flex;
   
@@ -45,18 +34,6 @@
 .profile-container button:hover {
   border: 1px solid rgba(255, 255, 255, 0.23);
   font-weight: 500;
-}
-
-.login-title {
-  font-size: 13px;
-  font-weight: 550;
-  margin: 5.5px 12px;
-  color: white;
-}
-
-.login-icon {
-  margin-top: 4px;
-  color: #4FE7B0;
 }
 
 .profile-box {

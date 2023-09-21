@@ -24,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={sans.className}>
-        {/* <Provider> */}
+        <Provider>
           <Header />
-        {/* </Provider> */}
+        </Provider>
           {children}
       </body>
     </html>
