@@ -89,17 +89,27 @@ kosdac_industry_data ={
     2159: "반도체",
     2160: "IT부품",
 }
+
+
 # MySQL 연결 함수
 def connection_mysql():
     try:
-        conn = pymysql.connect(**db_config)
+        conn = pymysql.connect(
+            host='newstocks-rds.czvfjrx99bcw.ap-northeast-2.rds.amazonaws.com',
+            user='joonsuk',
+            password='dhwnstjr12!',
+            database='newstocks_rds'
+        )
+        return conn
+    except pymysql.OperationalError as e:
+        print("OperationalError:", str(e))
+        return "OperationalError:"
     except Exception as e:
-        print(str(e))
-    return conn
+        return str(e);
 
 def set_category_where(industry_data):
     conn=connection_mysql()
-    cursor = conn.cursor()
+    cursor=conn.cursor()
     for category_type,category_name in industry_data.items():
         try:
             # 주식 종목 가져오기
@@ -129,7 +139,6 @@ def save_all_stock_info_data(start_date,end_date):
         #DB에 즉시 절대 연결
         conn = connection_mysql()
         cursor = conn.cursor()
-
         #전체주식 리스트 가져오기
         stock_info_list=stock.get_market_cap(start_date)
         pd.set_option('display.max_rows', None)
@@ -191,8 +200,10 @@ def save_all_stock_info_data(start_date,end_date):
     except Exception as e:
         return f"오류 발생: {str(e)}"
     finally:
-        cursor.close()
-        conn.close()
+        if cursor is not None:
+            cursor.close()  # cursor가 초기화되어 있을 때만 닫음
+        if conn is not None:
+            conn.close()
     return "SUCCESS"
 
 
@@ -202,9 +213,8 @@ def save_daily_chart_data(stock_id, start_date, end_date):
     try:
         print(stock_id)
         # MySQL 연결
-        conn = connection_mysql()
+        conn= connection_mysql()
         cursor = conn.cursor()
-
         stock_chart = stock.get_market_ohlcv_by_date(start_date, end_date, stock_id)
         # 데이터프레임을 MySQL 테이블에 저장
         for index, row in stock_chart.iterrows():
@@ -245,8 +255,10 @@ def save_daily_chart_data(stock_id, start_date, end_date):
         print(e)
         return f"오류 발생: {str(e)}"
     finally:
-        cursor.close()
-        conn.close()
+        if cursor is not None:
+            cursor.close()  # cursor가 초기화되어 있을 때만 닫음
+        if conn is not None:
+            conn.close()
     return "success", 200
 
 #실제 스케줄러에 들어가는 특정일에 대한 정보만 저장하는 메서드
@@ -257,7 +269,6 @@ def save_all_chart_data(start_date,end_date):
         # MySQL 연결
         conn = connection_mysql()
         cursor = conn.cursor()
-
         # stock 테이블에서 모든 주식(stock)의 ID를 가져옴
         cursor.execute("SELECT id FROM stock")
         stock_ids = cursor.fetchall()
@@ -275,15 +286,19 @@ def save_all_chart_data(start_date,end_date):
             if count > 0: continue
 
             save_daily_chart_data(stock_id, start_date, end_date)
-            time.sleep(3)
+            time.sleep(5)
     except Exception as e:
         print(e)
         return f"오류 발생: {str(e)}"
     finally:
-        cursor.close()
-        conn.close()
+        if cursor is not None:
+            cursor.close()  # cursor가 초기화되어 있을 때만 닫음
+        if conn is not None:
+            conn.close()
     print("모든 차트 정보 저장 success")
     return "custom chart saving success!", 200
+
+
 
 #모든 주식 종목의 카테고리 정보를 가져오는 메서드
 @app.route('/save-all-stock-category', methods=['GET'])
@@ -297,10 +312,36 @@ def set_category():
         return e
     return "success", 200
 
+#모든 주식 정보를 가져오는 api
+@app.route('/save_all_stock_info_data-api', methods=['POST'])
+def save_all_stock_info_api():
+    data = request.get_json()
+    start_date = data.get('startDate')
+    save_all_stock_info_data(start_date,start_date)
+
+
+
+#하루치 모든 주식 종목 데이터 가져오기
+@app.route('/save-all-chart-data-api', methods=['POST'])
+def save_all_chart_daily_data_api():
+    print("save chart")
+    try:
+        # POST 요청에서 JSON 데이터 추출
+        data = request.get_json()
+        start_date = data.get('startDate')
+        save_all_chart_data(start_date,start_date)
+    except Exception as e:
+        return str(e)
+
+
+
+
+
+
 
 #커스텀으로 특정 종목 주식의 일자 내 모든 데이터들을 삽입하는 메서드
 @app.route('/save-custom-chart-data', methods=['POST'])
-def save_daily_chart_data_custom():
+def save_custom_chart_data():
     print("save chart")
     try:
         # POST 요청에서 JSON 데이터 추출
@@ -310,7 +351,7 @@ def save_daily_chart_data_custom():
         start_date = data.get('startDate')
         end_date = data.get('endDate')
         print(stock_id)
-        # MySQL 연결
+        # # MySQL 연결
         conn = connection_mysql()
         cursor = conn.cursor()
 
@@ -354,8 +395,10 @@ def save_daily_chart_data_custom():
         print(e)
         return f"오류 발생: {str(e)}"
     finally:
-        cursor.close()
-        conn.close()
+        if conn is not None:
+            conn.close()
+        if cursor is not None:
+            cursor.close()
     return "success", 200
 
 #커스텀으로 모든 차트데이터 2년치 저장하기
@@ -368,11 +411,10 @@ def save_all_chart_data_custom():
         end_date = stock_data.get('endDate')
         stock_save = stock_data.get('stockSave')
 
-        print(start_date,end_date)
+        print(start_date, end_date)
         # MySQL 연결
         conn = connection_mysql()
-        cursor = conn.cursor()
-
+        cursor=conn.cursor()
         # stock 테이블에서 모든 주식(stock)의 ID를 가져옴
         cursor.execute("SELECT id FROM stock")
         stock_ids = cursor.fetchall()
@@ -381,17 +423,24 @@ def save_all_chart_data_custom():
             stock_id = stock_id[0]  # stock_id 튜플에서 추출
             # 해당 주식의 차트 데이터 MySQL 테이블에 저장
             # 이미 받아진 부분
-            if stock_id<=stock_save: continue
+            if stock_id <= stock_save:
+                continue
 
             save_daily_chart_data(stock_id, start_date, end_date)
-            time.sleep(3)  # Add a 2-second delay before the next iteration
+            time.sleep(5)  # Add a 2-second delay before the next iteration
     except Exception as e:
         return f"오류 발생: {str(e)}"
     finally:
-        cursor.close()
-        conn.close()
+        if cursor is not None:
+            cursor.close()  # cursor가 초기화되어 있을 때만 닫음
+        if conn is not None:
+            conn.close()
     return "success", 200
 
+@app.route('/test', methods=['POST'])
+def test_response():
+    print("test success")
+    return "success"
 
 # 스케줄러 생성
 scheduler = BackgroundScheduler()
@@ -411,9 +460,10 @@ def my_scheduled_method():
     print("스케줄러 작업 성공!")
 
 # 스케줄러에 작업 추가, 장마감이후 4시쯤이면 댈듯?
-scheduler.add_job(my_scheduled_method, 'cron', hour=16, minute=0)
+scheduler.add_job(my_scheduled_method, 'cron', hour=7, minute=30)
 # 스케줄러 실행
 scheduler.start()
 
 if __name__ == '__main__':
-    app.run()
+    # host 등을 직접 지정하고 싶다면
+    app.run(host='0.0.0.0', port="5000", debug=False)
