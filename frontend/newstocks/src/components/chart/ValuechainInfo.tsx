@@ -79,61 +79,42 @@ export default function ValuechainModal({ isOpen, onClose, code }: ModalProps) {
     setModalOpen(isOpen);
   }, [isOpen]);
 
-    // <div class="tradingview-widget-container">
-    //   <div class="tradingview-widget-container__widget"></div>
-    //   <div class="tradingview-widget-copyright"><a href="https://kr.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">트레이딩뷰에서 모든 시장 추적</span></a></div>
-    //   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
-    //   {
-    //   "symbols": [
-    //     {
-    //       "description": "APPLE",
-    //       "proName": "NASDAQ:AAPL"
-    //     }
-    //   ],
-    //   "colorTheme": "dark",
-    //   "isTransparent": false,
-    //   "showSymbolLogo": true,
-    //   "locale": "kr"
-    // }
-    //   </script>
-    // </div>
 
+  // useEffect(() => {
+  //   const container = document.getElementById('value-widget-container');
+  //   if (container && modalOpen) {
+  //     // tradingview-widget-container 요소가 존재하고 모달이 열려있을 때 작업 수행
+  //     const widgetContainer = document.createElement('div');
+  //     widgetContainer.id = 'value-widget-container';
+  
+  //     const script = document.createElement('script');
+  //     script.type = 'text/javascript';
+  //     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
+  //     script.async = true;
+  //     script.innerHTML = JSON.stringify({
+  //       symbol: "NASDAQ:AAPL",
+  //       width: "100%",
+  //       colorTheme: "dark",
+  //       isTransparent: false,
+  //       locale: "kr"
+  //     });
+  
+  //     // tradingview-widget-container에 script 추가
+  //     container.appendChild(script);
+  
+  //     // 페이지 이동 시 함수 클리어
+  //     return () => {
+  //       const container = document.getElementById('value-widget-container');
+  //       if (container && script) {
+  //         container.removeChild(script);
+  //       }
+  //     };
+  //   }
+  
+  //   // container가 없거나 모달이 열려있지 않은 경우 아무 작업도 하지 않음
+  // }, [modalOpen]);
 
-  useEffect(() => {
-    const container = document.getElementById('value-widget-container');
-    if (container && modalOpen) {
-      // tradingview-widget-container 요소가 존재하고 모달이 열려있을 때 작업 수행
-      const widgetContainer = document.createElement('div');
-      widgetContainer.id = 'value-widget-container';
-  
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
-      script.async = true;
-      script.innerHTML = JSON.stringify({
-        symbol: "NASDAQ:AAPL",
-        width: "100%",
-        colorTheme: "dark",
-        isTransparent: false,
-        locale: "kr"
-      });
-  
-      // tradingview-widget-container에 script 추가
-      container.appendChild(script);
-  
-      // 페이지 이동 시 함수 클리어
-      return () => {
-        const container = document.getElementById('value-widget-container');
-        if (container && script) {
-          container.removeChild(script);
-        }
-      };
-    }
-  
-    // container가 없거나 모달이 열려있지 않은 경우 아무 작업도 하지 않음
-  }, [modalOpen]);
-
-  // 모달이 열려있지 않으면 아무 것도 렌더링하지 않음
+  // // 모달이 열려있지 않으면 아무 것도 렌더링하지 않음
   if (!modalOpen) return null;
 
 
@@ -147,8 +128,8 @@ export default function ValuechainModal({ isOpen, onClose, code }: ModalProps) {
           <CloseButton onClick={() => { onClose(); setModalOpen(false); }}>&times;</CloseButton>
         </ModalHeader>
         <ModalContent>
-          <div id="value-widget-container">
-          </div>
+          {/* <div id="value-widget-container">
+          </div> */}
           <p>
             삼전이랑 연결된 밸류체인
             코드는 {code}
