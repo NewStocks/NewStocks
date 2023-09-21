@@ -9,9 +9,10 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface FavoriteStockMapper {
 
-    FavoriteStockMapper INSTANCE= Mappers.getMapper(FavoriteStockMapper.class);
+    FavoriteStockMapper INSTANCE = Mappers.getMapper(FavoriteStockMapper.class);
 
     FavoriteStock FavoriteStockDtoToEntity(FavoriteStockDto favoriteStockDto);
+
     FavoriteStockDto FavoriteStockReqDtoToFavoriteStockDto(FavoriteStockReqDto favoriteStockReqDto);
 
     FavoriteStockDto entityToFavoriteStockDto(FavoriteStock favoriteStock);

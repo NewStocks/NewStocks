@@ -47,15 +47,20 @@ public class StockController {
     TODO : 주식 종목 즐겨찾기 등록, 즐겨찾기 리스트 조회, 삭제, 그리고 Authentication 처리
      */
     @PostMapping("/insert-favorite-stock")
-    public ResponseEntity<String> insertFavoriteStock(@RequestBody FavoriteStockReqDto favoriteStockReqDto, @RequestHeader("access-token")String id){
+    public ResponseEntity<String> insertFavoriteStock(
+        @RequestBody FavoriteStockReqDto favoriteStockReqDto,
+        @RequestHeader("access-token") String id) {
         System.out.println(id);
-        Long memberId=Long.parseLong(id);
+        Long memberId = Long.parseLong(id);
         System.out.println(favoriteStockReqDto.toString());
-        return new ResponseEntity<>(stockService.insertFavoriteStock(favoriteStockReqDto, memberId), HttpStatus.OK);
+        return new ResponseEntity<>(stockService.insertFavoriteStock(favoriteStockReqDto, memberId),
+            HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-favorite-stock")
-    public ResponseEntity<String> deleteFavoriteStock(@RequestBody FavoriteStockReqDto favoriteStockReqDto, @RequestHeader("access-token")Long id){
+    public ResponseEntity<String> deleteFavoriteStock(
+        @RequestBody FavoriteStockReqDto favoriteStockReqDto,
+        @RequestHeader("access-token") Long id) {
         return new ResponseEntity<>(stockService.deleteFavoriteStock(favoriteStockReqDto, id),
             HttpStatus.OK);
     }

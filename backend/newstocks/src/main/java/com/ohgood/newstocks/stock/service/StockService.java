@@ -134,7 +134,8 @@ public class StockService {
     public String insertFavoriteStock(FavoriteStockReqDto favoriteStockReqDto, Long memberId) {
         FavoriteStockDto favoriteStockDto = FavoriteStockMapper.INSTANCE.FavoriteStockReqDtoToFavoriteStockDto(
             favoriteStockReqDto);
-        if (favoriteStockRepository.findByStockIdAndMemberId(favoriteStockDto.getStockId(), memberId).isPresent()) {
+        if (favoriteStockRepository.findByStockIdAndMemberId(favoriteStockDto.getStockId(),
+            memberId).isPresent()) {
             return "duplicated";
         }
         favoriteStockDto.setMember(memberRepository.findById(memberId)
