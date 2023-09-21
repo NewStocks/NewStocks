@@ -17,7 +17,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public MemberDto findMemberProfile(Long findMemberId, Long myMemberId) {
+    public MemberDto findMember(Long findMemberId, Long myMemberId) {
 
         // 내 정보 조회
         if (findMemberId == null) {
@@ -26,6 +26,13 @@ public class MemberService {
         // 타인 정보 조회
         // 추후에 프로필 공개 여부 추가할 수 있어 분리
         return MemberMapper.INSTANCE.entityToMemberDto(findMemberById(findMemberId));
+    }
+
+    @Transactional
+    public void deleteMember(Long memberId) {
+        Member member = findMemberById(memberId);
+        member.delete();
+        memberRepository.save(member);
     }
 
     public Member findMemberById(Long userId) {
