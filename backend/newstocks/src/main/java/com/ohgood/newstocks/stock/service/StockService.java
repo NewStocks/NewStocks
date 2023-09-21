@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.stock.service;
 
+import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
 import com.ohgood.newstocks.news.service.NewsService;
@@ -11,20 +12,26 @@ import com.ohgood.newstocks.stock.dto.ChartDto;
 import com.ohgood.newstocks.stock.dto.ChartResDto;
 import com.ohgood.newstocks.stock.dto.ChartSeriesDto;
 import com.ohgood.newstocks.stock.dto.DataDto;
+import com.ohgood.newstocks.stock.dto.FavoriteStockDto;
+import com.ohgood.newstocks.stock.dto.FavoriteStockReqDto;
 import com.ohgood.newstocks.stock.dto.StockDto;
 import com.ohgood.newstocks.stock.dto.StockResDto;
 import com.ohgood.newstocks.stock.dto.StockSearchDto;
 import com.ohgood.newstocks.stock.entity.Chart;
+import com.ohgood.newstocks.stock.entity.FavoriteStock;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.mapper.ChartMapper;
+import com.ohgood.newstocks.stock.mapper.FavoriteStockMapper;
 import com.ohgood.newstocks.stock.mapper.StockMapper;
 import com.ohgood.newstocks.stock.repository.ChartRepository;
+import com.ohgood.newstocks.stock.repository.FavoriteStockRepository;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -35,6 +42,8 @@ public class StockService {
     private final StockRepository stockRepository;
     private final NewsService newsService;
     private final ReviewNoteRepository reviewNoteRepository;
+    private final FavoriteStockRepository favoriteStockRepository;
+    private final MemberRepository memberRepository;
 
     public ChartResDto findChartSeriesByStockId(String stockId) {
         List<ChartSeriesDto> chartSeriesDtoList = new ArrayList<>();
@@ -119,5 +128,39 @@ public class StockService {
         }
         log.info("end");
         return StockSearchDto.builder().stockDtoList(stockDtoList).build();
+    }
+
+    @Transactional
+    public String insertFavoriteStock(FavoriteStockReqDto favoriteStockReqDto, Long memberId) {
+        FavoriteStockDto favoriteStockDto = FavoriteStockMapper.INSTANCE.FavoriteStockReqDtoToFavoriteStockDto(
+            favoriteStockReqDto);
+        if (favoriteStockRepository.findByStockIdAndMemberId(favoriteStockDto.getStockId(),
+            memberId).isPresent()) {
+            return "duplicated";
+        }
+        favoriteStockDto.setMember(memberRepository.findById(memberId)
+            .orElseThrow(() -> new ArithmeticException("잘못된 요청입니다.")));
+        favoriteStockRepository.save(FavoriteStockMapper.INSTANCE.FavoriteStockDtoToEntity(
+            favoriteStockDto));
+        return "success";
+    }
+
+    @Transactional
+    public String deleteFavoriteStock(FavoriteStockReqDto favoriteStockReqDto, Long memberId) {
+        FavoriteStock favoriteStock = favoriteStockRepository.findByStockIdAndMemberId(
+                favoriteStockReqDto.getStockId(), memberId)
+            .orElseThrow(() -> new ArithmeticException("지우려는 관심 종목이 없습니다."));
+        favoriteStockRepository.delete(favoriteStock);
+        return "success";
+    }
+
+    public List<FavoriteStockDto> findAllFavoriteStockByMemberId(Long memberId) {
+        List<FavoriteStockDto> favoriteStockDtoList = new ArrayList<>();
+        List<FavoriteStock> favoriteStockList = favoriteStockRepository.findByMemberId(memberId);
+        for (FavoriteStock favoriteStock : favoriteStockList) {
+            favoriteStockDtoList.add(
+                FavoriteStockMapper.INSTANCE.entityToFavoriteStockDto(favoriteStock));
+        }
+        return favoriteStockDtoList;
     }
 }
