@@ -59,6 +59,8 @@
 .statement {
   font-size: 11px;
   color: rgb(119, 119, 119);
+  margin-bottom: 15px;
+
 }
 
 .statement span {

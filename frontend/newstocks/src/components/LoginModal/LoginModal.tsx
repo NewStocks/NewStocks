@@ -45,9 +45,10 @@ export default function LoginModal({type}: Props) {
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader><Logo /></ModalHeader>
-          <ModalCloseButton colorScheme={"#4FE7B0;"}/>
+          {/* <ModalHeader><Logo /></ModalHeader> */}
+          {/* <ModalCloseButton colorScheme={"#4FE7B0;"}/> */}
           <ModalBody>
+            <div className={styles["logo"]}><Logo /></div>
             <LoginButtons />
           </ModalBody>
 
