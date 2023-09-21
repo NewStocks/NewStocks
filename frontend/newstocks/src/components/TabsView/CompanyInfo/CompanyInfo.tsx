@@ -42,7 +42,6 @@ export default function CompanyInfo() {
           // const date = new Date(res.data[0].publishTime).getTime()
           const stockData: StockItem = res.data;
           setStockData(stockData)
-          console.log(stockData)
         })
         .catch((err) => {
           console.log(err);

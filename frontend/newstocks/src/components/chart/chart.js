@@ -16,7 +16,6 @@ export default function ChartComponent() {
   const router = useRouter();
   const codeName = usePathname();
   const code = codeName.split('/').filter(Boolean)[0];
-  console.log(code)
   const tabname = useSearchParams();
   const tab = tabname?.get('tab')
   const chartContainerRef = useRef(null);
@@ -59,7 +58,6 @@ export default function ChartComponent() {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
-        console.log(res.data.name);
         const chartname = res.data.name
         setChartData((prevdata) => ({
           ...prevdata,
@@ -75,7 +73,6 @@ export default function ChartComponent() {
     const fetchData = () => {
       fetchChartData(code)
       .then((res) => {
-        console.log(res.data);
         // const code = res.data.name
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
@@ -139,7 +136,7 @@ export default function ChartComponent() {
           }
         });
         
-        console.log(Object.values(uniqueNewsData))
+        // console.log(Object.values(uniqueNewsData))
 
         function isWeekend(date) {
           const day = date.getDay(); 
