@@ -1,9 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import axios from 'axios';
 import Link from 'next/link'; 
 import styled from 'styled-components';
+
+import { fetchReviewNoteData } from '@/services/chart';
 
 type TabProps = {
   code: any;
@@ -21,10 +22,7 @@ export default function TabNotes({ code }: TabProps) {
 
   useEffect(() => {
     const fetchData = () => {
-      axios({
-        method: 'get',
-        url: `http://localhost:8200/review-note/find-all`,
-      })
+      fetchReviewNoteData()
         .then((res) => {
           const notecode: any[] = [];
           res.data.forEach((item: any) => {
