@@ -77,7 +77,7 @@ export default function ChartComponent() {
     const fetchData = () => {
       axios({
         method: "get",
-        url: `http://localhost:8200/stock/find-chart/${code}`,
+        url: `https://j9a210.p.ssafy.io/api/stock/find-chart/${code}`,
       })
       .then((res) => {
         console.log(res.data);
