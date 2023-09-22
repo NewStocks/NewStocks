@@ -17,11 +17,17 @@ export default function StockProfile({stockName, stockId, stockMarket, stockImag
     small: ["stock-img-box-small", "stock-name-small", "stock-info-small"]
   }
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = "/next.svg";
+  };
+  
+
   return (
     <>
     <div className={styles["stock-profile-wrapper"]}>
     <div className={`${styles["stock-img-box"]} ${styles[styleBySize[size][0]]}`}>
-      {stockImageUrl ? <img src={stockImageUrl} alt={`${stockName}-profile-img`} className={styles["stock-img"]} /> : ''}
+      {stockImageUrl ? <img src={stockImageUrl} alt={`${stockName}-profile-img`} onError={handleImageError} className={styles["stock-img"]} /> : ''}
     </div>
       <div className={styles["stock-info-wrapper"]}>
         <div className={styles[styleBySize[size][1]]}>{stockName}</div>
