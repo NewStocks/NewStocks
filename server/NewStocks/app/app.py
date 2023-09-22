@@ -208,13 +208,13 @@ def save_all_stock_info_data(start_date,end_date):
 
 
 #id를 기반으로 특정 종목의 차트 데이터를 저장하는 메서드
-def save_daily_chart_data(stock_id, start_date, end_date):
+def save_daily_chart_data(stock_id, start_date, end_date, conn, cursor):
     print("save chart")
     try:
         print(stock_id)
         # MySQL 연결
-        conn= connection_mysql()
-        cursor = conn.cursor()
+        # conn= connection_mysql()
+        # cursor = conn.cursor()
         stock_chart = stock.get_market_ohlcv_by_date(start_date, end_date, stock_id)
         # 데이터프레임을 MySQL 테이블에 저장
         for index, row in stock_chart.iterrows():
@@ -254,11 +254,6 @@ def save_daily_chart_data(stock_id, start_date, end_date):
     except Exception as e:
         print(e)
         return f"오류 발생: {str(e)}"
-    finally:
-        if cursor is not None:
-            cursor.close()  # cursor가 초기화되어 있을 때만 닫음
-        if conn is not None:
-            conn.close()
     return "success", 200
 
 #실제 스케줄러에 들어가는 특정일에 대한 정보만 저장하는 메서드
@@ -285,7 +280,7 @@ def save_all_chart_data(start_date,end_date):
             # 이미 데이터가 존재한다면 스킵
             if count > 0: continue
 
-            save_daily_chart_data(stock_id, start_date, end_date)
+            save_daily_chart_data(stock_id, start_date, end_date, conn, cursor)
             time.sleep(5)
     except Exception as e:
         print(e)
@@ -426,7 +421,7 @@ def save_all_chart_data_custom():
             if stock_id <= stock_save:
                 continue
 
-            save_daily_chart_data(stock_id, start_date, end_date)
+            save_daily_chart_data(stock_id, start_date, end_date, conn, cursor)
             time.sleep(5)  # Add a 2-second delay before the next iteration
     except Exception as e:
         return f"오류 발생: {str(e)}"
