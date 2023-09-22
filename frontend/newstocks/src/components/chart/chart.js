@@ -175,7 +175,7 @@ export default function ChartComponent() {
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
-        tooltipRef.current.style = `width: 150px; max-height: 300px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        tooltipRef.current.style = `width: 150px; max-height: 500px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.7)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
@@ -535,6 +535,7 @@ export default function ChartComponent() {
             >
             </TickerTape>
           </div>
+            
           {/* <div className='stockinfo'>현재가</div>
           <div className='stockinfo'>거래량</div>
           <div className='stockinfo'>국내증시</div>
@@ -545,6 +546,7 @@ export default function ChartComponent() {
         {chartData.valuechain ? (
         <div className='valuechain'>
           <div className='value' onClick={openValueChainModal} id='valueinfo'>밸류 체인</div>
+          <ValueInfoModal zIndex={1000}/>
           <div><LiaQuestionCircleSolid onClick={openValueInfoModal} id='valueinfo'/></div>
         </div>
       ) : null}
@@ -560,6 +562,7 @@ export default function ChartComponent() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }
