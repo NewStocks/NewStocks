@@ -2,10 +2,8 @@ from flask import Flask
 from bs4 import BeautifulSoup
 import pymysql
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
-import os
 import requests
-import time
+import time, os
 from concurrent.futures import ThreadPoolExecutor
 import re
 import hanja
@@ -17,7 +15,6 @@ import torch
 from collections import defaultdict
 
 app = Flask(__name__)
-load_dotenv()
 
 # MySQL 연결 설정
 db_config = {
@@ -26,6 +23,7 @@ db_config = {
     "password": os.getenv("DB_PWD"),
     "database": os.getenv("DB_NAME"),
 }
+
 
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
 one_day_ago = datetime.now() - timedelta(days=1)
@@ -351,4 +349,4 @@ def save_all_news():
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5432)

@@ -1,12 +1,10 @@
 from flask import Flask
 from bs4 import BeautifulSoup
-import pymysql
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
 import requests
 import time
-from concurrent.futures import ThreadPoolExecutor
 import re
 import hanja
 from sklearn.cluster import DBSCAN
