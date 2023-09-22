@@ -20,10 +20,7 @@ public class ScheduledTask {
     @Value("${INSERT_NEWS_URI}")
     private String INSERT_NEWS_URI;
 
-    @Value("${INSERT_VALUE_CHAIN_URI}")
-    private String INSERT_VALUE_CHAIN_URI;
-
-    //    @Scheduled(cron = "*/10 * * * * *") 10초마다 적용 예시
+//    @Scheduled(cron = "*/10 * * * * *") 10초마다 적용 예시
     @Scheduled(cron = "0 0 0 * * *")
     public void updateNewsList() {
         // 빈 요청 본문(body)
@@ -42,8 +39,6 @@ public class ScheduledTask {
         // POST 요청 보내기
         try {
             restTemplate.exchange(INSERT_NEWS_URI, HttpMethod.POST, requestEntity, String.class);
-            restTemplate.exchange(INSERT_VALUE_CHAIN_URI, HttpMethod.POST, requestEntity,
-                String.class);
         } catch (HttpStatusCodeException e) {
             e.printStackTrace();
         }
