@@ -60,6 +60,7 @@ export default function ChartComponent() {
       fetchStockInfo(code)
       .then((res) => {
         const chartname = res.data.name
+        console.log(res.data)
         setChartData((prevdata) => ({
           ...prevdata,
           name: chartname
