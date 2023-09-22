@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.member.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.dto.MemberUpdateDto;
@@ -51,6 +52,6 @@ public class MemberService {
 
     public Member findMemberById(Long userId) {
         return memberRepository.findByIdAndDeletedFalse(userId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 회원이 없습니다."));
     }
 }

@@ -1,5 +1,7 @@
 package com.ohgood.newstocks.notice.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
+import com.ohgood.newstocks.global.exception.exceptions.ForbiddenException;
 import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.MemberRepository;
@@ -76,7 +78,7 @@ public class NoticeService {
         Long memberId) {
         checkMemberAdmin(memberId, "update");
         Notice notice = noticeRepository.findById(id)
-            .orElseThrow(() -> new ArithmeticException("수정하려는 공지사항이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("수정하려는 공지사항이 없습니다."));
         notice.updateNotice(noticeUpdateReqDto);
         return getNoticeUpdateResDto(noticeUpdateReqDto, notice);
     }
@@ -111,7 +113,7 @@ public class NoticeService {
 
     public NoticeResDto findDetailNoticeById(Long id) {
         Notice notice = noticeRepository.findByIdAndDeletedFalse(id)
-            .orElseThrow(() -> new ArithmeticException("해당하는 공지사항이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 공지사항이 없습니다."));
         List<NoticeDto> noticeDtoList = new ArrayList<>();
         NoticeDto noticeDto = NoticeMapper.INSTANCE.entityToNoticeDto(notice);
         noticeDto.setNoticeImageDtoList(notice);
@@ -135,24 +137,24 @@ public class NoticeService {
 
     private void checkMemberAdmin(Long memberId, String type) {
         Member member = memberRepository.findByIdAndDeletedFalse(memberId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 회원이 없습니다."));
         if (!checkUserAdmin(member)) {
             switch (type) {
                 case "insert" -> {
                     log.debug("글을 입력할 권한이 없습니다.");
-                    throw new ArithmeticException("글을 입력할 권한이 없습니다.");
+                    throw new ForbiddenException("글을 입력할 권한이 없습니다.");
                 }
                 case "update" -> {
                     log.debug("글을 수정할 권한이 없습니다.");
-                    throw new ArithmeticException("글을 수정할 권한이 없습니다.");
+                    throw new ForbiddenException("글을 수정할 권한이 없습니다.");
                 }
                 case "delete" -> {
                     log.debug("글을 삭제할 권한이 없습니다.");
-                    throw new ArithmeticException("글을 삭제할 권한이 없습니다.");
+                    throw new ForbiddenException("글을 삭제할 권한이 없습니다.");
                 }
                 default -> {
                     log.debug("잘못된 요청입니다.");
-                    throw new ArithmeticException("잘못된 요청입니다.");
+                    throw new BadRequestException("잘못된 요청입니다.");
                 }
             }
         }
