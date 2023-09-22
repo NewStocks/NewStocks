@@ -27,7 +27,6 @@ public class ValueChain {
     private List<StockValueChain> stockValueChainList;
 
     @Builder
-
     public ValueChain(String id, @NotNull String valueChainName) {
         this.id = id;
         ValueChainName = valueChainName;
