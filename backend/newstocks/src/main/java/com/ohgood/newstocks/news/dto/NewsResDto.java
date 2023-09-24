@@ -23,14 +23,17 @@ public class NewsResDto {
 
     private SentimentType sentimentType;
 
+    private int duplicatedCount;
+
     @Builder
     public NewsResDto(String title, String stockId, String company, String url,
-        LocalDateTime publishTime, SentimentType sentimentType) {
+        LocalDateTime publishTime, SentimentType sentimentType, int duplicatedCount) {
         this.title = title;
         this.stockId = stockId;
         this.company = company;
         this.url = url;
         this.publishTime = publishTime;
         this.sentimentType = sentimentType;
+        this.duplicatedCount = duplicatedCount;
     }
 }
