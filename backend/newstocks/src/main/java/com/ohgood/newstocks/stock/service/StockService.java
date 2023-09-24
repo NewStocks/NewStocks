@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.stock.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
@@ -114,7 +115,7 @@ public class StockService {
 
     public StockResDto findStockInfoByStockId(String stockId) {
         Stock stock = stockRepository.findById(stockId)
-            .orElseThrow(() -> new ArithmeticException("관련 주식 정보가 존재하지 않습니다."));
+            .orElseThrow(() -> new BadRequestException("관련 주식 정보가 존재하지 않습니다."));
         return StockMapper.INSTANCE.entityToStockResDto(stock);
     }
 
@@ -136,10 +137,10 @@ public class StockService {
             favoriteStockReqDto);
         if (favoriteStockRepository.findByStockIdAndMemberId(favoriteStockDto.getStockId(),
             memberId).isPresent()) {
-            return "duplicated";
+            throw new BadRequestException("같은 종목을 중복해 추가할 수 없습니다.");
         }
         favoriteStockDto.setMember(memberRepository.findById(memberId)
-            .orElseThrow(() -> new ArithmeticException("잘못된 요청입니다.")));
+            .orElseThrow(() -> new BadRequestException("잘못된 요청입니다.")));
         favoriteStockRepository.save(FavoriteStockMapper.INSTANCE.FavoriteStockDtoToEntity(
             favoriteStockDto));
         return "success";
@@ -149,7 +150,7 @@ public class StockService {
     public String deleteFavoriteStock(FavoriteStockReqDto favoriteStockReqDto, Long memberId) {
         FavoriteStock favoriteStock = favoriteStockRepository.findByStockIdAndMemberId(
                 favoriteStockReqDto.getStockId(), memberId)
-            .orElseThrow(() -> new ArithmeticException("지우려는 관심 종목이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("지우려는 관심 종목이 없습니다."));
         favoriteStockRepository.delete(favoriteStock);
         return "success";
     }

@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ohgood.newstocks.global.entity.CommonUtils;
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,14 +41,14 @@ public class AwsS3Service {
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             log.error("Can not upload image, ", e);
-            throw new ArithmeticException("cannot upload image");
+            throw new BadRequestException("cannot upload image");
         }
         return amazonS3Client.getUrl(path, fileName).toString();
     }
 
     private void validateFileExists(MultipartFile multipartFile) {
         if(multipartFile.isEmpty()) {
-            throw new ArithmeticException("file is empty");
+            throw new BadRequestException("file is empty");
         }
     }
 }

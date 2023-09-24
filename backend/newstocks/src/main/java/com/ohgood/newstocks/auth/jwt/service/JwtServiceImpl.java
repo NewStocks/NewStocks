@@ -1,6 +1,6 @@
 package com.ohgood.newstocks.auth.jwt.service;
 
-import com.ohgood.newstocks.auth.jwt.exception.UnAuthorizedException;
+import com.ohgood.newstocks.global.exception.exceptions.UnAuthorizedException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import io.jsonwebtoken.Claims;

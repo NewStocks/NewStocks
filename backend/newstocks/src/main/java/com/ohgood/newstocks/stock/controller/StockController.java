@@ -64,4 +64,7 @@ public class StockController {
         return new ResponseEntity<>(stockService.deleteFavoriteStock(favoriteStockReqDto, id),
             HttpStatus.OK);
     }
+
+//    @GetMapping("/find-all-value-chain-stock")
+//    public ResponseEntity<List<ValueChainDto>>
 }
