@@ -190,7 +190,7 @@ public class StockService {
     }
 
     public String saveValueChain(String stockId, String valueChainId, String valueChainName) {
-        System.out.println(stockId+" "+valueChainId+" "+valueChainName);
+        System.out.println(stockId + " " + valueChainId + " " + valueChainName);
         try {
             ValueChain valueChain = valueChainRepository.save(
                 ValueChain.builder().id(valueChainId)
