@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import styles from './communitypage.module.css';
 
 import LandingView from '@/components/LandingView/LandingView'
-import LandingFooter from '@/components/LandingFooter/LandingFooter'
+import LandingFooter from '@/components/LandingView/LandingFooter/LandingFooter'
 import Button from '@/components/Button/Button'
 
 export default function CommunityPage() {

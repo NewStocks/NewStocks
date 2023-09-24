@@ -7,7 +7,7 @@ import Header from '@/components/Header/Header'
 import CommunityNav from '@/components/CommunityNav/CommunityNav'
 import Footer from '@/components/Footer/Footer'
 
-import { Provider } from '@/utils/ChakraProvider'
+import { Provider } from '@/util/ChakraProvider'
 
 const sans = Open_Sans({ subsets: ['latin']});
 
