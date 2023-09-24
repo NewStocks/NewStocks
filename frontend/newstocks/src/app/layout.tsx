@@ -2,6 +2,7 @@
 import './globals.css';
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google';
+import Script from 'next/script';
 
 const sans = Open_Sans({ subsets: ['latin']});
 
@@ -28,6 +29,21 @@ export default function RootLayout({
           <Header />
         </Provider>
           {children}
+          <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-0JQQ2BY563"
+          strategy="beforeInteractive"
+        />
+
+        <Script
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-0JQQ2BY563');
+          `}
+        </Script>
       </body>
     </html>
   )
