@@ -1,5 +1,5 @@
 .main {
-  padding: 4rem 5rem;
+  padding: 4rem;
   min-height: 100vh;
 }
 
@@ -35,7 +35,7 @@
 .cards-container {
   width: 103.3%;
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: start;
   flex-wrap: wrap;
   /* flex-direction: column; */
   margin: 35px 0 0 0;

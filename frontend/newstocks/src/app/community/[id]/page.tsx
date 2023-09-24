@@ -1,4 +1,9 @@
+'use client'
 import styles from "./detailpage.module.css";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
+import { postDetail } from '@/services/posts'
 
 import Button from "@/components/Button/Button";
 import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
@@ -20,7 +25,26 @@ type Props = {
   };
 };
 
-export default function DetailnotePage({ params }: Props) {
+export default function DetailnotePage({ params: {id} }: Props) {
+  const [member, setMember] = useState({}) 
+  const [comments, setComments] = useState([])
+  const [stock, setStock] = useState({})
+  const [post, setPost] = useState([])
+  const [imageList, setImageList] = useState([])
+
+  useEffect(() => {
+    postDetail(id)
+    .then(res => {
+      console.log(res.data);
+      setMember(res.data.memberDto)
+      console.log(res.data.memberDto.profileImage)
+      setComments(res.data.replyResDtoList)
+      console.log(res.data.replyResDtoList)
+      setStock(res.data.stockDto)
+      setPost(res.data)
+    })
+  }, [])
+
   return (
     <div className={styles.main}>
       <div className={styles["detail-back"]}>
@@ -34,8 +58,14 @@ export default function DetailnotePage({ params }: Props) {
         <div className={styles["detail-header"]}>
           <div className={styles["header-left"]}>
             <div className={styles["profile"]}>
-              <div className={styles["profile-img"]}></div>
-              <div className={styles["profile-name"]}>Anima Ag.</div>
+              <Image
+                src={member.profileImage}
+                alt="image preview"
+                width="25"
+                height="25"
+                className={styles["profile-img"]}
+              />
+              <div className={styles["profile-name"]}>{member.name}</div>
             </div>
             <div className={styles["time"]}>23.08.30 11:41</div>
           </div>
@@ -47,16 +77,18 @@ export default function DetailnotePage({ params }: Props) {
         </div>
 
         <div className={styles["detail-subheader"]}>
-          <div className={styles["title"]}>여기가 제목 영역입니다</div>
+          <div className={styles["title"]}>{post.title}</div>
 
-          <div className={styles["sub-Buttons"]}>
+          {post.hasAuthority && 
+          (<div className={styles["sub-Buttons"]}>
             <div><Button text="수정하기" highlight={true} kindof={null}/></div>
             <div><Button text="삭제하기" highlight={true} kindof={null}/></div>
-          </div>
+          </div>)
+          }
         </div>
 
         <div className={styles["stock-box"]}>
-          <StockInfo />
+          <StockInfo stock={stock}/>
         </div>
 
         <div className={styles["tag-box"]}>
@@ -67,8 +99,7 @@ export default function DetailnotePage({ params }: Props) {
         <div className={styles["content-box"]}>
           <div className={styles["img"]}></div>
           <div className={styles["content"]}>
-            카카오 국민주라더니 명성을 뒤로하고 맥없이 흔들리네. 주가 놀라워서
-            말이 나오지 않는 상황.{" "}
+            {post.content}
           </div>
         </div>
       </div>
@@ -88,11 +119,11 @@ export default function DetailnotePage({ params }: Props) {
       </div>
 
       <div className={styles["commentinput-container"]}>
-        <CommentInput type="comment" func={() => {}}/>
+        <CommentInput type="comment"/>
       </div>
 
       <div className={styles["commentview-container"]}>
-        <AllCommentsView />
+        <AllCommentsView comments={comments}/>
       </div>
     </div>
   );
