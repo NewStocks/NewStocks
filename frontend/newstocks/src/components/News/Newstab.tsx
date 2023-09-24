@@ -3,6 +3,7 @@ import { usePathname,useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import styles from './Newstab.module.css'
 import { useRouter } from 'next/navigation';
+import { LiaSortDownSolid } from "react-icons/lia";
 
 import { fetchNewsData, fetchValueNewsData } from '@/services/chart';
 
