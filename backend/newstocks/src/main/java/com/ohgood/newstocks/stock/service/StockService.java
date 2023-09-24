@@ -193,7 +193,7 @@ public class StockService {
         System.out.println(stockId+" "+valueChainId+" "+valueChainName);
         try {
             ValueChain valueChain = valueChainRepository.save(
-                ValueChain.builder().id(valueChainId).stockId(stockId)
+                ValueChain.builder().id(valueChainId)
                     .valueChainName(valueChainName).build());
             stockValueChainRepository.save(StockValueChain.builder().stock(
                     stockRepository.findById(stockId)

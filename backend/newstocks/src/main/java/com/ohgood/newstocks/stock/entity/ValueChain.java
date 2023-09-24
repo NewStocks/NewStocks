@@ -19,8 +19,6 @@ public class ValueChain {
     @Id
     private String id;
 
-    @NotNull String stockId;
-
     @NotNull
     private String valueChainName;
 
@@ -29,9 +27,8 @@ public class ValueChain {
     private List<StockValueChain> stockValueChainList;
 
     @Builder
-    public ValueChain(String id, String stockId, String valueChainName) {
+    public ValueChain(String id, String valueChainName) {
         this.id = id;
-        this.stockId = stockId;
         this.valueChainName = valueChainName;
         this.stockValueChainList = new ArrayList<>();
     }
