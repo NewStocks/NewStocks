@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pymysql
 from datetime import datetime, timedelta
 import requests
-import time, os
+import time
 from concurrent.futures import ThreadPoolExecutor
 import re
 import hanja
@@ -18,16 +18,14 @@ app = Flask(__name__)
 
 # MySQL 연결 설정
 db_config = {
-    "host": os.getenv("DB_URL"),
-    "user": os.getenv("DB_ID"),
-    "password": os.getenv("DB_PWD"),
-    "database": os.getenv("DB_NAME"),
+    "host": '',
+    "user": '',
+    "password": '',
+    "database": '',
 }
-
 
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
 one_day_ago = datetime.now() - timedelta(days=1)
-
 start_time, end, process_count, is_all = 0, 0, 0, False
 urls, infos = [], []
 url_set = set()
@@ -192,32 +190,39 @@ def sentiment_analysis(texts, lang="ko"):
 
     return sentiment_dictionary
 
+
 def cluster_title():
     # 군집화
     titles = []
-    all_titles = []
     clustering = []
-    prev_date = infos[0][1][:7]  # 첫 뉴스의 발행 연도, 월
-    for _, date, title, _, _ in infos:
-        cur_date = date[:7]
-        if prev_date != cur_date:
-            clustering.extend(news_clustering(titles, len(clustering)))
+    prev_date = infos[0][1][:11]  # 첫 뉴스의 발행 연도, 월, 일
+    prev_id = infos[0][4]
+    for _, date, title, _, stock_id in infos:
+        cur_date = date[:11]
+        if prev_date != cur_date or prev_id != stock_id:
+            clustering.extend(news_clustering(titles, len(clustering) + 1))
             prev_date = cur_date
+            prev_id = stock_id
             titles = []
 
         titles.append(title)
-        all_titles.append(title)
 
-    clustering.extend(news_clustering(titles, len(clustering)))
+    clustering.extend(news_clustering(titles, len(clustering) + 1))
 
     title_set = set()
     num_set = set()
-    for title, r in zip(all_titles, clustering):
+    title_duplicate_map = defaultdict(int)
+    title_num_map = defaultdict(str)
+    for info, r in zip(infos, clustering):
+        title, stock_id = info[2], info[4]
         if r not in num_set:
             title_set.add(title)
             num_set.add(r)
+            title_num_map[r] = title + stock_id
 
-    return title_set
+        title_duplicate_map[title_num_map[r]] += 1
+
+    return title_set, title_duplicate_map
 
 
 @app.route("/save-news", methods=["POST"])
@@ -254,7 +259,7 @@ def save_news():
         print("뉴스 개수: ", len(infos))
         print("군집화 직전까지 걸린 시간: ", time.time() - start_time)
 
-        title_set = cluster_title()  # 군집화한 뉴스 제목
+        title_set, title_duplicate_map = cluster_title()  # 군집화한 뉴스 제목
         sentiment_dictionary = sentiment_analysis(title_set, lang="ko")
 
         print("군집화한 뉴스 개수: ", len(title_set))
@@ -262,15 +267,17 @@ def save_news():
         # 데이터프레임을 MySQL 테이블에 저장
         check_duplicate = set()
         for company, publish_time, title, url, stock_id in infos:
-            if title not in title_set or title in check_duplicate:
+            if title not in title_set or title + stock_id in check_duplicate:
                 continue
 
-            check_duplicate.add(title)
+            check_duplicate.add(title + stock_id)
             insert_query = """
-            INSERT INTO news (company, publish_time, title, url, stock_id, sentiment_type)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO news (company, publish_time, title, url, stock_id, sentiment_type, duplicated_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(insert_query, (company, publish_time, title, url, stock_id, sentiment_dictionary[title]))
+            cursor.execute(insert_query, (
+                company, publish_time, title, url, stock_id, sentiment_dictionary[title],
+                title_duplicate_map[title + stock_id]))
             conn.commit()
 
         print("실행 시간: ", time.time() - start_time)
@@ -317,28 +324,32 @@ def save_all_news():
         print("뉴스 개수: ", len(infos))
         print("군집화 직전까지 걸린 시간: ", time.time() - start_time)
 
-        title_set = cluster_title()  # 군집화한 뉴스 제목
+        title_set, title_duplicate_map = cluster_title()  # 군집화한 뉴스 제목
         sentiment_dictionary = sentiment_analysis(title_set, lang="ko")
 
         print("군집화한 뉴스 개수: ", len(title_set))
 
-        # 데이터프레임을 MySQL 테이블에 저장
         cursor.execute("DELETE FROM news")
+        conn.commit()
+
+        # 데이터프레임을 MySQL 테이블에 저장
         check_duplicate = set()
         for company, publish_time, title, url, stock_id in infos:
-            if title not in title_set or title in check_duplicate:
+            if title not in title_set or title + stock_id in check_duplicate:
                 continue
 
-            check_duplicate.add(title)
+            check_duplicate.add(title + stock_id)
             insert_query = """
-            INSERT INTO news (company, publish_time, title, url, stock_id, sentiment_type)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO news (company, publish_time, title, url, stock_id, sentiment_type, duplicated_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(insert_query, (company, publish_time, title, url, stock_id, sentiment_dictionary[title]))
+            cursor.execute(insert_query, (
+                company, publish_time, title, url, stock_id, sentiment_dictionary[title],
+                title_duplicate_map[title + stock_id]))
             conn.commit()
 
         print("실행 시간: ", time.time() - start_time)
-        return "모든 뉴스가 저장되었습니다."
+        return "어제의 뉴스가 저장되었습니다."
 
     except Exception as e:
         return f"오류 발생: {str(e)}"
