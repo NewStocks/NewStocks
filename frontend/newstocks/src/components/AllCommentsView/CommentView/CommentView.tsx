@@ -10,7 +10,7 @@ import { BiCommentDots } from 'react-icons/bi'
 import CommentInput from '@/components/CommentInput/CommentInput'
 
 type Props = {
-  comment: Comment
+  comment?: Comment
 }
 
 export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }} : Props) {

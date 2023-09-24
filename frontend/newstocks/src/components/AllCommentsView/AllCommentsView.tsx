@@ -7,7 +7,7 @@ import CommentView from './CommentView/CommentView'
 import CoCommentView from './CoCommentView/CoCommentView'
 
 type Props = {
-  comments: Comment[]
+  comments?: Comment[]
 }
 
 export default function AllCommentsView({comments}: Props) {
@@ -15,7 +15,7 @@ export default function AllCommentsView({comments}: Props) {
 
   return (
     <div className={styles["all-comments-container"]}>
-      <p className={styles["comment-title"]}>댓글  {length}</p>
+      <p className={styles["comment-title"]}>댓글 {length}</p>
       {comments.map(comment => <CommentView comment={comment}/>)}
       <CoCommentView />
     </div>

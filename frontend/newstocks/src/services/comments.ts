@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:8200'; // 기본 URL
+
 export type Member = {
   id: string
   name: string
