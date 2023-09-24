@@ -3,7 +3,7 @@ import styles from "./detailpage.module.css";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { postDetail } from '@/services/posts'
+import { getPostDetail } from '@/services/posts'
 
 import Button from "@/components/Button/Button";
 import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
@@ -33,7 +33,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [imageList, setImageList] = useState([])
 
   useEffect(() => {
-    postDetail(id)
+    getPostDetail(id)
     .then(res => {
       console.log(res.data);
       setMember(res.data.memberDto)
