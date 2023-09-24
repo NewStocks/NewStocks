@@ -69,10 +69,19 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 5px 10px; 
+  padding: 5px 10px;
+  transition-duration: 250ms; 
 }
 
 .like-content-stock:hover {
   background-color: #646A89;
 }
 
+#delete-button {
+  transition-duration: 250ms;
+}
+
+#delete-button:hover {
+  color: #4FE7B0;
+
+}
