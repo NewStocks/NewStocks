@@ -52,8 +52,14 @@ public class ReviewNoteController {
         return new ResponseEntity<>(reviewNoteService.findMyReviewNoteList(5L), HttpStatus.OK);
     }
 
+    @GetMapping("/find/{memberId}")
+    public ResponseEntity<List<ReviewNoteResDto>> findOtherReviewNoteList(@PathVariable Long memberId) {
+        // Authentication 처리 전 임시 테스트
+        return new ResponseEntity<>(reviewNoteService.findOtherReviewNoteList(memberId, 5L), HttpStatus.OK);
+    }
+
     @GetMapping("/find-all")
-    public ResponseEntity<List<ReviewNoteResDto>> findReviewNoteList() {
+    public ResponseEntity<List<ReviewNoteResDto>> findAllReviewNoteList() {
         // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
     }
