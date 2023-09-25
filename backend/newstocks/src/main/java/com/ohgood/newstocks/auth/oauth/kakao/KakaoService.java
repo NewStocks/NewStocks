@@ -1,8 +1,13 @@
 package com.ohgood.newstocks.auth.oauth.kakao;
 
+import com.ohgood.newstocks.member.dto.MemberDto;
+import com.ohgood.newstocks.member.dto.MemberLoginDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.entity.SocialType;
+import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.member.repository.MemberRepository;
+import com.ohgood.newstocks.stock.entity.FavoriteStock;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,5 +86,12 @@ public class KakaoService {
             .socialType(SocialType.KAKAO)
             .socialId(kakaoUserDto.getAuthenticationCode())
             .build());
+    }
+
+    public MemberLoginDto getMemberLoginDto(Member member) {
+        MemberDto memberDto = MemberMapper.INSTANCE.entityToMemberDto(member);
+        List<FavoriteStock> favoriteStockList = member.getFavoriteStockList();
+        return MemberLoginDto.builder().memberDto(memberDto).favoriteStockList(favoriteStockList)
+            .build();
     }
 }

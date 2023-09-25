@@ -12,6 +12,4 @@ public interface MemberMapper {
     MemberMapper INSTANCE = Mappers.getMapper(MemberMapper.class);
 
     MemberDto entityToMemberDto(Member member);
-
-    MemberLoginDto memberDtoToMemberLoginDto(MemberDto memberDto);
 }
