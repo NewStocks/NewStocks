@@ -11,17 +11,25 @@ import CommentInput from '@/components/CommentInput/CommentInput'
 
 type Props = {
   comment: Comment
+  postId: string
+  UpdateCommentApi: (postId: string, comment: string, commentId: string) => void
 }
 
-export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }} : Props) {
+export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }, postId, UpdateCommentApi} : Props) {
   const [cocommentToggle, setcocommentToggle] = useState(false);
+  const [updateToggle, setUpdateToggle] = useState(false);
   function handleToggle() {
     setcocommentToggle((prev) => !prev);
   }
 
+  function handleUpdateToggle() {
+    setUpdateToggle((prev) => !prev)
+  }
+ 
   return (
     <>
-    <div className={styles["comment-container"]}>
+    {!updateToggle ?
+    (<div className={styles["comment-container"]}>
 
       <div className={styles["profile"]}>
         <Image
@@ -46,16 +54,18 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
         </div>
         {hasAuthority && (
         <div>
-          <div>✏️수정하기</div>
+          <div onClick={() => setUpdateToggle((prev) => !prev)}>✏️수정하기</div>
           <div>🗑️삭제하기</div>
         </div>
         )}
       </div>
 
-    </div>
+    </div>)
+     : (<CommentInput id={id} postId={postId} type="update" UpdateCommentApi={UpdateCommentApi} handleUpdateToggle={handleUpdateToggle} content={content}/>)
+    }
     {cocommentToggle && <div className={styles["cocomment-box"]}>
       <hr/>
-      <div className={styles["cocomment-input"]}><CommentInput id={id} type='cocomment' handleToggle={handleToggle}/></div>
+      <div className={styles["cocomment-input"]}><CommentInput id={id} type='cocomment' handleToggle={handleToggle} content={content}/></div>
     </div>}
     </>
   );

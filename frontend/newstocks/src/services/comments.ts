@@ -34,12 +34,12 @@ export async function createComment(id: string, content: string){
 }
 
 // 댓글 수정
-export async function updateComment(id: string, content: string) {
+export async function updateComment(PostId: string, content: string, commentId: string) {
   return await axios({
   method: 'patch',
-  url: `${BASE_URL}/review-note/${id}/reply`,
+  url: `${BASE_URL}/review-note/${PostId}/reply/${commentId}`,
   data: { content }
-  }).then((res) => res)
+  })
 }
 
 // 댓글 삭제 -> 확인 필요

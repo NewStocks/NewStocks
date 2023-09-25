@@ -4,9 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { getPostDetail } from '@/services/posts'
-import { createComment } from '@/services/comments'
-import { getComments } from '@/services/comments'
-import { Comment } from '@/services/comments'
+import { createComment, getComments, Comment, updateComment } from '@/services/comments'
 
 import Button from "@/components/Button/Button";
 import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
@@ -63,10 +61,14 @@ export default function DetailnotePage({ params: {id} }: Props) {
     })
   }, [])
 
-  const handleComment = (id: string, comment: string) => {
-    createComment(id, comment)
-    .then(res => console.log('여기로 넘어오나?', res))
-    .then(() => getComments(id).then((res) => setComments(res.data)))
+  // 댓글 생성 관리
+  const CreateCommentApi = (id: string, comment: string) => {
+    createComment(id, comment).then(() => getComments(id).then((res) => setComments(res.data)))
+  }
+
+   // 댓글 수정 관리
+   const UpdateCommentApi = (postId: string, comment: string, commentId: string) => {
+    updateComment(postId, comment, commentId).then(() => getComments(postId).then((res) => setComments(res.data)))
   }
 
   return (
@@ -143,11 +145,11 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentinput-container"]}>
-        <CommentInput id={id} type="comment" handleComment={handleComment}/>
+        <CommentInput id={id} type="comment" CreateCommentApi={CreateCommentApi}/>
       </div>
 
       <div className={styles["commentview-container"]}>
-        {comments && <AllCommentsView comments={comments}/>}
+        {comments && <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi}/>}
       </div>
     </div>
   );
