@@ -183,6 +183,19 @@ public class ReviewNoteService {
         List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
             .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
         reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
+        reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
+        return reviewNoteResDtoList;
+    }
+
+    public List<ReviewNoteResDto> findOtherReviewNoteList(Long findUserId, Long userId) {
+        Member member = findMemberById(userId);
+        Member findMember = findMemberById(findUserId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(
+            findMember);
+        List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
+            .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
+        reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
+        reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
         return reviewNoteResDtoList;
     }
 
@@ -222,7 +235,6 @@ public class ReviewNoteService {
         member.getReviewNoteScrapList().add(reviewNoteScrap);
         reviewNote.getReviewNoteScrapList().add(reviewNoteScrap);
     }
-
 
     // -- 내부 메서드 코드 --
 
