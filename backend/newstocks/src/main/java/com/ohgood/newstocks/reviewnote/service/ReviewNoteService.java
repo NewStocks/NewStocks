@@ -193,7 +193,8 @@ public class ReviewNoteService {
         List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
             .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
         reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
-        reviewNoteResDtoList.forEach(reviewNoteResDto -> checkAuthorityAndLikeAndScrap(member, reviewNoteResDto));
+        reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
+//        reviewNoteResDtoList.forEach(reviewNoteResDto -> checkAuthorityAndLikeAndScrap(member, reviewNoteResDto));
         return reviewNoteResDtoList;
     }
 
@@ -324,7 +325,7 @@ public class ReviewNoteService {
             .isPresent();
         Boolean isScraped = reviewNoteScrapRepository.findByReviewNoteAndMember(reviewNote, member)
             .isPresent();
-        reviewNoteResDto.checkMember(hasAuthority, isLiked, isScraped);
+//        reviewNoteResDto.checkMember(hasAuthority, isLiked, isScraped);
     }
 
     // -- 예외 처리용 코드 --

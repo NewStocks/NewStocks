@@ -80,11 +80,11 @@ public class ReviewNoteResDto {
                 .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto).toList();
         }
     }
-
-    public void checkMember(Boolean hasAuthority, Boolean isLiked, Boolean isScrapped) {
-        this.hasAuthority = hasAuthority;
-        this.isLiked = isLiked;
-        this.isScrapped = isScrapped;
+//    public void checkMember(Boolean hasAuthority, Boolean isLiked, Boolean isScrapped) {this.hasAuthority = hasAuthority;
+    public void checkMember(Member member) {
+        this.hasAuthority = this.getMember().equals(member);
+        this.isLiked = false;
+        this.isScrapped = false;
     }
 
     public void addReply(List<ReplyResDto> replyResDtoList) {
