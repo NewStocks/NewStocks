@@ -30,6 +30,7 @@ import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteScrapRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.repository.StockRepository;
+import java.util.ArrayList;
 import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -94,8 +95,7 @@ public class ReviewNoteService {
         reviewNoteResDto.addDetailDtos();
         log.info("오답노트의 멤버 " + reviewNote.getMember());
 
-        reviewNoteResDto.checkMember(member);
-
+        checkAuthorityAndLikeAndScrap(member, reviewNote, reviewNoteResDto);
         log.info("저장 완료 " + ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(reviewNote));
         return reviewNoteResDto;
     }
@@ -113,7 +113,7 @@ public class ReviewNoteService {
             reviewNote);
         reviewNoteResDto.addDetailDtos();
 
-        reviewNoteResDto.checkMember(member);
+        checkAuthorityAndLikeAndScrap(member, reviewNote, reviewNoteResDto);
         reviewNoteResDto.addReply(replyService.findReply(reviewNoteId, userId));
         return reviewNoteResDto;
     }
@@ -163,7 +163,7 @@ public class ReviewNoteService {
         // TODO Member, Stock -> res 추가 필요
         reviewNoteResDto.addDetailDtos();
 
-        reviewNoteResDto.checkMember(member);
+        checkAuthorityAndLikeAndScrap(member, reviewNote, reviewNoteResDto);
         reviewNoteResDto.addReply(replyService.findReply(reviewNote.getId(), userId));
 
         return reviewNoteResDto;
@@ -180,21 +180,22 @@ public class ReviewNoteService {
     public List<ReviewNoteResDto> findMyReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
         List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(member);
-        List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
-            .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
-        reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
-        return reviewNoteResDtoList;
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
+    }
+
+    public List<ReviewNoteResDto> findOtherReviewNoteList(Long findUserId, Long userId) {
+        Member member = findMemberById(userId);
+        Member findMember = findMemberById(findUserId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(
+            findMember);
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
     public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
         List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
             member);
-        List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
-            .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
-        reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
-        reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
-        return reviewNoteResDtoList;
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
     @Transactional
@@ -208,6 +209,20 @@ public class ReviewNoteService {
             ReviewNoteLike.builder().reviewNote(reviewNote).member(member).build());
         member.getReviewNoteLikeList().add(reviewNoteLike);
         reviewNote.getReviewNoteLikeList().add(reviewNoteLike);
+        reviewNote.increaseLikeCount();
+    }
+
+    @Transactional
+    public void deleteLikeReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        ReviewNoteLike reviewNoteLike = reviewNoteLikeRepository.findByReviewNoteAndMember(
+                reviewNote, member)
+            .orElseThrow(() -> new ArithmeticException("좋아요 하지 않은 오답노트입니다."));
+        member.getReviewNoteLikeList().remove(reviewNoteLike);
+        reviewNote.getReviewNoteLikeList().remove(reviewNoteLike);
+        reviewNote.decreaseLikeCount();
+        reviewNoteLikeRepository.delete(reviewNoteLike);
     }
 
     @Transactional
@@ -221,8 +236,22 @@ public class ReviewNoteService {
             ReviewNoteScrap.builder().reviewNote(reviewNote).member(member).build());
         member.getReviewNoteScrapList().add(reviewNoteScrap);
         reviewNote.getReviewNoteScrapList().add(reviewNoteScrap);
+        reviewNote.increaseScrapCount();
     }
 
+    @Transactional
+    public void deleteScrapReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        ReviewNoteScrap reviewNoteScrap = reviewNoteScrapRepository.findByReviewNoteAndMember(
+                reviewNote, member)
+            .orElseThrow(() -> new ArithmeticException("스크랩 하지 않은 오답노트입니다."));
+
+        member.getReviewNoteScrapList().remove(reviewNoteScrap);
+        reviewNote.getReviewNoteScrapList().remove(reviewNoteScrap);
+        reviewNote.decreaseScrapCount();
+        reviewNoteScrapRepository.delete(reviewNoteScrap);
+    }
 
     // -- 내부 메서드 코드 --
 
@@ -290,6 +319,29 @@ public class ReviewNoteService {
         }
     }
 
+    private void checkAuthorityAndLikeAndScrap(Member member, ReviewNote reviewNote,
+        ReviewNoteResDto reviewNoteResDto) {
+        Boolean hasAuthority = reviewNote.getMember().equals(member);
+        Boolean isLiked = reviewNoteLikeRepository.findByReviewNoteAndMember(reviewNote, member)
+            .isPresent();
+        Boolean isScraped = reviewNoteScrapRepository.findByReviewNoteAndMember(reviewNote, member)
+            .isPresent();
+        reviewNoteResDto.checkMember(hasAuthority, isLiked, isScraped);
+    }
+
+    private List<ReviewNoteResDto> reviewNoteListToReviewNoteResDtoList(Member member, List<ReviewNote> reviewNoteList) {
+        // Like Scrap 체크할 때 reviewNote 객체 필요해서 stream 제거
+        List<ReviewNoteResDto> reviewNoteResDtoList = new ArrayList<>();
+        for (ReviewNote reviewNote : reviewNoteList) {
+            ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
+                reviewNote);
+            checkAuthorityAndLikeAndScrap(member, reviewNote, reviewNoteResDto);
+            reviewNoteResDto.addDetailDtos();
+            reviewNoteResDtoList.add(reviewNoteResDto);
+        }
+        return reviewNoteResDtoList;
+    }
+
     // -- 예외 처리용 코드 --
 
     public ReviewNote findReviewNoteById(Long reviewNoteId) {
@@ -311,5 +363,4 @@ public class ReviewNoteService {
         return newsRepository.findById(newsId)
             .orElseThrow(() -> new BadRequestException("해당하는 뉴스가 없습니다."));
     }
-
 }

@@ -52,8 +52,14 @@ public class ReviewNoteController {
         return new ResponseEntity<>(reviewNoteService.findMyReviewNoteList(5L), HttpStatus.OK);
     }
 
+    @GetMapping("/find/{memberId}")
+    public ResponseEntity<List<ReviewNoteResDto>> findOtherReviewNoteList(@PathVariable Long memberId) {
+        // Authentication 처리 전 임시 테스트
+        return new ResponseEntity<>(reviewNoteService.findOtherReviewNoteList(memberId, 5L), HttpStatus.OK);
+    }
+
     @GetMapping("/find-all")
-    public ResponseEntity<List<ReviewNoteResDto>> findReviewNoteList() {
+    public ResponseEntity<List<ReviewNoteResDto>> findAllReviewNoteList() {
         // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
     }
@@ -65,10 +71,24 @@ public class ReviewNoteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{reviewNoteId}/like")
+    public ResponseEntity<Void> deleteLikeReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.deleteLikeReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/{reviewNoteId}/scrap")
     public ResponseEntity<Void> scrapReviewNote(@PathVariable Long reviewNoteId) {
         // Authentication 처리 전 임시 테스트
         reviewNoteService.scrapReviewNote(reviewNoteId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{reviewNoteId}/scrap")
+    public ResponseEntity<Void> deleteScrapReviewNote(@PathVariable Long reviewNoteId) {
+        // Authentication 처리 전 임시 테스트
+        reviewNoteService.deleteScrapReviewNote(reviewNoteId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

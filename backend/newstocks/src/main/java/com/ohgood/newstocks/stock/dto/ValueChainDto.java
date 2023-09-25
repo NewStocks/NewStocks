@@ -9,6 +9,7 @@ import lombok.Data;
 public class ValueChainDto {
 
     private String id;
-    private String ValueChainName;
+    private String stockId;
+    private String valueChainName;
     private List<StockValueChain> stockValueChainList;
 }

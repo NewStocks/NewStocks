@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.member.service;
 
+import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.member.dto.MemberDto;
@@ -46,6 +47,7 @@ public class MemberService {
     @Transactional
     public void deleteMember(Long memberId) {
         Member member = findMemberById(memberId);
+        member.getReviewNoteList().forEach(BaseEntity::delete);
         member.delete();
         memberRepository.save(member);
     }

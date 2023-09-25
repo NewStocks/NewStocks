@@ -32,6 +32,9 @@ public class ReviewNoteResDto {
     private Integer sellPrice;
     private Integer sellQuantity;
     private Integer buyQuantity;
+    private int scrapCount;
+    private int likeCount;
+    private int replyCount;
     private String content;
     private LocalDateTime buyDate;
     private LocalDateTime sellDate;
@@ -77,13 +80,10 @@ public class ReviewNoteResDto {
                 .map(ReviewNoteLinkMapper.INSTANCE::entityToReviewNoteLinkDto).toList();
         }
     }
-
-    public void checkMember(Member member) {
-        this.hasAuthority = this.getMember().equals(member);
-
-        // TODO 추후 변경 필요
-        this.isLiked = false;
-        this.isScrapped = false;
+    public void checkMember(Boolean hasAuthority, Boolean isLiked, Boolean isScrapped) {
+        this.hasAuthority = hasAuthority;
+        this.isLiked = isLiked;
+        this.isScrapped = isScrapped;
     }
 
     public void addReply(List<ReplyResDto> replyResDtoList) {

@@ -20,16 +20,16 @@ public class ValueChain {
     private String id;
 
     @NotNull
-    private String ValueChainName;
+    private String valueChainName;
 
     @OneToMany(mappedBy = "valueChain")
     @Fetch(FetchMode.JOIN)
     private List<StockValueChain> stockValueChainList;
 
     @Builder
-    public ValueChain(String id, @NotNull String valueChainName) {
+    public ValueChain(String id, String valueChainName) {
         this.id = id;
-        ValueChainName = valueChainName;
+        this.valueChainName = valueChainName;
         this.stockValueChainList = new ArrayList<>();
     }
 }

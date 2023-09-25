@@ -37,6 +37,7 @@ public class ReplyService {
 
         Reply reply = replyRepository.save(ReplyMapper.INSTANCE.replyResDtoToEntity(replyResDto));
         reply.getReviewNote().getReplyList().add(reply);
+        reviewNote.increaseReplyCount();
 
         replyResDto = ReplyMapper.INSTANCE.entityToReplyResDto(reply);
         replyResDto.addDetailDtos();
@@ -68,6 +69,9 @@ public class ReplyService {
     @Transactional
     public void deleteReply(Long replyId, Long userId) {
         Reply reply = findReplyById(replyId);
+        ReviewNote reviewNote = reply.getReviewNote();
+        reviewNote.decreaseReplyCount();
+
         checkUserAuth(userId, reply);
         reply.delete();
         replyRepository.save(reply);
