@@ -1,6 +1,7 @@
 .main {
   padding: 5rem;
   min-height: 100vh;
+  min-width: 900px;
 }
 
 .user-info-box {

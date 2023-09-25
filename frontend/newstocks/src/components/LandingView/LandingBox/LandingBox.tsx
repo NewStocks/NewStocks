@@ -53,8 +53,8 @@ export default function LandingBox({ position, right }: Props) {
       </>
       : 
       <>
-        <div className={styles["landing-containers-num"]} id={styles["right-num"]}>02</div>
         <div className={`${styles["landing-containers"]} ${styles['scroll-animation']} ${isVisible ? styles['title-animation-show'] : ''}`}>
+        <div className={styles["landing-containers-num"]} id={styles["right-num"]}>02</div>
           <div className={styles["landing-iamge-box"]}>
             <AllCardsImage />
           </div>

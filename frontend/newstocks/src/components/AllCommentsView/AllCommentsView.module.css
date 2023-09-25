@@ -1,3 +1,9 @@
 .all-comments-container {
   padding: 10px 0;
 }
+
+.comment-title {
+  font-size: 20px;
+  font-weight: 550;
+  margin: 15px 0;
+}

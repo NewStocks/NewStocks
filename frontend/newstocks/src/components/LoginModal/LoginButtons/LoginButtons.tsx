@@ -35,7 +35,7 @@ export default function LoginButtons() {
         </button>
 
 
-        <div className={styles["social-login-button"]} id={styles["google-box"]}>
+        <div className={styles["social-login-button"]} id={styles["google-box"]} style={{ backgroundColor: "white", color: "black"}}>
           <div className={styles["social-icon"]}><FcGoogle size="20"/></div>
           <div className={styles["social-title"]}>Google 로그인</div>
         </div>

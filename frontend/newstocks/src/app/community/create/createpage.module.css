@@ -1,6 +1,7 @@
 .main {
   padding: 4rem 5rem;
   min-height: 100vh;
+  min-width: 900px;
 }
 
 .top-menu div {
