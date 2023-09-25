@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/review-note")
+// TODO Authentication 처리 필요
 public class ReplyController {
 
     private final ReplyService replyService;

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
+// TODO Authentication 처리 필요
 public class MemberController {
 
     private final MemberService memberService;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/review-note")
+// TODO Authentication 처리 필요
 public class ReviewNoteController {
 
     private final ReviewNoteService reviewNoteService;
@@ -90,5 +91,11 @@ public class ReviewNoteController {
         // Authentication 처리 전 임시 테스트
         reviewNoteService.deleteScrapReviewNote(reviewNoteId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/pheed")
+    public ResponseEntity<List<ReviewNoteResDto>> getPheed() {
+        // Authentication 처리 전 임시 테스트
+        return new ResponseEntity<>(reviewNoteService.getPheed(5L), HttpStatus.OK);
     }
 }
