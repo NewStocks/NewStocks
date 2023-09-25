@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.news.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.news.dto.ValueChainNewsDto;
 import com.ohgood.newstocks.news.entity.ValueChainNews;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
@@ -32,6 +33,9 @@ public class ValueChainNewsService {
     }
 
     public List<ValueChainNewsDto> findDateNewsByStockId(String stockId, String date) {
+        if (LocalDate.parse(date).isAfter(LocalDate.now()))
+            throw new BadRequestException("어제 날짜 이후의 데이터를 조회할 수 없습니다.");
+
         List<ValueChainNews> valueChainNewsList = valueChainNewsRepository.findDateNewsByStockId(
             stockId, LocalDate.parse(date));
         List<ValueChainNewsDto> valueChainNewsDtoList = new ArrayList<>();
