@@ -177,7 +177,15 @@ public class ReviewNoteService {
         reviewNoteRepository.save(reviewNote);
     }
 
-    @Transactional
+    public List<ReviewNoteResDto> findMyReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(member);
+        List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
+            .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
+        reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
+        return reviewNoteResDtoList;
+    }
+
     public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
         List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
