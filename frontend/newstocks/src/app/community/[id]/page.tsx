@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { getPostDetail } from '@/services/posts'
 import { createComment } from '@/services/comments'
+import { getComments } from '@/services/comments'
 import { Comment } from '@/services/comments'
 
 import Button from "@/components/Button/Button";
@@ -61,6 +62,12 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setPost(res.data)
     })
   }, [])
+
+  const handleComment = (id: string, comment: string) => {
+    createComment(id, comment)
+    .then(res => console.log('여기로 넘어오나?', res))
+    .then(() => getComments(id).then((res) => setComments(res.data)))
+  }
 
   return (
     <div className={styles.main}>
@@ -136,7 +143,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentinput-container"]}>
-        <CommentInput id={id} type="comment" func={createComment}/>
+        <CommentInput id={id} type="comment" handleComment={handleComment}/>
       </div>
 
       <div className={styles["commentview-container"]}>

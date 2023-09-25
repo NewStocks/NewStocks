@@ -25,7 +25,7 @@ export async function getComments(id: string) {
 }
 
 // 댓글 작성
-export async function createComment(id: string, content: string): Promise<void>{
+export async function createComment(id: string, content: string){
   await axios({
     method: 'post',
     url: `${BASE_URL}/review-note/${id}/reply`,

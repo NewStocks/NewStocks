@@ -16,7 +16,7 @@ type Props = {
 export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }} : Props) {
   const [cocommentToggle, setcocommentToggle] = useState(false);
   function handleToggle() {
-    setcocommentToggle((prev) => !prev)
+    setcocommentToggle((prev) => !prev);
   }
 
   return (
@@ -55,7 +55,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
     </div>
     {cocommentToggle && <div className={styles["cocomment-box"]}>
       <hr/>
-      <div className={styles["cocomment-input"]}><CommentInput id={id} type='cocomment' func={handleToggle}/></div>
+      <div className={styles["cocomment-input"]}><CommentInput id={id} type='cocomment' handleToggle={handleToggle}/></div>
     </div>}
     </>
   );
