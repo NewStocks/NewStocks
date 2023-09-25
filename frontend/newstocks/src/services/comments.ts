@@ -25,12 +25,12 @@ export async function getComments(id: string) {
 }
 
 // 댓글 작성
-export async function createComment(id: string, content: string) {
-  return await axios({
-  method: 'post',
-  url: `${BASE_URL}/review-note/${id}/reply`,
-  data: { content }
-  }).then((res) => res)
+export async function createComment(id: string, content: string): Promise<void>{
+  await axios({
+    method: 'post',
+    url: `${BASE_URL}/review-note/${id}/reply`,
+    data: { content }
+    })
 }
 
 // 댓글 수정

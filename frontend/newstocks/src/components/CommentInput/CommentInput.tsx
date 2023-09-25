@@ -5,20 +5,24 @@ import { useState } from "react";
 type Props = {
   id: string
   type: "comment" | "cocomment";
-  func?: (id: string, comment: string) => void | undefined;
-  toggle?: () => void | undefined;
+  func?: (id: string, comment: string) => void;
+  toggle?: () => void;
 };
 
 export default function CommentInput({ id, type, func, toggle }: Props) {
   const [commentInput, setCommentInput] = useState("")
-  const handleComment = (id: string) => {
+  const handleComment = () => {
+    if(func) {
       const comment = commentInput;
       setCommentInput("");
       func(id, comment);
+    }
   }
 
   const handleToggle = () => {
-    toggle()
+    if (toggle) {
+      toggle()
+    }
   }
   
   return (

@@ -7,7 +7,7 @@ import CommentView from './CommentView/CommentView'
 import CoCommentView from './CoCommentView/CoCommentView'
 
 type Props = {
-  comments?: Comment[]
+  comments: Comment[]
 }
 
 export default function AllCommentsView({comments}: Props) {
