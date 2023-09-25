@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { getPostDetail } from '@/services/posts'
-import { createComment, getComments, Comment, updateComment } from '@/services/comments'
+import { Comment, createComment, getComments, updateComment, deleteComment } from '@/services/comments'
 
 import Button from "@/components/Button/Button";
 import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
@@ -51,11 +51,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
   useEffect(() => {
     getPostDetail(id)
     .then(res => {
-      console.log(res.data);
       setMember(res.data.memberDto)
-      console.log(res.data.memberDto.profileImage)
       setComments(res.data.replyResDtoList)
-      console.log(res.data.replyResDtoList)
       setStock(res.data.stockDto)
       setPost(res.data)
     })
@@ -69,6 +66,15 @@ export default function DetailnotePage({ params: {id} }: Props) {
    // 댓글 수정 관리
    const UpdateCommentApi = (postId: string, comment: string, commentId: string) => {
     updateComment(postId, comment, commentId).then(() => getComments(postId).then((res) => setComments(res.data)))
+  }
+
+  // 댓글 삭제 관리
+  const DeleteCommentApi = (postId: string, commentId: string) => {
+    console.log(postId, commentId, 'delete 해보자')
+    deleteComment(postId, commentId)
+    .then((res) => console.log(res))
+    .then(() => console.log('sucess!!'))
+    .then(() => getComments(postId).then((res) => {setComments(res.data); console.log(res.data)}))
   }
 
   return (
@@ -149,7 +155,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentview-container"]}>
-        {comments && <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi}/>}
+        {comments && <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>}
       </div>
     </div>
   );

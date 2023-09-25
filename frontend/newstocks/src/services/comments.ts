@@ -26,7 +26,7 @@ export async function getComments(id: string) {
 
 // 댓글 작성
 export async function createComment(id: string, content: string){
-  await axios({
+  return await axios({
     method: 'post',
     url: `${BASE_URL}/review-note/${id}/reply`,
     data: { content }
@@ -43,10 +43,10 @@ export async function updateComment(PostId: string, content: string, commentId: 
 }
 
 // 댓글 삭제 -> 확인 필요
-export async function deleteComment(id: string) {
+export async function deleteComment(PostId: string, commentId: string) {
   return await axios({
   method: 'delete',
-  url: `${BASE_URL}/review-note/${id}/reply`,
-  }).then((res) => res)
+  url: `${BASE_URL}/review-note/${PostId}/reply/${commentId}`,
+  })
 }
 

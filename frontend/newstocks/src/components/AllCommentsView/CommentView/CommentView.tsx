@@ -13,9 +13,10 @@ type Props = {
   comment: Comment
   postId: string
   UpdateCommentApi: (postId: string, comment: string, commentId: string) => void
+  DeleteCommentApi: (postId: string, commentId: string) => void
 }
 
-export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }, postId, UpdateCommentApi} : Props) {
+export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }, postId, UpdateCommentApi, DeleteCommentApi} : Props) {
   const [cocommentToggle, setcocommentToggle] = useState(false);
   const [updateToggle, setUpdateToggle] = useState(false);
   function handleToggle() {
@@ -55,7 +56,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
         {hasAuthority && (
         <div>
           <div onClick={() => setUpdateToggle((prev) => !prev)}>✏️수정하기</div>
-          <div>🗑️삭제하기</div>
+          <div onClick={() => DeleteCommentApi(postId, id)}>🗑️삭제하기</div>
         </div>
         )}
       </div>
