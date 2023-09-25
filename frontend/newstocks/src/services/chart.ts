@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8200'; // 기본 URL
+const BASE_URL = 'www.newstocks.kr/api'; // 기본 URL
 
 // 종목 정보
 export const fetchStockInfo = (code: string) => {
