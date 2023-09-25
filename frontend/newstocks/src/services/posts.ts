@@ -16,11 +16,9 @@ export type Note = {
 }
 
 export type Member = {
-  memberDto: {
     id: string
     name: string
     profileImage: string
-  }
 }
 
 export type News = {
@@ -40,10 +38,8 @@ export type Link = {
 }
 
 export type Stock = {
-  stockDto: {
     id: string
     name: string
-  }
 }
 
 export type Post = {
