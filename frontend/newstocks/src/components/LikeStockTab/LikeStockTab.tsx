@@ -1,88 +1,81 @@
 "use client";
-import styles from "./LikeStocktab.module.css";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import SearchBox from "../SearchBox/SearchBox";
 import StockProfile from "../StockProfile/StockProfile";
 import { Stock } from "@/types/stock";
 
+import styles from "./LikeStocktab.module.css";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { LiaStar } from "react-icons/lia";
 import { BiXCircle } from "react-icons/bi";
 
-import axios from "axios";
+import { postFavoriteStock, deleteFavoriteStock } from "@/services/favoriteStocks";
 
 export default function LikeStockTab() {
   const router = useRouter();
-  const searchParams = useSearchParams(); 
+  const searchParams = useSearchParams();
   const [addtoggle, setAddtoggle] = useState(false);
   const [allFavoriteStocks, setAllFavoriteStocks] = useState<Stock[]>([]);
 
-  const handleSelectStock = (id: string) => {
 
+  const handleSelectStock = (id: string) => {
     const tabName = searchParams?.get("tab");
     router.push(`/${id}?tab=${tabName}`);
-
-  }
-
-  const handleSearch = (stock: Stock) => {
-    setAllFavoriteStocks((prev) => [...prev, stock]);
-
-    // const addFavoriteStock = async (stock: Stock) => {
-    //   try {
-    //     const response = await axios.post(
-    //       "http://localhost:8200/stock/insert-favorite-stock",
-    //       {
-    //         stockId: stock.id,
-    //         stockName: stock.name,
-    //       },
-    //       {
-    //         headers: {
-    //           Authorization: "",
-    //         },
-    //       }
-    //     );
-    //     console.log(response);
-    //   } catch (e) {
-    //     console.error(e);
-    //   }
-    // };
-
-    // addFavoriteStock(stock);
   };
 
-  const handleDelete = async (id: string, name: string) => {
-    console.log("delete");
+  const handleSearch = (stock: Stock) => {
+
+    const addFavoriteStock = async (stock: Stock) => {
+      try {
+        const response = await postFavoriteStock(stock); 
+        // console.log(response);
+        setAllFavoriteStocks((prev) => [...prev, stock]);
+      } catch (e) {
+        console.error(e);
+        alert("등록에 실패했습니다.");
+      }
+    };
+
+    addFavoriteStock(stock);
+  };
+
+  const handleDelete = async (e: MouseEvent, stock: Stock) => {
+
+    e.stopPropagation();
+
     try {
-      const response = await axios.delete(
-        "http://localhost:8200/stock/delete-favorite-stock",
-        {
-          headers: {
-            Authorization: "",
-          },
-          data: {
-            stockId: id,
-            stockName: name,
-          },
-        }
-      );
+      const response = await deleteFavoriteStock(stock);
+      console.log(response); 
+
+      const changedStockList = allFavoriteStocks.filter((eachStock) => {
+        return eachStock.id !== stock.id; 
+      });
+      setAllFavoriteStocks(changedStockList);
     } catch (e) {
       console.error(e);
+      alert("삭제에 실패했습니다.");
     }
   };
 
-  const favoriteStocks = allFavoriteStocks.map(({ name, id }) => {
+  const favoriteStocks = allFavoriteStocks.map((stock) => {
     return (
-      <div key={id} className={styles["like-content-stock"]} onClick={()=>handleSelectStock(id)}>
+      <div
+        key={stock.id}
+        className={styles["like-content-stock"]}
+        onClick={() => handleSelectStock(stock.id)}
+      >
         <StockProfile
-          stockName={name}
-          stockId={id}
-          stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${id}.png`}
+          stockName={stock.name}
+          stockId={stock.id}
+          stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.id}.png`}
           size="small"
         />
-        <BiXCircle size="18" onClick={handleDelete} id={styles["delete-button"]} />
+        <BiXCircle
+          size="18"
+          onClick={(e: MouseEvent)=>handleDelete(e, stock)}
+          id={styles["delete-button"]}
+        />
       </div>
     );
   });
@@ -106,7 +99,6 @@ export default function LikeStockTab() {
           <SearchBox searchFunc={handleSearch} />
         </div>
       </div>
-
       <div className={styles["like-content"]}>{favoriteStocks}</div>
     </div>
   );

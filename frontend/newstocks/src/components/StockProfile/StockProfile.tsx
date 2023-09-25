@@ -1,4 +1,5 @@
 import styles from "./StockProfile.module.css";
+import Image from "next/image";
 
 interface Props {
 
@@ -17,6 +18,11 @@ export default function StockProfile({stockName, stockId, stockMarket, stockImag
     small: ["stock-img-box-small", "stock-name-small", "stock-info-small"]
   }
 
+  const imageSize = {
+    middle: 40, 
+    small: 30
+  }
+
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     target.src = "/next.svg";
@@ -27,7 +33,14 @@ export default function StockProfile({stockName, stockId, stockMarket, stockImag
     <>
     <div className={styles["stock-profile-wrapper"]}>
     <div className={`${styles["stock-img-box"]} ${styles[styleBySize[size][0]]}`}>
-      {stockImageUrl ? <img src={stockImageUrl} alt={`${stockName}-profile-img`} onError={handleImageError} className={styles["stock-img"]} /> : ''}
+      {stockImageUrl ? <Image
+      src={stockImageUrl}
+      alt={`${stockName}-profile-img`}
+      className={styles["stock-img"]}
+      width={imageSize[size]}
+      height={imageSize[size]}
+      />: ""}
+
     </div>
       <div className={styles["stock-info-wrapper"]}>
         <div className={styles[styleBySize[size][1]]}>{stockName}</div>

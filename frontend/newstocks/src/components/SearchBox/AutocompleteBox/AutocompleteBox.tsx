@@ -48,4 +48,6 @@ const AutocompleteBox = forwardRef<HTMLDivElement, Props>(
   }
 );
 
+AutocompleteBox.displayName = 'AutocompleteBox';
+
 export default AutocompleteBox;
