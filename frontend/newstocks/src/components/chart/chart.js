@@ -56,12 +56,12 @@ export default function ChartComponent() {
     name:'',
   })
 
+
   useEffect(() => {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
         const chartname = res.data.name
-        console.log(res.data)
         setChartData((prevdata) => ({
           ...prevdata,
           name: chartname
@@ -72,11 +72,15 @@ export default function ChartComponent() {
       });
     };
     fetchStockData(code);
+  },[code])
 
+  useEffect(() => {
+    
     const fetchData = () => {
       fetchChartData(code)
       .then((res) => {
         // const code = res.data.name
+        
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
@@ -176,7 +180,7 @@ export default function ChartComponent() {
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
-        tooltipRef.current.style = `width: 150px; max-height: 700px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        tooltipRef.current.style = `width: auto; max-height: 500px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.7)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
@@ -184,7 +188,6 @@ export default function ChartComponent() {
         chartApiRef.current = chart.current;
 
         chartApiRef.current.subscribeCrosshairMove((param) => {
-            
             const date = new Date(param.time*1000+32400)
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -199,141 +202,139 @@ export default function ChartComponent() {
             });
             // newsdata.sort((a, b) => new Date(b.x) - new Date(a.x));
             // 뉴스랑 오답노트 같은날에 둘다 있을때
-            if (newnote && newnews) {
-              tooltipRef.current.style.display = 'block';
-              const candledata = param.seriesData.get(candlestickSeries.current);
-              const voldata = param.seriesData.get(volumeSeries.current);
-              const { open, high, low, close, time } = candledata;
-              const { value } = voldata;
+            // if (newnote && newnews) {
+            //   tooltipRef.current.style.display = 'block';
+            //   const candledata = param.seriesData.get(candlestickSeries.current);
+            //   const voldata = param.seriesData.get(volumeSeries.current);
+            //   const { open, high, low, close, time } = candledata;
+            //   const { value } = voldata;
 
-              notedata.forEach(item => {
-                if (item.x == formattedTime) {
-                  const notespec = item.y[0]
-                  newsdata.forEach(item => {
-                    if (item.x == formattedTime) {
-                      const newsnum = item.y[0]
+            //   notedata.forEach(item => {
+            //     if (item.x == formattedTime) {
+            //       const notespec = item.y[0]
+            //       newsdata.forEach(item => {
+            //         if (item.x == formattedTime) {
+            //           const newsnum = item.y[0]
 
-                      tooltipRef.current.innerHTML = 
-                      `
-                      <div>
-                        <div style="padding: 6px">
-                          <div style="color: ${'#4FE7B0'}">${code}</div>
-                          <div style="color: ${'white'}">
-                          ${formattedTime}
-                          </div>
-                          <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'}">
-                            <div>시가 : ${open}</div>
-                            <div>고가 : ${high}</div>
-                            <div>저가 : ${low}</div>
-                            <div>종가 : ${close}</div>
-                            <div>거래량 : ${value}</div>
-                          </div>
-                        </div>
-                        <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-                          <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'} border:1px solid #4FE7B0;">
-                            <div style="color: ${'#4FE7B0'}">News</div>
-                            <div>${newsnum}</div>
-                            <hr>
-                            <div style="color: ${'#4FE7B0'}">Review</div>
-                            <div>${notespec}</div>
-                          <div/>
-                        <div/>
-                      <div/>
-                        `
-                      tooltipRef.current.style.maxHeight = '300px';
-                      let left = param.point.x + 80;
-                        if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-                          left = param.point.x - tooltipRef.current.offsetWidth + 200;
-                        }
-                      let top = param.point.y + 10;
+            //           tooltipRef.current.innerHTML = 
+            //           `
+            //           <div>
+            //             <div style="padding: 6px">
+            //               <div style="color: ${'white'}">
+            //               ${formattedTime}
+            //               </div>
+            //               <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'}">
+            //                 <div>시가 : ${open}</div>
+            //                 <div>고가 : ${high}</div>
+            //                 <div>저가 : ${low}</div>
+            //                 <div>종가 : ${close}</div>
+            //                 <div>거래량 : ${value}</div>
+            //               </div>
+            //             </div>
+            //             <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+            //               <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'} border:1px solid #4FE7B0;">
+            //                 <div style="color: ${'#4FE7B0'}">News</div>
+            //                 <div>${newsnum}</div>
+            //                 <hr>
+            //                 <div style="color: ${'#4FE7B0'}">Review</div>
+            //                 <div>${notespec}</div>
+            //               <div/>
+            //             <div/>
+            //           <div/>
+            //             `
+            //           // tooltipRef.current.style.maxHeight = '300px';
+            //           let left = param.point.x + 80;
+            //             if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+            //               left = param.point.x - tooltipRef.current.offsetWidth + 200;
+            //             }
+            //           let top = param.point.y + 10;
 
-                      tooltipRef.current.style.left = `${left}px`
-                      tooltipRef.current.style.top = top + 'px';
-                        } 
-                      });
-                }
-              });
-            // 뉴스랑 오답노트 같은날에 둘 중 하나만 있을때
-            } else if (newnote || newnews) {
-              tooltipRef.current.style.display = 'block';
-              const candledata = param.seriesData.get(candlestickSeries.current);
-              const voldata = param.seriesData.get(volumeSeries.current);
-              const { open, high, low, close, time } = candledata;
-              const { value } = voldata;
+            //           tooltipRef.current.style.left = `${left}px`
+            //           tooltipRef.current.style.top = top + 'px';
+            //             } 
+            //           });
+            //     }
+            //   });
+            // // 뉴스랑 오답노트 같은날에 둘 중 하나만 있을때
+            // } else if (newnote || newnews) {
+            //   tooltipRef.current.style.display = 'block';
+            //   const candledata = param.seriesData.get(candlestickSeries.current);
+            //   const voldata = param.seriesData.get(volumeSeries.current);
+            //   const { open, high, low, close, time } = candledata;
+            //   const { value } = voldata;
 
-              notedata.forEach(item => {
-                if (item.x == formattedTime) {
-                  const notespec = item.y[0]
-                    tooltipRef.current.innerHTML = 
-                    `
-                    <div style="padding: 6px">
-                      <div style="color: ${'#4FE7B0'}">${code}</div>
-                      <div style="color: ${'white'}">
-                      ${formattedTime}
-                      </div>
-                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                        <div>시가 : ${open}</div>
-                        <div>고가 : ${high}</div>
-                        <div>저가 : ${low}</div>
-                        <div>종가 : ${close}</div>
-                        <div>거래량 : ${value}</div>
-                      </div>
-                    </div>
-                    <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                        <div style="color: ${'#4FE7B0'}">Review</div>
-                        <div>${notespec}</div>
+            //   notedata.forEach(item => {
+            //     if (item.x == formattedTime) {
+            //       const notespec = item.y[0]
+            //         tooltipRef.current.innerHTML = 
+            //         `
+            //         <div style="padding: 6px">
+            //           <div style="color: ${'white'}">
+            //           ${formattedTime}
+            //           </div>
+            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+            //             <div>시가 : ${open}</div>
+            //             <div>고가 : ${high}</div>
+            //             <div>저가 : ${low}</div>
+            //             <div>종가 : ${close}</div>
+            //             <div>거래량 : ${value}</div>
+            //           </div>
+            //         </div>
+            //         <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+            //             <div style="color: ${'#4FE7B0'}">Review</div>
+            //             <div>${notespec}</div>
 
-                      </div>
-                    <div/>
-                      `
-                    tooltipRef.current.style.maxHeight = '300px';
-                    let left = param.point.x + 80;
-                      if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-                        left = param.point.x - tooltipRef.current.offsetWidth + 200;
-                      }
-                    let top = param.point.y + 10;
-                    tooltipRef.current.style.left = `${left}px`
-                    tooltipRef.current.style.top = top + 'px'; 
-                  }
-              });
-              newsdata.forEach(item => {
-                if (item.x == formattedTime) {
-                  const newstitle = item.y[0]
-                    tooltipRef.current.innerHTML = 
-                    `
-                    <div style="padding: 6px">
-                      <div style="color: ${'#4FE7B0'}">${code}</div>
-                      <div style="color: ${'white'}">
-                      ${formattedTime}
-                      </div>
-                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                        <div>시가 : ${open}</div>
-                        <div>고가 : ${high}</div>
-                        <div>저가 : ${low}</div>
-                        <div>종가 : ${close}</div>
-                        <div>거래량 : ${value}</div>
-                      </div>
-                    </div>
-                    <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-                      <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                        <div style="color: ${'#4FE7B0'}">News</div>
-                        <div>${newstitle}</div>
-                      </div>
-                    <div/>
-                      `
-                    tooltipRef.current.style.maxHeight = '300px';
-                    let left = param.point.x + 80;
-                      if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-                        left = param.point.x - tooltipRef.current.offsetWidth + 200;
-                      }
-                    let top = param.point.y + 10;
-                    tooltipRef.current.style.left = `${left}px`
-                    tooltipRef.current.style.top = top + 'px'; 
-                  }
-              });
+            //           </div>
+            //         <div/>
+            //           `
+
+            //         let left = param.point.x + 80;
+            //           if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+            //             left = param.point.x - tooltipRef.current.offsetWidth + 200;
+            //           }
+            //         let top = param.point.y + 10;
+            //         tooltipRef.current.style.left = `${left}px`
+            //         tooltipRef.current.style.top = top + 'px'; 
+            //       }
+            //   });
+            //   newsdata.forEach(item => {
+            //     if (item.x == formattedTime) {
+            //       const newstitle = item.y[0]
+            //         tooltipRef.current.innerHTML = 
+            //         `
+            //         <div style="padding: 6px">
+            //           <div style="color: ${'white'}">
+            //           ${formattedTime}
+            //           </div>
+            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+            //             <div>시가 : ${open}</div>
+            //             <div>고가 : ${high}</div>
+            //             <div>저가 : ${low}</div>
+            //             <div>종가 : ${close}</div>
+            //             <div>거래량 : ${value}</div>
+            //           </div>
+            //         </div>
+            //         <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
+            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+            //             <div style="color: ${'#4FE7B0'}">News</div>
+            //             <div>${newstitle}</div>
+            //           </div>
+            //         <div/>
+            //           `
+
+            //         let left = param.point.x + 80;
+            //           if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
+            //             left = param.point.x - tooltipRef.current.offsetWidth + 200;
+            //           }
+            //         let top = param.point.y + 10;
+            //         tooltipRef.current.style.left = `${left}px`
+            //         tooltipRef.current.style.top = top + 'px'; 
+            //       }
+            //   });
             // 뉴스 오답노트 둘다 없을때
-            } else if (param.time && [param.seriesData].length && tooltipRef.current){
+            // } else 
+            if (param.time && [param.seriesData].length && tooltipRef.current){
               tooltipRef.current.style.display = 'block';
               const candledata = param.seriesData.get(candlestickSeries.current);
               const voldata = param.seriesData.get(volumeSeries.current);
@@ -342,16 +343,15 @@ export default function ChartComponent() {
               tooltipRef.current.innerHTML = 
               `
               <div style="padding: 6px">
-                <div style="color: ${'#4FE7B0'}">${code}</div>
                 <div style="color: ${'white'}">
                 ${formattedTime}
                 </div>
-                <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-                  <div>시가 : ${open}</div>
-                  <div>고가 : ${high}</div>
-                  <div>저가 : ${low}</div>
-                  <div>종가 : ${close}</div>
-                  <div>거래량 : ${value}</div>
+                <div style="font-size: 10px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
+                  <div>시가 : ${open.toLocaleString()}</div>
+                  <div>고가 : ${high.toLocaleString()}</div>
+                  <div>저가 : ${low.toLocaleString()}</div>
+                  <div>종가 : ${close.toLocaleString()}</div>
+                  <div>거래량 : ${value.toLocaleString()}</div>
                 </div>
               </div>
                 `
