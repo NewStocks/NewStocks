@@ -61,7 +61,7 @@ const CloseButton = styled.button`
 `;
 
 const PointText = styled.span`
-  color: #4FE7B0; /* 영어 부분 텍스트 색상을 원하는 색상으로 변경하세요. */
+  color: #4FE7B0; 
 `;
 
 type ModalProps = {

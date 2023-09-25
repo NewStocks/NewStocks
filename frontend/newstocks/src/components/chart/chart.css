@@ -83,13 +83,17 @@
     font-size: 11px;
     display: flex;
     align-items: center;
-    
-    
+  }
+  .value2{
+    width: 30px;
+    height: auto;
+    display: flex;
+    align-items: center;
   }
   #valueinfo2 {
     display: flex;
-    height: 30px;
-    width: auto;
+    /* height: 30px; */
+    /* width: auto; */
     cursor: pointer;
   }
   #valueinfo1 {
