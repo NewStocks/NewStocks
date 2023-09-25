@@ -46,6 +46,12 @@ public class ReviewNoteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/find-my")
+    public ResponseEntity<List<ReviewNoteResDto>> findMyReviewNoteList() {
+        // Authentication 처리 전 임시 테스트
+        return new ResponseEntity<>(reviewNoteService.findMyReviewNoteList(5L), HttpStatus.OK);
+    }
+
     @GetMapping("/find-all")
     public ResponseEntity<List<ReviewNoteResDto>> findReviewNoteList() {
         // Authentication 처리 전 임시 테스트
