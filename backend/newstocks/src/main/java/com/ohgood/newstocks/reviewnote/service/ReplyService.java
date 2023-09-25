@@ -1,5 +1,7 @@
 package com.ohgood.newstocks.reviewnote.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
+import com.ohgood.newstocks.global.exception.exceptions.ForbiddenException;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.reviewnote.dto.ReplyReqDto;
@@ -76,7 +78,7 @@ public class ReplyService {
     private void checkUserAuth(Long userId, Reply reply) {
         // 관리자 권한 추가 생각하여 함수로 분리
         if (!reply.getMember().getId().equals(userId)) {
-            throw new ArithmeticException("권한이 없습니다");
+            throw new ForbiddenException("권한이 없습니다");
         }
     }
 
@@ -84,16 +86,16 @@ public class ReplyService {
 
     public ReviewNote findReviewNoteById(Long reviewNoteId) {
         return reviewNoteRepository.findByIdAndDeletedFalse(reviewNoteId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 오답노트가 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 오답노트가 없습니다."));
     }
 
     public Member findMemberById(Long userId) {
         return memberRepository.findByIdAndDeletedFalse(userId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 회원이 없습니다."));
     }
 
     public Reply findReplyById(Long replyId) {
         return replyRepository.findByIdAndDeletedFalse(replyId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 댓글이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 댓글이 없습니다."));
     }
 }

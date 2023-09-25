@@ -1,5 +1,7 @@
 package com.ohgood.newstocks.reviewnote.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
+import com.ohgood.newstocks.global.exception.exceptions.ForbiddenException;
 import com.ohgood.newstocks.global.service.AwsS3Service;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.MemberRepository;
@@ -13,15 +15,19 @@ import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLike;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLink;
+import com.ohgood.newstocks.reviewnote.entity.ReviewNoteScrap;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteImageMapper;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteLinkMapper;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteLikeRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteLinkRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteImageRepository;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteNews;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteNewsRepository;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteMapper;
 import com.ohgood.newstocks.reviewnote.repository.ReviewNoteRepository;
+import com.ohgood.newstocks.reviewnote.repository.ReviewNoteScrapRepository;
 import com.ohgood.newstocks.stock.entity.Stock;
 import com.ohgood.newstocks.stock.repository.StockRepository;
 import java.util.HashSet;
@@ -48,6 +54,8 @@ public class ReviewNoteService {
     private final AwsS3Service awsS3Service;
     private final ReviewNoteImageRepository reviewNoteImageRepository;
     private final ReplyService replyService;
+    private final ReviewNoteLikeRepository reviewNoteLikeRepository;
+    private final ReviewNoteScrapRepository reviewNoteScrapRepository;
 
     private static final String DIR = "/review-note";
 
@@ -98,7 +106,7 @@ public class ReviewNoteService {
 
         if (Boolean.TRUE.equals(reviewNote.getPrivacy()) && !reviewNote.getMember()
             .equals(member)) {
-            throw new ArithmeticException("오답노트 조회 권한이 없습니다.");
+            throw new ForbiddenException("오답노트 조회 권한이 없습니다.");
         }
 
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
@@ -169,7 +177,15 @@ public class ReviewNoteService {
         reviewNoteRepository.save(reviewNote);
     }
 
-    @Transactional
+    public List<ReviewNoteResDto> findMyReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(member);
+        List<ReviewNoteResDto> reviewNoteResDtoList = reviewNoteList.stream()
+            .map(ReviewNoteMapper.INSTANCE::entityToReviewNoteResDto).toList();
+        reviewNoteResDtoList.forEach(ReviewNoteResDto::addDetailDtos);
+        return reviewNoteResDtoList;
+    }
+
     public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
         List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
@@ -180,6 +196,33 @@ public class ReviewNoteService {
         reviewNoteResDtoList.forEach(reviewNoteResDto -> reviewNoteResDto.checkMember(member));
         return reviewNoteResDtoList;
     }
+
+    @Transactional
+    public void likeReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        if (reviewNoteLikeRepository.findByReviewNoteAndMember(reviewNote, member).isPresent()) {
+            throw new BadRequestException("이미 좋아요한 오답노트입니다.");
+        }
+        ReviewNoteLike reviewNoteLike = reviewNoteLikeRepository.save(
+            ReviewNoteLike.builder().reviewNote(reviewNote).member(member).build());
+        member.getReviewNoteLikeList().add(reviewNoteLike);
+        reviewNote.getReviewNoteLikeList().add(reviewNoteLike);
+    }
+
+    @Transactional
+    public void scrapReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        if (reviewNoteScrapRepository.findByReviewNoteAndMember(reviewNote, member).isPresent()) {
+            throw new BadRequestException("이미 스크랩한 오답노트입니다.");
+        }
+        ReviewNoteScrap reviewNoteScrap = reviewNoteScrapRepository.save(
+            ReviewNoteScrap.builder().reviewNote(reviewNote).member(member).build());
+        member.getReviewNoteScrapList().add(reviewNoteScrap);
+        reviewNote.getReviewNoteScrapList().add(reviewNoteScrap);
+    }
+
 
     // -- 내부 메서드 코드 --
 
@@ -243,7 +286,7 @@ public class ReviewNoteService {
     private void checkUserAuth(Long userId, ReviewNote reviewNote) {
         // 관리자 권한 추가 생각하여 함수로 분리
         if (!reviewNote.getMember().getId().equals(userId)) {
-            throw new ArithmeticException("권한이 없습니다");
+            throw new ForbiddenException("권한이 없습니다");
         }
     }
 
@@ -251,22 +294,22 @@ public class ReviewNoteService {
 
     public ReviewNote findReviewNoteById(Long reviewNoteId) {
         return reviewNoteRepository.findByIdAndDeletedFalse(reviewNoteId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 오답노트가 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 오답노트가 없습니다."));
     }
 
     public Member findMemberById(Long userId) {
         return memberRepository.findByIdAndDeletedFalse(userId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 회원이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 회원이 없습니다."));
     }
 
     public Stock findStockById(String stockId) {
         return stockRepository.findById(stockId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 주식이 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 주식이 없습니다."));
     }
 
     public News findNewsById(Long newsId) {
         return newsRepository.findById(newsId)
-            .orElseThrow(() -> new ArithmeticException("해당하는 뉴스가 없습니다."));
+            .orElseThrow(() -> new BadRequestException("해당하는 뉴스가 없습니다."));
     }
 
 }

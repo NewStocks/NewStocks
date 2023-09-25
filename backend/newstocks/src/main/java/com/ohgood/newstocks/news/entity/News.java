@@ -11,7 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +44,8 @@ public class News {
     @Enumerated(EnumType.STRING)
     private SentimentType sentimentType;
 
+    private int duplicatedCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     @NotNull
@@ -50,12 +54,13 @@ public class News {
     @Builder
     public News(@NotNull String title, @NotNull String company, @NotNull String url,
         @NotNull LocalDateTime publishTime, @NotNull SentimentType sentimentType,
-        @NotNull Stock stock) {
+        int duplicatedCount, @NotNull Stock stock) {
         this.title = title;
         this.company = company;
         this.url = url;
         this.publishTime = publishTime;
         this.sentimentType = sentimentType;
+        this.duplicatedCount = duplicatedCount;
         this.stock = stock;
     }
 }
