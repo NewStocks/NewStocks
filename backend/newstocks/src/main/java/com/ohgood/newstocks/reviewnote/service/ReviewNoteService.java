@@ -211,6 +211,18 @@ public class ReviewNoteService {
     }
 
     @Transactional
+    public void deleteLikeReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        ReviewNoteLike reviewNoteLike = reviewNoteLikeRepository.findByReviewNoteAndMember(
+                reviewNote, member)
+            .orElseThrow(() -> new ArithmeticException("좋아요 하지 않은 오답노트입니다."));
+        member.getReviewNoteLikeList().remove(reviewNoteLike);
+        reviewNote.getReviewNoteLikeList().remove(reviewNoteLike);
+        reviewNoteLikeRepository.delete(reviewNoteLike);
+    }
+
+    @Transactional
     public void scrapReviewNote(Long reviewNoteId, Long userId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
         Member member = findMemberById(userId);
@@ -223,6 +235,18 @@ public class ReviewNoteService {
         reviewNote.getReviewNoteScrapList().add(reviewNoteScrap);
     }
 
+    @Transactional
+    public void deleteScrapReviewNote(Long reviewNoteId, Long userId) {
+        ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
+        Member member = findMemberById(userId);
+        ReviewNoteScrap reviewNoteScrap = reviewNoteScrapRepository.findByReviewNoteAndMember(
+                reviewNote, member)
+            .orElseThrow(() -> new ArithmeticException("스크랩 하지 않은 오답노트입니다."));
+
+        member.getReviewNoteScrapList().remove(reviewNoteScrap);
+        reviewNote.getReviewNoteScrapList().remove(reviewNoteScrap);
+        reviewNoteScrapRepository.delete(reviewNoteScrap);
+    }
 
     // -- 내부 메서드 코드 --
 
