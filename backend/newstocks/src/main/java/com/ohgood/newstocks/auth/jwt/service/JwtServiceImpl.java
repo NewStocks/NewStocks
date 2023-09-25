@@ -8,7 +8,6 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +91,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public Map<String, Object> get(String key) {
+    public Authentication get(String key) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
             .getRequest();
         String jwt = request.getHeader("access-token");
@@ -104,9 +103,22 @@ public class JwtServiceImpl implements JwtService {
             logger.error(e.getMessage());
             throw new UnAuthorizedException();
         }
-        Map<String, Object> value = claims.getBody();
-        logger.info("value : {}", value);
-        return value;
+        // JWT에서 필요한 정보 추출 (예: 사용자 ID)
+        String userId = claims.getBody().get("userId", String.class);
+
+        // 추출한 정보를 사용하여 UserDetails 객체를 생성
+        UserDetails userDetails = User.builder()
+            .username(userId)
+            .password("")
+            .roles("user")
+            .build();
+
+        // Authentication 객체 생성
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities())
+        );
+
+        return authentication;
     }
 
     @Override

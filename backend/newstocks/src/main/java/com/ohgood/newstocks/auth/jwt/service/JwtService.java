@@ -1,6 +1,6 @@
 package com.ohgood.newstocks.auth.jwt.service;
 
-import java.util.Map;
+import org.springframework.security.core.Authentication;
 
 public interface JwtService {
 
@@ -10,7 +10,7 @@ public interface JwtService {
 
     <T> String create(String key, T data, String subject, long expir);
 
-    Map<String, Object> get(String key);
+    Authentication get(String key);
 
     boolean checkToken(String jwt);
 
