@@ -2,6 +2,7 @@ package com.ohgood.newstocks.member.controller;
 
 import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.service.FollowService;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/follow")
+// TODO Authentication 처리 필요
 public class FollowController {
 
     private final FollowService followService;

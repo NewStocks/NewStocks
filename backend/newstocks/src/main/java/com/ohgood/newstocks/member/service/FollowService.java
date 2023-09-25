@@ -7,6 +7,7 @@ import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.member.repository.FollowRepository;
 import com.ohgood.newstocks.member.repository.MemberRepository;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

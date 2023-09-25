@@ -3,7 +3,9 @@ package com.ohgood.newstocks.reviewnote.service;
 import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.global.exception.exceptions.ForbiddenException;
 import com.ohgood.newstocks.global.service.AwsS3Service;
+import com.ohgood.newstocks.member.entity.Follow;
 import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.member.repository.FollowRepository;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.news.entity.News;
@@ -57,6 +59,7 @@ public class ReviewNoteService {
     private final ReplyService replyService;
     private final ReviewNoteLikeRepository reviewNoteLikeRepository;
     private final ReviewNoteScrapRepository reviewNoteScrapRepository;
+    private final FollowRepository followRepository;
 
     private static final String DIR = "/review-note";
 
@@ -186,7 +189,7 @@ public class ReviewNoteService {
     public List<ReviewNoteResDto> findOtherReviewNoteList(Long findUserId, Long userId) {
         Member member = findMemberById(userId);
         Member findMember = findMemberById(findUserId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
             findMember);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
@@ -251,6 +254,16 @@ public class ReviewNoteService {
         reviewNote.getReviewNoteScrapList().remove(reviewNoteScrap);
         reviewNote.decreaseScrapCount();
         reviewNoteScrapRepository.delete(reviewNoteScrap);
+    }
+
+    public List<ReviewNoteResDto> getPheed(Long followerId) {
+        Member follower = findMemberById(followerId);
+        List<Long> followingIdList = followRepository.findByFollowerId(followerId).stream()
+            .map(Follow::getFollowingId).toList();
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberInAndPrivacyFalseAndDeletedFalse(
+            memberRepository.findByIdInAndDeletedFalse(followingIdList));
+
+        return reviewNoteListToReviewNoteResDtoList(follower, reviewNoteList);
     }
 
     // -- 내부 메서드 코드 --
