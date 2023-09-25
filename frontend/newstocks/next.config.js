@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['s3.ap-northeast-2.amazonaws.com']
+    domains: ['s3.ap-northeast-2.amazonaws.com', 'file.alphasquare.co.kr']
   },
   experimental: {
     appDir: true,

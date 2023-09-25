@@ -2,18 +2,29 @@
 import styles from './Card.module.css'
 import styled from 'styled-components'
 import Link from 'next/link';
+import Image from 'next/image';
+
+import { useState } from 'react';
+
+import { Post, Member  } from '@/services/posts'
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
 `
 
+type Props = {
+  post: Post
+}
+
 import { BsBookmark } from "react-icons/bs";
 import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineStar } from "react-icons/ai"
 import { AiOutlineShareAlt } from "react-icons/ai"
 
-export default function Card() {
+export default function Card({post}: Props) {
+  console.log(post)
+
   return(
     <div className={styles["card-container"]}>
       <StyledLink href="/community/42">
@@ -24,13 +35,16 @@ export default function Card() {
         <div className={styles["title-left"]}>
           <StyledLink href="/">
             <div className={styles["stock-box"]}>
-              <div className={styles["stock-img"]}></div>
-              <div className={styles["stock-name"]}>카카오</div>
-            </div>
-          </StyledLink>
-          <StyledLink href="/community/42">
-            <div className={styles["title"]}>
-              여기가 제목 영역입니다.
+              <Image
+                  src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${post.stockDto.id}.png` ? `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${post.stockDto.id}.png` : ''}
+                  alt="member profile image"
+                  width="25"
+                  height="25"
+                  className={styles["stock-img"]}
+                />
+              {/* <div className={styles["stock-img"]}></div> */}
+              <div className={styles["stock-name"]}>{post.stockDto.name}</div>
+              <div className={styles["stock-id"]}>{post.stockDto.id}</div>
             </div>
           </StyledLink>
         </div>
@@ -39,23 +53,34 @@ export default function Card() {
           <BsBookmark size="19"/>
         </div>
       </div>
+      <StyledLink href="/community/42">
+        <div className={styles["title"]}>
+          {post.title}
+        </div>
+      </StyledLink>
       
       <StyledLink href="/community/1">
         <div className={styles["content-container"]}>
-          <div className={styles["content"]}>카카오 국민주라더니 명성을 뒤로하고 맥없이 흔들리네. 주가 놀라워서 말이 나오지 않는 상황. </div>
+          <div className={styles["content"]}>{post.content}</div>
         </div>
       </StyledLink>
 
       <div className={styles["content-bottom-container"]}>
-        <StyledLink href="/community/user">    
+        <StyledLink href="/community/user">  
           <div className={styles["profile-container"]}>
-            <div className={styles["stock-img"]}></div>
-            <div className={styles["profile-name"]}>Anima Ag.</div>
+              <Image
+                src={post.memberDto.profileImage !=='x' ? post.memberDto.profileImage : ''}
+                alt="member profile image"
+                width="25"
+                height="25"
+                className={styles["profile-img"]}
+              />
+            <div className={styles["profile-name"]}>{post.memberDto.name}</div>
           </div>
         </StyledLink>
 
         <StyledLink href="/community/1">
-          <div className={styles["time"]}>23.08.30 11:41</div>
+          <div className={styles["time"]}>{post.settingDate}</div>
         </StyledLink>
       </div>
 
