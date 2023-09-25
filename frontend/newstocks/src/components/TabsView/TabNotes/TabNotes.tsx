@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link'; 
 import styled from 'styled-components';
-import { fetchReviewNoteData } from '@/services/chart';
+import { fetchMyReviewNoteData } from '@/services/chart';
 import Notepreview from '@/components/Notepreview/Notepreview';
 import StockProfile from "@/components/StockProfile/StockProfile";
 import styles from './TabNotes.module.css';
@@ -30,7 +30,7 @@ export default function TabNotes({ code }: TabProps) {
 
   useEffect(() => {
     const fetchData = () => {
-      fetchReviewNoteData()
+      fetchMyReviewNoteData()
         .then((res) => {
           const notecode: any[] = [];
           res.data.forEach((item: any) => {
