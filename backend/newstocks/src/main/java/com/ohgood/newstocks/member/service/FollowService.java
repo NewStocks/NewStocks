@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.member.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.member.entity.Follow;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.FollowRepository;
@@ -18,17 +19,29 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
-    public void follow(Long followerMemberId, Long followingMemberId) {
-        findMemberById(followerMemberId);
-        findMemberById(followingMemberId);
+    @Transactional
+    public void follow(Long followerId, Long followingId) {
+        findMemberById(followerId);
+        findMemberById(followingId);
+
+        if (followRepository.findByFollowerIdAndFollowingId(followerId, followingId).isPresent()) {
+            throw new BadRequestException("이미 팔로우 관계입니다.");
+        }
         followRepository.save(
-            Follow.builder().followingId(followingMemberId).followerId(followerMemberId)
+            Follow.builder().followingId(followingId).followerId(followerId)
                 .build());
     }
 
-    // 고려할 점
-    // 이렇게 진행한다면 회원 탈퇴시 팔로워 팔로잉 수가 불일치함
-    // 탈퇴 회원 확인하려면 모든 팔로우 관계의 있는 멤버에 대한 delete 확인 필요
+    @Transactional
+    public void unfollow(Long followerId, Long followingId) {
+        findMemberById(followerId);
+        findMemberById(followingId);
+
+        Follow follow = followRepository.findByFollowerIdAndFollowingId(followerId, followingId)
+            .orElseThrow(() -> new BadRequestException("팔로우 관계가 아닙니다."));
+
+        followRepository.delete(follow);
+    }
 
     public Member findMemberById(Long userId) {
         return memberRepository.findByIdAndDeletedFalse(userId)
