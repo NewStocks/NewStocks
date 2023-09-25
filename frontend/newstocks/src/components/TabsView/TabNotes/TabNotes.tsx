@@ -25,7 +25,7 @@ export default function TabNotes({ code }: TabProps) {
   const [datenote, setdateNote] = useState<any[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const notesPerPage = 5;
+  const notesPerPage = 4;
 
 
   useEffect(() => {
