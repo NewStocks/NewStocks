@@ -4,19 +4,33 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import SearchBox from "../SearchBox/SearchBox";
 import StockProfile from "../StockProfile/StockProfile";
-import { Stock } from "@/types/stock";
+import { Stock, FavoriteStock } from "@/types/stock";
 
 import styles from "./LikeStocktab.module.css";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { BiXCircle } from "react-icons/bi";
 
-import { postFavoriteStock, deleteFavoriteStock } from "@/services/favoriteStocks";
+import { getFavoriteStocks, postFavoriteStock, deleteFavoriteStock } from "@/services/favoriteStocks";
 
 export default function LikeStockTab() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [addtoggle, setAddtoggle] = useState(false);
-  const [allFavoriteStocks, setAllFavoriteStocks] = useState<Stock[]>([]);
+  const [allFavoriteStocks, setAllFavoriteStocks] = useState<FavoriteStock[]>([]);
+
+  useEffect(()=> {
+    async function getData() {
+      try {
+        const response = await getFavoriteStocks();
+        console.log(response);
+        setAllFavoriteStocks(response.data);
+
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    getData(); 
+  }, [])
 
 
   const handleSelectStock = (id: string) => {
@@ -26,11 +40,15 @@ export default function LikeStockTab() {
 
   const handleSearch = (stock: Stock) => {
 
+    if (allFavoriteStocks.find(item => item.stockId === stock.id)) {
+      return; 
+    }
+
     const addFavoriteStock = async (stock: Stock) => {
       try {
         const response = await postFavoriteStock(stock); 
         // console.log(response);
-        setAllFavoriteStocks((prev) => [...prev, stock]);
+        setAllFavoriteStocks((prev) => [...prev, {stockId: stock.id, stockName: stock.name}]);
       } catch (e) {
         console.error(e);
         alert("등록에 실패했습니다.");
@@ -40,16 +58,15 @@ export default function LikeStockTab() {
     addFavoriteStock(stock);
   };
 
-  const handleDelete = async (e: MouseEvent, stock: Stock) => {
+  const handleDelete = async (e: MouseEvent, stock: FavoriteStock) => {
 
     e.stopPropagation();
 
     try {
       const response = await deleteFavoriteStock(stock);
-      console.log(response); 
 
       const changedStockList = allFavoriteStocks.filter((eachStock) => {
-        return eachStock.id !== stock.id; 
+        return eachStock.stockId !== stock.stockId; 
       });
       setAllFavoriteStocks(changedStockList);
     } catch (e) {
@@ -61,14 +78,14 @@ export default function LikeStockTab() {
   const favoriteStocks = allFavoriteStocks.map((stock) => {
     return (
       <div
-        key={stock.id}
+        key={stock.stockId}
         className={styles["like-content-stock"]}
-        onClick={() => handleSelectStock(stock.id)}
+        onClick={() => handleSelectStock(stock.stockId)}
       >
         <StockProfile
-          stockName={stock.name}
-          stockId={stock.id}
-          stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.id}.png`}
+          stockName={stock.stockName}
+          stockId={stock.stockId}
+          stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stockId}.png`}
           size="small"
         />
         <BiXCircle
