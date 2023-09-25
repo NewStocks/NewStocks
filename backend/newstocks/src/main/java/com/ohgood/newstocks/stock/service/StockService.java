@@ -18,15 +18,21 @@ import com.ohgood.newstocks.stock.dto.FavoriteStockReqDto;
 import com.ohgood.newstocks.stock.dto.StockDto;
 import com.ohgood.newstocks.stock.dto.StockResDto;
 import com.ohgood.newstocks.stock.dto.StockSearchDto;
+import com.ohgood.newstocks.stock.dto.ValueChainResDto;
 import com.ohgood.newstocks.stock.entity.Chart;
 import com.ohgood.newstocks.stock.entity.FavoriteStock;
 import com.ohgood.newstocks.stock.entity.Stock;
+import com.ohgood.newstocks.stock.entity.StockValueChain;
+import com.ohgood.newstocks.stock.entity.ValueChain;
 import com.ohgood.newstocks.stock.mapper.ChartMapper;
 import com.ohgood.newstocks.stock.mapper.FavoriteStockMapper;
 import com.ohgood.newstocks.stock.mapper.StockMapper;
+import com.ohgood.newstocks.stock.mapper.ValueChainMapper;
 import com.ohgood.newstocks.stock.repository.ChartRepository;
 import com.ohgood.newstocks.stock.repository.FavoriteStockRepository;
 import com.ohgood.newstocks.stock.repository.StockRepository;
+import com.ohgood.newstocks.stock.repository.StockValueChainRepository;
+import com.ohgood.newstocks.stock.repository.ValueChainRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +51,9 @@ public class StockService {
     private final ReviewNoteRepository reviewNoteRepository;
     private final FavoriteStockRepository favoriteStockRepository;
     private final MemberRepository memberRepository;
+    private final ValueChainRepository valueChainRepository;
+    private final StockValueChainRepository stockValueChainRepository;
+
 
     public ChartResDto findChartSeriesByStockId(String stockId) {
         List<ChartSeriesDto> chartSeriesDtoList = new ArrayList<>();
@@ -105,7 +114,6 @@ public class StockService {
 
     private List<DataDto> findAllNewsDataByStockId(String stockId) {
         List<DataDto> newsDataDtoList = new ArrayList<>();
-        log.info("start");
         List<NewsDto> NewsDtoList = newsService.findAllNewsDtoByStockId(stockId);
         for (NewsDto newsDto : NewsDtoList) {
             newsDataDtoList.add(NewsMapper.INSTANCE.NewsDtoToDataDto(newsDto));
@@ -120,14 +128,11 @@ public class StockService {
     }
 
     public StockSearchDto findAllStockForSearch() {
-        log.info("db start");
         List<Stock> stockList = stockRepository.findAll();
-        log.info("start");
         List<StockDto> stockDtoList = new ArrayList<>();
         for (Stock stock : stockList) {
             stockDtoList.add(StockMapper.INSTANCE.entityToStockDto(stock));
         }
-        log.info("end");
         return StockSearchDto.builder().stockDtoList(stockDtoList).build();
     }
 
@@ -163,5 +168,42 @@ public class StockService {
                 FavoriteStockMapper.INSTANCE.entityToFavoriteStockDto(favoriteStock));
         }
         return favoriteStockDtoList;
+    }
+
+    public List<ValueChainResDto> findAllValueChainByStockId(String stockId) {
+        //그러면 얘는 stockValueChain의 컬럼을 기반으로 valuechain엔티티를 가져와야겠네
+        //주식을 찾고 ->stockvaluechainList를 찾고->거기서 각기의 컬럼에 따라서 벨류체인을 찾아서 넣으면 되겠네
+        Stock stock = stockRepository.findById(stockId)
+            .orElseThrow(() -> new BadRequestException("벨류체인 항목을 찾고자 하는 종목코드가 존재하지 않습니다."));
+
+        List<ValueChain> valueChainList = new ArrayList<>();
+        List<ValueChainResDto> valueChainResDtoList = new ArrayList<>();
+        List<StockValueChain> stockValueChainList = stock.getStockValueChainList();
+        for (StockValueChain stockValueChain : stockValueChainList) {
+            valueChainList.add(stockValueChain.getValueChain());
+        }
+        for (ValueChain valueChain : valueChainList) {
+            valueChainResDtoList.add(
+                ValueChainMapper.INSTANCE.valueChainToValueChainResDto(valueChain));
+        }
+        return valueChainResDtoList;
+    }
+
+    public String saveValueChain(String stockId, String valueChainId, String valueChainName) {
+        System.out.println(stockId + " " + valueChainId + " " + valueChainName);
+        try {
+            ValueChain valueChain = valueChainRepository.save(
+                ValueChain.builder().id(valueChainId)
+                    .valueChainName(valueChainName).build());
+            stockValueChainRepository.save(StockValueChain.builder().stock(
+                    stockRepository.findById(stockId)
+                        .orElseThrow(() -> new BadRequestException("관련짓고자 하는 국내 주식이 존재하지 않습니다.")))
+                .valueChain(valueChain).build());
+            return "success";
+        } catch (Exception e) {
+            // 예외가 발생하면 예외 메시지를 문자열로 반환
+            return "실패: " + e.getMessage();
+        }
+
     }
 }
