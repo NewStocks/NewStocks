@@ -66,26 +66,35 @@
     cursor: pointer;
   }
   .valuechain {
+    margin-left: 10px;
     display: flex;
     float: right;
-    color: yellow;
+    color: #4FE7B0;
     align-items: center;
-    width: 9vw;
+    width: 7vw;
     height: 6vh;
   }
   .value {
     margin-right: 0.5vw;
     padding: 2px 10px 2px 10px;
-    border: 2px solid yellow;
-    border-radius: 30px;
+    /* border: 1px solid #4FE7B0;
+    border-radius: 30px; */
     cursor: pointer;
-    font-size: 15px;
+    font-size: 11px;
     display: flex;
     align-items: center;
+    
+    
   }
-  #valueinfo {
+  #valueinfo2 {
     display: flex;
     height: 30px;
+    width: auto;
+    cursor: pointer;
+  }
+  #valueinfo1 {
+    display: flex;
+    height: 25px;
     width: auto;
     cursor: pointer;
   }

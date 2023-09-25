@@ -1,5 +1,7 @@
 .comment-container {
   padding: 10px 0 10px 0;
+  margin: 5px 0;
+  border-bottom: 0.1rem solid gray;
 }
 
 .profile {
@@ -12,9 +14,9 @@
 }
 
 .profile-img {
-  width: 25px;
+  /* width: 25px;
   height: 25px;
-  background-color: #d9d9d96f;
+  background-color: #d9d9d96f; */
   border-radius: 100%;
   margin-right: 6px;
 }
@@ -47,31 +49,28 @@
 
 .icons div {
   display: flex;
-  width: 126px;
+  justify-content: space-between;
+  width: 260px;
+}
+
+.icons div div {
+  display: flex;
+  justify-content: start;
+  width: 125px;
   height: 40px;
   border: 1px solid #d9d9d96f;
   border-radius: 14px;
   background-color: transparent;
   color: white;
-  font-size: 17px;
+  font-size: 16px;
   padding: 7px 10px 7px 20px;
   cursor: pointer;
 }
 
-#like {
-  width: 132px;
-}
-
-#like:hover {
+.icons div div:hover {
   font-weight: 500;
   cursor: pointer;
-  border: 1.6px solid #d9d9d96f;
-}
-
-#cocomment:hover {
-  font-weight: 500;
-  cursor: pointer;
-  border: 1.6px solid #d9d9d96f;
+  border: 2px solid #d9d9d96f;
 }
 
 .icons div p {

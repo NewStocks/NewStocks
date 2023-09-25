@@ -4,8 +4,9 @@
 	margin-top: 10px;
 	margin-left: 10px;
 	padding: 10px;
-	height: 110px;
+	height: 150px;
   overflow-y: scroll;
+	
 }
 .Note-preview-wrapper::-webkit-scrollbar {
 	width: 10px;  
@@ -28,9 +29,20 @@
 .Note-preview-name {
 	display: flex;
 	font-size: 11px;
+	align-items: center;
 }
+.Note-preview-name img {
+	width: 30px; 
+	height: 30px; 
+	border-radius: 50%; 
+	margin-right: 10px; 
+  }
+
 .Note-preview-date {
 	font-size: 11px;
+}
+.Note-preview-text {
+	width: 200px
 }
 .Note-preview-title {
 	display: flex;
@@ -40,4 +52,15 @@
 .Note-preview-content {
 	display: flex;
 	font-size: 11px;
+}
+.Note-preview-image img {
+	width: 130px; 
+	height: 100px; 
+	border-radius: 10%; 
+	/* margin-top: 5px;  */
+}
+.Note-preview-body {
+	display: flex;
+	justify-content: space-between;
+
 }

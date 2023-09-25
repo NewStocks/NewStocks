@@ -3,6 +3,7 @@ import { usePathname,useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import styles from './Newstab.module.css'
 import { useRouter } from 'next/navigation';
+import { LiaSortDownSolid } from "react-icons/lia";
 
 import { fetchNewsData, fetchValueNewsData } from '@/services/chart';
 
@@ -39,10 +40,9 @@ type DateValueNewsItem = {
   valueChainName: string
 };
 
-type GroupedNewsData = {
-  date: string;
-  newsItems: NewsItem[];
-  datenewsItems: DateNewsItem[];
+type NewsFilterOptions = {
+  sortBy: 'latest' | 'oldest';
+  filterBy: 'all' | 'positive' | 'negative';
 };
 
 // Pagination 컴포넌트 
@@ -129,6 +129,11 @@ export default function Newstab() {
   const [itemsPerPage, setItemsPerPage] = useState(5); // 페이지당 뉴스 아이템 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
 
+  const [filterOptions, setFilterOptions] = useState<NewsFilterOptions>({
+    sortBy: 'latest',
+    filterBy: 'all',
+  });
+
 
   useEffect(() => {
     const fetchData = () => {
@@ -136,7 +141,26 @@ export default function Newstab() {
         .then((res) => {
           // const date = new Date(res.data[0].publishTime).getTime()
           const newsData: NewsItem[] = res.data;
-          setNewsData(newsData)
+          const sortedNewsData = newsData.slice().sort((a, b) => {
+            if (filterOptions.sortBy === 'latest') {
+              return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
+            } else {
+              return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
+            }
+          });
+          const filteredNewsData = sortedNewsData.filter((item) => {
+            if (filterOptions.filterBy === 'all') {
+              return true;
+            } else if (filterOptions.filterBy === 'positive' && item.sentimentType === 'POSITIVE') {
+              return true;
+            } else if (filterOptions.filterBy === 'negative' && item.sentimentType === 'NEGATIVE') {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          setNewsData(filteredNewsData)
+          // setNewsData(newsData)
           const datenews: DateNewsItem[]=[]
 					res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
@@ -145,7 +169,25 @@ export default function Newstab() {
 							datenews.push(item)
 						}
 					});
-					setdateNews(datenews)
+          const sorteddateNewsData = datenews.slice().sort((a, b) => {
+            if (filterOptions.sortBy === 'latest') {
+              return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
+            } else {
+              return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
+            }
+          });
+          const filtereddateNewsData = sorteddateNewsData.filter((item) => {
+            if (filterOptions.filterBy === 'all') {
+              return true;
+            } else if (filterOptions.filterBy === 'positive' && item.sentimentType === 'POSITIVE') {
+              return true;
+            } else if (filterOptions.filterBy === 'negative' && item.sentimentType === 'NEGATIVE') {
+              return true;
+            } else {
+              return false;
+            }
+          });
+					setdateNews(filtereddateNewsData)
         })
         .catch((err) => {
           console.log(err);
@@ -154,7 +196,15 @@ export default function Newstab() {
 
     fetchData();
 
-  }, [code,newsDate]);
+  }, [code,newsDate, filterOptions]);
+
+  const handleSortChange = (sortBy: NewsFilterOptions['sortBy']) => {
+    setFilterOptions({ ...filterOptions, sortBy });
+  };
+
+  const handleFilterChange = (filterBy: NewsFilterOptions['filterBy']) => {
+    setFilterOptions({ ...filterOptions, filterBy });
+  };
 
   useEffect(() => {
     const fetchValueData = () => {
@@ -237,12 +287,31 @@ export default function Newstab() {
                 className={styles["headertab"]}
                 onClick={handleShowAllNews}>전체 보기
               </div>
+              <div className={styles["datetab"]}>{newsDate}</div>
             </div>
           )} 
-          <div className={styles["headertab"]}>{newsDate}</div>
+          
+          <div className={styles["filter-controls"]}>
+              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.sortBy} onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}>
+                <option value="latest">최신순</option>
+                <option value="oldest">오래된순</option>
+              </select>
+              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.filterBy} onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}>
+                <option value="all">전체 보기</option>
+                <option value="positive">긍정 뉴스</option>
+                <option value="negative">부정 뉴스</option>
+              </select>
+            </div>
+          
         </div>
         <div>
           {/* 국내뉴스 */}
+          {selectedView === 'news' && newsData.length === 0 && (
+            <div className={styles["no-news"]}>뉴스가 없습니다.</div>
+          )}
+          {selectedView === 'overseasNews' && valuenews.length === 0 && (
+            <div className={styles["no-news"]}>뉴스가 없습니다.</div>
+          )}
           {selectedView === 'news' && (
               date_currentItems.map((newsItem, index) => (
                 <div
@@ -312,91 +381,110 @@ export default function Newstab() {
       </div>
       }
       {/* 전체 날짜 */}
+      
       {!newsDate && 
-      <div>
-        <div className={styles["newsheader"]}>
-          {valuenews && (
-            <div className={styles["globalheader"]}>
-              <div
-                className={`${styles["headertab"]} ${
-                  selectedView === "news" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("news")}>국내 뉴스
-              </div>
-              <div
-                className={`${styles["headertab"]} ${
-                  selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("overseasNews")}>해외 뉴스
-              </div>
-            </div>
-          )}
-        </div>
         <div>
-        {/* 국내뉴스 */}
-        {selectedView === 'news' && (
-            currentItems.map((newsItem, index) => (
-              <div
-                className={styles["newscontent"]}
-                key={index}
-                style={{
-                  borderLeft: 
-                  newsItem.sentimentType === 'POSITIVE' ? '10px solid rgba(79, 231, 176, 1)' : newsItem.sentimentType === 'NEGATIVE' ? '10px solid rgba(255, 66, 66, 1)' : '10px solid rgba(0, 5, 30, 0.7)',
-                }}>
-                <div className={styles["newscontentup"]}>
-                  <div className={styles["newscompany"]}>
-                    {newsItem.company}
+          <div className={styles["newsheader"]}>
+            {valuenews && (
+              <div className={styles["globalheader"]}>
+                <div
+                  className={`${styles["headertab"]} ${
+                    selectedView === "news" ? styles["activeTab"] : ""}`}
+                  onClick={() => setSelectedView("news")}>국내 뉴스
+                </div>
+                <div
+                  className={`${styles["headertab"]} ${
+                    selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
+                  onClick={() => setSelectedView("overseasNews")}>해외 뉴스
+                </div>
+              </div>
+            )}
+            <div className={styles["filter-controls"]}>
+              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.sortBy} onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}>
+                <option value="latest">최신순</option>
+                <option value="oldest">오래된순</option>
+              </select>
+              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.filterBy} onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}>
+                <option value="all">전체 보기</option>
+                <option value="positive">긍정 뉴스</option>
+                <option value="negative">부정 뉴스</option>
+              </select>
+            </div>
+          </div>
+          <div>
+          {/* 국내뉴스 */}
+          {selectedView === 'news' && newsData.length === 0 && (
+            <div className={styles["no-news"]}>뉴스가 없습니다.</div>
+          )}
+          {selectedView === 'overseasNews' && valuenews.length === 0 && (
+            <div className={styles["no-news"]}>뉴스가 없습니다.</div>
+          )}
+          {selectedView === 'news' && (
+              currentItems.map((newsItem, index) => (
+                <div
+                  className={styles["newscontent"]}
+                  key={index}
+                  style={{
+                    borderLeft: 
+                    newsItem.sentimentType === 'POSITIVE' ? '10px solid rgba(79, 231, 176, 1)' : newsItem.sentimentType === 'NEGATIVE' ? '10px solid rgba(255, 66, 66, 1)' : '10px solid rgba(0, 5, 30, 0.7)',
+                  }}>
+                  <div className={styles["newscontentup"]}>
+                    <div className={styles["newscompany"]}>
+                      {newsItem.company}
+                    </div>
+                    <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
                   </div>
-                  <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                  <div className={styles["newstitle"]}>
+                    <a
+                      href={newsItem.url}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                      }}
+                      style={{ textDecoration:'none', color: 'inherit' }}>
+                      {newsItem.title}
+                    </a>
+                  </div>
                 </div>
-                <div className={styles["newstitle"]}>
-                  <a
-                    href={newsItem.url}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                    }}
-                    style={{ textDecoration:'none', color: 'inherit' }}>
-                    {newsItem.title}
-                  </a>
-                </div>
+              ))
+          )}
+          {/* 해외뉴스 */}
+          {selectedView === 'overseasNews' && (
+            
+            valuecurrentItems.map((newsItem, index) => (
+              <div className={styles["newscontent"]} key={index}>
+                <div className={styles["newscontentup"]}>
+                    <div className={styles["newscompany"]}>
+                      {newsItem.company}
+                    </div>
+                    <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
+                  </div>
+                  <div className={styles["newstitle"]}>
+                    <a
+                      href={newsItem.url}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                      }}
+                      style={{ textDecoration:'none', color: 'inherit' }}>
+                      {newsItem.title}
+                    </a>
+                  </div>
               </div>
             ))
-        )}
-        {/* 해외뉴스 */}
-        {selectedView === 'overseasNews' && (
-          valuecurrentItems.map((newsItem, index) => (
-            <div className={styles["newscontent"]} key={index}>
-              <div className={styles["newscontentup"]}>
-                  <div className={styles["newscompany"]}>
-                    {newsItem.company}
-                  </div>
-                  <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
-                </div>
-                <div className={styles["newstitle"]}>
-                  <a
-                    href={newsItem.url}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                    }}
-                    style={{ textDecoration:'none', color: 'inherit' }}>
-                    {newsItem.title}
-                  </a>
-                </div>
+            )}
+          </div>
+          {selectedView === 'news' && 
+            <div className={styles["pagebuttonbox"]}>
+              <Pagination currentPage={currentPage} totalPageCount={totalPageCount} onPageChange={handlePageChange} />
             </div>
-          ))
-          )}
+          }
+          {selectedView === 'overseasNews' && 
+            <div className={styles["pagebuttonbox"]}>
+              <Pagination currentPage={currentPage} totalPageCount={valuetotalPageCount} onPageChange={handlePageChange} />
+            </div>
+          }
         </div>
-        {selectedView === 'news' && 
-          <div className={styles["pagebuttonbox"]}>
-            <Pagination currentPage={currentPage} totalPageCount={totalPageCount} onPageChange={handlePageChange} />
-          </div>
-        }
-        {selectedView === 'overseasNews' && 
-          <div className={styles["pagebuttonbox"]}>
-            <Pagination currentPage={currentPage} totalPageCount={valuetotalPageCount} onPageChange={handlePageChange} />
-          </div>
-        }
-      </div>
       }
     </div>
   );

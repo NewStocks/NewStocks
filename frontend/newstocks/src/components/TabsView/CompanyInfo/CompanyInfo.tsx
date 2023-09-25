@@ -71,7 +71,7 @@ export default function CompanyInfo() {
         </div>
         <div className={styles["hr"]}></div>
         <div className={styles["company-detail-wrapper"]}>
-          <p>종합정보</p>
+
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>시가총액</div>
             <div className={styles["company-detail-content"]}>{formatNumber(stockData.marketCap)}</div>

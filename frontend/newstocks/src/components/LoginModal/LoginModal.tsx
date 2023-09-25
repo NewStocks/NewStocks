@@ -28,7 +28,7 @@ export default function LoginModal({type}: Props) {
         {type==="nav" ? 
         (
         <>
-          <div className={styles["login-subtitle"]}><span>NEWStocks</span>의 더 많은 서비스 이용하기</div>
+          <div className={styles["login-subtitle"]}>더 다양한 서비스 이용하기</div>
           <button onClick={onOpen}>
             <div className={styles["login-title"]}>로그인 | 회원가입</div>
             <div className={styles["login-icon"]}><PiArrowSquareRightBold size="21"/></div>
@@ -42,7 +42,7 @@ export default function LoginModal({type}: Props) {
         } 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="#262730">
           {/* <ModalHeader><Logo /></ModalHeader> */}
           <ModalCloseButton />
           <ModalBody>
@@ -51,7 +51,7 @@ export default function LoginModal({type}: Props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button mb={4} colorScheme={"#4dd7a4;"} w={"100%"} onClick={onClose}>
+            <Button mb={4} colorScheme={"#4dd7a4;"} w={"100%"} onClick={onClose} color={"black"}>
               Close
             </Button>
             {/* <Button variant='ghost'>Secondary Action</Button> */}

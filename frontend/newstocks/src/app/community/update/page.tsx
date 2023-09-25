@@ -8,6 +8,8 @@ const CreatePostForm = dynamic(() => import('@/components/CreatePostForm/CreateP
 
 import { IoIosArrowBack } from 'react-icons/io'
 
+import { Provider } from '@/util/ChakraProvider'
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
@@ -44,7 +46,9 @@ export default function UpdatePage() {
       <div className={styles["top-menu"]}>
         <StyledLink href='/'><IoIosArrowBack /><div>뒤로가기</div></StyledLink>
       </div>
-      <CreatePostForm type="update"/>
+      <Provider>
+        <CreatePostForm type="update"/>
+      </Provider>
     </div>
   )
 }

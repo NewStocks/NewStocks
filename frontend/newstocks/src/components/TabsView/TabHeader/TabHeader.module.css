@@ -23,6 +23,9 @@
 	color: white;
 	text-decoration: none;
 }
+.header-item:hover {
+	color: #4FE7B0;
+}
 .selected-item {
 	color: #4FE7B0;
 }

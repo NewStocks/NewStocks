@@ -16,7 +16,7 @@ import { AiOutlineShareAlt } from "react-icons/ai"
 export default function Card() {
   return(
     <div className={styles["card-container"]}>
-      <StyledLink href="/community/1">
+      <StyledLink href="/community/42">
         <div className={styles["image-container"]}></div>
       </StyledLink>
 
@@ -28,7 +28,7 @@ export default function Card() {
               <div className={styles["stock-name"]}>카카오</div>
             </div>
           </StyledLink>
-          <StyledLink href="/community/1">
+          <StyledLink href="/community/42">
             <div className={styles["title"]}>
               여기가 제목 영역입니다.
             </div>

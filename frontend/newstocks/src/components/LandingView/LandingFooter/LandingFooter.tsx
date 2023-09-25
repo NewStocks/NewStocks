@@ -2,7 +2,7 @@
 import styles from './landingfooter.module.css'
 import { useEffect, useState } from 'react';
 
-import Button from '../Button/Button'
+import Button from '../../Button/Button'
 
 export default function LandingFooter() {
   const [ isVisible, setIsVisible ] = useState(false);
