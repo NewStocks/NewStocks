@@ -176,7 +176,7 @@ export default function ChartComponent() {
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
-        tooltipRef.current.style = `width: 150px; max-height: 700px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        tooltipRef.current.style = `width: auto; max-height: 700px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.7)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
