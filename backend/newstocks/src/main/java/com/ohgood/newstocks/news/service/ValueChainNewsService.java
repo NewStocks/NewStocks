@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.news.service;
 
+import com.ohgood.newstocks.global.exception.exceptions.BadRequestException;
 import com.ohgood.newstocks.news.dto.ValueChainNewsDto;
 import com.ohgood.newstocks.news.entity.ValueChainNews;
 import com.ohgood.newstocks.news.mapper.NewsMapper;
@@ -18,9 +19,9 @@ public class ValueChainNewsService {
 
     private final ValueChainNewsRepository valueChainNewsRepository;
 
-    public List<ValueChainNewsDto> findAllByValueChainId(String valueChainId) {
-        List<ValueChainNews> valueChainNewsList = valueChainNewsRepository.findAllByValueChainIdOrderByPublishTimeDesc(
-            valueChainId);
+    public List<ValueChainNewsDto> findAllByStockId(String stockId) {
+        List<ValueChainNews> valueChainNewsList = valueChainNewsRepository.findAllByStockId(
+            stockId);
         List<ValueChainNewsDto> valueChainNewsDtoList = new ArrayList<>();
 
         for (ValueChainNews valueChainNews : valueChainNewsList) {
@@ -31,9 +32,12 @@ public class ValueChainNewsService {
         return valueChainNewsDtoList;
     }
 
-    public List<ValueChainNewsDto> findDateNewsByValueChainId(String valueChainId, String date) {
-        List<ValueChainNews> valueChainNewsList = valueChainNewsRepository.findDateNewsByValueChainId(
-            valueChainId, LocalDate.parse(date));
+    public List<ValueChainNewsDto> findDateNewsByStockId(String stockId, String date) {
+        if (LocalDate.parse(date).isAfter(LocalDate.now()))
+            throw new BadRequestException("어제 날짜 이후의 데이터를 조회할 수 없습니다.");
+
+        List<ValueChainNews> valueChainNewsList = valueChainNewsRepository.findDateNewsByStockId(
+            stockId, LocalDate.parse(date));
         List<ValueChainNewsDto> valueChainNewsDtoList = new ArrayList<>();
 
         for (ValueChainNews valueChainNews : valueChainNewsList) {

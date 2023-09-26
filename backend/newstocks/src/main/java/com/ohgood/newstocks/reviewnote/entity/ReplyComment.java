@@ -2,6 +2,8 @@ package com.ohgood.newstocks.reviewnote.entity;
 
 import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.global.entity.BaseTimeEntity;
+import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.reviewnote.dto.ReplyCommentReqDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -27,14 +29,24 @@ public class ReplyComment extends BaseEntity {
     private Integer likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @ToString.Exclude
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reply_id")
     @ToString.Exclude
     private Reply reply;
 
     @Builder
-    public ReplyComment(String content, Integer likeCount, Reply reply) {
+    public ReplyComment(@NotNull String content, Member member, Reply reply) {
         this.content = content;
-        this.likeCount = likeCount;
+        this.likeCount = 0;
+        this.member = member;
         this.reply = reply;
+    }
+
+    public void updateReplyComment(ReplyCommentReqDto replyCommentReqDto) {
+        this.content = replyCommentReqDto.getContent();
     }
 }

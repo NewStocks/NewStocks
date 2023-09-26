@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.news.dto;
 
+import com.ohgood.newstocks.news.entity.SentimentType;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,13 +21,19 @@ public class NewsResDto {
 
     private LocalDateTime publishTime;
 
+    private SentimentType sentimentType;
+
+    private int duplicatedCount;
+
     @Builder
     public NewsResDto(String title, String stockId, String company, String url,
-        LocalDateTime publishTime) {
+        LocalDateTime publishTime, SentimentType sentimentType, int duplicatedCount) {
         this.title = title;
         this.stockId = stockId;
         this.company = company;
         this.url = url;
         this.publishTime = publishTime;
+        this.sentimentType = sentimentType;
+        this.duplicatedCount = duplicatedCount;
     }
 }

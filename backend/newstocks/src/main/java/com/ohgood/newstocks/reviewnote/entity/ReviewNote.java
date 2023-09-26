@@ -35,6 +35,9 @@ public class ReviewNote extends BaseEntity {
     private int scrapCount;
 
     @NotNull
+    private int replyCount;
+
+    @NotNull
     private Boolean privacy;
 
     @Column
@@ -103,15 +106,25 @@ public class ReviewNote extends BaseEntity {
     @ToString.Exclude
     private List<ReviewNoteLink> reviewNoteLinkList;
 
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteLike> reviewNoteLikeList;
+
+    @OneToMany(mappedBy = "reviewNote")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
+    private List<ReviewNoteScrap> reviewNoteScrapList;
+
     @Builder
     public ReviewNote(String title, Boolean privacy, LocalDateTime settingDate,
         LocalDateTime buyDate, LocalDateTime sellDate, int buyPrice, int sellPrice, int buyQuantity,
         int sellQuantity, String content, NoteType type, Member member,
-        List<ReviewNoteImage> reviewNoteImageList, List<ReviewNoteNews> reviewNoteNewsList,
         Stock stock) {
         this.title = title;
         this.likeCount = 0;
         this.scrapCount = 0;
+        this.replyCount = 0;
         this.privacy = privacy;
         this.settingDate = settingDate;
         this.buyDate = buyDate;
@@ -133,5 +146,29 @@ public class ReviewNote extends BaseEntity {
 
     public void updateReviewNoteLink(List<ReviewNoteLink> reviewNoteLinkList) {
         this.reviewNoteLinkList = reviewNoteLinkList;
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount--;
+    }
+
+    public void increaseScrapCount() {
+        this.scrapCount++;
+    }
+
+    public void decreaseScrapCount() {
+        this.scrapCount--;
+    }
+
+    public void increaseReplyCount() {
+        this.replyCount++;
+    }
+
+    public void decreaseReplyCount() {
+        this.replyCount--;
     }
 }

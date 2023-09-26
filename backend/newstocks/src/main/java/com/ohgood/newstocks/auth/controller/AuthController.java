@@ -1,14 +1,18 @@
 package com.ohgood.newstocks.auth.controller;
 
+import com.ohgood.newstocks.auth.oauth.google.GoogleService;
+import com.ohgood.newstocks.auth.oauth.google.GoogleTokenDto;
+import com.ohgood.newstocks.auth.oauth.google.GoogleUserDto;
+import com.ohgood.newstocks.auth.oauth.common.OAuthReqDto;
 import com.ohgood.newstocks.auth.oauth.kakao.KakaoService;
 import com.ohgood.newstocks.auth.oauth.kakao.KakaoTokenDto;
 import com.ohgood.newstocks.auth.oauth.kakao.KakaoUserDto;
+import com.ohgood.newstocks.member.dto.MemberLoginDto;
 import com.ohgood.newstocks.member.entity.Member;
-import com.ohgood.newstocks.reviewnote.dto.ReplyLikeDtoTest;
-import com.ohgood.newstocks.reviewnote.entity.ReplyLike;
-import com.ohgood.newstocks.reviewnote.mapper.ReplyLikeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,20 +23,21 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final KakaoService kakaoService;
+    private final GoogleService googleService;
 
-    @GetMapping(value = "/login/kakao")
-    public void kakaoLogin(@RequestParam("code") String code) {
-        KakaoTokenDto kakaoTokenDto = kakaoService.getKakaoAccessToken(code);
+    @PostMapping("/login/kakao")
+    public ResponseEntity<MemberLoginDto> kakaoLogin(@RequestBody OAuthReqDto oAuthReqDto) {
+        KakaoTokenDto kakaoTokenDto = kakaoService.getKakaoAccessToken(oAuthReqDto.getCode());
         KakaoUserDto kakaoUserDto = kakaoService.getKakaoUser(kakaoTokenDto.getAccessToken());
         Member loginMember = kakaoService.loginKakao(kakaoUserDto);
+        return new ResponseEntity<>(kakaoService.getMemberLoginDto(loginMember), HttpStatus.OK);
+    }
 
-        log.info("테스트 시작");
-        ReplyLikeDtoTest replyLikeDtoTest = new ReplyLikeDtoTest(1L, loginMember);
-
-        log.info("" + replyLikeDtoTest.getId());
-
-        ReplyLike replyLike = ReplyLikeMapper.INSTANCE.dtoToEntity(replyLikeDtoTest);
-//        ReplyLike replyLike = replyLikeMapper.INSTANCE.dtoToEntity(replyLikeDtoTest);
-        log.info(replyLike.getMember().getName());
+    @PostMapping("/login/google")
+    public ResponseEntity<MemberLoginDto> googleLogin(@RequestBody OAuthReqDto oAuthReqDto) {
+        GoogleTokenDto googleTokenDto = googleService.getGoogleAccessToken(oAuthReqDto.getCode());
+        GoogleUserDto googleUserDto = googleService.getGoogleUser(googleTokenDto.getAccessToken());
+        Member loginMember = googleService.loginGoogle(googleUserDto);
+        return new ResponseEntity<>(kakaoService.getMemberLoginDto(loginMember), HttpStatus.OK);
     }
 }

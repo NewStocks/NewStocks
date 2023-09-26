@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert Value Chain</title>
+</head>
+<body>
+<h1>Insert Value Chain</h1>
+<form method="post" action="/stock/save-value-chain">
+  <input type="text" name="stock_id" placeholder="Stock ID" required>
+  <input type="text" name="value_chain_id" placeholder="Value Chain ID" required>
+  <input type="text" name="value_chain_name" placeholder="Value Chain Name" required>
+  <button type="submit">Save</button>
+</form>
+
+<!-- 성공 또는 실패 메시지를 표시할 위치 -->
+<div th:if="${message != null}" th:text="${message}"></div>
+</body>
+</html>

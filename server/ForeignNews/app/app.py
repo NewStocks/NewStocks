@@ -17,6 +17,7 @@ db_config = {
     "password": os.getenv("DB_PWD"),
     "database": os.getenv("DB_NAME"),
 }
+
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
 one_day_ago = datetime.now() - timedelta(days=1)
 URL = "https://stockrow.com/"
@@ -205,4 +206,4 @@ def save_all_news():
 if __name__ == "__main__":
     start_time = time.time()
     print("start_time time:", start_time)
-    app.run(port=5001)
+    app.run(debug=False, host='0.0.0.0', port=5433)

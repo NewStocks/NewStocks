@@ -20,13 +20,17 @@ public class FavoriteStock {
     @NotNull
     private String stockId;
 
+    @NotNull
+    private String stockName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public FavoriteStock(@NotNull String stockId, Member member) {
+    public FavoriteStock(@NotNull String stockId, @NotNull String stockName, Member member) {
         this.stockId = stockId;
+        this.stockName = stockName;
         this.member = member;
     }
 }

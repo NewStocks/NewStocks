@@ -23,7 +23,7 @@ pipeline {
             steps {
                 dir('backend/newstocks') {
                     sh 'docker rm -f back'
-                    sh 'docker run -d --env-file .env --name back -p 8200:8200 -u root newstocks:latest'
+                    sh 'docker run -d --env-file .env -e TZ=Asia/Seoul --name back -p 8200:8200 -u root newstocks:latest'
                 }
             }
         }
