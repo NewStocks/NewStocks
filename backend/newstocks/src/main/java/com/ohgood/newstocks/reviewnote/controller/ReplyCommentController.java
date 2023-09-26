@@ -28,14 +28,17 @@ public class ReplyCommentController {
     @PostMapping("/{replyId}/reply-comment")
     public ResponseEntity<ReplyCommentResDto> insertReplyComment(
         @PathVariable("replyId") Long replyId, @RequestBody ReplyCommentReqDto replyCommentReqDto) {
+        // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(
-            replyCommentService.insertReplyComment(replyCommentReqDto, replyId, 6L), HttpStatus.OK);
+            replyCommentService.insertReplyComment(replyCommentReqDto, replyId, 5L),
+            HttpStatus.OK);
     }
 
     @GetMapping("/{replyId}/reply-comment")
     public ResponseEntity<List<ReplyCommentResDto>> findReplyComment(
         @PathVariable("replyId") Long replyId) {
-        return new ResponseEntity<>(replyCommentService.findReplyComment(replyId, 6L),
+        // Authentication 처리 전 임시 테스트
+        return new ResponseEntity<>(replyCommentService.findReplyComment(replyId, 5L),
             HttpStatus.OK);
     }
 
@@ -44,14 +47,32 @@ public class ReplyCommentController {
         @PathVariable("replyId") Long replyId,
         @PathVariable("replyCommentId") Long replyCommentId,
         @RequestBody ReplyCommentReqDto replyCommentReqDto) {
-        replyCommentService.updateReplyComment(replyCommentReqDto, replyCommentId, 6L);
+        // Authentication 처리 전 임시 테스트
+        replyCommentService.updateReplyComment(replyCommentReqDto, replyCommentId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{replyId}/reply-comment/{replyCommentId}")
     public ResponseEntity<Void> deleteReplyComment(
+        @PathVariable("replyId") Long replyId,
         @PathVariable("replyCommentId") Long replyCommentId) {
-        replyCommentService.deleteReplyComment(replyCommentId, 6L);
+        // Authentication 처리 전 임시 테스트
+        replyCommentService.deleteReplyComment(replyId, replyCommentId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/reply-comment/{replyCommentId}/like")
+    public ResponseEntity<Void> likeReplyComment(@PathVariable("replyCommentId") Long replyCommentId) {
+        // Authentication 처리 전 임시 테스트
+        replyCommentService.likeReplyComment(replyCommentId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/reply-comment/{replyCommentId}/like")
+    public ResponseEntity<Void> deleteLikeReplyComment(
+        @PathVariable("replyCommentId") Long replyCommentId) {
+        // Authentication 처리 전 임시 테스트
+        replyCommentService.deleteLikeReplyComment(replyCommentId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

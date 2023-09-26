@@ -49,4 +49,12 @@ public class ReplyComment extends BaseEntity {
     public void updateReplyComment(ReplyCommentReqDto replyCommentReqDto) {
         this.content = replyCommentReqDto.getContent();
     }
+
+    public void increaseLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount -= 1;
+    }
 }
