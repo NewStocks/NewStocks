@@ -1,8 +1,9 @@
 package com.ohgood.newstocks.global.config;
 
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
+import com.ohgood.newstocks.auth.jwt.JwtAccessDeniedHandler;
+import com.ohgood.newstocks.auth.jwt.JwtAuthenticationEntryPoint;
 import com.ohgood.newstocks.auth.jwt.JwtAuthenticationProcessingFilter;
 import com.ohgood.newstocks.auth.jwt.service.JwtService;
 import com.ohgood.newstocks.member.repository.MemberRepository;
@@ -16,13 +17,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
     //라이라이 차차차, antMatcher, csrf가 deprecated되어버렸기에 열심히
@@ -37,13 +40,15 @@ public class SecurityConfig {
             .sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))
             .httpBasic(httpBasic -> httpBasic.disable())
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/notice/**").hasRole("SOME_ROLE") // Another endpoint with a single role requirement
+                .requestMatchers("/notice/**").hasAuthority("SOME_ROLE")
+                .requestMatchers("/review-note/**").authenticated()
                 .anyRequest().permitAll()
             )
-            .formLogin(withDefaults()); // 기본 로그인을 비활성화하고자 할 때 .formLogin(withDefaults())를 사용
-        http.addFilterAfter(jwtAuthenticationProcessingFilter(), LogoutFilter.class);
+            .headers(headers -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
+        http.addFilterAfter(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
