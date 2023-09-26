@@ -98,6 +98,8 @@ export default function TabNotes({ code }: TabProps) {
                   profile= {item.memberDto.profileImage}
 									content = {item.content}
                   image = {item.reviewNoteImageDtoList[0]?.url}
+                  likeCount = {item.likeCount}
+                  scrapCount= {item.scrapCount}
 								/> 
               </StyledLink>
           ))}
@@ -114,6 +116,9 @@ export default function TabNotes({ code }: TabProps) {
                   profile = {item.memberDto.profileImage}
 									content = {item.content}
                   image = {item.reviewNoteImageDtoList[0]?.url}
+                  likeCount = {item.likeCount}
+                  scrapCount = {item.scrapCount}
+                  replyCount = {item.replyCount}
 								/> 
               </StyledLink>
           ))}
