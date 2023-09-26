@@ -11,7 +11,7 @@ export default function KakaoLogin() {
     if (code) {
       axios({
         method: 'post',
-        url: `http://www.newstocks.kr/auth/login/kakao`,
+        url: `https://www.newstocks.kr/api/auth/login/kakao`,
         data: { code }})
         .then((res) => {
           console.log(res);
