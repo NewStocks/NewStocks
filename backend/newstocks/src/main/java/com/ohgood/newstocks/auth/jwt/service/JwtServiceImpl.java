@@ -78,11 +78,11 @@ public class JwtServiceImpl implements JwtService {
 //        );
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final String accessToken=Jwts.builder()
+        final String accessToken = Jwts.builder()
             .setHeaderParam("typ", "JWT")
             .setClaims(claims)
             .setSubject(jwtDto.getId().toString())
-            .signWith(SignatureAlgorithm.HS256, encodeKey )
+            .signWith(SignatureAlgorithm.HS256, encodeKey)
             .compact();
         System.out.println(accessToken);
         System.out.println("토큰 생성 완료!!!!!!");

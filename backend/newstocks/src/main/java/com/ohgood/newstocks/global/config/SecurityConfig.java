@@ -1,7 +1,6 @@
 package com.ohgood.newstocks.global.config;
 
 
-
 import com.ohgood.newstocks.auth.jwt.JwtAccessDeniedHandler;
 import com.ohgood.newstocks.auth.jwt.JwtAuthenticationEntryPoint;
 import com.ohgood.newstocks.auth.jwt.JwtAuthenticationProcessingFilter;
@@ -42,7 +41,8 @@ public class SecurityConfig {
             .sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(
+                jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))
             .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/stock/**").permitAll()
@@ -50,7 +50,8 @@ public class SecurityConfig {
                 .requestMatchers("/review-note/**").authenticated()
                 .anyRequest().permitAll()
             )
-            .addFilterAfter(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(jwtAuthenticationProcessingFilter(),
+                UsernamePasswordAuthenticationFilter.class)
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
         return http.build();
     }
@@ -65,7 +66,5 @@ public class SecurityConfig {
     private Filter jwtAuthenticationProcessingFilter() {
         return new JwtAuthenticationProcessingFilter(jwtService);
     }
-
-
 }
 

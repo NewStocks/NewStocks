@@ -21,6 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws UnAuthorizedException, ServletException, IOException {
@@ -37,7 +38,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             System.out.println("jwt = " + jwt); //test
 
             if (StringUtils.isNotEmpty(jwt) && jwtService.checkToken(jwt)) {
-                Authentication authentication = jwtService.getAuthentication(jwt); // 저장한 authentication 획득
+                Authentication authentication = jwtService.getAuthentication(
+                    jwt); // 저장한 authentication 획득
 
                 // Security 세션에서 계속 사용하기 위해 SecurityContext에 Authentication 등록
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -50,8 +52,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Unauthorized: Token user info does not match.");
                 }
-            }
-            else {
+            } else {
                 if (StringUtils.isEmpty(jwt)) {
                     request.setAttribute("unauthorization", "401 인증키 없음.");
                 }
@@ -64,7 +65,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             logger.error("Security Context에 해당 토큰을 등록할 수 없습니다", ex);
             throw new UnAuthorizedException();
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     private boolean isTokenUserInfoMatching(Authentication authentication, String jwt) {

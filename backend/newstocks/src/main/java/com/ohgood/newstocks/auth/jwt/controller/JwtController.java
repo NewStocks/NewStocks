@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("jwt")
 public class JwtController {
+
     private final JwtService jwtService;
 
     @PostMapping("/access-token-test")
-    public String accessTokenTest(@RequestBody MemberDto memberDto){
+    public String accessTokenTest(@RequestBody MemberDto memberDto) {
         return jwtService.createAccessToken(JwtMapper.INSTANCE.MemberDtoToJwtDto(memberDto));
     }
 }
