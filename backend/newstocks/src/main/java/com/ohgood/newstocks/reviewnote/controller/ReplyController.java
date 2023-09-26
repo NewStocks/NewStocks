@@ -27,9 +27,11 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping("/{reviewNoteId}/reply")
-    public ResponseEntity<ReplyResDto> insertReply(@PathVariable Long reviewNoteId, @RequestBody ReplyReqDto replyReqDto) {
+    public ResponseEntity<ReplyResDto> insertReply(@PathVariable Long reviewNoteId,
+        @RequestBody ReplyReqDto replyReqDto) {
         // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(replyService.insertReply(replyReqDto, reviewNoteId, 5L), HttpStatus.OK);
+        return new ResponseEntity<>(replyService.insertReply(replyReqDto, reviewNoteId, 5L),
+            HttpStatus.OK);
     }
 
     @GetMapping("/{reviewNoteId}/reply")
@@ -39,7 +41,8 @@ public class ReplyController {
     }
 
     @PatchMapping("/{reviewNoteId}/reply/{replyId}")
-    public ResponseEntity<Void> updateReply(@PathVariable Long replyId, @RequestBody ReplyReqDto replyReqDto) {
+    public ResponseEntity<Void> updateReply(@PathVariable Long replyId,
+        @RequestBody ReplyReqDto replyReqDto) {
         replyService.updateReply(replyReqDto, replyId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -47,6 +50,19 @@ public class ReplyController {
     @DeleteMapping("/{reviewNoteId}/reply/{replyId}")
     public ResponseEntity<Void> deleteReply(@PathVariable Long replyId) {
         replyService.deleteReply(replyId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping("/reply/{replyId}/like")
+    public ResponseEntity<Void> likeReply(@PathVariable("replyId") Long replyId) {
+        // Authentication 처리 전 임시 테스트
+        replyService.likeReply(replyId, 5L);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/reply/{replyId}/like")
+    public ResponseEntity<Void> deleteLikeReply(@PathVariable("replyId") Long replyId) {
+        // Authentication 처리 전 임시 테스트
+        replyService.deleteLikeReply(replyId, 5L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

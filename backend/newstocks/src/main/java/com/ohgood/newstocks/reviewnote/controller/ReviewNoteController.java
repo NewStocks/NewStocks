@@ -1,6 +1,6 @@
 package com.ohgood.newstocks.reviewnote.controller;
 
-import com.ohgood.newstocks.global.service.AwsS3Service;
+
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -35,7 +34,7 @@ public class ReviewNoteController {
 
     @PatchMapping
     public ResponseEntity<ReviewNoteResDto> updateReviewNote(ReviewNoteUpdateReqDto reviewNoteUpdateReqDto) {
-        log.info(reviewNoteUpdateReqDto + "");
+        ReviewNoteController.log.info(reviewNoteUpdateReqDto + "");
         // Authentication 처리 전 임시 테스트
         return new ResponseEntity<>(reviewNoteService.updateReviewNote(reviewNoteUpdateReqDto, 5L), HttpStatus.OK);
     }
@@ -62,6 +61,7 @@ public class ReviewNoteController {
     @GetMapping("/find-all")
     public ResponseEntity<List<ReviewNoteResDto>> findAllReviewNoteList() {
         // Authentication 처리 전 임시 테스트
+        System.out.println("컨트롤러 인");
         return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
     }
 
