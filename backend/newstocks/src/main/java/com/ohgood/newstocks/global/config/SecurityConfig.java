@@ -45,9 +45,9 @@ public class SecurityConfig {
                 jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))
             .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/stock/**").permitAll()
-                .requestMatchers("/notice/**").hasAuthority("SOME_ROLE")
-                .requestMatchers("/review-note/**").authenticated()
+//                .requestMatchers("/stock/**").permitAll()
+//                .requestMatchers("/notice/**").hasAuthority("SOME_ROLE")
+//                .requestMatchers("/review-note/**").authenticated()
                 .anyRequest().permitAll()
             )
             .addFilterAfter(jwtAuthenticationProcessingFilter(),
