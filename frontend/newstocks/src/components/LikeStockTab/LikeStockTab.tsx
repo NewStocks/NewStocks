@@ -10,28 +10,32 @@ import styles from "./LikeStocktab.module.css";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { BiXCircle } from "react-icons/bi";
 
-import { getFavoriteStocks, postFavoriteStock, deleteFavoriteStock } from "@/services/favoriteStocks";
+import {
+  getFavoriteStocks,
+  postFavoriteStock,
+  deleteFavoriteStock,
+} from "@/services/favoriteStocks";
 
 export default function LikeStockTab() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [addtoggle, setAddtoggle] = useState(false);
-  const [allFavoriteStocks, setAllFavoriteStocks] = useState<FavoriteStock[]>([]);
+  const [allFavoriteStocks, setAllFavoriteStocks] = useState<FavoriteStock[]>(
+    []
+  );
 
-  useEffect(()=> {
+  useEffect(() => {
     async function getData() {
       try {
         const response = await getFavoriteStocks();
-        console.log(response);
+        // console.log(response);
         setAllFavoriteStocks(response.data);
-
       } catch (e) {
         console.error(e);
       }
     }
-    getData(); 
-  }, [])
-
+    getData();
+  }, []);
 
   const handleSelectStock = (id: string) => {
     const tabName = searchParams?.get("tab");
@@ -39,16 +43,18 @@ export default function LikeStockTab() {
   };
 
   const handleSearch = (stock: Stock) => {
-
-    if (allFavoriteStocks.find(item => item.stockId === stock.id)) {
-      return; 
+    if (allFavoriteStocks.some((item) => item.stockId === stock.id)) {
+      return;
     }
 
     const addFavoriteStock = async (stock: Stock) => {
       try {
-        const response = await postFavoriteStock(stock); 
+        const response = await postFavoriteStock(stock);
         // console.log(response);
-        setAllFavoriteStocks((prev) => [...prev, {stockId: stock.id, stockName: stock.name}]);
+        setAllFavoriteStocks((prev) => [
+          ...prev,
+          { stockId: stock.id, stockName: stock.name },
+        ]);
       } catch (e) {
         console.error(e);
         alert("등록에 실패했습니다.");
@@ -59,14 +65,13 @@ export default function LikeStockTab() {
   };
 
   const handleDelete = async (e: MouseEvent, stock: FavoriteStock) => {
-
     e.stopPropagation();
 
     try {
       const response = await deleteFavoriteStock(stock);
 
       const changedStockList = allFavoriteStocks.filter((eachStock) => {
-        return eachStock.stockId !== stock.stockId; 
+        return eachStock.stockId !== stock.stockId;
       });
       setAllFavoriteStocks(changedStockList);
     } catch (e) {
@@ -74,6 +79,8 @@ export default function LikeStockTab() {
       alert("삭제에 실패했습니다.");
     }
   };
+
+  console.log(allFavoriteStocks);
 
   const favoriteStocks = allFavoriteStocks.map((stock) => {
     return (
@@ -90,7 +97,7 @@ export default function LikeStockTab() {
         />
         <BiXCircle
           size="18"
-          onClick={(e: MouseEvent)=>handleDelete(e, stock)}
+          onClick={(e: MouseEvent) => handleDelete(e, stock)}
           id={styles["delete-button"]}
         />
       </div>
@@ -98,9 +105,9 @@ export default function LikeStockTab() {
   });
 
   return (
-    <div className={styles["liketab-container"]}>
-      <div className={styles["like-container"]}>
-        <div className={styles["liketab-title"]}>관심 종목</div>
+    <div className={styles["container"]}>
+      <div className={styles["like-header"]}>
+        <div className={styles["like-title"]}>관심 종목</div>
         <div
           className={styles["like-button"]}
           onClick={() => setAddtoggle((prev) => !prev)}
@@ -108,7 +115,6 @@ export default function LikeStockTab() {
           종목 추가
           <IoIosAddCircleOutline id={styles["like-button-icon"]} />
         </div>
-
         <div
           className={styles["like-search"]}
           style={{ display: addtoggle ? "block" : "none" }}

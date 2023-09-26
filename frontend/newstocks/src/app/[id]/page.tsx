@@ -12,33 +12,25 @@ type Props = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
- 
 };
 
-export default function StockPage({ params, searchParams}: Props) {
+export default function StockPage({ params, searchParams }: Props) {
   return (
-    <div>
-      <div className={styles["mainpage"]}>
-          <div className={styles["like-container"]}>
-            <div className={styles["like-tab"]}>
-              <div className={styles["like-tab-sticky"]}>
-                <LikeStockTab />
-              </div>
-            </div>
-          </div>
-          <div>
-           <div className='components'>
-             <Chart />
-           </div>
-           <div>
-             <Newstab />
-           </div>
-          </div>
-          
-           <div className={styles["side-container"]}>
-             <TabsView />
-           </div>
+    <div className={styles["mainpage"]}>
+      <div className={styles["like-container"]}>
+        <LikeStockTab />
+      </div>
+      <div className={styles["mid-container"]}>
+        <div>
+          <Chart />
         </div>
+        <div>
+          <Newstab />
+        </div>
+      </div>
+      <div className={styles["side-container"]}>
+        <TabsView />
+      </div>
     </div>
   );
 }

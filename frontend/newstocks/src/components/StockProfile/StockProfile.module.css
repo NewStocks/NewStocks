@@ -12,12 +12,14 @@
 }
 
 .stock-img-box-mid {
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   margin-right: 10px;
 }
 
 .stock-img-box-small {
+  flex-shrink: 0;
   width: 30px; 
   height: 30px;
   margin-right: 6px; 
@@ -35,7 +37,7 @@
 }
 
 .stock-name-small {
-  font-size: 12px; 
+  font-size: 12px;
 }
 
 .stock-name-mid {
