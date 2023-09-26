@@ -50,7 +50,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        <Link href={{ pathname: '/auth/login/kakao'}}></Link>
       </body>
     </html>
   )

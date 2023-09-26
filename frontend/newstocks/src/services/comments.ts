@@ -16,6 +16,7 @@ export type Comment = {
   memberDto: Member
 }
 
+
 // 노트의 모든 댓글 조회
 export async function getComments(id: string) {
   return await axios({

@@ -68,6 +68,53 @@
   outline: none;
 }
 
+.selected-stock-box {
+  width: 300px;
+  height: 37px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.23);
+
+  margin-bottom: 10px;
+}
+
+.selected-stock {
+  display: flex;
+  padding: 4px;
+}
+
+.stock-name {
+
+}
+
+.stock-id {
+  margin-left: 5px;
+  font-size: 15px;
+  padding-top: 2px;
+  color: #b3b3b3;
+}
+
+.search-stock-button {
+  width: 70px;
+  height: 30px;
+  margin-right: 13px;
+  margin-top: 2px;
+  font-size: 12px;
+  border: 1px solid #b3b3b3;
+  border-radius: 14px;
+}
+
+.search-stock-button:hover {
+  border: 2px solid #b3b3b3;
+  font-weight: 550;
+}
+
+.stock-img {
+  border-radius: 100%;
+  margin: 3px 5px 3px 10px;
+}
+
 .stock-input-box {
   height: 38px;
   width: 250px;

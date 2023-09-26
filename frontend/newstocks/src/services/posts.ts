@@ -2,17 +2,19 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/url'
 
 export type Note = {
-  note: {
-    id: string
-    multipartFileList: string[] | undefined
-    buyPrice: number | undefined
-    content: string
-    privacy: boolean
-    stockId: string
-    type: string | undefined
-    title: string
-    linkList: string[] | undefined
-  }
+  stockId: string
+  multipartFileList: string[] | undefined
+  content: string
+  privacy: boolean
+  type: string | undefined
+  title: string
+  linkList: string[] | undefined
+  buyDate: any
+  buyPrice: number | null
+  buyQuantity: string | null
+  sellDate: any
+  sellPrice: number | null
+  sellQuantity: string | null
 }
 
 export type Member = {
@@ -66,6 +68,14 @@ export type Post = {
   type: string
 }
 
+// 게시글 등록시 이미지 formData 전송
+// const postImageApi = (formData: FormData) => axios({
+//   method: "post",
+//   url: `/api/articles/image`,
+//   data: formData,
+//   headers: { "Content-Type": "multipart/form-data" },
+// })
+
 // 노트 전체보기
 export async function getPostsAll() {
   return await axios({
@@ -83,21 +93,14 @@ export async function getPostDetail(id: string) {
 }
 
 // 노트 생성
-export async function createPost({note: {
-  stockId, 
-  type,
-  privacy, 
-  multipartFileList, 
-  buyPrice,
-  title, 
-  content, 
-  linkList, }} : Note) {
+export async function createPost(reviewNoteReqDto: any) {
   return await axios({
-   method: 'get',
+   method: 'post',
    url: `${BASE_URL}/review-note`,
-   data: { stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList }
-  }).then((res) => res)
-}
+   data: {reviewNoteReqDto},
+   headers: { "Content-Type": "multipart/form-data" },
+})}
+
 
 // 노트 수정
 export async function updatePost({note: {

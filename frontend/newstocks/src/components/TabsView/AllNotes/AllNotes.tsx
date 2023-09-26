@@ -67,7 +67,7 @@ export default function TabNotes({ code }: TabProps) {
 					stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
 				/>
 			</div>
-	  	<StyledLink href={`/community/create`}>
+	  	<StyledLink href={{pathname: `/community/create`, query: code}}>
       	<div className={styles["Notetab-create"]}>오답노트 작성하기<HiPencilAlt className={styles["Notetab-create-icon"]}/></div>          
     	</StyledLink>
       

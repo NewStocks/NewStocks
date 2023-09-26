@@ -2,6 +2,8 @@
 import styles from './createpostform.module.css'
 import styled from 'styled-components'
 import Link from 'next/link';
+import Image from 'next/image';
+// import { usePathname } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
 import Editor from '@toast-ui/editor';
@@ -24,6 +26,9 @@ import { BiSolidLock,BiSolidLockOpen } from 'react-icons/bi'
 import ImagePreview from './ImagePreview/ImagePreview'
 import SearchBox from '@/components/SearchBox/SearchBox'
 
+import { fetchStockInfo } from '@/services/chart' 
+import { createPost } from '@/services/posts'
+
 import { Checkbox } from '@chakra-ui/react'
 
 const StyledLink = styled(Link)`
@@ -31,13 +36,25 @@ const StyledLink = styled(Link)`
   color: white;
 `
 
-export default function CreatePostForm({ type }) {
-  const editorRef = useRef(null);
+export default function CreatePostForm({ work }) {
+  // const pathname = usePathname();
+  const [editor, setEditor] = useState(null);
   const titleRef = useRef(null);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [imageList, setimageList] = useState([]);
-  const [checkPrivate, setCheckPrivate] = useState(false);
+  const [stock, setstock] = useState(null)
+  
+  const [checkPrivate, setCheckPrivate] = useState(false)
+  const [type, setType] = useState('BUY_SELL')
+  
+  const [imageList, setimageList] = useState([])
+  const [linkList, setLinkList] = useState([])
+  
+  const [startDate, setStartDate] = useState(new Date())
+  const [buyPrice, setBuyPrice] = useState(null)
+  const [buyQuantity, setBuyQuantity] = useState(null)
+  
+  const [endDate, setEndDate] = useState(new Date())
+  const [sellPrice, setSellPrice] = useState(null)
+  const [sellQuantity, setSellQuantity] = useState(null)
 
   const changeImageList = (url, file) => {
     setimageList([...imageList, { url, file }]);
@@ -78,21 +95,16 @@ export default function CreatePostForm({ type }) {
     })
   }
 
-  // const MyComponent = () => (
-  //   <Editor
-  //     initialValue="hello react editor world!"
-  //     previewStyle="vertical"
-  //     height="600px"
-  //     initialEditType="markdown"
-  //     useCommandShortcut={true}
-  //   />
-  // );
-
-  let editor = null
-
   useEffect(() => {
 
-    editor = new Editor({
+    const code = window.location.search;
+    if (code) {
+      const modifiedCode = code.replace(/\?/g, '')
+      fetchStockInfo(modifiedCode)
+      .then(res=>setstock({id: modifiedCode, name: res.data.name}))
+    }
+
+    let initializeEditor = new Editor({
       el: document.querySelector('#editor'),
       height: '600px',
       initialEditType: 'wysiwyg',
@@ -111,22 +123,11 @@ export default function CreatePostForm({ type }) {
       theme: "dark",
     });
 
-  }, [])
+    setEditor(initializeEditor)
 
-  const handleClick = () => {
-    // 입력창에 입력한 내용을 HTML 태그 형태로 취득
-    // console.log(editorRef.current.getInstance().getHTML());
-    // // 입력창에 입력한 내용을 MarkDown 형태로 취득
-    // console.log(editorRef.current.getInstance().getMarkdown());
-    // imageList.map(image => {
-    //   window.URL.revokeObjectURL(image.url)
-    // })
-    // console.log(editorRef.current.getInstance().getHTML())
-    console.log(checkPrivate)
-    console.log(imageList)
-    console.log(startDate, endDate)
-    console.log(editor.getHTML())
-  };
+    console.log(editor ? 'editor' : 'no')
+
+  }, [])
 
   const deleteImage = (indexToRemove) => {
     // imageList.splice(index, 1)
@@ -162,11 +163,93 @@ export default function CreatePostForm({ type }) {
     }
   }, [imageList])
 
+  let multipartFileList = []
+  function HandleImageList() {
+    if (imageList) {
+        imageList.forEach((image) => {
+          multipartFileList.push(image.file);
+        })
+      }
+    console.log('image file', multipartFileList)
+  }
+
+  async function CreateNote() {
+    console.log('create')
+    const id = 7
+    const stockId = stock.id
+    const privacy = checkPrivate
+    const title = titleRef.current.value
+    const content = editor.getHTML()
+    const buyDate = startDate.toISOString()
+    const sellDate = endDate.toISOString()
+
+    await HandleImageList()
+
+    // window.URL.revokeObjectURL(image.url);
+
+    const formData = new FormData();
+    formData.append("stockId", stockId)
+    formData.append("title", title)
+    formData.append("privacy", privacy)
+    formData.append("type", type)
+    formData.append("multipartFileList", multipartFileList)
+    formData.append("linkList", linkList)
+    formData.append("content", content)
+    formData.append("buyDate", buyDate)
+    formData.append("buyPrice", buyPrice)
+    formData.append("buyQuantity", buyQuantity)
+    formData.append("sellDate", sellDate)
+    formData.append("sellPrice", sellPrice)
+    formData.append("sellQuantity", sellQuantity)
+
+    for (let values of formData.values())
+      console.log(values)
+    console.log(formData.values())
+
+    // console.log({
+    //   id,
+    //   stockId, 
+    //   title,
+    //   privacy,
+    //   type,
+    //   multipartFileList,
+    //   linkList,
+    //   content,
+    //   buyDate,
+    //   buyPrice,
+    //   buyQuantity,
+    //   sellDate,
+    //   sellPrice,
+    //   sellQuantity
+    // })
+
+    await createPost(formData)
+    .then((res) => console.log('success create!', res))
+    // .then(() => redirect())
+  }
+
+  const handleClick = () => {
+    // 입력창에 입력한 내용을 HTML 태그 형태로 취득
+    // console.log(editorRef.current.getInstance().getHTML());
+    // // 입력창에 입력한 내용을 MarkDown 형태로 취득
+    // console.log(editorRef.current.getInstance().getMarkdown());
+    // imageList.map(image => {
+    //   window.URL.revokeObjectURL(image.url)
+    // })
+    // console.log(editorRef.current.getInstance().getHTML())
+    if (editor) {
+      console.log(checkPrivate)
+      console.log(imageList)
+      console.log(startDate, endDate)
+      console.log(editor.getHTML())
+    }
+  };
+
   
   return (
     <div>
       <div className={styles["top-menu"]}>
-        <p>오답노트 {type=="create" ? '작성' : '수정'}</p>
+        <p>오답노트 {work=="create" ? '작성' : '수정'}</p>
         <div>
           <div className={styles["check-privacy"]}>
             {checkPrivate ? <BiSolidLock className={styles["privacy-icon"]} size="21"/> : <BiSolidLockOpen className={styles["privacy-icon"]} size="21"/>}
@@ -174,13 +257,32 @@ export default function CreatePostForm({ type }) {
               <span>비밀글 설정</span>
             </Checkbox>
           </div>
-          <button className={styles["submit-button"]}>✍ 게시하기</button>
+          <button className={styles["submit-button"]} onClick={() => CreateNote()}>✍ 게시하기</button>
         </div>
       </div>
 
-      <div className={styles["stock-selected-box"]}>
+      {/* <div className={styles["stock-selected-box"]}> */}
+      <div className={styles["select-stock-box"]}>
         {/* <input type="text" placeholder="🔍종목검색" /> */}
-        <SearchBox />
+        {stock ? (
+          <div className={styles["selected-stock-box"]}>
+            <div className={styles["selected-stock"]}>
+              <Image
+                  src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.id}.png` ? `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.id}.png` : ''}
+                  alt="member profile image"
+                  width="25"
+                  height="25"
+                  className={styles["stock-img"]}
+                />
+              <div className={styles["stock-name"]}>{stock.name}</div>
+              <div className={styles["stock-id"]}>{stock.id}</div>
+            </div>
+            <button className={styles["search-stock-button"]} onClick={() => setstock(null) }>주식 검색</button>
+          </div>
+        )
+        : (
+          <SearchBox />
+        )}
       </div>
 
       <div className={styles["invest-container"]}>
@@ -194,6 +296,7 @@ export default function CreatePostForm({ type }) {
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               isClearable
+              startDate={new Date()}
               placeholderText="날짜를 입력해주세요!"
             /> 
           </div>

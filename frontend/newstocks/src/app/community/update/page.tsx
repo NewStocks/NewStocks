@@ -47,7 +47,7 @@ export default function UpdatePage() {
         <StyledLink href='/'><IoIosArrowBack /><div>뒤로가기</div></StyledLink>
       </div>
       <Provider>
-        <CreatePostForm type="update"/>
+        <CreatePostForm work="update"/>
       </Provider>
     </div>
   )
