@@ -221,6 +221,7 @@ export default function Newstab() {
 						}
 					});
           setdateValuenews(datevaluenews)
+          console.log(valuenews)
         })
         .catch((err) => {
           console.log(err);
@@ -455,7 +456,12 @@ export default function Newstab() {
               <div className={styles["newscontent"]} key={index}>
                 <div className={styles["newscontentup"]}>
                     <div className={styles["newscompany"]}>
-                      {newsItem.company}
+                      <div className={styles["value"]}>
+                        {newsItem.valueChainName}
+                      </div>
+                      <div>
+                        {newsItem.company}
+                      </div>
                     </div>
                     <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
                   </div>
