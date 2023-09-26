@@ -46,7 +46,8 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/stock/**").permitAll()
-                .requestMatchers("/notice/**").hasAuthority("SOME_ROLE")
+                .requestMatchers("/news/**").permitAll()
+                .requestMatchers("/notice/**").hasAuthority("ADMIN")
                 .requestMatchers("/review-note/**").authenticated()
                 .anyRequest().permitAll()
             )

@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -69,14 +70,15 @@ public class JwtServiceImpl implements JwtService {
         System.out.println("토큰 생성 중!!!");
         System.out.println(jwtDto.getId());
         System.out.println(claims);
-//        UserDetails userDetails = User.builder()
-//            .username(jwtDto.getMemberName())
-//            .password(jwtDto.getMemberName() + SALT)
-//            .build();
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(
-//            userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities())
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetails userDetails = User.builder()
+            .username(String.valueOf(jwtDto.getId()))
+            .password(jwtDto.getName() + SALT)
+            .authorities(String.valueOf(jwtDto.getRole()))
+            .build();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final String accessToken = Jwts.builder()
             .setHeaderParam("typ", "JWT")
@@ -121,9 +123,10 @@ public class JwtServiceImpl implements JwtService {
             Arrays.stream(claims.get("role").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-
+        System.out.println(authorities);
         //Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
+        System.out.println(principal);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
