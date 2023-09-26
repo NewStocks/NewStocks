@@ -15,6 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,12 +38,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))
-            .httpBasic(httpBasic -> httpBasic.disable())
+            .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/stock/**").permitAll()
                 .requestMatchers("/notice/**").hasAuthority("SOME_ROLE")
@@ -49,7 +51,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .addFilterAfter(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-            .headers(headers -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
+            .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
         return http.build();
     }
 
@@ -61,8 +63,7 @@ public class SecurityConfig {
     }
 
     private Filter jwtAuthenticationProcessingFilter() {
-        JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService);
-        return jwtAuthenticationFilter;
+        return new JwtAuthenticationProcessingFilter(jwtService);
     }
 
 

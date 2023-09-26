@@ -4,8 +4,10 @@ import com.ohgood.newstocks.auth.jwt.service.JwtService;
 import com.ohgood.newstocks.global.exception.exceptions.UnAuthorizedException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -21,14 +23,15 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws UnAuthorizedException {
+        FilterChain filterChain) throws UnAuthorizedException, ServletException, IOException {
         try {
             String jwt = resolveToken(request); //request에서 jwt 토큰을 꺼낸다.
             jwt = jwt != null ? jwt : ""; // 토큰이 없을 경우 빈 문자열 반환
 
-            if (jwt=="" || jwt==null) {
+            if (jwt == "") {
                 System.out.println("토큰 없음");
-                throw new UnAuthorizedException();
+                filterChain.doFilter(request, response);
+                return;
             }
 
             System.out.println("jwt = " + jwt); //test
@@ -61,7 +64,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             logger.error("Security Context에 해당 토큰을 등록할 수 없습니다", ex);
             throw new UnAuthorizedException();
         }
-        return;
+        filterChain.doFilter(request,response);
     }
 
     private boolean isTokenUserInfoMatching(Authentication authentication, String jwt) {

@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.auth.jwt.dto;
 
+import com.ohgood.newstocks.member.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +9,14 @@ import lombok.Setter;
 @Setter
 public class JwtDto {
 
-    private Long memberId;
-    private String memberName;
+    private Long id;
+    private String name;
+    private Role role;
 
     @Builder
-    public JwtDto(Long memberId, String memberName) {
-        this.memberId = memberId;
-        this.memberName = memberName;
+    public JwtDto(Long id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
     }
 }
