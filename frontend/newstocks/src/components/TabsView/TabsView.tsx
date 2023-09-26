@@ -3,6 +3,7 @@ import styles from "./TabsView.module.css";
 import TabHeader from "./TabHeader/TabHeader";
 import TabNotes from './TabNotes/TabNotes'
 import CompanyInfo from "./CompanyInfo/CompanyInfo";
+import AllNotes from "./AllNotes/AllNotes";
 
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -18,6 +19,8 @@ export default function TabsView() {
     <div>
       <TabHeader />
       {tabName?.get("tab") === "company" && <CompanyInfo />}
+      {tabName?.get("tab") === "more" && <AllNotes code={code}/>}
+
       {tabName?.get('tab') === 'notes' && 
         <TabNotes code={code}/>}
 

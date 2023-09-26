@@ -3,6 +3,7 @@ import { usePathname,useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import styles from './Newstab.module.css'
 import { useRouter } from 'next/navigation';
+import { LiaSortDownSolid } from "react-icons/lia";
 
 import { fetchNewsData, fetchValueNewsData } from '@/services/chart';
 
@@ -284,7 +285,7 @@ export default function Newstab() {
               </div>
               <div 
                 className={styles["headertab"]}
-                onClick={handleShowAllNews}>전체 보기
+                onClick={handleShowAllNews}>전체 뉴스
               </div>
               <div className={styles["datetab"]}>{newsDate}</div>
             </div>

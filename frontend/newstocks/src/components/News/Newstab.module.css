@@ -25,7 +25,7 @@
 
 .custom-select::after {
   content: '\25BC'; 
-  /* position: absolute; */
+  position: absolute;
   /* top: 10px;
   right: 10px; */
   pointer-events: none; 
@@ -61,9 +61,14 @@
 
 
 .headertab {
-	padding: 8px 12px;
+	padding: 8px 8px;
 	cursor: pointer;
 	transition: background-color 0.3s ease; 
+}
+.headertab:hover {
+	/* border: 1px solid #4FE7B0;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px; */
 }
   
 /* .headertab + .headertab {
@@ -134,4 +139,7 @@
 .datetab {
 	display: flex;
 	align-items: center;
+	margin-left: 10px;
+	font-size: 12px;
+	justify-content: right;
 }

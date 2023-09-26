@@ -42,26 +42,26 @@ export default function AllCardsImage() {
           desktop: {
             breakpoint: {
               max: 3000,
-              min: 1024
+              min: 1600
             },
-            items: 3,
-            partialVisibilityGutter: 40
+            items: 4,
+            partialVisibilityGutter: 25
           },
           mobile: {
             breakpoint: {
-              max: 464,
+              max: 1080,
               min: 0
             },
-            items: 1,
-            partialVisibilityGutter: 30
+            items: 2,
+            partialVisibilityGutter: 25
           },
           tablet: {
             breakpoint: {
-              max: 1024,
-              min: 464
+              max: 1600,
+              min: 1080
             },
-            items: 2,
-            partialVisibilityGutter: 30
+            items: 3,
+            partialVisibilityGutter: 25
           }
         }}
         rewind={false}

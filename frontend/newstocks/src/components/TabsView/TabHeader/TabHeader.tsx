@@ -42,7 +42,7 @@ export default function TabHeader() {
           onClick={() => handleIconClick(1)}
         >
           <IoMegaphoneOutline id={styles["item-icon"]} />
-          <div className={styles["item-text"]}>관련 정보</div>
+          <div className={styles["item-text"]}>오답 노트</div>
         </div>
         </StyledLink>
 
@@ -56,7 +56,7 @@ export default function TabHeader() {
             onClick={() => handleIconClick(2)}
           >
           <IoDocumentTextOutline id={styles["item-icon"]} />
-          <div className={styles["item-text"]}>오답 노트</div>
+          <div className={styles["item-text"]}>나의 노트</div>
         </div>
         </StyledLink>
 

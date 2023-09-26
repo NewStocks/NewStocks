@@ -9,8 +9,8 @@ import { FcGoogle } from 'react-icons/fc'
 
 export default function LoginButtons() {
   const kakaoLoginHandler = () => {
-    const REST_API_KEY = process.env.REST_API_KEY
-    const REDIRECT_URI = process.env.REDIRECT_URI
+    const REST_API_KEY = '63c9797738fedd0efff04b806ed9cba0'
+    const REDIRECT_URI = 'http://localhost:3000/auth/login/kakao'
     const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   
     window.location.href = link
@@ -35,7 +35,7 @@ export default function LoginButtons() {
         </button>
 
 
-        <div className={styles["social-login-button"]} id={styles["google-box"]}>
+        <div className={styles["social-login-button"]} id={styles["google-box"]} style={{ backgroundColor: "white", color: "black"}}>
           <div className={styles["social-icon"]}><FcGoogle size="20"/></div>
           <div className={styles["social-title"]}>Google 로그인</div>
         </div>

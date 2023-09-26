@@ -4,6 +4,7 @@ import LikeStockTab from "@/components/LikeStockTab/LikeStockTab";
 import Chart from "@/components/chart/chart.js";
 import TabsView from "@/components/TabsView/TabsView";
 import Newstab from "@/components/News/Newstab";
+import { Provider } from "@/utils/ChakraProvider";
 
 type Props = {
   params: {
@@ -22,7 +23,9 @@ export default function StockPage({ params, searchParams }: Props) {
       </div>
       <div className={styles["mid-container"]}>
         <div>
-          <Chart />
+          <Provider>
+            <Chart />
+          </Provider>
         </div>
         <div>
           <Newstab />

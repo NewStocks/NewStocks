@@ -1,5 +1,4 @@
 .buttons-container {
-  color: black;
   margin: 0 2px;
 }
 
@@ -17,7 +16,7 @@
 }
 
 .sub-greeting-box {
-  color: rgb(119, 119, 119);
+  color: rgba(207, 206, 206, 0.849);
   font-size: 12px;
   margin-top: 5px;
 }
@@ -61,7 +60,7 @@
 
 .statement {
   font-size: 11px;
-  color: rgb(119, 119, 119);
+  color: rgba(207, 206, 206, 0.849);
   margin-bottom: 15px;
 
 }

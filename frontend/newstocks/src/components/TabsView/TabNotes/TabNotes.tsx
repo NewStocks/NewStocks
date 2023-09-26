@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link'; 
 import styled from 'styled-components';
-import { fetchReviewNoteData } from '@/services/chart';
+import { fetchMyReviewNoteData } from '@/services/chart';
 import Notepreview from '@/components/Notepreview/Notepreview';
 import StockProfile from "@/components/StockProfile/StockProfile";
 import styles from './TabNotes.module.css';
+import { HiPencilAlt } from "react-icons/hi";
 
 type TabProps = {
   code: any;
@@ -24,12 +25,12 @@ export default function TabNotes({ code }: TabProps) {
   const [datenote, setdateNote] = useState<any[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const notesPerPage = 5;
+  const notesPerPage = 4;
 
 
   useEffect(() => {
     const fetchData = () => {
-      fetchReviewNoteData()
+      fetchMyReviewNoteData()
         .then((res) => {
           const notecode: any[] = [];
           res.data.forEach((item: any) => {
@@ -49,6 +50,7 @@ export default function TabNotes({ code }: TabProps) {
 					);
 			
 					setNote(slicedNote);
+          console.log(slicedNote)
 
           // setNote(notecode);
           const datenote: any[] = [];
@@ -75,14 +77,17 @@ export default function TabNotes({ code }: TabProps) {
     <div>
 			<div className={styles["Notetab-head"]}>
 				<StockProfile
-					stockName="오답노트"
+					stockName="나의 오답노트를 확인하세요"
 					stockId=""
 					stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
 				/>
 			</div>
 	  	<StyledLink href={`/community/create`}>
-      	<div className={styles["Notetab-create"]}>오답노트 작성하기</div>          
+      	<div className={styles["Notetab-create"]}>오답노트 작성하기<HiPencilAlt className={styles["Notetab-create-icon"]}/></div>          
     	</StyledLink>
+      {noteDate && datenote.length === 0 && (
+      <div className={styles["no-notes"]}>오답노트가 없습니다.</div>
+      )}
         {noteDate &&
           datenote.map((item: any) => (
               <StyledLink key={item.id} href={`/community/${item.id}`}>
@@ -90,18 +95,30 @@ export default function TabNotes({ code }: TabProps) {
 									title = {item.title}
 									date = {item.settingDate.split(' ')[0]}
 									name = {item.memberDto.name}
+                  profile= {item.memberDto.profileImage}
 									content = {item.content}
+                  image = {item.reviewNoteImageDtoList[0]?.url}
+                  likeCount = {item.likeCount}
+                  scrapCount= {item.scrapCount}
 								/> 
               </StyledLink>
           ))}
+        {!noteDate && note.length === 0 && (
+          <div className={styles["no-notes"]}>오답노트가 없습니다.</div>
+        )}
         {!noteDate &&
           note.map((item: any) => (
               <StyledLink key={item.id} href={`/community/${item.id}`}>
                 <Notepreview 
 									title = {item.title}
-									date = {item.settingDate.split(' ')[0]}
+									date = {item.settingDate?.split(' ')[0]}
 									name = {item.memberDto.name}
+                  profile = {item.memberDto.profileImage}
 									content = {item.content}
+                  image = {item.reviewNoteImageDtoList[0]?.url}
+                  likeCount = {item.likeCount}
+                  scrapCount = {item.scrapCount}
+                  replyCount = {item.replyCount}
 								/> 
               </StyledLink>
           ))}
