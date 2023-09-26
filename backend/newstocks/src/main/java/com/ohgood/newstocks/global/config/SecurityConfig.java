@@ -37,8 +37,9 @@ public class SecurityConfig {
             .sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
+            .httpBasic(httpBasic -> httpBasic.disable())
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/other-endpoint").hasRole("SOME_ROLE") // Another endpoint with a single role requirement
+                .requestMatchers("/notice/**").hasRole("SOME_ROLE") // Another endpoint with a single role requirement
                 .anyRequest().permitAll()
             )
             .formLogin(withDefaults()); // 기본 로그인을 비활성화하고자 할 때 .formLogin(withDefaults())를 사용
