@@ -35,7 +35,12 @@ export default function Header() {
 
   const handleSearch = (stock: Stock) => {
 
-    const tabName = searchParams?.get("tab");
+    let tabName = searchParams?.get("tab");
+
+    if (!tabName) {
+      tabName = "company";
+    }
+
     router.push(`/${stock.id}?tab=${tabName}`);
 
   }
