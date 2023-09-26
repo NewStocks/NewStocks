@@ -1,15 +1,21 @@
 'use client';
 import React from 'react';
 
+import SearchBox from '../SearchBox/SearchBox';
+
 import styles from './Header.module.css';
 import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 // 검색창 아이콘
 import { BiSearch } from "react-icons/bi"
 // 메뉴 아이콘
 import { BiHomeAlt2 } from "react-icons/bi";
 import { AiOutlineGlobal } from "react-icons/ai";
-import { FaRegUserCircle } from "react-icons/fa";
+
+import { Stock } from '@/types/stock';
+
+import LoginModal from '@/components/LoginModal/LoginModal'
 
 // type User = {
 //   name: string;
@@ -23,6 +29,21 @@ import { FaRegUserCircle } from "react-icons/fa";
 // }
 
 export default function Header() {
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const handleSearch = (stock: Stock) => {
+
+    let tabName = searchParams?.get("tab");
+
+    if (!tabName) {
+      tabName = "company";
+    }
+
+    router.push(`/${stock.id}?tab=${tabName}`);
+
+  }
 
 return (
   <header>
@@ -46,16 +67,17 @@ return (
         </svg>
         <h1>NEWStocks</h1>
       </div>
-      
-      <div className={styles["header-search"]}>
-        <div><BiSearch size="22"/></div>
-        <input type="text" placeholder="종목명 또는 종목코드 검색" />
+
+      <div className={styles['search-box-container']}>
+        <SearchBox searchFunc={handleSearch}/>
       </div>
+
       
       <div className={styles["header-right"]}>
         <Link className={styles["header-link"]} href='/'><BiHomeAlt2 size="29"/></Link>
         <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
-        <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link>
+        <LoginModal type="header"/>
+        {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
       </div>
     </div>
   </header>

@@ -2,13 +2,20 @@
 
 import styles from './StockInfo.module.css'
 
-export default function StockInfo() {
+type Props = {
+  stock: {
+    id: string
+    name: string
+  }
+}
+
+export default function StockInfo({ stock: { id, name } }: Props) {
   return (
     <div className={styles["stock-box"]}>
       <div className={styles["first-box"]}>
         <div className={styles["stock-img"]}></div>
-        <div>카카오</div>
-        <div className={styles["stock-info"]}>035720</div>
+        <div>{name}</div>
+        <div className={styles["stock-info"]}>{id}</div>
       </div>
 
       <div className={styles["second-box"]}>

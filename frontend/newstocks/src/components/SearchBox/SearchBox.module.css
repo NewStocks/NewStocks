@@ -1,0 +1,47 @@
+.container {
+  display: flex; 
+  flex-direction: column;
+  align-items:center;
+  position: relative;
+  width: 100%;  
+}
+
+/* 검색 input 박스*/
+.header-search {
+  width: 100%;
+  height: 33px;
+  border-radius: 20px;
+  border: transparent;
+  background-color: rgba(255, 255, 255, 0.23);
+
+  margin: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.header-search input {
+  margin-right: 5px;
+  overflow: hidden;
+}
+
+.search-icon {
+  width: 30px;
+  margin: 0 0 0 4%;
+}
+
+.header-search input {
+  background: 0;
+  width: 95%;
+  height: 28px;
+  border: transparent;
+  color: #FFF;
+}
+
+.header-search input:focus {
+  outline: 0;
+}
+
+.erase-button {
+  margin: 0px 4%;
+  cursor:pointer;
+}

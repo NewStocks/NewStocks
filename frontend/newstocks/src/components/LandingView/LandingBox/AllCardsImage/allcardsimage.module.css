@@ -1,0 +1,42 @@
+.sort-button-box {
+  padding: 30px 22px 30px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sort-button-box div {
+  display: flex;
+}
+
+.sort-button-box div div {
+  margin-right: 15px;
+}
+
+.button {
+  width: 100px;
+  height: 30px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  background-color: transparent;
+  border: 0.1rem solid white;
+  border-radius: 65.153px;
+}
+
+#button-icon {
+  margin-left: 8px;
+}
+
+.card-container {
+  width: 400px;
+  height: 250px;
+}
+
+.cards-box {
+  display: flex;
+}

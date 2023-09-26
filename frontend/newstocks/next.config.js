@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['s3.ap-northeast-2.amazonaws.com', 'file.alphasquare.co.kr']
+  },
+  experimental: {
+    appDir: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https', 
+        hostname: "file.alphasquare.co.kr"
+      }
+    ]
+  },
   async headers() {
     return [
       {
@@ -15,15 +29,15 @@ const nextConfig = {
       }
     ]
   },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/005930?tab=company",
-        permanent: false,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/005930?tab=company",
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
 }
 
 module.exports = nextConfig

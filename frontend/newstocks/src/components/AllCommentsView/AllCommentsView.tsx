@@ -1,14 +1,25 @@
 'use client';
 import styles from './AllCommentsView.module.css';
 
+import { Comment } from '@/services/comments'
+
 import CommentView from './CommentView/CommentView'
 import CoCommentView from './CoCommentView/CoCommentView'
 
-export default function AllCommentsView() {
+type Props = {
+  comments: Comment[]
+  postId: string
+  UpdateCommentApi: (postId: string, comment: string, commentId: string) => void
+  DeleteCommentApi: (postId: string, commentId: string) => void
+}
+
+export default function AllCommentsView({comments, postId, UpdateCommentApi, DeleteCommentApi}: Props) {
+  const length = comments.length
+
   return (
     <div className={styles["all-comments-container"]}>
-      <h2>댓글 12</h2>
-      <CommentView />
+      <p className={styles["comment-title"]}>댓글 {length}</p>
+      {comments.map((comment, index) => <CommentView key={index} comment={comment} postId={postId} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>)}
       <CoCommentView />
     </div>
   );

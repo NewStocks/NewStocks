@@ -2,12 +2,12 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+body, html {
   max-width: 100vw;
-  min-width: 1440px;
-  min-height: 100vh;
+  min-width: 100vw;
   /* overflow-x: hidden; */
+  background-color: #00051E;
+  color: #FFF;
 }
 
 html { 

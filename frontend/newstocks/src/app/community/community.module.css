@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
+  min-width: 900px;
 }
 
 .community-container {
@@ -14,8 +15,9 @@
 }
 
 .community-nav {
-  width: 14%;
+  width: 200px;
   border-right: 2px solid #4FE7B0;
+  padding-bottom: 135px;
 }
 
 .community-nav-sticky {
