@@ -1,6 +1,6 @@
 'use client'
 import './chart.css';
-import { LiaQuestionCircleSolid } from "react-icons/lia";
+
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import React, { useState, useEffect, useRef } from 'react';
@@ -11,6 +11,10 @@ import ValueInfoModal from './ValuechainQuestion';
 import ValueChainModal from './ValuechainInfo';
 import StockProfile from "@/components/StockProfile/StockProfile";
 import { TickerTape } from "react-ts-tradingview-widgets";
+import ValueModal from "@/components/ValueModal/ValueModal";
+import ValueStockModal from "@/components/ValueStockModal/ValueStockModal";
+// import { Provider } from '../utils/ChakraProvider'
+
 
 import { fetchStockInfo, fetchChartData } from '@/services/chart';
 
@@ -26,25 +30,6 @@ export default function ChartComponent() {
   const tooltipRef = useRef(null);
   const chartApiRef = useRef(null);
   const volumeSeries = useRef(null);
-
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [isValueModalOpen, setValueModalOpen] = useState(false);
-
-  // 모달 열기 함수
-  const openValueInfoModal = () => {
-    setModalOpen(true);
-  };
-  const openValueChainModal = () => {
-    setValueModalOpen(true);
-  };
-
-  // 모달 닫기 함수
-  const closeValueInfoModal = () => {
-    setModalOpen(false);
-  };
-  const closeValueChainModal = () => {
-    setValueModalOpen(false);
-  };
 
   const [isStarred, setIsStarred] = useState(false);
   const toggleStar = () => {
@@ -180,7 +165,7 @@ export default function ChartComponent() {
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
-        tooltipRef.current.style = `width: auto; max-height: 500px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+        tooltipRef.current.style = `width: auto; max-height: 500px; overflow-y: auto; position: absolute; display: none; box-sizing: border-box; font-size: 14px; text-align: left; z-index: 990; top: 12px; left: 12px; pointer-events: auto; border: 1px solid; border-radius: 2px; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
         tooltipRef.current.style.background = 'rgba( 0, 0, 0, 0.7)';
         tooltipRef.current.style.color = 'white';
         tooltipRef.current.style.borderColor = '#4FE7B0';
@@ -536,25 +521,23 @@ export default function ChartComponent() {
             >
             </TickerTape>
           </div>
-            
-          {/* <div className='stockinfo'>현재가</div>
-          <div className='stockinfo'>거래량</div>
-          <div className='stockinfo'>국내증시</div>
-          <div className='stockinfo'>해외증시</div> */}
+
         </div>
-        <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
-        <ValueChainModal isOpen={isValueModalOpen} onClose={closeValueChainModal} code={code}/>
+        {/* <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
+        <ValueChainModal isOpen={isValueModalOpen} onClose={closeValueChainModal} code={code}/> */}
         {chartData.valuechain ? (
-        <div className='valuechain'>
-          <div className='value'><PiTreeStructure onClick={openValueChainModal} id='valueinfo1'/></div>
-          <div><LiaQuestionCircleSolid onClick={openValueInfoModal} id='valueinfo2'/></div>
-        </div>
-      ) : null}
-        
-        {/* <div className='valuechain' >
-          <div className='value'>밸류 체인</div>
-          <div><LiaQuestionCircleSolid id='valueinfo'/></div>
-        </div> */}
+          <div className='valuechain'>
+            <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
+            <div className='value2'><ValueModal id='valueinfo2'/></div>
+          </div>
+        ) : 
+        // 벨류체인 없을때는??
+          <div className='valuechain'>
+            <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
+            <div className='value2'><ValueModal id='valueinfo2'/></div>
+          </div>
+        }
+
       </div>
       <div className="chartbox">
         <div className="chart">
