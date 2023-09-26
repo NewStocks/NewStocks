@@ -2,8 +2,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+body, html {
   max-width: 100vw;
   min-width: 100vw;
   /* overflow-x: hidden; */

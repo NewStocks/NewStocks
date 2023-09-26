@@ -101,6 +101,7 @@
 .newscompany {
 	font-size: 9px;
 	padding-bottom: 5px;
+	display: flex;
 }
 .pagebuttonbox {
 	display: flex;
@@ -142,4 +143,8 @@
 	margin-left: 10px;
 	font-size: 12px;
 	justify-content: right;
+}
+.value {
+	margin-right: 15px;
+	/* font-size: 13px; */
 }

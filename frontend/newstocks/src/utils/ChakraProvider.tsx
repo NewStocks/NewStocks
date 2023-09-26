@@ -2,7 +2,24 @@
 'use client'
 
 import { CacheProvider } from '@chakra-ui/next-js'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript, StyleFunctionProps, extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import {mode} from "@chakra-ui/theme-tools"
+
+const config: ThemeConfig = {
+  initialColorMode: 'light', 
+  useSystemColorMode: false,
+}
+
+const theme = extendTheme({
+  config,
+  styles: {
+    global: (props: StyleFunctionProps) => ({
+      body: {
+        bg: mode('#00051E', '#00051E')(props),
+      },
+    }),
+  },
+})
 
 export function Provider({ 
     children 
@@ -11,7 +28,8 @@ export function Provider({
   }) {
   return (
     <CacheProvider>
-      <ChakraProvider>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <ChakraProvider theme={theme}>
         {children}
       </ChakraProvider>
     </CacheProvider>

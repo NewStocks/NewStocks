@@ -1,7 +1,6 @@
 import axios from "axios";
+import { BASE_URL } from '../utils/url'
 import { Stock, FavoriteStock } from "@/types/stock";
-
-const BASE_URL = "http://localhost:8200"; // 기본 URL
 
 export const getFavoriteStocks = async () => {
   return axios.get(`${BASE_URL}/stock/find-favorite-stock-by-member-id/1`)
