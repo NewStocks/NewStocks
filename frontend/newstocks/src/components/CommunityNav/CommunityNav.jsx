@@ -68,6 +68,7 @@ export default function CommunityNav() {
       } else {
         setHighlight(false)
       }
+  // eslint-disable-next-line 
   }}, [pathname])
   
   useEffect(() => {
@@ -105,6 +106,7 @@ export default function CommunityNav() {
           }
         }
       }}
+  // eslint-disable-next-line 
   }}, [])
   
   return(

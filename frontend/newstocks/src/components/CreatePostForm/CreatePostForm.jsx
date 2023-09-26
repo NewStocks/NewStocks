@@ -160,6 +160,7 @@ export default function CreatePostForm({ type }) {
       const dropzone = document.getElementById('dropzone');
       dropzone?.removeEventListener('drop', handleImage);
     }
+  // eslint-disable-next-line 
   }, [imageList])
 
   

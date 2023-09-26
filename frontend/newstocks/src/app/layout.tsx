@@ -40,6 +40,7 @@ export default function RootLayout({
         />
 
         <Script
+          id="googleAnalytics"
           strategy="afterInteractive"
         >
           {`
