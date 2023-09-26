@@ -285,7 +285,7 @@ export default function Newstab() {
               </div>
               <div 
                 className={styles["headertab"]}
-                onClick={handleShowAllNews}>전체 보기
+                onClick={handleShowAllNews}>전체 뉴스
               </div>
               <div className={styles["datetab"]}>{newsDate}</div>
             </div>

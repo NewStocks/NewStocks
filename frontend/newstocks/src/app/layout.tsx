@@ -4,11 +4,13 @@ import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google';
 import Script from 'next/script';
 
+import Link from 'next/link'
+
 const sans = Open_Sans({ subsets: ['latin']});
 
 import Header from '@/components/Header/Header'
 
-import { Provider } from '../util/ChakraProvider'
+import { Provider } from '../utils/ChakraProvider'
 
 export const metadata: Metadata = {
   title: 'NEWStocks',
@@ -47,6 +49,8 @@ export default function RootLayout({
             gtag('config', 'G-0JQQ2BY563');
           `}
         </Script>
+
+        <Link href={{ pathname: '/auth/login/kakao'}}></Link>
       </body>
     </html>
   )

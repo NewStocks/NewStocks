@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import AutocompleteBox from "./AutocompleteBox/AutocompleteBox";
 
-import { searchStock } from "@/util/searchStock";
+import { searchStock } from "@/utils/searchStock";
 import { Stock } from "@/types/stock";
 
 import styles from "./SearchBox.module.css";
@@ -13,18 +13,23 @@ import { BiSearch, BiX } from "react-icons/bi";
 
 import axios from "axios";
 
-export default function SearchBox() {
+type Props = {
+  searchFunc: Function
+}
+
+export default function SearchBox({searchFunc}: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  
+
   const [inputText, setInputText] = useState("");
   const [showAutoBox, setShowAutoBox] = useState(false);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [searchList, setSearchList] = useState<Stock[]>([]);
   const [allStocks, setAllStocks] = useState<Stock[]>([]);
+
 
   useEffect(() => {
     async function getAllStocks() {
@@ -85,6 +90,7 @@ export default function SearchBox() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line
   }, [selectedItem, searchList, showAutoBox]);
 
   // input 창 입력 텍스트 없을 경우 autocomplete box 숨기고, 있으면 나타내기. 그리고 입력text에 따른 autocomplete 결과 업데이트
@@ -93,9 +99,15 @@ export default function SearchBox() {
       setShowAutoBox(true);
       const autocompleteResults = searchStock(inputText, allStocks);
       setSearchList(autocompleteResults.slice(0, 20));
+      if (autocompleteResults.length > 0) {
+        setSelectedItem(0);
+      } else {
+        setSelectedItem(null);
+      }
     } else {
       setShowAutoBox(false);
     }
+    // eslint-disable-next-line
   }, [inputText]);
 
   useEffect(() => {
@@ -111,18 +123,6 @@ export default function SearchBox() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
-    if (searchList) {
-      setSelectedItem(0);
-    }
-  };
-
-  const handleSearch = (e: React.KeyboardEvent) => {
-    if (selectedItem) {
-      setShowAutoBox(false);
-      setInputText("");
-      const tabName = searchParams?.get("tab");
-      router.push(`/${searchList[selectedItem].id}?tab=${tabName}`);
-    }
   };
 
   const handleItemHover = (selectedItem: number) => {
@@ -132,8 +132,7 @@ export default function SearchBox() {
   const handleItemClick = (selectedItem: number) => {
     setShowAutoBox(false);
     setInputText("");
-    const tabName = searchParams?.get("tab");
-    router.push(`/${searchList[selectedItem].id}?tab=${tabName}`);
+    searchFunc(searchList[selectedItem]);
   };
 
   const handleEraseClick = () => {
@@ -149,16 +148,11 @@ export default function SearchBox() {
           </div>
           <input
             type="text"
-            placeholder="종목명 또는 종목코드 검색"
+            placeholder="종목명 / 종목코드 검색"
             ref={inputRef}
             value={inputText}
             onClick={handleInputClick}
             onChange={handleInputChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                handleSearch(e);
-              }
-            }}
           />
           {inputText && (
             <div className={styles["erase-button"]} onClick={handleEraseClick}>

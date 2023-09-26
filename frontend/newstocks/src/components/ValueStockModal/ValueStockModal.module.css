@@ -1,0 +1,10 @@
+.icon {
+    display: flex;
+    width: auto;
+    height: 30px;
+    cursor: pointer;
+  }
+
+.valuename {
+  font-size: 12px
+}

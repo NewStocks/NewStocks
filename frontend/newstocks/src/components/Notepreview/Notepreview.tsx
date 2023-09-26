@@ -1,22 +1,31 @@
 import styles from './Notepreview.module.css';
+import { FaRegComment, FaRegHeart, FaRegBookmark } from "react-icons/fa";
 
 interface Props {
-  title?: string;
-  date?: string;
-  name?: string;
+  title?: string
+  date?: string
+  name?: string
   content: string 
   profile?: string
   image?: string
+  // buyPrice?: number
+  // sellPrice?: number
+  // sellQuantity?: number
+  // buyQuantity?: number
+  scrapCount?: number
+  likeCount?: number
+  replyCount?: number
 }
 
-export default function Notepreview({ title, date, name, content, profile, image }: Props) {
+export default function Notepreview({ title, date, name, content, profile, image,
+  scrapCount, likeCount, replyCount}: Props) {
   const truncateContent = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
       return text.slice(0, maxLength) + '...';
     }
     return text;
   };
-
+  
   const textClass = image ? styles["Note-preview-text"] : styles["Note-preview-noimage"];
   
   return (
@@ -27,8 +36,15 @@ export default function Notepreview({ title, date, name, content, profile, image
             {name}
           </div>
           <div className={styles["Note-preview-date"]}>
-            {date}
+            <div className={styles["Note-preview-date-text"]}>{date}</div>
+            
+            <div className={styles["Note-preview-likescrap"]}>
+              <FaRegHeart className={styles["Note-preview-likescrap-icon"]}/>{likeCount}
+              <FaRegBookmark className={styles["Note-preview-likescrap-icon"]}/>{scrapCount}
+              <FaRegComment className={styles["Note-preview-likescrap-icon"]}/>{replyCount}
+            </div>
           </div>
+
         </div>
         <div className={styles["Note-preview-body"]}>
           <div className={textClass}>

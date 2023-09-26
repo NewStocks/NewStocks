@@ -64,3 +64,15 @@
 	justify-content: space-between;
 
 }
+.Note-preview-likescrap {
+	display: flex;
+	align-items: center;
+}
+.Note-preview-likescrap-icon {
+	margin-left: 5px;
+	margin-right: 3px;
+}
+.Note-preview-date-text {
+	display: flex;
+	justify-content: flex-end;
+}

@@ -1,7 +1,7 @@
 import styles from './allpage.module.css';
 
 import Button from '@/components/Button/Button';
-import Card from '@/components/Card/Card';
+import FilterableCards from '@/components/FilterableCards/FilterableCards'
 
 export default function AllnotesPage() {
   return (
@@ -19,11 +19,7 @@ export default function AllnotesPage() {
       </div>
 
       <div className={styles["cards-container"]}>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <FilterableCards />
       </div>
     </div>
   )
