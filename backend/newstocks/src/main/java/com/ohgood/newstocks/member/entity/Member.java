@@ -35,6 +35,10 @@ public class Member extends BaseEntity {
     private SocialType socialType;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @NotNull
     private String socialId;
 
     @OneToMany(mappedBy = "member")
@@ -71,11 +75,13 @@ public class Member extends BaseEntity {
     private List<FavoriteStock> favoriteStockList;
 
     @Builder
-    public Member(String name, String email, String profileImage, SocialType socialType, String socialId) {
+    public Member(String name, String email, String profileImage, SocialType socialType,
+        String socialId) {
         this.name = name == null ? "이름" : name;
         this.email = email == null ? "이메일" : email;
         this.profileImage = profileImage == null ? "" : profileImage;
         this.socialType = socialType;
+        this.role = Role.USER;
         this.socialId = socialId;
         this.reviewNoteList = new ArrayList<>();
         this.reviewNoteLikeList = new ArrayList<>();
