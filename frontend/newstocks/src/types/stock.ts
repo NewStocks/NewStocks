@@ -3,3 +3,8 @@ export type Stock = {
   name: string;
   stockMarket?: string;
 };
+
+export type FavoriteStock = {
+  stockId: string; 
+  stockName: string; 
+}

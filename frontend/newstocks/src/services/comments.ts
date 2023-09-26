@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL } from '../util/url'
+import { BASE_URL } from '../utils/url'
 
 export type Member = {
   id: string
