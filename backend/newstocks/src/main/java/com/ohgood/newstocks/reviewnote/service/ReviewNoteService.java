@@ -201,6 +201,16 @@ public class ReviewNoteService {
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
+    public List<ReviewNoteResDto> findHotReviewNoteList(Long userId) {
+        return null;
+    }
+
+    public List<ReviewNoteResDto> findScrappedReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+        List<ReviewNote> reviewNoteList = member.getReviewNoteScrapList().stream().map(ReviewNoteScrap::getReviewNote).toList();
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
+    }
+
     @Transactional
     public void likeReviewNote(Long reviewNoteId, Long userId) {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);

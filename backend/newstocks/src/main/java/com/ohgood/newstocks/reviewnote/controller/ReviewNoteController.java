@@ -65,6 +65,16 @@ public class ReviewNoteController {
         return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
     }
 
+    @GetMapping("/find-hot")
+    public ResponseEntity<List<ReviewNoteResDto>> findHotReviewNoteList() {
+        return new ResponseEntity<>(reviewNoteService.findHotReviewNoteList(5L), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-scrapped")
+    public ResponseEntity<List<ReviewNoteResDto>> findScrapReviewNoteList() {
+        return new ResponseEntity<>(reviewNoteService.findScrappedReviewNoteList(5L), HttpStatus.OK);
+    }
+
     @PostMapping("/{reviewNoteId}/like")
     public ResponseEntity<Void> likeReviewNote(@PathVariable Long reviewNoteId) {
         // Authentication 처리 전 임시 테스트
