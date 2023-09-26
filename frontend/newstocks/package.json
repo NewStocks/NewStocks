@@ -37,6 +37,7 @@
     "react-icons": "^4.10.1",
     "react-multi-carousel": "^2.8.4",
     "react-ts-tradingview-widgets": "^1.2.0",
+    "recoil": "^0.7.7",
     "redux": "^4.2.1",
     "styled-components": "^6.0.7",
     "typescript": "5.2.2"

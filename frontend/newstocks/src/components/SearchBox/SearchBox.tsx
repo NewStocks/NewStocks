@@ -14,10 +14,10 @@ import { BiSearch, BiX } from "react-icons/bi";
 import axios from "axios";
 
 type Props = {
-  searchFunc: Function
-}
+  searchFunc: Function;
+};
 
-export default function SearchBox({searchFunc}: Props) {
+export default function SearchBox({ searchFunc }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -29,7 +29,6 @@ export default function SearchBox({searchFunc}: Props) {
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [searchList, setSearchList] = useState<Stock[]>([]);
   const [allStocks, setAllStocks] = useState<Stock[]>([]);
-
 
   useEffect(() => {
     async function getAllStocks() {
