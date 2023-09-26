@@ -11,7 +11,7 @@ type Props = {
 }
 
 import Button from '@/components/Button/Button'
-import Card from '@/components/Card/Card'
+import MyCards from '@/components/MyCards/MyCards'
 
 export default function MynotesPage({ searchParams }: Props) {
 
@@ -47,12 +47,7 @@ export default function MynotesPage({ searchParams }: Props) {
           </>
         )}
         <div className={styles["cards-container"]}>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          <MyCards />
         </div>
       </div>
 

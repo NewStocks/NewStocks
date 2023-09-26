@@ -25,8 +25,8 @@ export async function getComments(id: string) {
 }
 
 // 댓글 작성
-export async function createComment(id: string, content: string): Promise<void>{
-  await axios({
+export async function createComment(id: string, content: string){
+  return await axios({
     method: 'post',
     url: `${BASE_URL}/review-note/${id}/reply`,
     data: { content }
@@ -34,19 +34,19 @@ export async function createComment(id: string, content: string): Promise<void>{
 }
 
 // 댓글 수정
-export async function updateComment(id: string, content: string) {
+export async function updateComment(PostId: string, content: string, commentId: string) {
   return await axios({
   method: 'patch',
-  url: `${BASE_URL}/review-note/${id}/reply`,
+  url: `${BASE_URL}/review-note/${PostId}/reply/${commentId}`,
   data: { content }
-  }).then((res) => res)
+  })
 }
 
 // 댓글 삭제 -> 확인 필요
-export async function deleteComment(id: string) {
+export async function deleteComment(PostId: string, commentId: string) {
   return await axios({
   method: 'delete',
-  url: `${BASE_URL}/review-note/${id}/reply`,
-  }).then((res) => res)
+  url: `${BASE_URL}/review-note/${PostId}/reply/${commentId}`,
+  })
 }
 

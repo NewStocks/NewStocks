@@ -1,13 +1,16 @@
 import './globals.css';
 import styles from './page.module.css'
+import Link from 'next/link';
 import LandingView from '@/components/LandingView/LandingView'
 import Footer from '@/components/Footer/Footer'
 import Button from '@/components/Button/Button'
 
 export default function Home() {
+  // const router = useRouter();
 
   return (
     <div className={styles.main}>
+      <Link href={{ pathname: '/auth/login/kakao'}}></Link>
       <div>
         <div className={styles["landing-main-image"]}>
         <svg className={styles["chart"]} viewBox="0 0 600 350">

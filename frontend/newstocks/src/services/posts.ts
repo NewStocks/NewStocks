@@ -15,12 +15,63 @@ export type Note = {
   }
 }
 
+export type Member = {
+    id: string
+    name: string
+    profileImage: string
+}
+
+export type News = {
+  newsDtoList: string[]
+}
+
+export type Reply = {
+  replyResDtoList: string[]
+}
+
+export type ImageList = {
+  reviewNoteImageDtoList: string[]
+}
+
+export type Link = {
+  reviewNoteLinkDtoList: string[]
+}
+
+export type Stock = {
+    id: string
+    name: string
+}
+
+export type Post = {
+  buyDate: string | null
+  buyPrice: string | null
+  buyQuantity: string | null
+  content: string 
+  hasAuthority: boolean
+  id: string
+  isLiked: boolean
+  isScrapped: boolean
+  memberDto: Member
+  newsDtoList: News
+  privacy: boolean
+  replyResDtoList: Reply
+  reviewNoteImageDtoList: ImageList
+  reviewNoteLinkDtoList: Link
+  sellDate: string | null
+  sellPrice: string | null
+  sellQuantity: string | null
+  settingDate: string
+  stockDto: Stock
+  title: string
+  type: string
+}
+
 // 노트 전체보기
-export async function getPostsAll(id: string) {
+export async function getPostsAll() {
   return await axios({
    method: 'get',
    url: `${BASE_URL}/review-note/find-all`
-  }).then((res) => res)
+  })
 }
 
 // 노트 상세보기
