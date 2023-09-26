@@ -1,5 +1,7 @@
 package com.ohgood.newstocks.auth.oauth.kakao;
 
+import com.ohgood.newstocks.auth.jwt.Mapper.JwtMapper;
+import com.ohgood.newstocks.auth.jwt.service.JwtService;
 import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.dto.MemberLoginDto;
 import com.ohgood.newstocks.member.entity.Member;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class KakaoService {
 
     private final MemberRepository memberRepository;
+    private final JwtService jwtService;
+
 
     @Value("${KAKAO_RESTAPI_KEY}")
     private String KAKAO_RESTPAPI_KEY;
@@ -91,7 +95,10 @@ public class KakaoService {
     public MemberLoginDto getMemberLoginDto(Member member) {
         MemberDto memberDto = MemberMapper.INSTANCE.entityToMemberDto(member);
         List<FavoriteStock> favoriteStockList = member.getFavoriteStockList();
+
         return MemberLoginDto.builder().memberDto(memberDto).favoriteStockList(favoriteStockList)
+            .accessToken(
+                jwtService.createAccessToken(JwtMapper.INSTANCE.MemberDtoToJwtDto(memberDto)))
             .build();
     }
 }
