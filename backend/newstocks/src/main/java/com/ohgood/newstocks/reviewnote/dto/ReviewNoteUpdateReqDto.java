@@ -24,7 +24,7 @@ public class ReviewNoteUpdateReqDto {
     private NoteType type;
     //    private Boolean display;
     private Boolean privacy;
-    private String stockId;
+//    private String stockId;
     private List<Long> newsIdList;
     private List<String> linkList;
 
@@ -36,7 +36,7 @@ public class ReviewNoteUpdateReqDto {
     public ReviewNoteUpdateReqDto(Long id, String title, Integer buyPrice, Integer sellPrice,
         Integer sellQuantity, Integer buyQuantity, String content, LocalDateTime buyDate,
         LocalDateTime sellDate, LocalDateTime settingDate, NoteType type, Boolean privacy,
-        String stockId, List<Long> newsIdList, List<String> linkList, List<Long> deletedImageIdList,
+        List<Long> newsIdList, List<String> linkList, List<Long> deletedImageIdList,
         List<MultipartFile> multipartFileList) {
         this.id = id;
         this.title = title;
@@ -50,7 +50,7 @@ public class ReviewNoteUpdateReqDto {
         this.settingDate = settingDate;
         this.type = type;
         this.privacy = privacy;
-        this.stockId = stockId;
+//        this.stockId = stockId;
         this.newsIdList = newsIdList;
         this.linkList = linkList;
         this.deletedImageIdList = deletedImageIdList;

@@ -1,6 +1,8 @@
 package com.ohgood.newstocks.reviewnote.entity;
 
 import com.ohgood.newstocks.global.entity.BaseEntity;
+import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.reviewnote.dto.ReplyReqDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -32,16 +34,31 @@ public class Reply extends BaseEntity {
     @ToString.Exclude
     private ReviewNote reviewNote;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @ToString.Exclude
+    private Member member;
+
     @OneToMany(mappedBy = "reply")
     @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<ReplyComment> replyCommentList;
 
     @Builder
-    public Reply(String content, Integer likeCount, ReviewNote reviewNote) {
+    public Reply(String content, ReviewNote reviewNote, Member member) {
         this.content = content;
-        this.likeCount = likeCount;
+        this.likeCount = 0;
         this.reviewNote = reviewNote;
+        this.member = member;
         this.replyCommentList = new ArrayList<>();
+    }
+
+    public void addDetails(Member member, ReviewNote reviewNote) {
+        this.member = member;
+        this.reviewNote = reviewNote;
+    }
+
+    public void updateReply(ReplyReqDto replyReqDto) {
+        this.content = replyReqDto.getContent();
     }
 }
