@@ -1,18 +1,24 @@
 package com.ohgood.newstocks.auth.jwt.service;
 
+import com.ohgood.newstocks.auth.jwt.dto.JwtDto;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.Authentication;
 
 public interface JwtService {
 
-    <T> String createAccessToken(String key, T data);
+    String createAccessToken(JwtDto jwtDto);
 
-    <T> String createRefreshToken(String key, T data);
+    String createRefreshToken(JwtDto jwtDto);
 
-    <T> String create(String key, T data, String subject, long expir);
+    String create(JwtDto jwtDto, String subject, long expire);
 
-    Authentication get(String key);
+    Authentication getAuthentication(String key);
+
+    Claims get(String key);
 
     boolean checkToken(String jwt);
 
     long getMemberIdFromAccessToken(String accessToken);
+
+    public Claims parseClaims(String accessToken);
 }

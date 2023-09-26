@@ -1,12 +1,11 @@
 package com.ohgood.newstocks.auth.jwt;
 
 import com.ohgood.newstocks.auth.jwt.service.JwtService;
+import com.ohgood.newstocks.global.exception.exceptions.UnAuthorizedException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -22,19 +21,20 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+        FilterChain filterChain) throws UnAuthorizedException {
         try {
             String jwt = resolveToken(request); //request에서 jwt 토큰을 꺼낸다.
+            jwt = jwt != null ? jwt : ""; // 토큰이 없을 경우 빈 문자열 반환
 
-            if (jwt == null) {
-                filterChain.doFilter(request, response);
-                return;
+            if (jwt=="" || jwt==null) {
+                System.out.println("토큰 없음");
+                throw new UnAuthorizedException();
             }
 
             System.out.println("jwt = " + jwt); //test
 
             if (StringUtils.isNotEmpty(jwt) && jwtService.checkToken(jwt)) {
-                Authentication authentication = jwtService.get(jwt); // 저장한 authentication 획득
+                Authentication authentication = jwtService.getAuthentication(jwt); // 저장한 authentication 획득
 
                 // Security 세션에서 계속 사용하기 위해 SecurityContext에 Authentication 등록
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -59,12 +59,13 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             }
         } catch (Exception ex) {
             logger.error("Security Context에 해당 토큰을 등록할 수 없습니다", ex);
+            throw new UnAuthorizedException();
         }
-        filterChain.doFilter(request, response);
+        return;
     }
 
     private boolean isTokenUserInfoMatching(Authentication authentication, String jwt) {
-        return true;
+        return false;
     }
 
     private String resolveToken(HttpServletRequest request) {

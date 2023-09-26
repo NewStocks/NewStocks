@@ -43,12 +43,13 @@ public class SecurityConfig {
             .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))
             .httpBasic(httpBasic -> httpBasic.disable())
             .authorizeHttpRequests(requests -> requests
+                .requestMatchers("/stock/**").permitAll()
                 .requestMatchers("/notice/**").hasAuthority("SOME_ROLE")
                 .requestMatchers("/review-note/**").authenticated()
                 .anyRequest().permitAll()
             )
+            .addFilterAfter(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
             .headers(headers -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
-        http.addFilterAfter(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
