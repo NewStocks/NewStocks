@@ -10,7 +10,7 @@ const sans = Open_Sans({ subsets: ['latin']});
 
 import Header from '@/components/Header/Header'
 
-import { Provider } from '../util/ChakraProvider'
+import { Provider } from '../utils/ChakraProvider'
 
 export const metadata: Metadata = {
   title: 'NEWStocks',

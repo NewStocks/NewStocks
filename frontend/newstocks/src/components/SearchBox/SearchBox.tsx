@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import AutocompleteBox from "./AutocompleteBox/AutocompleteBox";
 
-import { searchStock } from "@/util/searchStock";
+import { searchStock } from "@/utils/searchStock";
 import { Stock } from "@/types/stock";
 
 import styles from "./SearchBox.module.css";
