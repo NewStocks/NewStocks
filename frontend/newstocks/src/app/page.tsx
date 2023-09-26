@@ -10,7 +10,6 @@ export default function Home() {
 
   return (
     <div className={styles.main}>
-      <Link href={{ pathname: '/auth/login/kakao'}}></Link>
       <div>
         <div className={styles["landing-main-image"]}>
         <svg className={styles["chart"]} viewBox="0 0 600 350">
