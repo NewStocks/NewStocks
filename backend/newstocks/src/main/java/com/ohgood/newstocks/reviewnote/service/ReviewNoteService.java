@@ -189,7 +189,7 @@ public class ReviewNoteService {
     public List<ReviewNoteResDto> findOtherReviewNoteList(Long findUserId, Long userId) {
         Member member = findMemberById(userId);
         Member findMember = findMemberById(findUserId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndMemberAndDeletedFalse(
             findMember);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
@@ -198,6 +198,19 @@ public class ReviewNoteService {
         Member member = findMemberById(userId);
         List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
             member);
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
+    }
+
+    public List<ReviewNoteResDto> findHotReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndDeletedFalseOrderByLikeCountDesc();
+
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
+    }
+
+    public List<ReviewNoteResDto> findScrappedReviewNoteList(Long userId) {
+        Member member = findMemberById(userId);
+        List<ReviewNote> reviewNoteList = member.getReviewNoteScrapList().stream().map(ReviewNoteScrap::getReviewNote).toList();
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
