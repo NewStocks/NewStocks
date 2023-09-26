@@ -1,11 +1,16 @@
 .Button-width {
-  width: 118px;
-  height: 37px;
+  width: 300px;
+  height: 50px;
+}
+.Button-width:hover {
+  /* border-radius: 65.153px;
+  border: 2px solid #1DE9B6; */
 }
 
 .title {
   font-size: 40px;
   font-weight: 700;
+  margin-left: 20px;
 }
 
 .title span {
@@ -15,10 +20,12 @@
 .description {
   font-size: 15px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: bold;
 
   margin-top: 20px;
   margin-bottom: 30px;
+  /* margin-left: 20px; */
+  color: rgba(255, 255, 255, 0.562);
 }
 
 .scroll-animation {
@@ -48,9 +55,9 @@
 .content-box {
   margin-top: 17.5rem;
   margin-left: 1.3rem;
-  width: 450px;
+  width: 650px;
 
-  border: 1px violet solid;
+  /* border: 1px violet solid; */
 }
 
 .landing-main-image {
@@ -67,15 +74,15 @@
   height: 480px;
   padding: 0 10px 10px 10px;
   display: flex;
-
+  /* justify-content: space-around; */
   margin-bottom: 110px;
-  border: 1px dotted aqua;
+  /* border: 1px dotted aqua; */
   position: relative;
 }
 
 .landing-iamge-box {
   position: absolute;
-  top: 170px;
+  /* top: 170px; */
   width: 68%;
   height: 80%;
   /* background-color: rgba(128, 128, 128, 0.196); */
@@ -90,7 +97,7 @@
   line-height: 440px;
   
   position: absolute;
-  border: 1px dotted green;
+  /* border: 1px dotted green; */
 }
 
 #right-desc {
@@ -103,4 +110,24 @@
 
 #right-num {
   right: 0rem;
+}
+
+.stock-image-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 80px;
+  margin-top: 150px;
+}
+.value-image-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-left: 50px; */
+  margin-top: 50px;
+}
+.start {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
 }
