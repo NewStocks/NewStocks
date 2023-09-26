@@ -61,4 +61,12 @@ public class Reply extends BaseEntity {
     public void updateReply(ReplyReqDto replyReqDto) {
         this.content = replyReqDto.getContent();
     }
+
+    public void increaseLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount -= 1;
+    }
 }

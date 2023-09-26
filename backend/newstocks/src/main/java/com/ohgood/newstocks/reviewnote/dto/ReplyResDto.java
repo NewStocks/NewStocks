@@ -36,10 +36,8 @@ public class ReplyResDto {
         this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(this.member);
     }
 
-    public void checkMember(Member member) {
+    public void checkMemberAndIsLiked(Member member, Boolean isLiked) {
         this.hasAuthority = this.getMember().equals(member);
-
-        // TODO 추후 변경 필요
-        this.isLiked = false;
+        this.isLiked = isLiked;
     }
 }
