@@ -477,6 +477,7 @@ export default function ChartComponent() {
           chart.current.remove();
       }
     };
+  // eslint-disable-next-line 
   }, [code, tab]);
 
 

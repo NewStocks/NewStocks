@@ -23,6 +23,7 @@ export default function CommentInput({ id, postId, type, content, CreateCommentA
         textarea.value = `${content}`
       }
     }
+  // eslint-disable-next-line 
   }, [])
 
   // 댓글 생성 관리

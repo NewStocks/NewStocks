@@ -92,10 +92,9 @@ export default function ValueModal({ code }: ModalProps) {
               <div style={{ display: 'flex' }}>
                 <div style={{ flex: 3, marginRight: '16px' }}>
                   {valueChains.slice(0, 3).map((item) => (
-                    <div>
+                    <div key={item.id}>
                       <PointText className={styles['valuename']}>{item.valueChainName}</PointText>
                       <SingleTicker
-                        key={item.id}
                         colorTheme="dark"
                         locale="kr"
                         width="250"
@@ -106,10 +105,9 @@ export default function ValueModal({ code }: ModalProps) {
                 </div>
                 <div style={{ flex: 2 }}>
                   {valueChains.slice(3, 5).map((item) => (
-                    <div>
+                    <div key={item.id}>
                       <PointText className={styles['valuename']}>{item.valueChainName}</PointText>
                       <SingleTicker
-                        key={item.id}
                         colorTheme="dark"
                         locale="kr"
                         width="250"

@@ -34,6 +34,7 @@ export default function LandingBox({ position, right }: Props) {
     return () => {
         window.removeEventListener('scroll', handleScroll);
     };
+  // eslint-disable-next-line 
   }, []);
 
 
