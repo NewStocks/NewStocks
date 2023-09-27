@@ -4,6 +4,7 @@ import TabHeader from "./TabHeader/TabHeader";
 import TabNotes from './TabNotes/TabNotes'
 import CompanyInfo from "./CompanyInfo/CompanyInfo";
 import AllNotes from "./AllNotes/AllNotes";
+import Chat from "./chat/Chat";
 
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -25,7 +26,7 @@ export default function TabsView() {
         <TabNotes code={code}/>}
 
       {tabName?.get('tab') === 'chat' && 
-      '여기에 chatbot'}
+      <Chat />}
 
     </div>
   );

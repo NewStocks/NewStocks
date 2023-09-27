@@ -2,7 +2,7 @@
 
 import styles from "./chat.module.css";
 import React, { useState, useRef, useEffect } from "react";
-import ChatMessage from './ChatMessage/ChatMessage'
+import ChatMessage from "./ChatMessage/ChatMessage";
 
 
 interface Message {
