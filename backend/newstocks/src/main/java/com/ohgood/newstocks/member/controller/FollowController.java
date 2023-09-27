@@ -2,12 +2,12 @@ package com.ohgood.newstocks.member.controller;
 
 import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.service.FollowService;
-import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,28 +25,30 @@ public class FollowController {
     private final FollowService followService;
 
     @GetMapping("/follower")
-    public ResponseEntity<List<MemberDto>> findFollowerList() {
-        // 추후 Authentication 처리 예정
-        return new ResponseEntity<>(followService.findFollowerList(5L), HttpStatus.OK);
+    public ResponseEntity<List<MemberDto>> findFollowerList(Authentication authentication) {
+        return new ResponseEntity<>(followService.findFollowerList(Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 
     @GetMapping("/following")
-    public ResponseEntity<List<MemberDto>> findFollowingList() {
-        // 추후 Authentication 처리 예정
-        return new ResponseEntity<>(followService.findFollowingList(5L), HttpStatus.OK);
+    public ResponseEntity<List<MemberDto>> findFollowingList(Authentication authentication) {
+        return new ResponseEntity<>(followService.findFollowingList(Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 
     @PostMapping("/{follwingId}")
-    public ResponseEntity<Void> follow(@PathVariable Long follwingId) {
-        // 추후 Authentication 처리 예정
-        followService.follow(5L, follwingId);
+    public ResponseEntity<Void> follow(@PathVariable Long follwingId,
+        Authentication authentication) {
+        followService.follow(Long.parseLong(
+            authentication.getName()), follwingId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{followingId}")
-    public ResponseEntity<Void> unfollow(@PathVariable Long followingId) {
-        // 추후 Authentication 처리 예정
-        followService.unfollow(5L, followingId);
+    public ResponseEntity<Void> unfollow(@PathVariable Long followingId,
+        Authentication authentication) {
+        followService.unfollow(Long.parseLong(
+            authentication.getName()), followingId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
