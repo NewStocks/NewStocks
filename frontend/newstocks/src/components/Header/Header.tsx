@@ -1,21 +1,21 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
 
-import SearchBox from '../SearchBox/SearchBox';
+import SearchBox from "../SearchBox/SearchBox";
 
-import styles from './Header.module.css';
-import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
+import styles from "./Header.module.css";
+import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 
 // 검색창 아이콘
-import { BiSearch } from "react-icons/bi"
+import { BiSearch } from "react-icons/bi";
 // 메뉴 아이콘
 import { BiHomeAlt2, BiBarChartAlt2 } from "react-icons/bi";
 import { AiOutlineGlobal } from "react-icons/ai";
 
-import { Stock } from '@/types/stock';
+import { Stock } from "@/types/stock";
 
-import LoginModal from '@/components/LoginModal/LoginModal'
+import LoginModal from "@/components/LoginModal/LoginModal";
 
 // type User = {
 //   name: string;
@@ -29,12 +29,10 @@ import LoginModal from '@/components/LoginModal/LoginModal'
 // }
 
 export default function Header() {
-
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const handleSearch = (stock: Stock) => {
-
     let tabName = searchParams?.get("tab");
 
     if (!tabName) {
@@ -42,8 +40,8 @@ export default function Header() {
     }
 
     router.push(`/${stock.id}?tab=${tabName}`);
+  };
 
-  }
 
 return (
   <header>

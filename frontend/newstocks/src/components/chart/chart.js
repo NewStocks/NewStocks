@@ -4,6 +4,7 @@ import './chart.css';
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import React, { useState, useEffect, useRef } from 'react';
+
 import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType } from 'lightweight-charts';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -15,7 +16,9 @@ import ValueModal from "@/components/ValueModal/ValueModal";
 import ValueStockModal from "@/components/ValueStockModal/ValueStockModal";
 // import { Provider } from '../utils/ChakraProvider'
 
-
+import { useRecoilState } from 'recoil';
+import { allFavoriteStocksState } from '@/recoil/favoriteStock';
+import { postFavoriteStock, deleteFavoriteStock } from '@/services/favoriteStocks';
 import { fetchStockInfo, fetchChartData } from '@/services/chart';
 
 export default function ChartComponent() {
@@ -30,9 +33,65 @@ export default function ChartComponent() {
   const tooltipRef = useRef(null);
   const chartApiRef = useRef(null);
   const volumeSeries = useRef(null);
+  const [allFavoriteStocks, setAllFavoriteStocks] = useRecoilState(
+    allFavoriteStocksState
+  );
 
+  const [stockInfo, setStockInfo ] = useState({});
   const [isStarred, setIsStarred] = useState(false);
+
+  const handleAddStock = (stock) => {
+    if (allFavoriteStocks.some((item) => item.stockId === stock.id)) {
+      return;
+    }
+
+    const addStock = async (stock) => {
+      try {
+        const response = await postFavoriteStock(stock);
+        // console.log(response);
+        setAllFavoriteStocks((prev) => [
+          ...prev,
+          { stockId: stock.id, stockName: stock.name },
+        ]);
+      } catch (e) {
+        console.error(e);
+        alert("등록에 실패했습니다.");
+      }
+    };
+
+    addStock(stock);
+  };
+
+  const handleDeleteStock = async (stock) => {
+
+    try {
+      const response = await deleteFavoriteStock(stock);
+
+      const changedStockList = allFavoriteStocks.filter((eachStock) => {
+        return eachStock.stockId !== stock.stockId;
+      });
+      setAllFavoriteStocks(changedStockList);
+    } catch (e) {
+      console.error(e);
+      alert("삭제에 실패했습니다.");
+    }
+  };
+
+
   const toggleStar = () => {
+    if (isStarred) {
+      const stock = {
+        stockId: stockInfo.id, 
+        stockName: stockInfo.name
+      }
+      handleDeleteStock(stock)
+    } else {
+      const stock = {
+        id: stockInfo.id,
+        name: stockInfo.name
+      }
+      handleAddStock(stock)
+    }
     setIsStarred(!isStarred);
   };
 
@@ -41,12 +100,24 @@ export default function ChartComponent() {
     name:'',
   })
 
+  useEffect(() => {
+    if (code && allFavoriteStocks.some((item) => item.stockId === code)) {
+      setIsStarred(true);
+    } else {
+      setIsStarred(false);
+    }
+
+  }, [code, isStarred, allFavoriteStocks])
+
 
   useEffect(() => {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
         const chartname = res.data.name
+        if (res.status === 200) {
+          setStockInfo(res.data);
+        }
         setChartData((prevdata) => ({
           ...prevdata,
           name: chartname
