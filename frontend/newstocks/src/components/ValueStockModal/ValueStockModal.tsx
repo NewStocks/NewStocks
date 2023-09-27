@@ -73,8 +73,8 @@ export default function ValueModal({ code }: ModalProps) {
 
   return (
     <>
-      <button onClick={onOpen}>
-        <PiTreeStructure className={styles['icon']} />
+      <button className={styles['valuechain']} onClick={onOpen}>
+        ValueChain{/* <PiTreeStructure className={styles['icon']} /> */}
       </button>
       <Modal size={'xl'} blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
