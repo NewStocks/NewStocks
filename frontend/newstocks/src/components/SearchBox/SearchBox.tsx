@@ -1,25 +1,21 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 
 import AutocompleteBox from "./AutocompleteBox/AutocompleteBox";
 
 import { searchStock } from "@/utils/searchStock";
+import { getAllStocks } from "@/services/search";
 import { Stock } from "@/types/stock";
 
 import styles from "./SearchBox.module.css";
 import { BiSearch, BiX } from "react-icons/bi";
-
-import axios from "axios";
 
 type Props = {
   searchFunc: Function
 }
 
 export default function SearchBox({searchFunc}: Props) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -32,11 +28,9 @@ export default function SearchBox({searchFunc}: Props) {
 
 
   useEffect(() => {
-    async function getAllStocks() {
+    async function getData() {
       try {
-        const response = await axios.get(
-          "http://localhost:8200/stock/find-all-stock-for-search"
-        );
+        const response = await getAllStocks();
         const stockData = response.data.stockDtoList;
         setAllStocks(stockData);
       } catch (e) {
@@ -44,7 +38,7 @@ export default function SearchBox({searchFunc}: Props) {
       }
     }
 
-    getAllStocks();
+    getData();
   }, []);
 
   // input 창 바깥 클릭 시 autocomplete box 숨기기
