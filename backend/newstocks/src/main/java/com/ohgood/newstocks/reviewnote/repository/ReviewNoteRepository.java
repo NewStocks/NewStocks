@@ -25,4 +25,6 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
     List<ReviewNote> findByMemberInAndPrivacyFalseAndDeletedFalse(List<Member> memberList);
 
     List<ReviewNote> findByPrivacyFalseAndDeletedFalseOrderByLikeCountDesc();
+
+    List<ReviewNote> findByPrivacyFalseAndDeletedFalseAndAndTitleContainingOrContentContaining(String title, String content);
 }
