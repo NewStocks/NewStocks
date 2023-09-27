@@ -6,7 +6,7 @@ import { ChakraProvider, ColorModeScript, StyleFunctionProps, extendTheme, type 
 import {mode} from "@chakra-ui/theme-tools"
 
 const config: ThemeConfig = {
-  initialColorMode: 'dark', 
+  initialColorMode: 'light', 
   useSystemColorMode: false,
 }
 
@@ -16,6 +16,7 @@ const theme = extendTheme({
     global: (props: StyleFunctionProps) => ({
       body: {
         bg: mode('#00051E', '#00051E')(props),
+        color: mode('whiteAlpha.900', 'whiteAlpha.900')(props),
       },
     }),
   },

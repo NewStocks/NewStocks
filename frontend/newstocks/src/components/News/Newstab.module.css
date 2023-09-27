@@ -89,6 +89,14 @@
 	justify-content: space-between;
 	padding-top: 5px;
 }
+.newscontentdown {
+	display: flex;
+	justify-content: space-between;
+}
+.duplicatedCount {
+	margin-right: 10px;
+	font-size: 12px;
+}
 .newstitle {
 	margin-bottom: 5px;
 }
