@@ -85,6 +85,12 @@ public class ReviewNoteController {
             authentication.getName())), HttpStatus.OK);
     }
 
+    @GetMapping("/find-keyword/{keyword}")
+    public ResponseEntity<List<ReviewNoteResDto>> findKeywordReviewNoteList(@PathVariable String keyword, Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.findKeywordReviewNoteList(Long.parseLong(
+            authentication.getName()), keyword), HttpStatus.OK);
+    }
+
     @GetMapping("/find-scrapped")
     public ResponseEntity<List<ReviewNoteResDto>> findScrapReviewNoteList(
         Authentication authentication) {
