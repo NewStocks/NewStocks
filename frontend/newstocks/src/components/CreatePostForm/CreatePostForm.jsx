@@ -48,11 +48,11 @@ export default function CreatePostForm({ work }) {
   const [imageList, setimageList] = useState([])
   const [linkList, setLinkList] = useState([])
   
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(null)
   const [buyPrice, setBuyPrice] = useState(null)
   const [buyQuantity, setBuyQuantity] = useState(null)
   
-  const [endDate, setEndDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(null)
   const [sellPrice, setSellPrice] = useState(null)
   const [sellQuantity, setSellQuantity] = useState(null)
 
@@ -163,47 +163,50 @@ export default function CreatePostForm({ work }) {
     }
   }, [imageList])
 
-  let multipartFileList = []
-  function HandleImageList() {
+  function HandleImageList(formData) {
     if (imageList) {
         imageList.forEach((image) => {
-          multipartFileList.push(image.file);
+          formData.append("multipartFileList", image.file)
+          console.log('file input')
         })
       }
-    console.log('image file', multipartFileList)
   }
 
   async function CreateNote() {
     console.log('create')
+    const formData = new FormData();
+
     const id = 7
     const stockId = stock.id
     const privacy = checkPrivate
     const title = titleRef.current.value
     const content = editor.getHTML()
-    const buyDate = startDate.toISOString()
-    const sellDate = endDate.toISOString()
+    const buyDate = startDate?.toISOString()
+    const sellDate = endDate?.toISOString()
 
-    await HandleImageList()
+    await HandleImageList(formData)
 
     // window.URL.revokeObjectURL(image.url);
 
-    const formData = new FormData();
-    formData.append("stockId", stockId)
-    formData.append("title", title)
-    formData.append("privacy", privacy)
-    formData.append("type", type)
-    formData.append("multipartFileList", multipartFileList)
-    formData.append("linkList", linkList)
-    formData.append("content", content)
-    formData.append("buyDate", buyDate)
-    formData.append("buyPrice", buyPrice)
-    formData.append("buyQuantity", buyQuantity)
-    formData.append("sellDate", sellDate)
-    formData.append("sellPrice", sellPrice)
-    formData.append("sellQuantity", sellQuantity)
+    const handleFormData = () => {
+      // formData.append("stockId", stockId)
+      formData.append("title", title)
+      // formData.append("privacy", privacy)
+      // formData.append("type", type)
+      // formData.append("linkList", linkList)
+      formData.append("content", content)
+      // formData.append("buyDate", buyDate)
+      // formData.append("buyPrice", buyPrice)
+      // formData.append("buyQuantity", buyQuantity)
+      // formData.append("sellDate", sellDate)
+      // formData.append("sellPrice", sellPrice)
+      // formData.append("sellQuantity", sellQuantity)
+    }
+
+    await handleFormData()
 
     for (let values of formData.values())
-      console.log(values)
+    console.log(values)
     console.log(formData.values())
 
     // console.log({
@@ -212,7 +215,6 @@ export default function CreatePostForm({ work }) {
     //   title,
     //   privacy,
     //   type,
-    //   multipartFileList,
     //   linkList,
     //   content,
     //   buyDate,
@@ -291,12 +293,13 @@ export default function CreatePostForm({ work }) {
             <div>매수</div>
             <DatePicker
               className={styles["datePicker"]}
+              dateFormat="yyyy-mm-dd"
               calendarClassName={styles["calenderWrapper"]}
               dayClassName={(d) => (d.getDate() === startDate?.getDate() ? styles.selectedDay : styles.unselectedDay)}
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               isClearable
-              startDate={new Date()}
+              // startDate={new Date()}
               placeholderText="날짜를 입력해주세요!"
             /> 
           </div>
@@ -309,6 +312,7 @@ export default function CreatePostForm({ work }) {
             <DatePicker
               className={styles["datePicker"]}
               calendarClassName={styles["calenderWrapper"]}
+              dateFormat="yyyy-mm-dd"
               dayClassName={(d) => (d.getDate() === endDate?.getDate() ? styles.selectedDay : styles.unselectedDay)}
               selected={endDate}
               onChange={(date) => setEndDate(date)}

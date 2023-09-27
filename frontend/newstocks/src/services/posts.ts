@@ -93,12 +93,12 @@ export async function getPostDetail(id: string) {
 }
 
 // 노트 생성
-export async function createPost(reviewNoteReqDto: any) {
+export async function createPost(formData: any) {
   return await axios({
    method: 'post',
    url: `${BASE_URL}/review-note`,
-   data: {reviewNoteReqDto},
    headers: { "Content-Type": "multipart/form-data" },
+   data: formData,
 })}
 
 
