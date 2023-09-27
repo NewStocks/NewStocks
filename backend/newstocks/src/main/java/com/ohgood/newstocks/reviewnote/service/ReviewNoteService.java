@@ -211,7 +211,8 @@ public class ReviewNoteService {
     public List<ReviewNoteResDto> findScrappedReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
         List<ReviewNote> reviewNoteList = member.getReviewNoteScrapList().stream()
-            .map(ReviewNoteScrap::getReviewNote).toList();
+            .map(ReviewNoteScrap::getReviewNote).filter(reviewNote -> !reviewNote.getDeleted())
+            .toList();
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
