@@ -1,0 +1,26 @@
+.bubble-human {
+  width: 80%;
+  margin-left: 20%;
+  margin-bottom: 20px;
+
+  padding: 15px; 
+  border-radius: 17px 17px 0px 17px;
+  background: #4FE7B0;
+  white-space: pre-wrap;
+  line-height: 1.6;
+
+}
+
+.bubble-bot {
+  width: 80%; 
+  margin-right: 20%; 
+  margin-bottom: 20px; 
+
+  padding: 15px;
+  border-radius: 17px 17px 17px 0px;
+  background: white;
+  color: black;
+  white-space: pre-wrap;
+  line-height: 1.6; 
+   
+}
