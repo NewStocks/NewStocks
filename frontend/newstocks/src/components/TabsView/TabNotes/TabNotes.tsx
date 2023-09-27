@@ -100,6 +100,7 @@ export default function TabNotes({ code }: TabProps) {
                   image = {item.reviewNoteImageDtoList[0]?.url}
                   likeCount = {item.likeCount}
                   scrapCount= {item.scrapCount}
+                  replyCount = {item.replyCount}
 								/> 
               </StyledLink>
           ))}
