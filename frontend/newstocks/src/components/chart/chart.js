@@ -150,11 +150,6 @@ export default function ChartComponent() {
         const initialTime = sixMonthsAgo.getTime() / 1000;
 
 
-        // setChartData((prevdata) => ({
-        //   ...prevdata,
-        //   title: code
-        // }))
-
         const stockdata = data.map((item, index) => {
           return {
             open: item.y[0], high: item.y[1], low: item.y[2], close: item.y[3], time: (new Date(item.x.toLocaleString('en-US', { timeZone: koreanTimezone })).getTime()/1000)+32400
@@ -233,6 +228,7 @@ export default function ChartComponent() {
 
         allMarkers.sort((a, b) => a.time - b.time);
         candlestickSeries.current.setMarkers(allMarkers);
+  
 
         //tooltip 설정
         tooltipRef.current = document.createElement('div');
@@ -256,140 +252,7 @@ export default function ChartComponent() {
             const newnote = Object.values(uniqueNoteData).some((item) => {
               return item.x === formattedTime;
             });
-            // newsdata.sort((a, b) => new Date(b.x) - new Date(a.x));
-            // 뉴스랑 오답노트 같은날에 둘다 있을때
-            // if (newnote && newnews) {
-            //   tooltipRef.current.style.display = 'block';
-            //   const candledata = param.seriesData.get(candlestickSeries.current);
-            //   const voldata = param.seriesData.get(volumeSeries.current);
-            //   const { open, high, low, close, time } = candledata;
-            //   const { value } = voldata;
-
-            //   notedata.forEach(item => {
-            //     if (item.x == formattedTime) {
-            //       const notespec = item.y[0]
-            //       newsdata.forEach(item => {
-            //         if (item.x == formattedTime) {
-            //           const newsnum = item.y[0]
-
-            //           tooltipRef.current.innerHTML = 
-            //           `
-            //           <div>
-            //             <div style="padding: 6px">
-            //               <div style="color: ${'white'}">
-            //               ${formattedTime}
-            //               </div>
-            //               <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'}">
-            //                 <div>시가 : ${open}</div>
-            //                 <div>고가 : ${high}</div>
-            //                 <div>저가 : ${low}</div>
-            //                 <div>종가 : ${close}</div>
-            //                 <div>거래량 : ${value}</div>
-            //               </div>
-            //             </div>
-            //             <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-            //               <div style="font-size: 12px; margin: 4px 0px; padding-bottom:4px; color: ${'white'} border:1px solid #4FE7B0;">
-            //                 <div style="color: ${'#4FE7B0'}">News</div>
-            //                 <div>${newsnum}</div>
-            //                 <hr>
-            //                 <div style="color: ${'#4FE7B0'}">Review</div>
-            //                 <div>${notespec}</div>
-            //               <div/>
-            //             <div/>
-            //           <div/>
-            //             `
-            //           // tooltipRef.current.style.maxHeight = '300px';
-            //           let left = param.point.x + 80;
-            //             if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-            //               left = param.point.x - tooltipRef.current.offsetWidth + 200;
-            //             }
-            //           let top = param.point.y + 10;
-
-            //           tooltipRef.current.style.left = `${left}px`
-            //           tooltipRef.current.style.top = top + 'px';
-            //             } 
-            //           });
-            //     }
-            //   });
-            // // 뉴스랑 오답노트 같은날에 둘 중 하나만 있을때
-            // } else if (newnote || newnews) {
-            //   tooltipRef.current.style.display = 'block';
-            //   const candledata = param.seriesData.get(candlestickSeries.current);
-            //   const voldata = param.seriesData.get(volumeSeries.current);
-            //   const { open, high, low, close, time } = candledata;
-            //   const { value } = voldata;
-
-            //   notedata.forEach(item => {
-            //     if (item.x == formattedTime) {
-            //       const notespec = item.y[0]
-            //         tooltipRef.current.innerHTML = 
-            //         `
-            //         <div style="padding: 6px">
-            //           <div style="color: ${'white'}">
-            //           ${formattedTime}
-            //           </div>
-            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-            //             <div>시가 : ${open}</div>
-            //             <div>고가 : ${high}</div>
-            //             <div>저가 : ${low}</div>
-            //             <div>종가 : ${close}</div>
-            //             <div>거래량 : ${value}</div>
-            //           </div>
-            //         </div>
-            //         <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-            //             <div style="color: ${'#4FE7B0'}">Review</div>
-            //             <div>${notespec}</div>
-
-            //           </div>
-            //         <div/>
-            //           `
-
-            //         let left = param.point.x + 80;
-            //           if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-            //             left = param.point.x - tooltipRef.current.offsetWidth + 200;
-            //           }
-            //         let top = param.point.y + 10;
-            //         tooltipRef.current.style.left = `${left}px`
-            //         tooltipRef.current.style.top = top + 'px'; 
-            //       }
-            //   });
-            //   newsdata.forEach(item => {
-            //     if (item.x == formattedTime) {
-            //       const newstitle = item.y[0]
-            //         tooltipRef.current.innerHTML = 
-            //         `
-            //         <div style="padding: 6px">
-            //           <div style="color: ${'white'}">
-            //           ${formattedTime}
-            //           </div>
-            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-            //             <div>시가 : ${open}</div>
-            //             <div>고가 : ${high}</div>
-            //             <div>저가 : ${low}</div>
-            //             <div>종가 : ${close}</div>
-            //             <div>거래량 : ${value}</div>
-            //           </div>
-            //         </div>
-            //         <div style="padding: 6px; border-top:1px solid #4FE7B0;" >
-            //           <div style="font-size: 12px; margin: 4px 0px; paddinf-bottom:4px; color: ${'white'}">
-            //             <div style="color: ${'#4FE7B0'}">News</div>
-            //             <div>${newstitle}</div>
-            //           </div>
-            //         <div/>
-            //           `
-
-            //         let left = param.point.x + 80;
-            //           if (left > chartContainerRef.current.clientWidth - tooltipRef.current.offsetWidth) {
-            //             left = param.point.x - tooltipRef.current.offsetWidth + 200;
-            //           }
-            //         let top = param.point.y + 10;
-            //         tooltipRef.current.style.left = `${left}px`
-            //         tooltipRef.current.style.top = top + 'px'; 
-            //       }
-            //   });
-            // 뉴스 오답노트 둘다 없을때
-            // } else 
+            
             if (param.time && [param.seriesData].length && tooltipRef.current){
               tooltipRef.current.style.display = 'block';
               const candledata = param.seriesData.get(candlestickSeries.current);
@@ -483,9 +346,6 @@ export default function ChartComponent() {
     
     fetchData();
 
-
-    
-
     chart.current = createChart(chartContainerRef.current, {
       layout: {
         textColor: 'white',
@@ -548,7 +408,9 @@ export default function ChartComponent() {
           chart.current.remove();
       }
     };
+  // eslint-disable-next-line 
   }, [code, tab]);
+  
 
 
   return (

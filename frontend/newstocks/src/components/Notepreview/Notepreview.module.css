@@ -74,5 +74,5 @@
 }
 .Note-preview-date-text {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 }

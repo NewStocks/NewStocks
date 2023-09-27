@@ -56,6 +56,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setStock(res.data.stockDto)
       setPost(res.data)
     })
+  // eslint-disable-next-line 
   }, [])
 
   // 댓글 생성 관리

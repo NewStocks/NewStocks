@@ -1,7 +1,7 @@
 .card-container {
   display: block;
-  /* width: 330px; */
-  height: 451px;
+  /* min-width: 330px; */
+  /* height: 451px; */
   border-radius: 4px;
   background-color: rgba(176, 176, 176, 0.107);
   margin-bottom: 55px;
@@ -10,8 +10,9 @@
   transition: transform 0.3s ease-in-out;
   
   min-height: 150px;
-  flex-basis: 350px;
-   /* max-width: 350px; */
+  min-width: 330px;
+  flex-basis: 150px;
+  max-width: 350px;
   flex-shrink: 1;
   flex-grow: 1;
 }
@@ -38,14 +39,17 @@
 /* title 영역 */
 .title-container {
   display: flex;
+  justify-content: space-between;
   padding: 10px 13px;
 }
 
 .title-left {
-  width: 90%;
+  /* width: 90%; */
 }
 
 .stock-box {
+  border: 1px dotted red;
+  width: 100%;
   display: flex;
 }
 
@@ -72,7 +76,7 @@
 }
 
 .title-right {
-  width: 10%;
+  /* width: 10%; */
   padding: 2% 0 0 3%;
 }
 
@@ -87,6 +91,8 @@
   overflow: hidden;
   white-space: wrap;
   text-overflow: ellipsis;
+
+  border: 1px dotted red;
 }
 
 .title:hover {
@@ -97,6 +103,7 @@
 .content-container {
   padding: 7px 15px;
   height: 120px;
+  width: 100%;
 }
 
 .content-container:hover {

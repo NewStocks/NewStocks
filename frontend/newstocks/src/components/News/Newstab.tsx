@@ -14,6 +14,7 @@ type NewsItem = {
   title: string
   url: string
   sentimentType: string
+  duplicatedCount: number
 };
 type DateNewsItem = {
   company: any
@@ -22,6 +23,7 @@ type DateNewsItem = {
   title: string
   url: string
   sentimentType: string
+  duplicatedCount: number
 };
 type ValueNewsItem = {
   company: any
@@ -41,7 +43,7 @@ type DateValueNewsItem = {
 };
 
 type NewsFilterOptions = {
-  sortBy: 'latest' | 'oldest';
+  sortBy: 'latest' | 'oldest' | 'mentions';
   filterBy: 'all' | 'positive' | 'negative';
 };
 
@@ -141,13 +143,18 @@ export default function Newstab() {
         .then((res) => {
           // const date = new Date(res.data[0].publishTime).getTime()
           const newsData: NewsItem[] = res.data;
-          const sortedNewsData = newsData.slice().sort((a, b) => {
+          const sortedNewsData = newsData.slice().sort((a: NewsItem, b: NewsItem) => {
             if (filterOptions.sortBy === 'latest') {
               return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
-            } else {
+            } else if (filterOptions.sortBy === 'oldest') {
               return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
+            } else if (filterOptions.sortBy === 'mentions') {
+              return b.duplicatedCount - a.duplicatedCount; // 언급 횟수 정렬
             }
+          
+            return 0;
           });
+
           const filteredNewsData = sortedNewsData.filter((item) => {
             if (filterOptions.filterBy === 'all') {
               return true;
@@ -160,6 +167,7 @@ export default function Newstab() {
             }
           });
           setNewsData(filteredNewsData)
+          console.log(filteredNewsData)
           // setNewsData(newsData)
           const datenews: DateNewsItem[]=[]
 					res.data.forEach((item:any) => {
@@ -221,6 +229,7 @@ export default function Newstab() {
 						}
 					});
           setdateValuenews(datevaluenews)
+          console.log(valuenews)
         })
         .catch((err) => {
           console.log(err);
@@ -295,6 +304,7 @@ export default function Newstab() {
               <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.sortBy} onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}>
                 <option value="latest">최신순</option>
                 <option value="oldest">오래된순</option>
+                <option value="mentions">언급 횟수 순</option> 
               </select>
               <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.filterBy} onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}>
                 <option value="all">전체 보기</option>
@@ -328,16 +338,19 @@ export default function Newstab() {
                   </div>
                   <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
                 </div>
-                <div className={styles["newstitle"]}>
-                  <a
-                    href={newsItem.url}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                    }}
-                    style={{ textDecoration:'none', color: 'inherit' }}>
-                    {newsItem.title}
-                  </a>
+                <div className={styles["newscontentdown"]}>
+                  <div className={styles["newstitle"]}>
+                    <a
+                      href={newsItem.url}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                      }}
+                      style={{ textDecoration:'none', color: 'inherit' }}>
+                      {newsItem.title}
+                    </a>
+                  </div>
+                  <div className={styles["duplicatedCount"]}>언급 횟수 : {newsItem.duplicatedCount}</div>
                 </div>
               </div>
               ))
@@ -403,6 +416,7 @@ export default function Newstab() {
               <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.sortBy} onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}>
                 <option value="latest">최신순</option>
                 <option value="oldest">오래된순</option>
+                <option value="mentions">언급 횟수 순</option> 
               </select>
               <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.filterBy} onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}>
                 <option value="all">전체 보기</option>
@@ -434,16 +448,19 @@ export default function Newstab() {
                     </div>
                     <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
                   </div>
-                  <div className={styles["newstitle"]}>
-                    <a
-                      href={newsItem.url}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.open(newsItem.url, '_blank', 'width=1000,height=600');
-                      }}
-                      style={{ textDecoration:'none', color: 'inherit' }}>
-                      {newsItem.title}
-                    </a>
+                  <div className={styles["newscontentdown"]}>
+                    <div className={styles["newstitle"]}>
+                      <a
+                        href={newsItem.url}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.open(newsItem.url, '_blank', 'width=1000,height=600');
+                        }}
+                        style={{ textDecoration:'none', color: 'inherit' }}>
+                        {newsItem.title}
+                      </a>
+                    </div>
+                    <div className={styles["duplicatedCount"]}>언급 횟수 : {newsItem.duplicatedCount}</div>
                   </div>
                 </div>
               ))
@@ -455,7 +472,12 @@ export default function Newstab() {
               <div className={styles["newscontent"]} key={index}>
                 <div className={styles["newscontentup"]}>
                     <div className={styles["newscompany"]}>
-                      {newsItem.company}
+                      <div className={styles["value"]}>
+                        {newsItem.valueChainName}
+                      </div>
+                      <div>
+                        {newsItem.company}
+                      </div>
                     </div>
                     <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
                   </div>

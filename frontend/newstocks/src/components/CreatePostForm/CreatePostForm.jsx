@@ -133,33 +133,33 @@ export default function CreatePostForm({ type }) {
 
   useEffect(() => {
     /* 이미지 드래그 앤 드롭 첨부 */
-    if (document.getElementById("dropzone")) {
-      const dropzone = document.getElementById("dropzone");
-
+      if (document.getElementById('dropzone')) {
+        const dropzone = document.getElementById('dropzone');
+    
       if (dropzone) {
-        // 드래그 앤 드롭 영역에 드래그되었을 때 이벤트 처리
-        dropzone.addEventListener("dragover", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropzone.style.border = "2px dashed #000"; // 드래그 중에는 테두리 스타일 변경
-        });
-
-        // 드롭 영역에서 떼어질 때 이벤트 처리
-        dropzone.addEventListener("dragleave", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropzone.style.border = "2px dashed #ccc"; // 드래그가 끝나면 테두리 스타일 복원
-        });
-
-        // 이미지 파일이 드롭되었을 때 이벤트 처리
-        dropzone.addEventListener("drop", handleImage);
-      }
-    }
+          // 드래그 앤 드롭 영역에 드래그되었을 때 이벤트 처리
+          dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.style.border = '2px dashed #000'; // 드래그 중에는 테두리 스타일 변경
+          });
+    
+          // 드롭 영역에서 떼어질 때 이벤트 처리
+          dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();  
+            dropzone.style.border = '2px dashed #ccc'; // 드래그가 끝나면 테두리 스타일 복원
+          });
+    
+          // 이미지 파일이 드롭되었을 때 이벤트 처리
+          dropzone.addEventListener('drop', handleImage);
+      }} 
     return () => {
-      const dropzone = document.getElementById("dropzone");
-      dropzone?.removeEventListener("drop", handleImage);
-    };
-  }, [imageList]);
+      const dropzone = document.getElementById('dropzone');
+      dropzone?.removeEventListener('drop', handleImage);
+    }
+  // eslint-disable-next-line 
+  }, [imageList])
 
   return (
     <div>

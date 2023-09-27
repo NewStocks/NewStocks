@@ -10,7 +10,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 // 검색창 아이콘
 import { BiSearch } from "react-icons/bi";
 // 메뉴 아이콘
-import { BiHomeAlt2 } from "react-icons/bi";
+import { BiHomeAlt2, BiBarChartAlt2 } from "react-icons/bi";
 import { AiOutlineGlobal } from "react-icons/ai";
 
 import { Stock } from "@/types/stock";
@@ -42,16 +42,13 @@ export default function Header() {
     router.push(`/${stock.id}?tab=${tabName}`);
   };
 
-  return (
-    <header>
-      <div className={styles["header"]}>
-        <div className={styles["header-left"]}>
-          <svg
-            width="30"
-            height="28"
-            viewBox="0 0 32 32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+
+return (
+  <header>
+    <div className={styles["header"]}>
+      <div className={styles["header-left"]}>
+        <Link href='/' className={styles["home-link"]}>
+          <svg width="30" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fillRule="evenodd">
               <path
                 d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
@@ -68,23 +65,21 @@ export default function Header() {
             </g>
           </svg>
           <h1>NEWStocks</h1>
-        </div>
-
-        <div className={styles["search-box-container"]}>
-          <SearchBox searchFunc={handleSearch} />
-        </div>
-
-        <div className={styles["header-right"]}>
-          <Link className={styles["header-link"]} href="/">
-            <BiHomeAlt2 size="29" />
-          </Link>
-          <Link className={styles["header-link"]} href="/community">
-            <AiOutlineGlobal size="28" />
-          </Link>
-          <LoginModal type="header" />
-          {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
-        </div>
+        </Link>
       </div>
-    </header>
-  );
+
+      <div className={styles['search-box-container']}>
+        <SearchBox searchFunc={handleSearch}/>
+      </div>
+
+      
+      <div className={styles["header-right"]}>
+        <Link className={styles["header-link"]} href='/005930?tab=company'><BiBarChartAlt2 size="29"/></Link>
+        <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
+        <LoginModal type="header"/>
+        {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
+      </div>
+    </div>
+  </header>
+);
 }

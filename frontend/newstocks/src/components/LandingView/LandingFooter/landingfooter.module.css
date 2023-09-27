@@ -20,9 +20,11 @@
 }
 
 .footer {
-  margin-top: 300px;
-  margin-left: 8rem;
+  margin-top: 100px;
+  /* margin-left: 8rem; */
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .footer-contents {
