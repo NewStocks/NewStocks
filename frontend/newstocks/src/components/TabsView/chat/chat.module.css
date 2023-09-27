@@ -40,6 +40,7 @@
   display: flex;
   justify-content: between;
   align-items: center;
+  color: black; 
 }
 
 .input-box {
