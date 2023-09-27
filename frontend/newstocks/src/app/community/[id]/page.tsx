@@ -130,9 +130,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
         <div className={styles["content-box"]}>
           <div className={styles["img"]}></div>
-          <div className={styles["content"]}>
-            {post && post.content}
-          </div>
+            {post && <div className={styles["content"]} dangerouslySetInnerHTML={{ __html: post.content }}></div>}
         </div>
       </div>
 
