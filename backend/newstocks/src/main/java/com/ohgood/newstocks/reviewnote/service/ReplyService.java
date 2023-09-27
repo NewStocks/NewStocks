@@ -30,7 +30,7 @@ public class ReplyService {
     private final ReviewNoteRepository reviewNoteRepository;
     private final MemberRepository memberRepository;
     private final ReplyLikeRepository replyLikeRepository;
-
+    private final ReplyCommentService replyCommentService;
 
     @Transactional
     public ReplyResDto insertReply(ReplyReqDto replyReqDto, Long reviewNoteId, Long memberId) {
@@ -54,7 +54,7 @@ public class ReplyService {
         ReviewNote reviewNote = findReviewNoteById(reviewNoteId);
         Member member = findMemberById(memberId);
 
-        List<Reply> replyList = replyRepository.findByReviewNote(reviewNote);
+        List<Reply> replyList = replyRepository.findByReviewNoteAndDeletedFalse(reviewNote);
         List<ReplyResDto> replyResDtoList = new ArrayList<>();
 
         // 각각의 댓글이 내 댓글인지, 좋아요 눌렀는지 확인
@@ -63,6 +63,8 @@ public class ReplyService {
             Boolean isLiked = replyLikeRepository.findByReplyAndMember(reply, member).isPresent();
             replyResDto.checkMemberAndIsLiked(member, isLiked);
             replyResDto.addDetailDtos();
+            replyResDto.addReplyComment(
+                replyCommentService.findReplyComment(reply.getId(), memberId));
             replyResDtoList.add(replyResDto);
         }
 
