@@ -122,6 +122,7 @@ public class StockService {
     }
 
     public StockResDto findStockInfoByStockId(String stockId) {
+        System.out.println("findStockInfo");
         Stock stock = stockRepository.findById(stockId)
             .orElseThrow(() -> new BadRequestException("관련 주식 정보가 존재하지 않습니다."));
         return StockMapper.INSTANCE.entityToStockResDto(stock);

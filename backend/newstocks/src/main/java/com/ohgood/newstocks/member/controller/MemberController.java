@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,21 +26,21 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping({"", "/{memberId}"})
-    public ResponseEntity<MemberDto> findMember(@PathVariable(required = false) Long memberId) {
-        // 추후 Authentication 처리 예정
-        return new ResponseEntity<>(memberService.findMember(memberId, 5L), HttpStatus.OK);
+    public ResponseEntity<MemberDto> findMember(@PathVariable(required = false) Long memberId, Authentication authentication) {
+        return new ResponseEntity<>(memberService.findMember(memberId, Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity<MemberDto> updateMember(@ModelAttribute MemberUpdateDto memberUpdateDto) {
-        // 추후 Authentication 처리 예정
-        return new ResponseEntity<>(memberService.updateMember(memberUpdateDto, 5L), HttpStatus.OK);
+    public ResponseEntity<MemberDto> updateMember(@ModelAttribute MemberUpdateDto memberUpdateDto, Authentication authentication) {
+        return new ResponseEntity<>(memberService.updateMember(memberUpdateDto, Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteMember() {
-        // 추후 Authentication 처리 예정
-        memberService.deleteMember(5L);
+    public ResponseEntity<Void> deleteMember(Authentication authentication) {
+        memberService.deleteMember(Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
