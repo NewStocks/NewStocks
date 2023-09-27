@@ -54,7 +54,7 @@ export default function ValueModal({ code }: ModalProps) {
     const fetchData = () => {
       axios({
         method: 'get',
-        url: `http://localhost:8200/stock/find-all-value-chains-of-stock/${code}`
+        url: `https://www.newstocks.kr/api/stock/find-all-value-chains-of-stock/${code}`
       })
       .then((res) => {
         console.log(res.data)
