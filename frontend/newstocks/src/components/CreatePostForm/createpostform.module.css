@@ -41,6 +41,11 @@
 }
 
 /* 주식 검색창 */
+.search-stock-box {
+  height: 38px;
+  width: 250px;
+  margin-bottom: 10px;
+}
 
 .stock-selected-box {
   height: 38px;
@@ -85,13 +90,13 @@
 }
 
 .stock-name {
-
+  margin-top: 2px;
 }
 
 .stock-id {
   margin-left: 5px;
   font-size: 15px;
-  padding-top: 2px;
+  padding-top: 3px;
   color: #b3b3b3;
 }
 
@@ -112,7 +117,7 @@
 
 .stock-img {
   border-radius: 100%;
-  margin: 3px 5px 3px 10px;
+  margin: 2px 6px 4px 10px;
 }
 
 .stock-input-box {

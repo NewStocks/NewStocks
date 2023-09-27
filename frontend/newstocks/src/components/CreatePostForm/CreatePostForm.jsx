@@ -52,7 +52,7 @@ export default function CreatePostForm({ work }) {
   const [linkList, setLinkList] = useState([])
   
   const [startDate, setStartDate] = useState(null)
-  const [buyPrice, setBuyPrice] = useState(123)
+  const [buyPrice, setBuyPrice] = useState(null)
   const [buyQuantity, setBuyQuantity] = useState(null)
   
   const [endDate, setEndDate] = useState(null)
@@ -178,7 +178,6 @@ export default function CreatePostForm({ work }) {
   }
 
   async function CreateNote() {
-    console.log('create')
     const formData = new FormData();
 
     const id = 7
@@ -203,12 +202,12 @@ export default function CreatePostForm({ work }) {
       formData.append("type", type)
       // formData.append("linkList", linkList)
       formData.append("content", content)
-      formData.append("buyDate", buyDate)
-      formData.append("buyPrice", buyPrice)
-      // formData.append("buyQuantity", buyQuantity)
-      // formData.append("sellDate", sellDate)
-      // formData.append("sellPrice", sellPrice)
-      // formData.append("sellQuantity", sellQuantity)
+      if (buyDate) {formData.append("buyDate", buyDate)}
+      if (buyPrice) {formData.append("buyPrice", buyPrice)}
+      if (buyQuantity){formData.append("buyQuantity", buyQuantity)}
+      if (sellDate) {formData.append("sellDate", sellDate)}
+      if (sellPrice) {formData.append("sellPrice", sellPrice)}
+      if (sellQuantity) {formData.append("sellQuantity", sellQuantity)}
     }
 
     await handleFormData()
@@ -216,22 +215,6 @@ export default function CreatePostForm({ work }) {
     for (let values of formData.values())
     console.log(values)
     console.log(formData.values())
-
-    // console.log({
-    //   id,
-    //   stockId, 
-    //   title,
-    //   privacy,
-    //   type,
-    //   linkList,
-    //   content,
-    //   buyDate,
-    //   buyPrice,
-    //   buyQuantity,
-    //   sellDate,
-    //   sellPrice,
-    //   sellQuantity
-    // })
 
     await createPost(formData)
     .then((res) => res.data.id)
@@ -295,7 +278,9 @@ export default function CreatePostForm({ work }) {
           </div>
         )
         : (
-          <SearchBox />
+          <div className={styles["search-stock-box"]}>
+            <SearchBox searchFunc={setstock}/>
+          </div>
         )}
       </div>
 
