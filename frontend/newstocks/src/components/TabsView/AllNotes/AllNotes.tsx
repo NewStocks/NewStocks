@@ -23,7 +23,7 @@ export default function TabNotes({ code }: TabProps) {
   const [note, setNote] = useState<any[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const notesPerPage = 5;
+  const notesPerPage = 4;
 
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function TabNotes({ code }: TabProps) {
     <div>
 			<div className={styles["Notetab-head"]}>
 				<StockProfile
-					stockName="전체 오답노트를 확인하세요"
+					stockName="모든 오답노트를 확인하세요"
 					stockId=""
 					stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
 				/>
@@ -78,12 +78,15 @@ export default function TabNotes({ code }: TabProps) {
           <StyledLink key={item.id} href={`/community/${item.id}`}>
             <Notepreview 
 							title = {item.title}
-							date = {item.settingDate}
-							// date = {item.settingDate.split(' ')[0]}
+							// date = {item.settingDate}
+							date = {item.settingDate.split(' ')[0]}
 							name = {item.memberDto.name}
 							profile= {item.memberDto.profileImage}
 							content = {item.content}
 							image = {item.reviewNoteImageDtoList[0]?.url}
+              likeCount = {item.likeCount}
+              scrapCount= {item.scrapCount}
+              replyCount = {item.replyCount}
 						/> 
           </StyledLink>
         ))}

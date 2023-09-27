@@ -18,7 +18,7 @@
   font-size: 16px;
   display: flex;
   flex-wrap: wrap;  
-
+  margin-top: 20px;
 }
 
 .company-detail-wrapper > p {
@@ -31,7 +31,9 @@
   justify-content: center; 
   width: 50%;
   height: 50px;
-  margin-bottom: 30px;   
+  margin-bottom: 30px;
+  padding-left: 10px;   
+  border-left: 2px solid #4FE7B0; 
 }
 
 .company-detail-title {
