@@ -287,8 +287,18 @@ export default function ChartComponent() {
         });
 
         chartApiRef.current.timeScale().fitContent();
+        
 
         // 클릭 이벤트 핸들러 함수
+        chartContainerRef.current.addEventListener('mouseenter', () => {
+          chartContainerRef.current.style.cursor = 'pointer';
+        });
+        
+        // 마우스가 차트 영역을 벗어날 때 포인터 스타일 기본값으로 변경
+        chartContainerRef.current.addEventListener('mouseleave', () => {
+          chartContainerRef.current.style.cursor = 'default';
+        });
+        
         
         const handleChartClick = (param) => {
           const date = new Date(param.time*1000+32400)
@@ -409,7 +419,7 @@ export default function ChartComponent() {
       }
     };
   // eslint-disable-next-line 
-  }, [code, tab]);
+  }, [code]);
   
 
 
