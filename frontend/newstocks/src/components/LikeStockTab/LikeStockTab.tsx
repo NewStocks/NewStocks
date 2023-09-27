@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRecoilState } from 'recoil';
 import { useSearchParams, useRouter } from "next/navigation";
 
 import SearchBox from "../SearchBox/SearchBox";
 import StockProfile from "../StockProfile/StockProfile";
 import { Stock, FavoriteStock } from "@/types/stock";
+import { allFavoriteStocksState } from "@/recoil/favoriteStock";
 
 import styles from "./LikeStocktab.module.css";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -20,8 +22,8 @@ export default function LikeStockTab() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [addtoggle, setAddtoggle] = useState(false);
-  const [allFavoriteStocks, setAllFavoriteStocks] = useState<FavoriteStock[]>(
-    []
+  const [allFavoriteStocks, setAllFavoriteStocks] = useRecoilState<FavoriteStock[]>(
+    allFavoriteStocksState
   );
 
   useEffect(() => {
@@ -80,7 +82,6 @@ export default function LikeStockTab() {
     }
   };
 
-  console.log(allFavoriteStocks);
 
   const favoriteStocks = allFavoriteStocks.map((stock) => {
     return (
