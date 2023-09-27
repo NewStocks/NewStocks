@@ -31,6 +31,7 @@ import SearchBox from '@/components/SearchBox/SearchBox'
 
 import { fetchStockInfo } from '@/services/chart' 
 import { createPost } from '@/services/posts'
+import { getPostDetail } from '@/services/posts'
 
 import { Checkbox } from '@chakra-ui/react'
 
@@ -40,8 +41,11 @@ const StyledLink = styled(Link)`
 `
 
 export default function CreatePostForm({ work }) {
+  const editorRef = useRef();
+
   // const pathname = usePathname();
   const [editor, setEditor] = useState(null);
+  const [title, setTitle] = useState(null)
   const titleRef = useRef(null);
   const [stock, setstock] = useState(null)
   
@@ -101,14 +105,6 @@ export default function CreatePostForm({ work }) {
   }
 
   useEffect(() => {
-
-    const code = window.location.search;
-    if (code) {
-      const modifiedCode = code.replace(/\?/g, '')
-      fetchStockInfo(modifiedCode)
-      .then(res=>setstock({id: modifiedCode, name: res.data.name}))
-    }
-
     let initializeEditor = new Editor({
       el: document.querySelector('#editor'),
       height: '600px',
@@ -126,12 +122,49 @@ export default function CreatePostForm({ work }) {
       ],
       plugins: [colorSyntax],
       theme: "dark",
+      ref: {editorRef}
     });
 
     setEditor(initializeEditor)
+  }, [])
+
+  useEffect(() => {
+    if (work=="create") {
+      const code = window.location.search;
+      if (code) {
+        const modifiedCode = code.replace(/\?/g, '')
+        fetchStockInfo(modifiedCode)
+        .then(res=>setstock({id: modifiedCode, name: res.data.name}))
+        }
+      }
+  
+      if (work==="update") {
+        const id = window.location.search;
+        const modifiedId = id.replace(/\?/g, '')
+        console.log('id', modifiedId)
+        getPostDetail(modifiedId)
+        .then(res => res.data)
+        .then(res => {
+          // if (res) {
+          //   if (res.buyDate) {setStartDate(res.buyDate)}
+          //   if (res.buyPrice) {setBuyPrice(res.buyPrice)}
+          //   if (res.buyQuantity) {setBuyQuantity(res.buyQuantity)}
+          //   if (res.sellDate) {setEndDate(res.sellDate)}
+          //   if (res.sellPrice) {setSellPrice(res.sellPrice)}
+          //   if (res.sellQuantity) {setSellQuantity(res.sellQuantity)}
+          // }
+          console.log(res.content)
+          editorRef.current?.getInstance().setHTML(res.content);
+          console.log(res.privacy)
+          setCheckPrivate(res.privacy)
+          setTitle(res.title)
+          setstock(res.stockDto)
+          setimageList(res.reviewNoteImageDtoList)
+          setType(res.type)
+        })
+      }
 
     console.log(editor ? 'editor' : 'no')
-
   }, [])
 
   const deleteImage = (indexToRemove) => {
@@ -224,24 +257,6 @@ export default function CreatePostForm({ work }) {
     // .then((res) => console.log('success create!', res))
     // .then(() => redirect())
   }
-
-  const handleClick = () => {
-    // 입력창에 입력한 내용을 HTML 태그 형태로 취득
-    // console.log(editorRef.current.getInstance().getHTML());
-    // // 입력창에 입력한 내용을 MarkDown 형태로 취득
-    // console.log(editorRef.current.getInstance().getMarkdown());
-    // imageList.map(image => {
-    //   window.URL.revokeObjectURL(image.url)
-    // })
-    // console.log(editorRef.current.getInstance().getHTML())
-    if (editor) {
-      console.log(checkPrivate)
-      console.log(imageList)
-      console.log(startDate, endDate)
-      console.log(editor.getHTML())
-    }
-  };
-
   
   return (
     <div>
@@ -274,7 +289,7 @@ export default function CreatePostForm({ work }) {
               <div className={styles["stock-name"]}>{stock.name}</div>
               <div className={styles["stock-id"]}>{stock.id}</div>
             </div>
-            <button className={styles["search-stock-button"]} onClick={() => setstock(null) }>주식 검색</button>
+            <button className={styles["search-stock-button"]} onClick={() => setstock(null)}>주식 검색</button>
           </div>
         )
         : (
@@ -300,8 +315,8 @@ export default function CreatePostForm({ work }) {
               placeholderText="날짜를 입력해주세요!"
             /> 
           </div>
-          <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} className={styles["stock-input-box"]}/></div>
-          <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]}/></div>
+          <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} className={styles["stock-input-box"]} onChange={(e) => setBuyPrice(e.target.value)}/></div>
+          <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
         </div>
         <div className={styles["invest-box"]}>
           <div className={styles["date-pick-box"]}>
@@ -317,8 +332,8 @@ export default function CreatePostForm({ work }) {
               placeholderText="날짜를 입력해주세요!"
             />
           </div> 
-          <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} className={styles["stock-input-box"]}/></div>
-          <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]}/></div>
+          <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} className={styles["stock-input-box"]} onChange={(e) => setSellPrice(e.target.value)}/></div>
+          <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]} onChange={(e) => setSellQuantity(e.target.value)}/></div>
         </div>
       </div>
 

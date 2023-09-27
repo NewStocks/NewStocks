@@ -8,7 +8,7 @@ const CreatePostForm = dynamic(() => import('@/components/CreatePostForm/CreateP
 
 import { IoIosArrowBack } from 'react-icons/io'
 
-import { Provider } from '@/util/ChakraProvider'
+import { Provider } from '@/utils/ChakraProvider'
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -16,7 +16,6 @@ const StyledLink = styled(Link)`
   display: flex;
   color: #4FE7B0;
 `
-
 export default function UpdatePage() {
 
   const onAlertModalOpen = () => {
@@ -30,6 +29,7 @@ export default function UpdatePage() {
   };
 
   useEffect(() => {
+
     history.pushState(null, "", location.href);
     window.addEventListener("popstate", () => {
       browserPreventEvent(onAlertModalOpen);

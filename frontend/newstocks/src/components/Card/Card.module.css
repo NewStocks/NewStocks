@@ -48,7 +48,6 @@
 }
 
 .stock-box {
-  border: 1px dotted red;
   width: 100%;
   display: flex;
 }
@@ -91,8 +90,6 @@
   overflow: hidden;
   white-space: wrap;
   text-overflow: ellipsis;
-
-  border: 1px dotted red;
 }
 
 .title:hover {

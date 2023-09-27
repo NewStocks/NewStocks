@@ -2,6 +2,7 @@
 import styles from "./detailpage.module.css";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { getPostDetail } from '@/services/posts'
 import { Comment, createComment, getComments, updateComment, deleteComment } from '@/services/comments'
@@ -113,7 +114,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
           {post && post.hasAuthority && 
           (<div className={styles["sub-Buttons"]}>
-            <div><Button text="수정하기" highlight={true} kindof={null}/></div>
+            <div><Link href={{pathname: `/community/update`, query: id}}><Button text="수정하기" highlight={true} kindof={null}/></Link></div>
             <div><Button text="삭제하기" highlight={true} kindof={null}/></div>
           </div>)
           }
