@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.1",
@@ -53,6 +53,5 @@
     "@storybook/testing-library": "^0.2.0",
     "eslint-plugin-storybook": "^0.6.14",
     "storybook": "^7.4.0"
-  },
-  "proxy": "http://localhost:8000"
+  }
 }

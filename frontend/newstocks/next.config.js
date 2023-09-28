@@ -7,14 +7,7 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https', 
-        hostname: "file.alphasquare.co.kr"
-      }
-    ]
-  },
+
   async headers() {
     return [
       {
