@@ -283,6 +283,8 @@ public class ReviewNoteService {
 
     private void insertReviewNoteLinkToReviewNote(ReviewNote reviewNote, List<String> urlList,
         ReviewNoteResDto reviewNoteResDto) {
+        if (urlList == null)
+            return;
         List<ReviewNoteLink> reviewNoteLinkList = urlList.stream()
             .map(url -> reviewNoteLinkRepository.save(ReviewNoteLink.builder()
                 .url(url)
