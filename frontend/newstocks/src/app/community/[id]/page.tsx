@@ -3,6 +3,7 @@ import styles from "./detailpage.module.css";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import NEWStocksSample from '../../../../public/sample_image.png'
 
 import { getPostDetail } from '@/services/posts'
 import { Comment, createComment, getComments, updateComment, deleteComment } from '@/services/comments'
@@ -10,6 +11,7 @@ import { Comment, createComment, getComments, updateComment, deleteComment } fro
 import Button from "@/components/Button/Button";
 import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
 import StockInfo from "@/components/StockInfo/StockInfo";
+import ImageDetailCarousel from "@/components/ImageDetailCarousel/ImageDetailCarousel"
 import CommentInput from "@/components/CommentInput/CommentInput";
 
 import { IoIosArrowBack } from "react-icons/io";
@@ -47,15 +49,20 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [comments, setComments] = useState<Comment[] | null>([])
   const [stock, setStock] = useState<Stock | null>(null)
   const [post, setPost] = useState<Post | null>(null)
-  // const [imageList, setImageList] = useState([])
+  const [imageList, setImageList] = useState(null)
+  const [imageListLength, setimageListLength] = useState(null)
 
   useEffect(() => {
     getPostDetail(id)
+    .then(res => res.data)
     .then(res => {
-      setMember(res.data.memberDto)
-      setComments(res.data.replyResDtoList)
-      setStock(res.data.stockDto)
-      setPost(res.data)
+      console.log(res)
+      setMember(res.memberDto)
+      setComments(res.replyResDtoList)
+      setStock(res.stockDto)
+      setPost(res)
+      setImageList(res.reviewNoteImageDtoList)
+      setimageListLength(res.reviewNoteImageDtoList.length)
     })
   }, [])
 
@@ -130,7 +137,18 @@ export default function DetailnotePage({ params: {id} }: Props) {
         </div> */}
 
         <div className={styles["content-box"]}>
-          <div className={styles["img"]}></div>
+            <div className={styles["img"]}>
+              {imageListLength ? (<ImageDetailCarousel images={imageList} />)
+              :
+              (<Image
+                src={NEWStocksSample}
+                alt="note image"
+                className={styles["image-container"]}
+                placeholder="blur"
+              />)
+              }
+            </div>
+                  
             {post && <div className={styles["content"]} dangerouslySetInnerHTML={{ __html: post.content }}></div>}
         </div>
       </div>

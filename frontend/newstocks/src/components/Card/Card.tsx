@@ -43,6 +43,7 @@ export default function Card({post}: Props) {
           width="330"
           height="175"
           className={styles["image-container"]}
+          placeholder="blur"
         />)
         }
 

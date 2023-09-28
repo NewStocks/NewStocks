@@ -122,11 +122,15 @@
 
 .img {
   padding: 5px;
-  height: 400px;
+  /* height: 400px; */
   max-width: 1440px;
-  background-color: #d9d9d96f;
+  background-color: #d9d9d913;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.image-container {
+  margin: 0 auto;
 }
 
 .content {
