@@ -19,9 +19,6 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-
 import { RiImageAddLine } from 'react-icons/ri'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 import { BiSolidLock,BiSolidLockOpen } from 'react-icons/bi'
@@ -34,6 +31,9 @@ import { createPost } from '@/services/posts'
 import { getPostDetail } from '@/services/posts'
 
 import { Checkbox } from '@chakra-ui/react'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from "date-fns/esm/locale"
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -41,7 +41,6 @@ const StyledLink = styled(Link)`
 `
 
 export default function CreatePostForm({ work }) {
-  const editorRef = useRef();
 
   // const pathname = usePathname();
   const [editor, setEditor] = useState(null);
@@ -105,30 +104,6 @@ export default function CreatePostForm({ work }) {
   }
 
   useEffect(() => {
-    let initializeEditor = new Editor({
-      el: document.querySelector('#editor'),
-      height: '600px',
-      initialEditType: 'wysiwyg',
-      previewStyle: 'vertical',
-      useCommandShortcut: false,
-      hideModeSwitch: true,
-      toolbarItems: [
-        // 툴바 옵션 설정
-        ['heading', 'bold', 'italic', 'strike'],
-        ['hr', 'quote'],
-        ['ul', 'ol', 'task'],
-        // ['table', 'link'],
-        // ['code', 'codeblock']
-      ],
-      plugins: [colorSyntax],
-      theme: "dark",
-      ref: {editorRef}
-    });
-
-    setEditor(initializeEditor)
-  }, [])
-
-  useEffect(() => {
     if (work=="create") {
       const code = window.location.search;
       if (code) {
@@ -136,35 +111,74 @@ export default function CreatePostForm({ work }) {
         fetchStockInfo(modifiedCode)
         .then(res=>setstock({id: modifiedCode, name: res.data.name}))
         }
-      }
-  
-      if (work==="update") {
-        const id = window.location.search;
-        const modifiedId = id.replace(/\?/g, '')
-        console.log('id', modifiedId)
-        getPostDetail(modifiedId)
-        .then(res => res.data)
-        .then(res => {
-          // if (res) {
-          //   if (res.buyDate) {setStartDate(res.buyDate)}
-          //   if (res.buyPrice) {setBuyPrice(res.buyPrice)}
-          //   if (res.buyQuantity) {setBuyQuantity(res.buyQuantity)}
-          //   if (res.sellDate) {setEndDate(res.sellDate)}
-          //   if (res.sellPrice) {setSellPrice(res.sellPrice)}
-          //   if (res.sellQuantity) {setSellQuantity(res.sellQuantity)}
-          // }
-          console.log(res.content)
-          editorRef.current?.getInstance().setHTML(res.content);
-          console.log(res.privacy)
-          setCheckPrivate(res.privacy)
-          setTitle(res.title)
-          setstock(res.stockDto)
-          setimageList(res.reviewNoteImageDtoList)
-          setType(res.type)
-        })
-      }
 
-    console.log(editor ? 'editor' : 'no')
+      let initializeEditor = new Editor({
+        el: document.querySelector('#editor'),
+        height: '600px',
+        initialEditType: 'wysiwyg',
+        previewStyle: 'vertical',
+        useCommandShortcut: false,
+        hideModeSwitch: true,
+        toolbarItems: [
+          // 툴바 옵션 설정
+          ['heading', 'bold', 'italic', 'strike'],
+          ['hr', 'quote'],
+          ['ul', 'ol', 'task'],
+          // ['table', 'link'],
+          // ['code', 'codeblock']
+        ],
+        plugins: [colorSyntax],
+        theme: "dark",
+      });
+  
+      setEditor(initializeEditor)
+    }
+  
+    if (work==="update") {
+      const id = window.location.search;
+      const modifiedId = id.replace(/\?/g, '')
+      console.log('id', modifiedId)
+      getPostDetail(modifiedId)
+      .then(res => res.data)
+      .then(res => {
+        console.log(res);
+        if (res) {
+          if (res.buyDate) {setStartDate(new Date(res.buyDate))}
+          if (res.buyPrice) {setBuyPrice(res.buyPrice)}
+          if (res.buyQuantity) {setBuyQuantity(res.buyQuantity)}
+          if (res.sellDate) {setEndDate(new Date(res.sellDate))}
+          if (res.sellPrice) {setSellPrice(res.sellPrice)}
+          if (res.sellQuantity) {setSellQuantity(res.sellQuantity)}
+        }
+        setCheckPrivate(res.privacy)
+        setTitle(res.title)
+        setstock(res.stockDto)
+        setimageList(res.reviewNoteImageDtoList)
+        setType(res.type)
+
+        let initializeEditor = new Editor({
+          el: document.querySelector('#editor'),
+          height: '600px',
+          initialEditType: 'wysiwyg',
+          previewStyle: 'vertical',
+          useCommandShortcut: false,
+          hideModeSwitch: true,
+          toolbarItems: [
+            // 툴바 옵션 설정
+            ['heading', 'bold', 'italic', 'strike'],
+            ['hr', 'quote'],
+            ['ul', 'ol', 'task'],
+            // ['table', 'link'],
+            // ['code', 'codeblock']
+          ],
+          plugins: [colorSyntax],
+          theme: "dark",
+          initialValue: `${res.content}`
+        });
+    
+        setEditor(initializeEditor)
+      })
+    }
   }, [])
 
   const deleteImage = (indexToRemove) => {
@@ -213,7 +227,6 @@ export default function CreatePostForm({ work }) {
   async function CreateNote() {
     const formData = new FormData();
 
-    const id = 7
     const stockId = stock.id
     const privacy = checkPrivate
     const title = titleRef.current.value
@@ -228,7 +241,6 @@ export default function CreatePostForm({ work }) {
     // window.URL.revokeObjectURL(image.url);
 
     const handleFormData = () => {
-      // formData.append("id", 7)
       formData.append("stockId", stockId)
       formData.append("title", title)
       formData.append("privacy", privacy)
@@ -245,17 +257,13 @@ export default function CreatePostForm({ work }) {
 
     await handleFormData()
 
-    for (let values of formData.values())
-    console.log(values)
-    console.log(formData.values())
+    // for (let values of formData.values())
+    // console.log(values)
+    // console.log(formData.values())
 
     await createPost(formData)
     .then((res) => res.data.id)
     .then((res) => router.push(`/community/${res}`))
-
-    // await createPost(formData)
-    // .then((res) => console.log('success create!', res))
-    // .then(() => redirect())
   }
   
   return (
@@ -265,7 +273,7 @@ export default function CreatePostForm({ work }) {
         <div>
           <div className={styles["check-privacy"]}>
             {checkPrivate ? <BiSolidLock className={styles["privacy-icon"]} size="21"/> : <BiSolidLockOpen className={styles["privacy-icon"]} size="21"/>}
-            <Checkbox colorScheme='red' onChange={(e) => setCheckPrivate(e.target.checked)}>
+            <Checkbox colorScheme='red' isChecked={checkPrivate} onChange={(e) => setCheckPrivate(e.target.checked)}>
               <span>비밀글 설정</span>
             </Checkbox>
           </div>
@@ -313,10 +321,11 @@ export default function CreatePostForm({ work }) {
               isClearable
               // startDate={new Date()}
               placeholderText="날짜를 입력해주세요!"
+              locale={ko}
             /> 
           </div>
-          <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} className={styles["stock-input-box"]} onChange={(e) => setBuyPrice(e.target.value)}/></div>
-          <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
+          <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} defaultValue={buyQuantity && buyQuantity} className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
+          <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={buyPrice && buyPrice} onChange={(e) => setBuyPrice(e.target.value)}/></div>
         </div>
         <div className={styles["invest-box"]}>
           <div className={styles["date-pick-box"]}>
@@ -327,18 +336,19 @@ export default function CreatePostForm({ work }) {
               dateFormat="yyyy-MM-dd"
               dayClassName={(d) => (d.getDate() === endDate?.getDate() ? styles.selectedDay : styles.unselectedDay)}
               selected={endDate}
-              onChange={(date) => setEndDate(date)}
+              onChange={(date) => {setEndDate(date)}}
               isClearable
               placeholderText="날짜를 입력해주세요!"
+              locale={ko}
             />
           </div> 
-          <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} className={styles["stock-input-box"]} onChange={(e) => setSellPrice(e.target.value)}/></div>
-          <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]} onChange={(e) => setSellQuantity(e.target.value)}/></div>
+          <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} defaultValue={sellQuantity && sellQuantity} className={styles["stock-input-box"]} onChange={(e) => setSellQuantity(e.target.value)}/></div>
+          <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={sellPrice && sellPrice} onChange={(e) => setSellPrice(e.target.value)}/></div>
         </div>
       </div>
 
       <div className={styles["title-input-box"]}>
-        <input type="text" placeholder="제목을 입력하세요" ref={titleRef}/>
+        <input type="text" placeholder="제목을 입력하세요" ref={titleRef} defaultValue={title && title}/>
       </div>
 
       <div className={styles["image-add-container"]}>
@@ -369,26 +379,6 @@ export default function CreatePostForm({ work }) {
       }
 
       <div id='editor'></div>
-
-      {/* <Editor
-        initialValue="hello react editor world!"
-        previewStyle="vertical"
-        height="600px"
-        useCommandShortcut={false}
-        initialEditType= 'wysiwyg'
-        hideModeSwitch={true}
-        toolbarItems={[
-        // 툴바 옵션 설정
-        ['heading', 'bold', 'italic', 'strike'],
-        ['hr', 'quote'],
-        ['ul', 'ol', 'task'],
-        // ['table', 'link'],
-        // ['code', 'codeblock']
-        ]}
-        plugins={[colorSyntax]}
-        theme='dark'
-        ref={editorRef}
-      /> */}
 
     </div>
   ) 
