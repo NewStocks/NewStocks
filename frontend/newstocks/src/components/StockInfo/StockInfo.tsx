@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image'
 import styles from './StockInfo.module.css'
+import { StyledLink } from '../StyledLink/StyledLink'
 
 import { FaChartSimple } from 'react-icons/fa6'
 
@@ -26,10 +27,12 @@ export default function StockInfo({ stock: { id, name } }: Props) {
         <div className={styles["stock-id"]}>{id}</div>
 
       </div>
+      <StyledLink href={`/${id}?tab=company`}>
         <button className={styles["move-to-chart"]}>
           <FaChartSimple size={21} className={styles["chart-icon"]}/>
           <div>차트로 이동</div>
         </button>
+      </StyledLink>
 
       {/* <div className={styles["second-box"]}>
         <div className={styles["stock-info"]}>코스피</div>
