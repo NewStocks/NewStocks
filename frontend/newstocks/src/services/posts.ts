@@ -32,7 +32,8 @@ export type Reply = {
 }
 
 export type ImageList = {
-  reviewNoteImageDtoList: string[]
+  id: string,
+  url: string
 }
 
 export type Link = {

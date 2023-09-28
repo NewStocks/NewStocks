@@ -3,6 +3,7 @@ import styles from './Card.module.css'
 import styled from 'styled-components'
 import Link from 'next/link';
 import Image from 'next/image';
+import NEWStocksSample from '../../../public/sample_image.png';
 
 import { useState } from 'react';
 
@@ -27,7 +28,23 @@ export default function Card({post}: Props) {
   return(
     <div className={styles["card-container"]}>
       <StyledLink href={`/community/${post.id}`}>
-        <div className={styles["image-container"]}></div>
+        {post?.reviewNoteImageDtoList[0] ?
+        (<Image
+          src={post?.reviewNoteImageDtoList[0]?.url}
+          alt="note image"
+          width="330"
+          height="175"
+          className={styles["image-container"]}
+        />)
+        :
+        (<Image
+          src={NEWStocksSample}
+          alt="note image"
+          width="330"
+          height="175"
+          className={styles["image-container"]}
+        />)
+        }
 
       <div className={styles["title-container"]}>
         <div className={styles["title-left"]}>
@@ -56,20 +73,20 @@ export default function Card({post}: Props) {
         </div>
       
         <div className={styles["content-container"]}>
-          <div className={styles["content"]}>{post.content}</div>
+          <div className={styles["content"]} dangerouslySetInnerHTML={{ __html: post.content }}></div>
         </div>
 
 
       <div className={styles["content-bottom-container"]}>
         <StyledLink href="/community/user">  
         <div className={styles["profile-container"]}>
-              <Image
-                src={post.memberDto.profileImage !=='x' ? post.memberDto.profileImage : ''}
-                alt="member profile image"
-                width="25"
-                height="25"
-                className={styles["profile-img"]}
-              />
+            <Image
+              src={post.memberDto.profileImage !=='x' ? post.memberDto.profileImage : ''}
+              alt="member profile image"
+              width="25"
+              height="25"
+              className={styles["profile-img"]}
+            />
             <div className={styles["profile-name"]}>{post.memberDto.name}</div>
         </div>
         </StyledLink>

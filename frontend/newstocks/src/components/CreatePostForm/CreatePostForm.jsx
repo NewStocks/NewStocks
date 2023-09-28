@@ -40,7 +40,7 @@ const StyledLink = styled(Link)`
 `
 
 export default function CreatePostForm({ work }) {
-
+  const [noteId, setNoteId] = useState(null)
   // const pathname = usePathname();
   const [editor, setEditor] = useState(null);
   const [title, setTitle] = useState(null)
@@ -137,6 +137,7 @@ export default function CreatePostForm({ work }) {
     if (work==="update") {
       const id = window.location.search;
       const modifiedId = id.replace(/\?/g, '')
+      setNoteId(modifiedId)
       console.log('id', modifiedId)
       getPostDetail(modifiedId)
       .then(res => res.data)
@@ -276,7 +277,6 @@ export default function CreatePostForm({ work }) {
 
     const formData = new FormData();
 
-    const stockId = stock.id
     const privacy = checkPrivate
     const title = titleRef.current.value
     const content = editor.getHTML()
@@ -288,9 +288,10 @@ export default function CreatePostForm({ work }) {
     await HandleImageList(formData)
 
     // window.URL.revokeObjectURL(image.url);
+    console.log('noteId', noteId)
 
     const handleFormData = () => {
-      formData.append("stockId", stockId)
+      formData.append("id", noteId)
       formData.append("title", title)
       formData.append("privacy", privacy)
       formData.append("type", type)
@@ -302,9 +303,9 @@ export default function CreatePostForm({ work }) {
       if (sellDate) {formData.append("sellDate", sellDate)}
       if (sellPrice) {formData.append("sellPrice", sellPrice)}
       if (sellQuantity) {formData.append("sellQuantity", sellQuantity)}
-      // if (deletedImages) {
-      //   deletedImages.forEach((id) => {formData.append("deletedImageIdList", id)})
-      // }
+      if (deletedImages) {
+        deletedImages.forEach((id) => {formData.append("deletedImageIdList", id)})
+      }
     }
 
     await handleFormData()
