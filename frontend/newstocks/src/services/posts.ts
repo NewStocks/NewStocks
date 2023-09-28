@@ -93,7 +93,7 @@ export async function getPostDetail(id: string) {
 }
 
 // 노트 생성
-export async function createPost(formData: any) {
+export async function createPost(formData: FormData) {
   return await axios({
    method: 'post',
    url: `${BASE_URL}/review-note`,
@@ -103,21 +103,13 @@ export async function createPost(formData: any) {
 
 
 // 노트 수정
-export async function updatePost({note: {
-  id,
-  stockId, 
-  type,
-  privacy, 
-  multipartFileList, 
-  buyPrice,
-  title, 
-  content, 
-  linkList, }} : Note) {
+export async function updatePost(formData: FormData) {
   return await axios({
    method: 'patch',
    url: `${BASE_URL}/review-note`,
-   data: { id, stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList }
-  }).then((res) => res)
+   headers: { "Content-Type": "multipart/form-data" },
+   data: formData,
+  })
 }
 
 // 노트 좋아요

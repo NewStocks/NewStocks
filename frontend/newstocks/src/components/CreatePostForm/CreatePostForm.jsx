@@ -27,8 +27,7 @@ import ImagePreview from './ImagePreview/ImagePreview'
 import SearchBox from '@/components/SearchBox/SearchBox'
 
 import { fetchStockInfo } from '@/services/chart' 
-import { createPost } from '@/services/posts'
-import { getPostDetail } from '@/services/posts'
+import { getPostDetail, createPost, updatePost } from '@/services/posts'
 
 import { Checkbox } from '@chakra-ui/react'
 import DatePicker from 'react-datepicker';
@@ -52,6 +51,7 @@ export default function CreatePostForm({ work }) {
   const [type, setType] = useState('BUY_SELL')
   
   const [imageList, setimageList] = useState([])
+  const [deletedImages, setDeletedImages] = useState([])
   const [linkList, setLinkList] = useState([])
   
   const [startDate, setStartDate] = useState(null)
@@ -181,8 +181,9 @@ export default function CreatePostForm({ work }) {
     }
   }, [])
 
-  const deleteImage = (indexToRemove) => {
+  const deleteImage = (indexToRemove, image) => {
     // imageList.splice(index, 1)
+    if (image.id) {setDeletedImages([...deletedImages, image.id])}
     setimageList(imageList.filter((image, idx) => idx!==indexToRemove ))
   }
 
@@ -218,8 +219,10 @@ export default function CreatePostForm({ work }) {
   function HandleImageList(formData) {
     if (imageList) {
         imageList.forEach((image) => {
-          formData.append("multipartFileList", image.file)
-          console.log('file input')
+          if (image.file) {
+            formData.append("multipartFileList", image.file)
+            console.log('file input')
+          }
         })
       }
   }
@@ -266,6 +269,51 @@ export default function CreatePostForm({ work }) {
     .then((res) => router.push(`/community/${res}`))
   }
   
+
+  async function UpdateNote() {
+    console.log(imageList)
+    console.log(deletedImages)
+
+    const formData = new FormData();
+
+    const stockId = stock.id
+    const privacy = checkPrivate
+    const title = titleRef.current.value
+    const content = editor.getHTML()
+    const buyDate = startDate?.toISOString().slice(0,-5)
+    const sellDate = endDate?.toISOString().slice(0,-5)
+
+    console.log('buyDate', buyDate)
+
+    await HandleImageList(formData)
+
+    // window.URL.revokeObjectURL(image.url);
+
+    const handleFormData = () => {
+      formData.append("stockId", stockId)
+      formData.append("title", title)
+      formData.append("privacy", privacy)
+      formData.append("type", type)
+      // formData.append("linkList", linkList)
+      formData.append("content", content)
+      if (buyDate) {formData.append("buyDate", buyDate)}
+      if (buyPrice) {formData.append("buyPrice", buyPrice)}
+      if (buyQuantity){formData.append("buyQuantity", buyQuantity)}
+      if (sellDate) {formData.append("sellDate", sellDate)}
+      if (sellPrice) {formData.append("sellPrice", sellPrice)}
+      if (sellQuantity) {formData.append("sellQuantity", sellQuantity)}
+      // if (deletedImages) {
+      //   deletedImages.forEach((id) => {formData.append("deletedImageIdList", id)})
+      // }
+    }
+
+    await handleFormData()
+
+    await updatePost(formData)
+    .then((res) => res.data.id)
+    .then((res) => router.push(`/community/${res}`))
+  }
+
   return (
     <div>
       <div className={styles["top-menu"]}>
@@ -277,7 +325,7 @@ export default function CreatePostForm({ work }) {
               <span>비밀글 설정</span>
             </Checkbox>
           </div>
-          <button className={styles["submit-button"]} onClick={() => CreateNote()}>✍ 게시하기</button>
+          <button className={styles["submit-button"]} onClick={work==="create" ? () => CreateNote() : () => UpdateNote()}>✍ 게시하기</button>
         </div>
       </div>
 
@@ -370,7 +418,7 @@ export default function CreatePostForm({ work }) {
         <div className={styles["image-list"]}>
         {imageList.map((image, index) => {
           return (
-            <ImagePreview key={index} index={index} url={image.url} deleteImage={deleteImage}/>
+            <ImagePreview key={index} index={index} image={image} deleteImage={deleteImage}/>
           )
         })}
         <div className={styles["length"]}>{imageList.length} / 5</div>

@@ -3,17 +3,17 @@ import Image from 'next/image';
 
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 
-export default function ImagePreview({ index, url, deleteImage }) {
+export default function ImagePreview({ index, image, deleteImage }) {
   return (
     <div className={styles["image-box"]}>
       <Image
-      src={url}
+      src={image.url}
       alt="image preview"
       width={200}
       height={100}
       className={styles["image"]}
       />
-      <button className={styles["delete-button"]} onClick={() => deleteImage(index)}><AiOutlineCloseSquare size="28"/></button>
+      <button className={styles["delete-button"]} onClick={() => deleteImage(index, image)}><AiOutlineCloseSquare size="28"/></button>
     </div>
   )
 }
