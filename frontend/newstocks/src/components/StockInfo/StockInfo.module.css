@@ -45,6 +45,7 @@
 
 .move-to-chart:hover {
   color: #4FE7B0;
+  border: 1px solid #4FE7B0;
   /* border: 1.7px solid #d9d9d9a8; */
 }
 

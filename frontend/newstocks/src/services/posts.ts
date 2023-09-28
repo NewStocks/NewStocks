@@ -69,14 +69,6 @@ export type Post = {
   type: string
 }
 
-// 게시글 등록시 이미지 formData 전송
-// const postImageApi = (formData: FormData) => axios({
-//   method: "post",
-//   url: `/api/articles/image`,
-//   data: formData,
-//   headers: { "Content-Type": "multipart/form-data" },
-// })
-
 // 노트 전체보기
 export async function getPostsAll() {
   return await axios({
@@ -113,10 +105,39 @@ export async function updatePost(formData: FormData) {
   })
 }
 
+// 노트 삭제
+export default function deletePost() {
+  return console.log('삭제하기 api 없나요 ?')
+}
+
 // 노트 좋아요
 export async function likePost(id: string) {
   return await axios({
+    method: 'post',
+    url: `${BASE_URL}/review-note/${id}/like`,
+  })
+}
+
+// 노트 좋아요 취소
+export async function deleteLikePost(id: string) {
+  return await axios({
     method: 'delete',
     url: `${BASE_URL}/review-note/${id}/like`,
+  })
+}
+
+// 노트 스크랩
+export async function scrapPost(id: string) {
+  return await axios({
+    method: 'post',
+    url: `${BASE_URL}/review-note/${id}/scrap`,
+  })
+}
+
+// 노트 스크랩 취소
+export async function deleteScrapPost(id: string) {
+  return await axios({
+    method: 'delete',
+    url: `${BASE_URL}/review-note/${id}/scrap`,
   })
 }
