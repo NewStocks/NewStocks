@@ -74,7 +74,7 @@
 .detail-subheader {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 10px 0 15px 0;
 }
 
 .title {
@@ -97,7 +97,7 @@
 /* 주식 관련 정보 */
 .stock-box {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 23px;
 }
 
 /* 오답노트 태그 */

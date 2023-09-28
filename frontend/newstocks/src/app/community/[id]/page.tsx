@@ -124,10 +124,10 @@ export default function DetailnotePage({ params: {id} }: Props) {
           {stock && <StockInfo stock={stock}/>}
         </div>
 
-        <div className={styles["tag-box"]}>
+        {/* <div className={styles["tag-box"]}>
           <div>#우량주</div>
           <div>#급매</div>
-        </div>
+        </div> */}
 
         <div className={styles["content-box"]}>
           <div className={styles["img"]}></div>
