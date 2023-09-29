@@ -9,6 +9,8 @@ import { SingleTicker } from 'react-ts-tradingview-widgets';
 import styles from './ValueStockModal.module.css';
 import styled from 'styled-components';
 import { fetchStockInfo} from '@/services/chart';
+import ValueModal from "@/components/ValueModal/ValueModal";
+
 
 const PointText = styled.span`
   color: #4FE7B0; 
@@ -27,7 +29,7 @@ type StockItem = {
   name: string
 }
 
-export default function ValueModal({ code }: ModalProps) {
+export default function ValueStockModal({ code }: ModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [valueChains, setValueChains] = useState<ValueChain[]>([]);
 
@@ -80,8 +82,9 @@ export default function ValueModal({ code }: ModalProps) {
         <ModalOverlay />
         <ModalContent bg="#262730" top="-5%">
           <ModalHeader>
-            <h3>
-              <PointText>{stockData ? stockData.name : ''}</PointText> 밸류체인
+            <h3 className={styles['valuechaintitle']}>
+               밸류체인 
+              <PointText><ValueModal/></PointText>
             </h3>
           </ModalHeader>
           <ModalCloseButton />
