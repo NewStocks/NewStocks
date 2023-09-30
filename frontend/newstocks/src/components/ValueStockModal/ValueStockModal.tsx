@@ -54,7 +54,7 @@ export default function ValueModal({ code }: ModalProps) {
     const fetchData = () => {
       axios({
         method: 'get',
-        url: `http://localhost:8200/stock/find-all-value-chains-of-stock/${code}`
+        url: `https://www.newstocks.kr/api/stock/find-all-value-chains-of-stock/${code}`
       })
       .then((res) => {
         console.log(res.data)
@@ -73,8 +73,8 @@ export default function ValueModal({ code }: ModalProps) {
 
   return (
     <>
-      <button onClick={onOpen}>
-        <PiTreeStructure className={styles['icon']} />
+      <button className={styles['valuechain']} onClick={onOpen}>
+        ValueChain{/* <PiTreeStructure className={styles['icon']} /> */}
       </button>
       <Modal size={'xl'} blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -92,10 +92,9 @@ export default function ValueModal({ code }: ModalProps) {
               <div style={{ display: 'flex' }}>
                 <div style={{ flex: 3, marginRight: '16px' }}>
                   {valueChains.slice(0, 3).map((item) => (
-                    <div>
+                    <div key={item.id}>
                       <PointText className={styles['valuename']}>{item.valueChainName}</PointText>
                       <SingleTicker
-                        key={item.id}
                         colorTheme="dark"
                         locale="kr"
                         width="250"
@@ -106,10 +105,9 @@ export default function ValueModal({ code }: ModalProps) {
                 </div>
                 <div style={{ flex: 2 }}>
                   {valueChains.slice(3, 5).map((item) => (
-                    <div>
+                    <div key={item.id}>
                       <PointText className={styles['valuename']}>{item.valueChainName}</PointText>
                       <SingleTicker
-                        key={item.id}
                         colorTheme="dark"
                         locale="kr"
                         width="250"

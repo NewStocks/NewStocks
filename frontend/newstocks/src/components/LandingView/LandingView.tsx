@@ -7,8 +7,9 @@ export default function LandingView() {
 
   return (
     <>
-      <LandingBox position={60} right={false} />
-      <LandingBox position={785} right={true} />
+      <LandingBox position={60} right={1} />
+      <LandingBox position={700} right={2} />
+      <LandingBox position={1300} right={3} />
       <LandingFooter />
     </>
   )
