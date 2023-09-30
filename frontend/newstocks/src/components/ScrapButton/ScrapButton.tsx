@@ -31,9 +31,9 @@ export default function ScrapButton({status, id, count}: Props) {
   return <div className={styles.button}>
           <div className={styles["scrap-count"]}>{scrapCount}</div>
           {scrap ? 
-            (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap(id)}}/>)
+            (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap()}}/>)
             : 
-            (<FaRegBookmark className={styles["scrap-icon"]} onClick={() => {setScrap(prev => !prev); handleScrap(id)}}/>)
+            (<FaRegBookmark className={styles["scrap-icon"]} onClick={() => {setScrap(prev => !prev); handleScrap()}}/>)
           }
         </div>
 }

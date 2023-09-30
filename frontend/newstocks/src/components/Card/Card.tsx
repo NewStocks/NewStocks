@@ -31,9 +31,9 @@ export default function Card({post}: Props) {
   return(
     <div className={styles["card-container"]}>
       <StyledLink href={`/community/${post.id}`}>
-        {post?.reviewNoteImageDtoList[0] ?
+        {post.reviewNoteImageDtoList && post.reviewNoteImageDtoList.length > 0?
         (<Image
-          src={post?.reviewNoteImageDtoList[0]?.url}
+          src={post.reviewNoteImageDtoList[0].url}
           alt="note image"
           width="330"
           height="175"

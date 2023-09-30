@@ -55,11 +55,11 @@ export type Post = {
   isLiked: boolean
   isScrapped: boolean
   memberDto: Member
-  newsDtoList: News
+  newsDtoList: News[] | null
   privacy: boolean
   replyResDtoList: Reply
-  reviewNoteImageDtoList: ImageList
-  reviewNoteLinkDtoList: Link
+  reviewNoteImageDtoList: ImageList[] | null
+  reviewNoteLinkDtoList: Link[] | null
   sellDate: string | null
   sellPrice: string | null
   sellQuantity: string | null
@@ -67,6 +67,9 @@ export type Post = {
   stockDto: Stock
   title: string
   type: string
+  scrapCount: number
+  likeCount: number
+  replyCount: number
 }
 
 // 노트 전체보기

@@ -146,7 +146,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
         <div className={styles["content-box"]}>
             <div className={styles["img"]}>
-              {imageListLength ? (<ImageDetailCarousel images={imageList} />)
+              {imageListLength && imageList ? (<ImageDetailCarousel images={imageList} />)
               :
               (<Image
                 src={NEWStocksSample}
@@ -177,7 +177,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentview-container"]}>
-        {comments.length > 0 ? <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
+        {comments && comments.length > 0 ? <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
         : <div className={styles["no-comments"]}>
             <div className={styles["no-comments-first"]}>🤔 댓글이 없습니다!</div>
             <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>

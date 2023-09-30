@@ -19,9 +19,6 @@ import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
 import { RiImageAddLine } from "react-icons/ri";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BiSolidLock, BiSolidLockOpen } from "react-icons/bi";
