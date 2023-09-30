@@ -71,6 +71,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setImageList(res.reviewNoteImageDtoList)
       setimageListLength(res.reviewNoteImageDtoList.length)
     })
+  // eslint-disable-next-line 
   }, [])
 
   // 댓글 생성 관리

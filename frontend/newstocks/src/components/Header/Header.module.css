@@ -12,6 +12,10 @@
   /* border: 1px dotted red; */
 }
 
+.home-link {
+  cursor: pointer;
+}
+
 .header svg {
   display: inline-block;
   vertical-align: top;

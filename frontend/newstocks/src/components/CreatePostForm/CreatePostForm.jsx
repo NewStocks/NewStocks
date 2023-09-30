@@ -9,22 +9,25 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react';
 
-import Editor from '@toast-ui/editor';
+import Editor from "@toast-ui/editor";
 // import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
+import "@toast-ui/editor/dist/toastui-editor.css";
 // import '@toast-ui/editor/dist/theme/toastui-editor-dark.css'
-import './toastui-editor-dark.css'
+import "./toastui-editor-dark.css";
 
-import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 
-import { RiImageAddLine } from 'react-icons/ri'
-import { AiOutlinePlusCircle } from 'react-icons/ai'
-import { BiSolidLock,BiSolidLockOpen } from 'react-icons/bi'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-import ImagePreview from './ImagePreview/ImagePreview'
-import SearchBox from '@/components/SearchBox/SearchBox'
+import { RiImageAddLine } from "react-icons/ri";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { BiSolidLock, BiSolidLockOpen } from "react-icons/bi";
+
+import ImagePreview from "./ImagePreview/ImagePreview";
+import SearchBox from "@/components/SearchBox/SearchBox";
 
 import { fetchStockInfo } from '@/services/chart' 
 import { getPostDetail, createPost, updatePost } from '@/services/posts'
@@ -37,7 +40,7 @@ import { ko } from "date-fns/esm/locale"
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
-`
+`;
 
 export default function CreatePostForm({ work }) {
   const [noteId, setNoteId] = useState(null)
@@ -71,17 +74,17 @@ export default function CreatePostForm({ work }) {
   const handleImage = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dropzone.style.border = '2px dashed #ccc'; // 테두리 스타일 복원
+    dropzone.style.border = "2px dashed #ccc"; // 테두리 스타일 복원
     if (imageList.length > 4) {
-      alert('이미지는 최대 5장 첨부 가능합니다!')
+      alert("이미지는 최대 5장 첨부 가능합니다!");
     } else {
       const file = e.dataTransfer.files[0]; // 드롭된 파일 가져오기
       const url = window.URL.createObjectURL(file);
       if (file) {
-        changeImageList(url, file)
+        changeImageList(url, file);
       }
     }
-  }
+  };
 
   const imageInput = () => {
     const fileInput = document.createElement("input");
@@ -92,16 +95,16 @@ export default function CreatePostForm({ work }) {
     fileInput.addEventListener("change", function (e) {
       e.preventDefault();
       if (imageList.length > 4) {
-        alert('이미지는 최대 5장 첨부 가능합니다!')
+        alert("이미지는 최대 5장 첨부 가능합니다!");
       } else {
         const file = fileInput.files[0];
         const url = window.URL.createObjectURL(file);
         if (file) {
-          changeImageList(url, file)
+          changeImageList(url, file);
         }
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (work=="create") {
@@ -215,6 +218,7 @@ export default function CreatePostForm({ work }) {
       const dropzone = document.getElementById('dropzone');
       dropzone?.removeEventListener('drop', handleImage);
     }
+  // eslint-disable-next-line 
   }, [imageList])
 
   function HandleImageList(formData) {
@@ -364,7 +368,11 @@ export default function CreatePostForm({ work }) {
               className={styles["datePicker"]}
               dateFormat="yyyy-MM-dd"
               calendarClassName={styles["calenderWrapper"]}
-              dayClassName={(d) => (d.getDate() === startDate?.getDate() ? styles.selectedDay : styles.unselectedDay)}
+              dayClassName={(d) =>
+                d.getDate() === startDate?.getDate()
+                  ? styles.selectedDay
+                  : styles.unselectedDay
+              }
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               isClearable
@@ -402,16 +410,25 @@ export default function CreatePostForm({ work }) {
 
       <div className={styles["image-add-container"]}>
         <button className={styles["image-add-button"]} onClick={imageInput}>
-          <div className={styles["image-title"]}><RiImageAddLine size="22"/><p>이미지 추가</p></div>
-          <AiOutlinePlusCircle size="22"/>
+          <div className={styles["image-title"]}>
+            <RiImageAddLine size="22" />
+            <p>이미지 추가</p>
+          </div>
+          <AiOutlinePlusCircle size="22" />
         </button>
-        
+
         <div className={styles["dropzone"]} id="dropzone" onClick={imageInput}>
-          <div><RiImageAddLine size="32"/></div>
+          <div>
+            <RiImageAddLine size="32" />
+          </div>
           <p>10mb 이하 jpeg, jpg, png 첨부</p>
         </div>
-        <input type="file" accept=".png,.jpg,.jpeg" id="fileInput" style={{display: "none"}}></input>
-        
+        <input
+          type="file"
+          accept=".png,.jpg,.jpeg"
+          id="fileInput"
+          style={{ display: "none" }}
+        ></input>
       </div>
 
       {imageList.length >= 1 && 
@@ -427,8 +444,8 @@ export default function CreatePostForm({ work }) {
       </>
       }
 
-      <div id='editor'></div>
+      <div id="editor"></div>
 
     </div>
-  ) 
+  );
 }

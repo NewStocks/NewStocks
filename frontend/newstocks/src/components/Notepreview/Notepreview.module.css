@@ -6,7 +6,13 @@
 	padding: 10px;
 	height: 150px;
   overflow-y: scroll;
-	
+	text-decoration: none;
+	color: white;
+	transition: transform 0.3s, border 0.3s;
+}
+.Note-preview-wrapper:hover {
+	transform: translate(2px, 0px);
+	border: 1px solid #4FE7B0;
 }
 .Note-preview-wrapper::-webkit-scrollbar {
 	width: 10px;  
@@ -74,5 +80,5 @@
 }
 .Note-preview-date-text {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 }
