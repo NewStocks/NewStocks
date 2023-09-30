@@ -32,20 +32,20 @@ public class StockController {
 
     @GetMapping("/find-chart/{stock-id}")
     public ResponseEntity<ChartResDto> findChartSeriesByStockId(
-            @PathVariable("stock-id") String stockId, Authentication authentication) {
+        @PathVariable("stock-id") String stockId, Authentication authentication) {
         if (authentication == null) {
             return new ResponseEntity<>(stockService.findChartSeriesByStockId(stockId),
-                    HttpStatus.OK);
+                HttpStatus.OK);
         }
         return new ResponseEntity<>(
-                stockService.findChartSeriesByStockIdAndNote(stockId, authentication.getName()),
-                HttpStatus.OK);
+            stockService.findChartSeriesByStockIdAndNote(stockId, authentication.getName()),
+            HttpStatus.OK);
     }
 
 
     @GetMapping("/find-stock-info/{stock-id}")
     public ResponseEntity<StockResDto> findStockInfoByStockId(
-            @PathVariable("stock-id") String stockId) {
+        @PathVariable("stock-id") String stockId) {
         return new ResponseEntity<>(stockService.findStockInfoByStockId(stockId), HttpStatus.OK);
     }
 
@@ -59,36 +59,36 @@ public class StockController {
      */
     @PostMapping("/insert-favorite-stock")
     public ResponseEntity<String> insertFavoriteStock(
-            @RequestBody FavoriteStockReqDto favoriteStockReqDto, Authentication authentication) {
+        @RequestBody FavoriteStockReqDto favoriteStockReqDto, Authentication authentication) {
         System.out.println(favoriteStockReqDto.toString());
         return new ResponseEntity<>(
-                stockService.insertFavoriteStock(favoriteStockReqDto, Long.parseLong(
-                        authentication.getName())),
-                HttpStatus.OK);
+            stockService.insertFavoriteStock(favoriteStockReqDto, Long.parseLong(
+                authentication.getName())),
+            HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-favorite-stock")
     public ResponseEntity<String> deleteFavoriteStock(
-            @RequestBody FavoriteStockReqDto favoriteStockReqDto, Authentication authentication) {
+        @RequestBody FavoriteStockReqDto favoriteStockReqDto, Authentication authentication) {
         return new ResponseEntity<>(
-                stockService.deleteFavoriteStock(favoriteStockReqDto, Long.parseLong(
-                        authentication.getName())),
-                HttpStatus.OK);
+            stockService.deleteFavoriteStock(favoriteStockReqDto, Long.parseLong(
+                authentication.getName())),
+            HttpStatus.OK);
     }
 
     @GetMapping("find-favorite-stock-by-member-id")
     public ResponseEntity<List<FavoriteStockDto>> findFavoriteStockByMemberId(
-            Authentication authentication) {
+        Authentication authentication) {
         return new ResponseEntity<>(stockService.findAllFavoriteStockByMemberId(Long.parseLong(
-                authentication.getName())),
-                HttpStatus.OK);
+            authentication.getName())),
+            HttpStatus.OK);
     }
 
     @GetMapping("/find-all-value-chains-of-stock/{stock_id}")
     public ResponseEntity<List<ValueChainResDto>> findAllValueChainsByStockId(
-            @PathVariable("stock_id") String stockId) {
+        @PathVariable("stock_id") String stockId) {
         return new ResponseEntity<>(stockService.findAllValueChainByStockId(stockId),
-                HttpStatus.OK);
+            HttpStatus.OK);
     }
 
 //    데이터 삽입용 임시페이지
