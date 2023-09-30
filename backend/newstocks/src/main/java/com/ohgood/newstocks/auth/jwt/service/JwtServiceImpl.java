@@ -3,8 +3,10 @@ package com.ohgood.newstocks.auth.jwt.service;
 import com.ohgood.newstocks.auth.jwt.dto.JwtDto;
 import com.ohgood.newstocks.global.exception.exceptions.UnAuthorizedException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletRequest;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -23,11 +25,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Slf4j
@@ -69,14 +70,16 @@ public class JwtServiceImpl implements JwtService {
         System.out.println("토큰 생성 중!!!");
         System.out.println(jwtDto.getId());
         System.out.println(claims);
-//        UserDetails userDetails = User.builder()
-//            .username(jwtDto.getMemberName())
-//            .password(jwtDto.getMemberName() + SALT)
-//            .build();
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(
-//            userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities())
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetails userDetails = User.builder()
+            .username(String.valueOf(jwtDto.getId()))
+            .password(jwtDto.getName() + SALT)
+            .authorities(String.valueOf(jwtDto.getRole()))
+            .build();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(authentication);
 
         final String accessToken = Jwts.builder()
             .setHeaderParam("typ", "JWT")
@@ -102,10 +105,16 @@ public class JwtServiceImpl implements JwtService {
                 .parseClaimsJws(jwt);
             logger.debug("claims: {}", claims);
             return true;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return false;
+        } catch (SignatureException | MalformedJwtException ex) {
+            log.error("잘못된 JWT 서명입니다");
+        } catch (ExpiredJwtException ex) {
+            log.error("만료된 JWT 토큰입니다");
+        } catch (UnsupportedJwtException ex) {
+            log.error("지원하지 않는 JWT 토큰입니다");
+        } catch (IllegalArgumentException ex) {
+            log.error("JWT 토큰이 비어있습니다");
         }
+        return false;
     }
 
     @Override
@@ -121,18 +130,24 @@ public class JwtServiceImpl implements JwtService {
             Arrays.stream(claims.get("role").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-
+        System.out.println(authorities);
         //Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
+        System.out.println(principal);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     @Override
     public Claims get(String key) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-            .getRequest();
-        String jwt = request.getHeader("access-token");
-        return parseClaims(jwt);
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+//            .getRequest();
+//        String jwt = request.getHeader("access-token");
+        Claims claim = parseClaims(key);
+        System.out.println("토큰 받은거 해석");
+        System.out.println(claim);
+        return parseClaims(key);
     }
 
     @Override

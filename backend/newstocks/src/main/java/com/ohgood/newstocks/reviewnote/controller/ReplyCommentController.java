@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,18 +28,19 @@ public class ReplyCommentController {
 
     @PostMapping("/{replyId}/reply-comment")
     public ResponseEntity<ReplyCommentResDto> insertReplyComment(
-        @PathVariable("replyId") Long replyId, @RequestBody ReplyCommentReqDto replyCommentReqDto) {
-        // Authentication 처리 전 임시 테스트
+        @PathVariable("replyId") Long replyId, @RequestBody ReplyCommentReqDto replyCommentReqDto,
+        Authentication authentication) {
         return new ResponseEntity<>(
-            replyCommentService.insertReplyComment(replyCommentReqDto, replyId, 5L),
+            replyCommentService.insertReplyComment(replyCommentReqDto, replyId, Long.parseLong(
+                authentication.getName())),
             HttpStatus.OK);
     }
 
     @GetMapping("/{replyId}/reply-comment")
     public ResponseEntity<List<ReplyCommentResDto>> findReplyComment(
-        @PathVariable("replyId") Long replyId) {
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(replyCommentService.findReplyComment(replyId, 5L),
+        @PathVariable("replyId") Long replyId, Authentication authentication) {
+        return new ResponseEntity<>(replyCommentService.findReplyComment(replyId, Long.parseLong(
+            authentication.getName())),
             HttpStatus.OK);
     }
 
@@ -46,33 +48,34 @@ public class ReplyCommentController {
     public ResponseEntity<List<ReplyCommentResDto>> updateReplyComment(
         @PathVariable("replyId") Long replyId,
         @PathVariable("replyCommentId") Long replyCommentId,
-        @RequestBody ReplyCommentReqDto replyCommentReqDto) {
-        // Authentication 처리 전 임시 테스트
-        replyCommentService.updateReplyComment(replyCommentReqDto, replyCommentId, 5L);
+        @RequestBody ReplyCommentReqDto replyCommentReqDto, Authentication authentication) {
+        replyCommentService.updateReplyComment(replyCommentReqDto, replyCommentId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{replyId}/reply-comment/{replyCommentId}")
     public ResponseEntity<Void> deleteReplyComment(
         @PathVariable("replyId") Long replyId,
-        @PathVariable("replyCommentId") Long replyCommentId) {
-        // Authentication 처리 전 임시 테스트
-        replyCommentService.deleteReplyComment(replyId, replyCommentId, 5L);
+        @PathVariable("replyCommentId") Long replyCommentId, Authentication authentication) {
+        replyCommentService.deleteReplyComment(replyId, replyCommentId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/reply-comment/{replyCommentId}/like")
-    public ResponseEntity<Void> likeReplyComment(@PathVariable("replyCommentId") Long replyCommentId) {
-        // Authentication 처리 전 임시 테스트
-        replyCommentService.likeReplyComment(replyCommentId, 5L);
+    public ResponseEntity<Void> likeReplyComment(
+        @PathVariable("replyCommentId") Long replyCommentId, Authentication authentication) {
+        replyCommentService.likeReplyComment(replyCommentId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/reply-comment/{replyCommentId}/like")
     public ResponseEntity<Void> deleteLikeReplyComment(
-        @PathVariable("replyCommentId") Long replyCommentId) {
-        // Authentication 처리 전 임시 테스트
-        replyCommentService.deleteLikeReplyComment(replyCommentId, 5L);
+        @PathVariable("replyCommentId") Long replyCommentId, Authentication authentication) {
+        replyCommentService.deleteLikeReplyComment(replyCommentId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

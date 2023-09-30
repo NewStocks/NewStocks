@@ -19,6 +19,7 @@ public class JwtController {
 
     @PostMapping("/access-token-test")
     public String accessTokenTest(@RequestBody MemberDto memberDto) {
+        System.out.println(memberDto.toString());
         return jwtService.createAccessToken(JwtMapper.INSTANCE.MemberDtoToJwtDto(memberDto));
     }
 }

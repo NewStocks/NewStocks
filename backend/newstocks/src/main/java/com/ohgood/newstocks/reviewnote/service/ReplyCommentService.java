@@ -6,14 +6,10 @@ import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.repository.MemberRepository;
 import com.ohgood.newstocks.reviewnote.dto.ReplyCommentReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReplyCommentResDto;
-import com.ohgood.newstocks.reviewnote.dto.ReplyResDto;
 import com.ohgood.newstocks.reviewnote.entity.Reply;
 import com.ohgood.newstocks.reviewnote.entity.ReplyComment;
 import com.ohgood.newstocks.reviewnote.entity.ReplyCommentLike;
-import com.ohgood.newstocks.reviewnote.entity.ReplyLike;
-import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import com.ohgood.newstocks.reviewnote.mapper.ReplyCommentMapper;
-import com.ohgood.newstocks.reviewnote.mapper.ReplyMapper;
 import com.ohgood.newstocks.reviewnote.repository.ReplyCommentLikeRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReplyCommentRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReplyRepository;
@@ -57,10 +53,12 @@ public class ReplyCommentService {
     }
 
     public List<ReplyCommentResDto> findReplyComment(Long replyId, Long memberId) {
+        System.out.println("replyId = " + replyId);
         Reply reply = findReplyById(replyId);
         Member member = findMemberById(memberId);
 
-        List<ReplyComment> replyCommentList = replyCommentRepository.findByReply(reply);
+        List<ReplyComment> replyCommentList = replyCommentRepository.findByReplyAndDeletedFalse(
+            reply);
         List<ReplyCommentResDto> replyCommentResDtoList = new ArrayList<>();
 
         for (ReplyComment replyComment : replyCommentList) {

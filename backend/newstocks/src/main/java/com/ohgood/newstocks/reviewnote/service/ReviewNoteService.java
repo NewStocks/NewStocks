@@ -210,7 +210,17 @@ public class ReviewNoteService {
 
     public List<ReviewNoteResDto> findScrappedReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
-        List<ReviewNote> reviewNoteList = member.getReviewNoteScrapList().stream().map(ReviewNoteScrap::getReviewNote).toList();
+        List<ReviewNote> reviewNoteList = member.getReviewNoteScrapList().stream()
+            .map(ReviewNoteScrap::getReviewNote).filter(reviewNote -> !reviewNote.getDeleted())
+            .toList();
+        return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
+    }
+
+    public List<ReviewNoteResDto> findKeywordReviewNoteList(Long userId, String keyword) {
+        Member member = findMemberById(userId);
+        log.info(keyword);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndDeletedFalseAndAndTitleContainingOrContentContaining(
+            keyword, keyword);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
@@ -283,8 +293,9 @@ public class ReviewNoteService {
 
     private void insertReviewNoteLinkToReviewNote(ReviewNote reviewNote, List<String> urlList,
         ReviewNoteResDto reviewNoteResDto) {
-        if (urlList == null)
+        if (urlList == null) {
             return;
+        }
         List<ReviewNoteLink> reviewNoteLinkList = urlList.stream()
             .map(url -> reviewNoteLinkRepository.save(ReviewNoteLink.builder()
                 .url(url)
@@ -357,7 +368,8 @@ public class ReviewNoteService {
         reviewNoteResDto.checkMember(hasAuthority, isLiked, isScraped);
     }
 
-    private List<ReviewNoteResDto> reviewNoteListToReviewNoteResDtoList(Member member, List<ReviewNote> reviewNoteList) {
+    private List<ReviewNoteResDto> reviewNoteListToReviewNoteResDtoList(Member member,
+        List<ReviewNote> reviewNoteList) {
         // Like Scrap 체크할 때 reviewNote 객체 필요해서 stream 제거
         List<ReviewNoteResDto> reviewNoteResDtoList = new ArrayList<>();
         for (ReviewNote reviewNote : reviewNoteList) {

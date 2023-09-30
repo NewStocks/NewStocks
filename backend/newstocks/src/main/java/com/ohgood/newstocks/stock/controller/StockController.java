@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,13 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
 
     private final StockService stockService;
-    private final JwtService jwtService;
 
     @GetMapping("/find-chart/{stock-id}")
     public ResponseEntity<ChartResDto> findChartSeriesByStockId(
-        @PathVariable("stock-id") String stockId) {
-        return new ResponseEntity<>(stockService.findChartSeriesByStockId(stockId), HttpStatus.OK);
+        @PathVariable("stock-id") String stockId, Authentication authentication) {
+        if (authentication == null) {
+            return new ResponseEntity<>(stockService.findChartSeriesByStockId(stockId),
+                HttpStatus.OK);
+        }
+        return new ResponseEntity<>(
+            stockService.findChartSeriesByStockIdAndNote(stockId, authentication.getName()),
+            HttpStatus.OK);
     }
+
 
     @GetMapping("/find-stock-info/{stock-id}")
     public ResponseEntity<StockResDto> findStockInfoByStockId(
@@ -51,17 +58,20 @@ public class StockController {
      */
     @PostMapping("/insert-favorite-stock")
     public ResponseEntity<String> insertFavoriteStock(
-        @RequestBody FavoriteStockReqDto favoriteStockReqDto) {
-//        authentication.getName();
+        @RequestBody FavoriteStockReqDto favoriteStockReqDto, Authentication authentication) {
         System.out.println(favoriteStockReqDto.toString());
-        return new ResponseEntity<>(stockService.insertFavoriteStock(favoriteStockReqDto, 1L),
+        return new ResponseEntity<>(
+            stockService.insertFavoriteStock(favoriteStockReqDto, Long.parseLong(
+                authentication.getName())),
             HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-favorite-stock")
     public ResponseEntity<String> deleteFavoriteStock(
-        @RequestBody FavoriteStockReqDto favoriteStockReqDto) {
-        return new ResponseEntity<>(stockService.deleteFavoriteStock(favoriteStockReqDto, 1L),
+        @RequestBody FavoriteStockReqDto favoriteStockReqDto, Authentication authentication) {
+        return new ResponseEntity<>(
+            stockService.deleteFavoriteStock(favoriteStockReqDto, Long.parseLong(
+                authentication.getName())),
             HttpStatus.OK);
     }
 
