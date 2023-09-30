@@ -12,7 +12,7 @@ type Image = {
 }
 
 type Props = {
-  images: Image[]
+  images: Image[] | null
   // options?: EmblaOptionsType;
   // slides: ReactNode[];
 }
