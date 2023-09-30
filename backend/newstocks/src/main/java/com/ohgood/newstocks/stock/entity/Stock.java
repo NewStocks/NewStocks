@@ -64,14 +64,19 @@ public class Stock {
     @Fetch(FetchMode.SUBSELECT)
     private List<News> newsList;
 
+
     @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     private List<StockCategory> stockCategoryList;
 
+    public void setSector(String categoryName){
+        this.sector=categoryName;
+    }
+
     @Builder
     public Stock(String id, @NotNull String name, @NotNull Long marketCap,
         @NotNull Long listedShares, @NotNull Long foreignShares, @NotNull double foreignPercent,
-        @NotNull int stockMarket, @NotNull Boolean delisting, @NotNull String sector) {
+        @NotNull int stockMarket, @NotNull Boolean delisting) {
         this.id = id;
         this.name = name;
         this.marketCap = marketCap;
@@ -80,7 +85,6 @@ public class Stock {
         this.foreignPercent = foreignPercent;
         this.stockMarket = stockMarket;
         this.delisting = delisting;
-        this.sector = sector;
         this.chartList = new ArrayList<>();
         this.stockValueChainList = new ArrayList<>();
         this.reviewNoteList = new ArrayList<>();
