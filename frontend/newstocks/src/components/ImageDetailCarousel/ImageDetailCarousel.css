@@ -97,6 +97,12 @@
   opacity: 0.2;
   transition: opacity 0.2s;
 }
+
+.embla-thumbs__slide__button:hover {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
 .embla-thumbs__slide--selected .embla-thumbs__slide__button {
   opacity: 1;
 }

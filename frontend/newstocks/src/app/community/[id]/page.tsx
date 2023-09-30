@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import NEWStocksSample from '../../../../public/sample_image.png'
 
-import { getPostDetail } from '@/services/posts'
+import { getPostDetail, likePost, deleteLikePost, scrapPost, deleteScrapPost} from '@/services/posts'
 import { Comment, createComment, getComments, updateComment, deleteComment } from '@/services/comments'
 
 import Button from "@/components/Button/Button";
@@ -13,12 +13,15 @@ import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
 import StockInfo from "@/components/StockInfo/StockInfo";
 import ImageDetailCarousel from "@/components/ImageDetailCarousel/ImageDetailCarousel"
 import CommentInput from "@/components/CommentInput/CommentInput";
+import LikeButton from "@/components/LikeButton/LikeButton";
+import ScrapButton from "@/components/ScrapButton/ScrapButton"
 
 import { IoIosArrowBack } from "react-icons/io";
 import { BsBookmark } from "react-icons/bs";
 import { BiCommentDetail } from "react-icons/bi";
 import { AiOutlineStar } from "react-icons/ai";
 import { AiOutlineShareAlt } from "react-icons/ai";
+import { Divider } from "@chakra-ui/react";
 
 type Member = {
   profileImage: string
@@ -26,9 +29,13 @@ type Member = {
 }
 
 type Post = {
+  id: string
   title: string
   content: string
   hasAuthority: boolean
+  isScrapped: boolean
+  isLiked: boolean
+  scrapCount: number
 }
 type Stock = {
   id: string
@@ -111,8 +118,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
           </div>
 
           <div className={styles["header-right"]}>
+            {post && <ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount}/>}
             <div>스크랩하기</div>
-            <BsBookmark size="20" />
           </div>
         </div>
 
@@ -155,10 +162,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
       <div className={styles["icons-container"]}>
         <div>
-          <BiCommentDetail className={styles["icons"]} size="23" />
-          <p>15</p>
-        </div>
-        <div>
+          <LikeButton />
           <AiOutlineStar className={styles["icons"]} size="23" />
           <p>15</p>
         </div>
@@ -172,7 +176,11 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentview-container"]}>
-        {comments && <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>}
+        {comments.length > 0 ? <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
+        : <div className={styles["no-comments"]}>
+            <div className={styles["no-comments-first"]}>🤔 댓글이 없습니다!</div>
+            <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>
+          </div>}
       </div>
     </div>
   );

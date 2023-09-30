@@ -4,6 +4,12 @@
   border-bottom: 0.1rem solid gray;
 }
 
+.comment-container pre {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .profile {
   display: flex;
   padding: 0 6px;

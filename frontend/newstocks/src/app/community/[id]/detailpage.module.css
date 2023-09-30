@@ -168,3 +168,13 @@
 /* 댓글 view */
 .commentview-container {
 }
+
+.no-comments {
+  padding: 5px 0 5px 45px
+}
+
+.no-comments-first {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 10px 0 10px 0;
+}
