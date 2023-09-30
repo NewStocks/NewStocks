@@ -94,9 +94,8 @@ public class KakaoService {
 
     public MemberLoginDto getMemberLoginDto(Member member) {
         MemberDto memberDto = MemberMapper.INSTANCE.entityToMemberDto(member);
-        List<FavoriteStock> favoriteStockList = member.getFavoriteStockList();
-
-        return MemberLoginDto.builder().memberDto(memberDto).favoriteStockList(favoriteStockList)
+//        List<FavoriteStock> favoriteStockList = member.getFavoriteStockList();
+        return MemberLoginDto.builder().memberDto(memberDto).favoriteStockList(null)
             .accessToken(
                 jwtService.createAccessToken(JwtMapper.INSTANCE.MemberDtoToJwtDto(memberDto)))
             .build();
