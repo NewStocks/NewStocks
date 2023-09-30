@@ -16,6 +16,7 @@ export type Comment = {
   memberDto: Member
 }
 
+
 // 노트의 모든 댓글 조회
 export async function getComments(id: string) {
   return await axios({
@@ -47,6 +48,22 @@ export async function deleteComment(PostId: string, commentId: string) {
   return await axios({
   method: 'delete',
   url: `${BASE_URL}/review-note/${PostId}/reply/${commentId}`,
+  })
+}
+
+// 댓글 좋아요
+export async function likeComment(id: string) {
+  return await axios({
+    method: 'post',
+    url: `${BASE_URL}/review-note/reply/${id}/like`
+  })
+}
+
+// 댓글 좋아요 취소
+export async function deleteLikeComment(id: string) {
+  return await axios({
+    method: 'delete',
+    url: `${BASE_URL}/review-note/reply/${id}/like`
   })
 }
 

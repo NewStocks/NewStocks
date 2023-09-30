@@ -1,0 +1,16 @@
+.button {
+  display: flex;
+}
+
+#scrapped {
+  color: #4FE7B0;
+}
+
+.scrap-count {
+  margin-right: 5px;
+  color: #d9d9d9bb;
+}
+
+.scrap-icon {
+  margin-top: 3px;
+}
