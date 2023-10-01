@@ -41,7 +41,6 @@ export default function ValueStockModal({ code }: ModalProps) {
             // const date = new Date(res.data[0].publishTime).getTime()
             const stockData: StockItem = res.data.name;
             setStockData(stockData)
-            console.log(code)
           })
           .catch((err) => {
             console.log(err);
@@ -59,7 +58,6 @@ export default function ValueStockModal({ code }: ModalProps) {
         url: `https://www.newstocks.kr/api/stock/find-all-value-chains-of-stock/${code}`
       })
       .then((res) => {
-        console.log(res.data)
         setValueChains(res.data);
       })
       .catch((err) => {

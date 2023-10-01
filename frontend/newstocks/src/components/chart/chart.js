@@ -6,7 +6,7 @@ import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import StockProfile from "@/components/StockProfile/StockProfile";
-import { TickerTape } from "react-ts-tradingview-widgets";
+
 import ValueModal from "@/components/ValueModal/ValueModal";
 import ChartModal from "@/components/ChartModal/ChartModal";
 import ValueStockModal from "@/components/ValueStockModal/ValueStockModal";
@@ -416,7 +416,51 @@ export default function ChartComponent() {
   // eslint-disable-next-line 
   }, [code]);
   
+  useEffect(() => {
+    // ... (your existing code)
 
+    // Function to load TradingView widget script
+    const loadTradingViewWidget = () => {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+      script.async = true;
+      script.innerHTML = `
+        {
+          "symbols": [
+            {
+              "description": "",
+              "proName": "KRX:${code}"
+            },
+            {
+              "description": "",
+              "proName": "KRX:KOSPI"
+            },
+            {
+              "description": "",
+              "proName": "KRX:KOSDAQ"
+            },
+            {
+              "description": "",
+              "proName": "FX_IDC:USDKRW"
+            }
+          ],
+          "showSymbolLogo": true,
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "displayMode": "regular",
+          "locale": "kr"
+        }
+      `;
+      document.querySelector('.tradingview-widget-container__widget').appendChild(script);
+    };
+
+    // Call the function to load TradingView widget
+    loadTradingViewWidget();
+
+    // ... (your existing code)
+
+  }, [code]);
 
   return (
     <div>
@@ -432,32 +476,10 @@ export default function ChartComponent() {
             />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
-            <TickerTape 
-              colorTheme="dark"
-              isTransparent="true"
-              locale="kr"
-              showSymbolLogo="false"
-              displayMode="regular"
-              symbols={[
-                {
-                  description: 'KRW 대 USD',
-                  proName: 'FX_IDC:KRWUSD',
-                },
-                {
-                  description: chartData.name, 
-                  proName: `KRX:${code}`, 
-                },
-                {
-                  description: '코스피',
-                  proName: 'KRX:KOSPI',
-                },
-                {
-                  description: '코스닥',
-                  proName: 'KRX:KOSDAQ',
-                },
-              ]}
-            >
-            </TickerTape>
+            {/* 여기에 위젯 */}
+            <div className="tradingview-widget-container">
+          <div className="tradingview-widget-container__widget"></div>
+        </div>
           </div>
 
         </div>
