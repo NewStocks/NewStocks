@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/url'
+import { addAccessTokenToHeaders } from '@/utils/token';
 
 export type Note = {
   stockId: string
@@ -76,7 +77,8 @@ export type Post = {
 export async function getPostsAll() {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/review-note/find-all`
+   url: `${BASE_URL}/review-note/find-all`,
+   headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -84,7 +86,8 @@ export async function getPostsAll() {
 export async function getPostDetail(id: string) {
    return await axios({
     method: 'get',
-    url: `${BASE_URL}/review-note/${id}`
+    url: `${BASE_URL}/review-note/${id}`,
+    headers: addAccessTokenToHeaders(),
    }).then((res) => res)
 }
 
@@ -93,7 +96,7 @@ export async function createPost(formData: FormData) {
   return await axios({
    method: 'post',
    url: `${BASE_URL}/review-note`,
-   headers: { "Content-Type": "multipart/form-data" },
+   headers: addAccessTokenToHeaders({ "Content-Type": "multipart/form-data" }),
    data: formData,
 })}
 
@@ -103,14 +106,18 @@ export async function updatePost(formData: FormData) {
   return await axios({
    method: 'patch',
    url: `${BASE_URL}/review-note`,
-   headers: { "Content-Type": "multipart/form-data" },
+   headers: addAccessTokenToHeaders({ "Content-Type": "multipart/form-data" }),
    data: formData,
   })
 }
 
 // 노트 삭제
-export default function deletePost() {
-  return console.log('삭제하기 api 없나요 ?')
+export async function deletePost(id: string) {
+  return await axios({
+    method: 'delete',
+    url: `${BASE_URL}/review-note/${id}`,
+    headers: addAccessTokenToHeaders(),
+  })
 }
 
 // 노트 좋아요
@@ -118,6 +125,7 @@ export async function likePost(id: string) {
   return await axios({
     method: 'post',
     url: `${BASE_URL}/review-note/${id}/like`,
+    headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -126,6 +134,7 @@ export async function deleteLikePost(id: string) {
   return await axios({
     method: 'delete',
     url: `${BASE_URL}/review-note/${id}/like`,
+    headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -134,6 +143,7 @@ export async function scrapPost(id: string) {
   return await axios({
     method: 'post',
     url: `${BASE_URL}/review-note/${id}/scrap`,
+    headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -142,5 +152,6 @@ export async function deleteScrapPost(id: string) {
   return await axios({
     method: 'delete',
     url: `${BASE_URL}/review-note/${id}/scrap`,
+    headers: addAccessTokenToHeaders(),
   })
 }
