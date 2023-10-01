@@ -15,3 +15,7 @@
   border-radius: 15px;
   padding: 2px 6px 2px 6px;
 }
+.valuechaintitle {
+  display: flex;
+  /* color: #4FE7B0; */
+}

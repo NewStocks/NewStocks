@@ -1,20 +1,15 @@
 'use client'
 import './chart.css';
-
 import { FaRegStar, FaStar } from "react-icons/fa";
-import { PiTreeStructure } from "react-icons/pi";
 import React, { useState, useEffect, useRef } from 'react';
-
 import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType } from 'lightweight-charts';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import ValueInfoModal from './ValuechainQuestion';
-import ValueChainModal from './ValuechainInfo';
 import StockProfile from "@/components/StockProfile/StockProfile";
 import { TickerTape } from "react-ts-tradingview-widgets";
 import ValueModal from "@/components/ValueModal/ValueModal";
+import ChartModal from "@/components/ChartModal/ChartModal";
 import ValueStockModal from "@/components/ValueStockModal/ValueStockModal";
-// import { Provider } from '../utils/ChakraProvider'
 
 import { useRecoilState } from 'recoil';
 import { allFavoriteStocksState } from '@/recoil/favoriteStock';
@@ -471,13 +466,13 @@ export default function ChartComponent() {
         {chartData.valuechain ? (
           <div className='valuechain'>
             <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
-            <div className='value2'><ValueModal id='valueinfo2'/></div>
+            <div className='value2'><ChartModal id='valueinfo2'/></div>
           </div>
         ) : 
         // 벨류체인 없을때는??
           <div className='valuechain'>
             <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
-            <div className='value2'><ValueModal id='valueinfo2'/></div>
+            <div className='value2'><ChartModal id='valueinfo2'/></div>
           </div>
         }
 
