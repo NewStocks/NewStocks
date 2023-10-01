@@ -9,7 +9,7 @@ type Search = {
 export async function getHotPosts() {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/review-note/find-hot`
+   url: `${BASE_URL}/review-note/find-hot`,
   })
 }
 

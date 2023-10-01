@@ -1,4 +1,3 @@
-'use client';
 import { useEffect } from 'react';
 import Image from 'next/image'
 import styles from './communitypage.module.css';
@@ -6,10 +5,18 @@ import styles from './communitypage.module.css';
 import LandingView from '@/components/LandingView/LandingView'
 import LandingFooter from '@/components/LandingView/LandingFooter/LandingFooter'
 import Button from '@/components/Button/Button'
+import MultiCarousel from '@/components/MultiCarousel/MultiCarousel'
+import CarouselCard from '@/components/MultiCarousel/CarouselCard/CarouselCard'
 
 import communityLanding from '../../../public/community-landing.png';
+import { PiArrowSquareRightBold } from "react-icons/pi"
+import { IoIosArrowForward } from "react-icons/io"
 
-export default function CommunityPage() {
+import { getHotPostsList } from '@/services/postsReturn'
+
+export default async function CommunityPage() {
+  const posts = await getHotPostsList()
+  console.log('posts', posts)
 
   return ( 
     <div className={styles.main}>
@@ -37,6 +44,27 @@ export default function CommunityPage() {
           className={`${styles["landing-main-image"]} ${styles["title-animation"]}`}
           height={410}
           />
+        </div>
+      </div>
+
+      <div className={styles["sorted-note-box"]}>
+        <div className={styles["sorted-note-title"]}>✍나의 노트 모아보기<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
+        <div className={styles["mynote-out-box"]}>
+          <div>NEWStocks에 가입해 나의 주식 오답노트를 관리해보세요!</div>
+          <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={17} className={styles["login-icon"]}/></div>
+        </div>
+      </div>
+
+      <div className={styles["sorted-note-box"]}>
+        <div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
+        <div className={styles["cards-box"]}>
+          {/* {posts && 
+            <MultiCarousel>
+              {posts.map((post, index) => {
+                return <CarouselCard key={index} post={post}/>
+              })}
+            </MultiCarousel>
+          } */}
         </div>
       </div>
 
