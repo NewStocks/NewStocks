@@ -10,7 +10,7 @@ import { BiCommentDots } from "react-icons/bi"
 import { MdOutlineArrowDropDownCircle } from "react-icons/md"
 
 import { likeComment, deleteLikeComment } from '@/services/comments'
-import { getAllReplies, createReply } from "@/services/replies"
+import { getAllReplies, createReply, deleteReply } from "@/services/replies"
 
 import CommentInput from '@/components/CommentInput/CommentInput'
 import CoCommentView from '@/components/AllCommentsView/CoCommentView/CoCommentView'
@@ -58,6 +58,12 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
   // 대댓글 생성 관리
   const handleCreateReplyApi = (id: string, content: string) => {
     createReply(id, content)
+    .then((res) => {console.log(res); getAllReplies(id).then(res => {console.log(res); setReplyList(res.data)})})
+  }
+
+  // 대댓글 삭제 관리
+  const HandleDeleteReplyApi = (commentId: string, replyId: string) => {
+    deleteReply(commentId, replyId)
     .then((res) => {console.log(res); getAllReplies(id).then(res => {console.log(res); setReplyList(res.data)})})
   }
 
@@ -119,7 +125,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
           <BsSendPlus size={17} className={styles["reply-add-icon"]}/>대댓글 작성하기
         </div>}
       </div>
-      {ReplyList && ReplyList.map(reply => {console.log(reply); return (<CoCommentView reply={reply} name={memberDto.name}/>)})}
+      {ReplyList && ReplyList.map(reply => {console.log(reply); return (<CoCommentView reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id}/>)})}
     </div>}
     </>
   );

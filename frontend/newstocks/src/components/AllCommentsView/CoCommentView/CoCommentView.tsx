@@ -11,9 +11,11 @@ import { BsHandThumbsUpFill, BsHandThumbsUp } from 'react-icons/bs'
 type Props = {
   reply: Comment
   name: string
+  commentId: string
+  HandleDeleteReplyApi: (commentId: string, replyId: string) => void
 }
 
-export default function CoCommentView({ reply, name }: Props) {
+export default function CoCommentView({ reply, name, commentId, HandleDeleteReplyApi }: Props) {
   const [likeCount, setLikeCount] = useState(reply.likeCount)
   const [likeStatus, setLikeStatus] = useState(reply.isLiked)
 
@@ -67,7 +69,7 @@ export default function CoCommentView({ reply, name }: Props) {
           {(reply.memberDto.role==="ADMIN" || reply.hasAuthority) &&
           (<div className={styles["icons"]}>
             <div id={styles["reply-update"]} onClick={() => {}}>✏️수정하기</div>
-            <div onClick={() => {}}>🗑️삭제하기</div>
+            <div onClick={() => HandleDeleteReplyApi(commentId, reply.id)}>🗑️삭제하기</div>
           </div>)}
         </div>
       </div>
