@@ -12,8 +12,14 @@ type Props = {
 
 import Button from '@/components/Button/Button'
 import MyCards from '@/components/MyCards/MyCards'
+import FilterableCards from '@/components/FilterableCards/FilterableCards'
 
-export default function MynotesPage({ searchParams }: Props) {
+import { getMyPostsList } from "@/services/postsReturn"
+
+export default async function MynotesPage({ searchParams }: Props) {
+  // if (searchParams.page=='my') {
+  //   const posts = await getMyPostsList()
+  // }
 
   return (
     <div className={styles.main}>
@@ -26,6 +32,9 @@ export default function MynotesPage({ searchParams }: Props) {
             <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
             <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div>
           </div>
+          <div className={styles["cards-container"]}>
+            <MyCards />
+          </div>
           </>
         )}
         {searchParams.page=='scrap' && (
@@ -35,6 +44,9 @@ export default function MynotesPage({ searchParams }: Props) {
             <div className={styles["sorted-Button-width"]}><Button text="종목별" sorted={true}></Button></div>
             <div className={styles["sorted-Button-width"]}><Button text="최신순" sorted={true}></Button></div>
           </div> */}
+          <div className={styles["cards-container"]}>
+            <FilterableCards />
+          </div>
           </>
         )}
         {searchParams.page=='following' && (
@@ -44,11 +56,11 @@ export default function MynotesPage({ searchParams }: Props) {
             <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="Anima Ag." kindof="sorted" highlight={false}></Button></div>
             <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="오준석바보" kindof="sorted" highlight={false}></Button></div>
           </div>
+          <div className={styles["cards-container"]}>
+            <FilterableCards />
+          </div>
           </>
         )}
-        <div className={styles["cards-container"]}>
-          <MyCards />
-        </div>
       </div>
 
     </div>
