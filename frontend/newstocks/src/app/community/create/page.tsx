@@ -47,7 +47,7 @@ export default function CreatePage() {
         <StyledLink href='/'><IoIosArrowBack /><div>뒤로가기</div></StyledLink>
       </div>
       <Provider>
-        <CreatePostForm type="create"/>
+        <CreatePostForm work="create"/>
       </Provider>
     </div>
   )

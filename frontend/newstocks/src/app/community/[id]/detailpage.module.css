@@ -74,7 +74,7 @@
 .detail-subheader {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 10px 0 15px 0;
 }
 
 .title {
@@ -97,7 +97,7 @@
 /* 주식 관련 정보 */
 .stock-box {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 23px;
 }
 
 /* 오답노트 태그 */
@@ -122,11 +122,15 @@
 
 .img {
   padding: 5px;
-  height: 400px;
+  /* height: 400px; */
   max-width: 1440px;
-  background-color: #d9d9d96f;
+  background-color: #d9d9d913;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.image-container {
+  margin: 0 auto;
 }
 
 .content {
@@ -163,4 +167,14 @@
 
 /* 댓글 view */
 .commentview-container {
+}
+
+.no-comments {
+  padding: 5px 0 5px 45px
+}
+
+.no-comments-first {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 10px 0 10px 0;
 }
