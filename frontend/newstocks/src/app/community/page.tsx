@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image'
 import styles from './communitypage.module.css';
 
@@ -7,6 +8,8 @@ import LandingFooter from '@/components/LandingView/LandingFooter/LandingFooter'
 import Button from '@/components/Button/Button'
 import MultiCarousel from '@/components/MultiCarousel/MultiCarousel'
 import CarouselCard from '@/components/MultiCarousel/CarouselCard/CarouselCard'
+import CarouselCardBox from '@/components/CarouselCardBox/CarouselCardBox'
+import { StyledLink } from '@/components/StyledLink/StyledLink'
 
 import communityLanding from '../../../public/community-landing.png';
 import { PiArrowSquareRightBold } from "react-icons/pi"
@@ -14,8 +17,15 @@ import { IoIosArrowForward } from "react-icons/io"
 
 import { getHotPostsList } from '@/services/postsReturn'
 
-export default async function CommunityPage() {
-  const posts = await getHotPostsList()
+export default function CommunityPage() {
+  const [posts, setPosts] = useState([])
+  
+  useEffect(() => {
+    getHotPostsList()
+    .then(res => setPosts(res.data.slice(0, 10)))
+
+  }, [])
+  // const posts = await getHotPostsList()
   console.log('posts', posts)
 
   return ( 
@@ -33,8 +43,12 @@ export default async function CommunityPage() {
               <div>다양한 투자기록을 참고해보세요!</div>
             </div>
             <div className={styles["title-botton-box"]}>
-              <div className={styles["Button-width"]}><Button text="나의노트" highlight={true} kindof="arrow"></Button></div>
-              <div className={styles["Button-width"]}><Button text="노트작성" highlight={false} kindof="arrow"></Button></div>
+              <StyledLink href={'/community/mine?page=my'}>
+                <div className={styles["Button-width"]}><Button text="나의노트" highlight={true} kindof="arrow"></Button></div>
+              </StyledLink>
+              <StyledLink href={'/community/create'}>
+                <div className={styles["Button-width"]}><Button text="노트작성" highlight={false} kindof="arrow"></Button></div>
+              </StyledLink>
             </div>
           </div>
 
@@ -57,14 +71,8 @@ export default async function CommunityPage() {
 
       <div className={styles["sorted-note-box"]}>
         <div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
-        <div className={styles["cards-box"]}>
-          {/* {posts && 
-            <MultiCarousel>
-              {posts.map((post, index) => {
-                return <CarouselCard key={index} post={post}/>
-              })}
-            </MultiCarousel>
-          } */}
+        <div className={styles["carousel-container"]}>
+          <CarouselCardBox posts={posts}/>
         </div>
       </div>
 

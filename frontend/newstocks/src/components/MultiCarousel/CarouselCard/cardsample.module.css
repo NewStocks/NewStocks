@@ -2,6 +2,8 @@
   height: 340px;
   width: 250px;
   background-color: rgba(176, 176, 176, 0.107);
+  
+  border: 1px dotted red;
 }
 
 /* 이미지 영역 */

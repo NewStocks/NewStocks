@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/url'
+import { addAccessTokenToHeaders } from '@/utils/token';
 
 type Search = {
   keyword: string
@@ -10,6 +11,7 @@ export async function getHotPosts() {
   return await axios({
    method: 'get',
    url: `${BASE_URL}/review-note/find-hot`,
+   headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -17,6 +19,7 @@ export async function getHotPosts() {
 export async function getSearchPosts({ keyword }: Search) {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/review-note/find-keyword/${keyword}`
+   url: `${BASE_URL}/review-note/find-keyword/${keyword}`,
+   headers: addAccessTokenToHeaders(),
   })
 }

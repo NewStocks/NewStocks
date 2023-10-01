@@ -2,6 +2,7 @@
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import "./react-multi-carousel.css"
 
 const responsive = {
   superLargeDesktop: {
@@ -9,7 +10,7 @@ const responsive = {
     items: 4
   },
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 3000, min: 1024},
     items: 4
   },
   tablet: {
@@ -30,14 +31,40 @@ type Props = {
 
 export default function MultiCarousel({ children }: Props) {
   return (
+    <div style={{border: "1px dotted red", width: "100%", paddingLeft: "3%"}}>
     <Carousel 
     // 내가 지정하고 싶은 option들을 prop으로 지정
     infinite // 무한정
     autoPlay // 자동 play
     responsive={responsive} // 위에서 정의한 responsive
-	itemClass="m-2" // 각 아이템 별로 class 지정 
+    rewind={false}
+    rewindWithAnimation={false}
+    rtl={false}
+    shouldResetAutoplay
+    showDots={false}
+    sliderClass=""
+    slidesToSlide={1}
+    swipeable
+    additionalTransfrom={0}
+    arrows
+    autoPlaySpeed={2500}
+    centerMode={false}
+    className=""
+    containerClass="container-with-dots"
+    dotListClass=""
+    draggable
+    focusOnSelect={false}
+    itemClass=""
+    keyBoardControl
+    minimumTouchDrag={80}
+    pauseOnHover
+    renderArrowsWhenDisabled={false}
+    renderButtonGroupOutside={false}
+    renderDotsOutside={false}
+	// itemClass="m-2" // 각 아이템 별로 class 지정 
 	>
       {children}
     </Carousel>
+    </div>
   );
 }
