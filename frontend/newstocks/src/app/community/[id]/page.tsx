@@ -18,11 +18,6 @@ import ScrapButton from "@/components/ScrapButton/ScrapButton"
 import MultiCarousel from "@/components/MultiCarousel/MultiCarousel";
 
 import { IoIosArrowBack } from "react-icons/io";
-import { BsBookmark } from "react-icons/bs";
-import { BiCommentDetail } from "react-icons/bi";
-import { AiOutlineStar } from "react-icons/ai";
-import { AiOutlineShareAlt } from "react-icons/ai";
-import { Divider } from "@chakra-ui/react";
 
 type Member = {
   profileImage: string
@@ -37,6 +32,7 @@ type Post = {
   isScrapped: boolean
   isLiked: boolean
   scrapCount: number
+  likeCount: number
 }
 type Stock = {
   id: string
@@ -162,13 +158,10 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["icons-container"]}>
+        {post && <LikeButton status={post.isLiked} id={id} count={post.likeCount} detail={true}/>}
+
         <div>
-          <LikeButton />
-          <AiOutlineStar className={styles["icons"]} size="23" />
-          <p>15</p>
-        </div>
-        <div>
-          <AiOutlineShareAlt className={styles["icons"]} size="23" />
+          {/* <AiOutlineShareAlt className={styles["icons"]} size="23" /> */}
         </div>
       </div>
 

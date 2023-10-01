@@ -6,6 +6,7 @@ import Image from 'next/image';
 import NEWStocksSample from '../../../public/sample_image.png';
 
 import ScrapButton from '@/components/ScrapButton/ScrapButton'
+import LikeButton from '@/components/LikeButton/LikeButton'
 
 import { useState } from 'react';
 
@@ -100,6 +101,7 @@ export default function Card({post}: Props) {
 
         <div className={styles["time"]}>{post.settingDate}</div>
       </div>
+      </StyledLink>
 
       <div className={styles["bottom-container"]}>
         <div className={styles["tag-container"]}>
@@ -108,17 +110,12 @@ export default function Card({post}: Props) {
         </div>
         <div className={styles["icons-container"]}>
           <div className={styles["like-button"]}>
-          {post.isLiked ? 
-            (<><AiOutlineStar className={styles["icons"]} size="21"/><p>{post.likeCount}</p></>)
-            :
-            (<><AiOutlineStar className={styles["icons"]} size="21"/><p>{post.likeCount}</p></>)
-          }
+          <LikeButton status={post.isLiked} id={post.id} count={post.likeCount}/>
           </div>
-          <div><BiCommentDetail className={styles["icons"]} size="21"/><p>{post.replyCount}</p></div>
+          <div><p>{post.replyCount}</p><BiCommentDetail className={styles["icons"]} size="21"/></div>
           <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div>
         </div>
       </div>
-    </StyledLink>
     </div>
   ) 
 }

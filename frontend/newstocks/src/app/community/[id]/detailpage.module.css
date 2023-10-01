@@ -144,7 +144,7 @@
   display: flex;
   padding: 0 6px;
   margin-bottom: 20px;
-  width: 150px;
+  width: 180px;
   margin-left: auto;
 }
 
@@ -160,6 +160,7 @@
 
 .icons {
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 /* 댓글 작성 */

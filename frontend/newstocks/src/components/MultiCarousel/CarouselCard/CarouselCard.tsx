@@ -10,6 +10,7 @@ import { MdSell, MdOutlineSell } from "react-icons/md"
 
 import { StyledLink } from "@/components/StyledLink/StyledLink"
 import ScrapButton from "@/components/ScrapButton/ScrapButton"
+import LikeButton from "@/components/LikeButton/LikeButton"
 
 import { Post } from '@/services/posts'
 
@@ -99,11 +100,7 @@ export default function CardSample({ post }: Props) {
         </div>
         <div className={styles["icons-container"]}>
           <div className={styles["like-button"]}>
-          {post.isLiked ? 
-            (<><AiOutlineStar className={styles["icons"]} size="21"/><p>{post.likeCount}</p></>)
-            :
-            (<><AiOutlineStar className={styles["icons"]} size="21"/><p>{post.likeCount}</p></>)
-          }
+          <LikeButton status={post.isLiked} id={post.id} count={post.likeCount}/>
           </div>
           <div><BiCommentDetail className={styles["icons"]} size="21"/><p>{post.replyCount}</p></div>
           <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div>
