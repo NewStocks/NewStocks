@@ -31,7 +31,7 @@ type Props = {
 
 export default function MultiCarousel({ children }: Props) {
   return (
-    <div style={{border: "1px dotted red", width: "100%", paddingLeft: "3%"}}>
+    <div style={{width: "100%", paddingLeft: "3%", marginTop: "15px"}}>
     <Carousel 
     // 내가 지정하고 싶은 option들을 prop으로 지정
     infinite // 무한정
