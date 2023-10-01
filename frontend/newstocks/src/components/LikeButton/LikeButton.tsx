@@ -14,7 +14,6 @@ type Props = {
 export default function LikeButton({status, id, count, detail}: Props) {
   const [likeStatus, setLikeStatus] = useState(status)
   const [likeCount, setLikeCount] = useState(count)
-  console.log(count)
 
   const handleLike = () => {
     likePost(id)

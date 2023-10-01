@@ -27,7 +27,7 @@ import ImagePreview from "./ImagePreview/ImagePreview";
 import SearchBox from "@/components/SearchBox/SearchBox";
 
 import { fetchStockInfo } from '@/services/chart' 
-import { getPostDetail, createPost, updatePost } from '@/services/posts'
+import { getPostDetail, createPost, updatePost, deletePost } from '@/services/posts'
 
 import { Checkbox } from '@chakra-ui/react'
 import DatePicker from 'react-datepicker';

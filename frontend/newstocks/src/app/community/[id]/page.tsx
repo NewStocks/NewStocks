@@ -3,9 +3,10 @@ import styles from "./detailpage.module.css";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import NEWStocksSample from '../../../../public/sample_image.png'
 
-import { getPostDetail, likePost, deleteLikePost, scrapPost, deleteScrapPost} from '@/services/posts'
+import { getPostDetail, deletePost} from '@/services/posts'
 import { Comment, createComment, getComments, updateComment, deleteComment } from '@/services/comments'
 
 import Button from "@/components/Button/Button";
@@ -49,6 +50,7 @@ type Props = {
 };
 
 export default function DetailnotePage({ params: {id} }: Props) {
+  const router = useRouter()
   const [member, setMember] = useState<Member | null>(null) 
   const [comments, setComments] = useState<Comment[] | null>([])
   const [stock, setStock] = useState<Stock | null>(null)
@@ -90,6 +92,13 @@ export default function DetailnotePage({ params: {id} }: Props) {
     .then(() => getComments(postId).then((res) => {setComments(res.data); console.log(res.data)}))
   }
 
+  // 노트 삭제
+  const DeleteNoteApi = (postId: string) => {
+    deletePost(postId)
+    .then(() => console.log("delete-sucess"))
+    .then(() => router.push("/community/mine?page=my"))
+  }
+
   return (
     <div className={styles.main}>
       <div className={styles["detail-back"]}>
@@ -126,7 +135,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
           {post && post.hasAuthority && 
           (<div className={styles["sub-Buttons"]}>
             <div><Link href={{pathname: `/community/update`, query: id}}><Button text="수정하기" highlight={true} kindof={null}/></Link></div>
-            <div><Button text="삭제하기" highlight={true} kindof={null}/></div>
+            <div onClick={() => DeleteNoteApi(post.id)}><Button text="삭제하기" highlight={true} kindof={null}/></div>
           </div>)
           }
         </div>
