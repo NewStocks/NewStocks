@@ -1,6 +1,5 @@
 package com.ohgood.newstocks.stock.controller;
 
-import com.ohgood.newstocks.auth.jwt.service.JwtService;
 import com.ohgood.newstocks.stock.dto.ChartResDto;
 import com.ohgood.newstocks.stock.dto.FavoriteStockDto;
 import com.ohgood.newstocks.stock.dto.FavoriteStockReqDto;
@@ -8,7 +7,9 @@ import com.ohgood.newstocks.stock.dto.StockResDto;
 import com.ohgood.newstocks.stock.dto.StockSearchDto;
 import com.ohgood.newstocks.stock.dto.ValueChainResDto;
 import com.ohgood.newstocks.stock.service.StockService;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,10 +76,11 @@ public class StockController {
             HttpStatus.OK);
     }
 
-    @GetMapping("find-favorite-stock-by-member-id/{member-id}")
+    @GetMapping("find-favorite-stock-by-member-id")
     public ResponseEntity<List<FavoriteStockDto>> findFavoriteStockByMemberId(
-        @PathVariable("member-id") Long memberId) {
-        return new ResponseEntity<>(stockService.findAllFavoriteStockByMemberId(memberId),
+        Authentication authentication) {
+        return new ResponseEntity<>(stockService.findAllFavoriteStockByMemberId(Long.parseLong(
+            authentication.getName())),
             HttpStatus.OK);
     }
 
