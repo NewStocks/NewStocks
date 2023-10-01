@@ -3,17 +3,19 @@ import { BASE_URL } from '../utils/url'
 import { addAccessTokenToHeaders } from '@/utils/token';
 
 export type Note = {
-  note: {
-    id: string
-    multipartFileList: string[] | undefined
-    buyPrice: number | undefined
-    content: string
-    privacy: boolean
-    stockId: string
-    type: string | undefined
-    title: string
-    linkList: string[] | undefined
-  }
+  stockId: string
+  multipartFileList: string[] | undefined
+  content: string
+  privacy: boolean
+  type: string | undefined
+  title: string
+  linkList: string[] | undefined
+  buyDate: any
+  buyPrice: number | null
+  buyQuantity: string | null
+  sellDate: any
+  sellPrice: number | null
+  sellQuantity: string | null
 }
 
 export type Member = {
@@ -31,7 +33,8 @@ export type Reply = {
 }
 
 export type ImageList = {
-  reviewNoteImageDtoList: string[]
+  id: string,
+  url: string
 }
 
 export type Link = {
@@ -53,11 +56,11 @@ export type Post = {
   isLiked: boolean
   isScrapped: boolean
   memberDto: Member
-  newsDtoList: News
+  newsDtoList: News[] | null
   privacy: boolean
   replyResDtoList: Reply
-  reviewNoteImageDtoList: ImageList
-  reviewNoteLinkDtoList: Link
+  reviewNoteImageDtoList: ImageList[] | null
+  reviewNoteLinkDtoList: Link[] | null
   sellDate: string | null
   sellPrice: string | null
   sellQuantity: string | null
@@ -65,6 +68,9 @@ export type Post = {
   stockDto: Stock
   title: string
   type: string
+  scrapCount: number
+  likeCount: number
+  replyCount: number
 }
 
 // 노트 전체보기
@@ -86,47 +92,66 @@ export async function getPostDetail(id: string) {
 }
 
 // 노트 생성
-export async function createPost({note: {
-  stockId, 
-  type,
-  privacy, 
-  multipartFileList, 
-  buyPrice,
-  title, 
-  content, 
-  linkList, }} : Note) {
+export async function createPost(formData: FormData) {
   return await axios({
-   method: 'get',
+   method: 'post',
    url: `${BASE_URL}/review-note`,
-   data: { stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList },
-   headers: addAccessTokenToHeaders(),
-  }).then((res) => res)
-}
+   headers: addAccessTokenToHeaders({ "Content-Type": "multipart/form-data" }),
+   data: formData,
+})}
+
 
 // 노트 수정
-export async function updatePost({note: {
-  id,
-  stockId, 
-  type,
-  privacy, 
-  multipartFileList, 
-  buyPrice,
-  title, 
-  content, 
-  linkList, }} : Note) {
+export async function updatePost(formData: FormData) {
   return await axios({
    method: 'patch',
    url: `${BASE_URL}/review-note`,
-   data: { id, stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList },
-   headers: addAccessTokenToHeaders(),
-  }).then((res) => res)
+   headers: addAccessTokenToHeaders({ "Content-Type": "multipart/form-data" }),
+   data: formData,
+  })
+}
+
+// 노트 삭제
+export async function deletePost(id: string) {
+  return await axios({
+    method: 'delete',
+    url: `${BASE_URL}/review-note/${id}`,
+    headers: addAccessTokenToHeaders(),
+  })
 }
 
 // 노트 좋아요
 export async function likePost(id: string) {
   return await axios({
+    method: 'post',
+    url: `${BASE_URL}/review-note/${id}/like`,
+    headers: addAccessTokenToHeaders(),
+  })
+}
+
+// 노트 좋아요 취소
+export async function deleteLikePost(id: string) {
+  return await axios({
     method: 'delete',
     url: `${BASE_URL}/review-note/${id}/like`,
+    headers: addAccessTokenToHeaders(),
+  })
+}
+
+// 노트 스크랩
+export async function scrapPost(id: string) {
+  return await axios({
+    method: 'post',
+    url: `${BASE_URL}/review-note/${id}/scrap`,
+    headers: addAccessTokenToHeaders(),
+  })
+}
+
+// 노트 스크랩 취소
+export async function deleteScrapPost(id: string) {
+  return await axios({
+    method: 'delete',
+    url: `${BASE_URL}/review-note/${id}/scrap`,
     headers: addAccessTokenToHeaders(),
   })
 }
