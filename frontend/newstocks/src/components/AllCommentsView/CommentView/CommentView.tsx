@@ -4,8 +4,10 @@ import Image from 'next/image';
 import { Comment } from '@/services/comments'
 import { useState } from 'react'
 
-import { FaRegThumbsUp } from 'react-icons/fa'
+import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs"
 import { BiCommentDots } from 'react-icons/bi'
+
+import { likeComment, deleteLikeComment } from '@/services/comments'
 
 import CommentInput from '@/components/CommentInput/CommentInput'
 
@@ -17,6 +19,8 @@ type Props = {
 }
 
 export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }, postId, UpdateCommentApi, DeleteCommentApi} : Props) {
+  const [likeStatus, setLikeStatus] = useState(isLiked)
+  const [currLikeCount, setCurrLikeCount] = useState(likeCount)
   const [cocommentToggle, setcocommentToggle] = useState(false);
   const [updateToggle, setUpdateToggle] = useState(false);
   function handleToggle() {
@@ -26,7 +30,20 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
   function handleUpdateToggle() {
     setUpdateToggle((prev) => !prev)
   }
- 
+
+  const handleLike = () => {
+    likeComment(id)
+    .then(res => console.log(res))
+    .then(() => {setCurrLikeCount(currLikeCount + 1); setLikeStatus(prev=>!prev)})
+  }
+
+  const handleDeleteLike = () => {
+    deleteLikeComment(id)
+    .then(res => console.log(res))
+    .then(() => {setCurrLikeCount(currLikeCount -1); setLikeStatus(prev=>!prev)})
+  }
+
+  
   return (
     <>
     {!updateToggle ?
@@ -50,7 +67,10 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
 
       <div className={styles["icons"]}>
         <div>
-          <div><FaRegThumbsUp size="20"/><p>{likeCount} Likes</p></div>
+          {likeStatus ?
+          (<div onClick={() => handleDeleteLike()}><BsHandThumbsUpFill size="20"/><p>{currLikeCount} Likes</p></div>)
+          :(<div onClick={() => handleLike()}><BsHandThumbsUp size="20"/><p>{currLikeCount} Likes</p></div>)
+          }
           <div onClick={() => setcocommentToggle(true)}><BiCommentDots size="23"/><p>대댓글</p></div>
         </div>
         {hasAuthority && (
