@@ -1,19 +1,21 @@
 "use client";
 import styles from "./CommentInput.module.css";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 type Props = {
   id: string
   postId?: string
   type: "comment" | "cocomment" | "update"
   content?: string
+  img?: string
   CreateCommentApi?: (id: string, comment: string) => void;
   handleToggle?: () => void;
   handleUpdateToggle?: () => void;
   UpdateCommentApi?: (postId: string, comment: string, commentId: string) => void;
 };
 
-export default function CommentInput({ id, postId, type, content, CreateCommentApi, handleToggle, UpdateCommentApi, handleUpdateToggle }: Props) {
+export default function CommentInput({ id, postId, type, content, img, CreateCommentApi, handleToggle, UpdateCommentApi, handleUpdateToggle }: Props) {
   const [commentInput, setCommentInput] = useState("")
 
   useEffect(() => {
@@ -62,7 +64,13 @@ export default function CommentInput({ id, postId, type, content, CreateCommentA
 
   return (
     <div className={styles["commentinput-container"]}>
-      <div className={styles["writer"]}></div>
+      <Image
+        src={img}
+        alt="image preview"
+        width="25"
+        height="25"
+        className={styles["writer"]}
+      />
       <div className={styles["input-box"]}>
         <textarea
           placeholder="오답노트에 대한 댓글을 남겨주세요! (300자 이내)&#13;&#10;띄어쓰기는 'shift + Enter'로 입력 가능"

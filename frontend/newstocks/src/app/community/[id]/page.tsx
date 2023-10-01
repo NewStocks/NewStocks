@@ -110,8 +110,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
               <Image
                 src={member ? member.profileImage : ''}
                 alt="image preview"
-                width="25"
-                height="25"
+                width="35"
+                height="10"
                 className={styles["profile-img"]}
               />
               <div className={styles["profile-name"]}>{member && member.name}</div>
@@ -121,7 +121,6 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
           <div className={styles["header-right"]}>
             {post && <ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount}/>}
-            <div>스크랩하기</div>
           </div>
         </div>
 

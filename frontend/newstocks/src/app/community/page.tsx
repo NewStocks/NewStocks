@@ -76,8 +76,6 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      {/* <LandingView />   */}
-
       <LandingFooter />
 
     </div>
