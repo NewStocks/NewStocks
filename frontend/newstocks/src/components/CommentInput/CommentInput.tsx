@@ -13,9 +13,10 @@ type Props = {
   handleToggle?: () => void;
   handleUpdateToggle?: () => void;
   UpdateCommentApi?: (postId: string, comment: string, commentId: string) => void;
+  handleCreateReplyApi?: (id: string, content: string) => void
 };
 
-export default function CommentInput({ id, postId, type, content, img, CreateCommentApi, handleToggle, UpdateCommentApi, handleUpdateToggle }: Props) {
+export default function CommentInput({ id, postId, type, content, img, CreateCommentApi, handleToggle, UpdateCommentApi, handleUpdateToggle, handleCreateReplyApi }: Props) {
   const [commentInput, setCommentInput] = useState("")
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
   // 댓글 생성 관리
   const handleComment = () => {
     if(CreateCommentApi) {
-      const comment = commentInput;
+      const comment = commentInput.trim();
       CreateCommentApi(id, comment);
       setCommentInput("");
 
@@ -40,7 +41,7 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
 
   // 댓글 수정 관리
   const handleUpdate = () => {
-    const comment = commentInput;
+    const comment = commentInput.trim();
     if (!comment) {
       alert('변경 내용이 없습니다!')
     } else {
@@ -49,6 +50,22 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
         handleUpdateToggle();
         setCommentInput("");
   
+        handleReset()
+      }
+    }
+  }
+
+  // 대댓글 등록 관리
+  const handleCreateReply = () => {
+    const comment = commentInput.trim()
+    if (!comment) {
+      alert('변경 내용이 없습니다!')
+    } else {
+      console.log('대댓글 등록 진입!!', id, comment)
+      if (id && handleToggle && handleCreateReplyApi) {
+        handleCreateReplyApi(id, comment);
+        handleToggle();
+        setCommentInput("");
         handleReset()
       }
     }
@@ -64,13 +81,13 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
 
   return (
     <div className={styles["commentinput-container"]}>
-      <Image
+      {img && <Image
         src={img}
         alt="image preview"
         width="25"
         height="25"
         className={styles["writer"]}
-      />
+      />}
       <div className={styles["input-box"]}>
         <textarea
           placeholder="오답노트에 대한 댓글을 남겨주세요! (300자 이내)&#13;&#10;띄어쓰기는 'shift + Enter'로 입력 가능"
@@ -82,7 +99,7 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
             <button onClick={type==="comment" ? handleReset : type==="cocomment" ? handleToggle : handleUpdateToggle} className={styles["submit-button"]}>{type=='comment' ? '🧹 초기화' : '🗑 취소'}</button>
           </div>
           <div className={styles["submit-comment"]}>
-            <button className={styles["submit-button"]} onClick={type==="comment" ? handleComment : type==="update" ? handleUpdate : () => {}}>✍ 등록하기</button>
+            <button className={styles["submit-button"]} onClick={type==="comment" ? handleComment : type==="update" ? handleUpdate : handleCreateReply}>✍ 등록하기</button>
           </div>
         </div>
       </div>

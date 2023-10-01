@@ -8,6 +8,7 @@ import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs"
 import { BiCommentDots } from 'react-icons/bi'
 
 import { likeComment, deleteLikeComment } from '@/services/comments'
+import { getAllReplies, createReply } from "@/services/replies"
 
 import CommentInput from '@/components/CommentInput/CommentInput'
 
@@ -23,6 +24,9 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
   const [currLikeCount, setCurrLikeCount] = useState(likeCount)
   const [cocommentToggle, setcocommentToggle] = useState(false);
   const [updateToggle, setUpdateToggle] = useState(false);
+
+  const [ReplyList, setReplyList] = useState([]);
+
   function handleToggle() {
     setcocommentToggle((prev) => !prev);
   }
@@ -42,7 +46,11 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
     .then(res => console.log(res))
     .then(() => {setCurrLikeCount(currLikeCount -1); setLikeStatus(prev=>!prev)})
   }
-
+  
+  const handleCreateReplyApi = (id: string, content: string) => {
+    createReply(id, content)
+    .then((res) => {console.log(res); getAllReplies(id).then(res => {console.log(res); setReplyList(res.data)})})
+  }
   
   return (
     <>
@@ -86,7 +94,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
     }
     {cocommentToggle && <div className={styles["cocomment-box"]}>
       <hr/>
-      <div className={styles["cocomment-input"]}><CommentInput id={id} type='cocomment' handleToggle={handleToggle} content={content}/></div>
+      <div className={styles["cocomment-input"]}><CommentInput id={id} type='cocomment' handleToggle={handleToggle} content={content} handleCreateReplyApi={handleCreateReplyApi}/></div>
     </div>}
     </>
   );
