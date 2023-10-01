@@ -120,7 +120,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
           </div>
 
           <div className={styles["header-right"]}>
-            {post && <ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount}/>}
+            {post && <ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount} detail={true}/>}
           </div>
         </div>
 
