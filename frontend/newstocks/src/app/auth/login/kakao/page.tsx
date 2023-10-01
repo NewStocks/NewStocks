@@ -16,11 +16,11 @@ export default function KakaoLogin() {
         // url: `${BASE_URL}/auth/login/kakao`,
         data: { code }})
         .then((res) => {
-          console.log("result", res);
-          // localStorage.setItem('token' , res.data?.memberDto.id)
-          localStorage.setItem('token' , res.data.accessToken)
-          console.log("멤버", res.data)
+          localStorage.setItem('access-token' , res.data.accessToken)
           window.location.href = '/'
+        })
+        .catch((error) => {
+          console.error("에러 발생:", error);
         })
       }
     })

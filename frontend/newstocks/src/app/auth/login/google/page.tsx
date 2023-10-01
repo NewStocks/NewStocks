@@ -11,15 +11,12 @@ export default function GoogleLogin() {
     if (code) {
       axios({
         method: 'post',
-        url: `http://localhost:8200/auth/login/google`,
         // url: `${BASE_URL}/auth/login/google`,
+        url: `http://localhost:8200/auth/login/google`,
         data: { code }})
         .then((res) => {
-          console.log(res);
-          // localStorage.setItem('token' , res.data?.memberDto.id)
-          localStorage.setItem('token' , res.data.accessToken)
-          console.log("멤버", res.data)
-          // window.location.href = '/'
+          localStorage.setItem('access-token' , res.data.accessToken)
+          window.location.href = '/'
         })
       }
     })

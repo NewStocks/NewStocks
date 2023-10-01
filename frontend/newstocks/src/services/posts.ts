@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/url'
+import { addAccessTokenToHeaders } from '@/utils/token';
 
 export type Note = {
   note: {
@@ -70,7 +71,8 @@ export type Post = {
 export async function getPostsAll() {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/review-note/find-all`
+   url: `${BASE_URL}/review-note/find-all`,
+   headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -78,7 +80,8 @@ export async function getPostsAll() {
 export async function getPostDetail(id: string) {
    return await axios({
     method: 'get',
-    url: `${BASE_URL}/review-note/${id}`
+    url: `${BASE_URL}/review-note/${id}`,
+    headers: addAccessTokenToHeaders(),
    }).then((res) => res)
 }
 
@@ -95,7 +98,8 @@ export async function createPost({note: {
   return await axios({
    method: 'get',
    url: `${BASE_URL}/review-note`,
-   data: { stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList }
+   data: { stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList },
+   headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }
 
@@ -113,7 +117,8 @@ export async function updatePost({note: {
   return await axios({
    method: 'patch',
    url: `${BASE_URL}/review-note`,
-   data: { id, stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList }
+   data: { id, stockId, type, privacy, multipartFileList, buyPrice, title, content, linkList },
+   headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }
 
@@ -122,5 +127,6 @@ export async function likePost(id: string) {
   return await axios({
     method: 'delete',
     url: `${BASE_URL}/review-note/${id}/like`,
+    headers: addAccessTokenToHeaders(),
   })
 }
