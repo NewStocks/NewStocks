@@ -177,12 +177,15 @@ export default function Newstab() {
 							datenews.push(item)
 						}
 					});
-          const sorteddateNewsData = datenews.slice().sort((a, b) => {
-            if (filterOptions.sortBy === 'latest') {
-              return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
-            } else {
-              return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
-            }
+            const sorteddateNewsData = datenews.slice().sort((a: DateNewsItem, b: DateNewsItem) => {
+              if (filterOptions.sortBy === 'latest') {
+                return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
+              } else if (filterOptions.sortBy === 'oldest') {
+                return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
+              } else if (filterOptions.sortBy === 'mentions') {
+                return b.duplicatedCount - a.duplicatedCount; // 언급 횟수 정렬
+              }
+              return 0;
           });
           const filtereddateNewsData = sorteddateNewsData.filter((item) => {
             if (filterOptions.filterBy === 'all') {
