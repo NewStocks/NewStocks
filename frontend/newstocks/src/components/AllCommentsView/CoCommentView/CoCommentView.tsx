@@ -3,19 +3,34 @@ import styles from './CoCommentView.module.css';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { FaRegThumbsUp } from 'react-icons/fa'
-import { BiCommentDots } from 'react-icons/bi'
-import { PiArrowElbowDownRightBold } from 'react-icons/pi'
-
 import { Comment } from "@/services/comments"
+import { likeReply, deleteLikeReply } from "@/services/replies"
+
+import { BsHandThumbsUpFill, BsHandThumbsUp } from 'react-icons/bs'
 
 type Props = {
   reply: Comment
   name: string
 }
 
-
 export default function CoCommentView({ reply, name }: Props) {
+  const [likeCount, setLikeCount] = useState(reply.likeCount)
+  const [likeStatus, setLikeStatus] = useState(reply.isLiked)
+
+  // 댓글 좋아요 추가
+  const handleLike = () => {
+    likeReply(reply.id)
+    .then(res => console.log(res))
+    .then(() => {setLikeCount(likeCount + 1); setLikeStatus(prev=>!prev)})
+  }
+
+  // 댓글 좋아요 취소
+  const handleDeleteLike = () => {
+    deleteLikeReply(reply.id)
+    .then(res => console.log(res))
+    .then(() => {setLikeCount(likeCount -1); setLikeStatus(prev=>!prev)})
+  }
+
   return (
     <div className={styles["comment-container"]}>
       <div className={styles["left"]}>
@@ -43,11 +58,11 @@ export default function CoCommentView({ reply, name }: Props) {
 
         <div className={styles["reply-bottom-buttons"]}>
           <div className={styles["icons"]}>
-            {/* {likeStatus ?
-            (<div onClick={() => handleDeleteLike()}><BsHandThumbsUpFill size="20"/><p>{currLikeCount} Likes</p></div>)
-            :(<div onClick={() => handleLike()}><BsHandThumbsUp size="20"/><p>{currLikeCount} Likes</p></div>)
-            } */}
-            <div><FaRegThumbsUp size="20"/><p>{reply.likeCount} Likes</p></div>
+            {likeStatus ?
+            (<div onClick={() => handleDeleteLike()}><BsHandThumbsUpFill size="20"/><p>{likeCount} Likes</p></div>)
+            :(<div onClick={() => handleLike()}><BsHandThumbsUp size="20"/><p>{likeCount} Likes</p></div>)
+            }
+            {/* <div><FaRegThumbsUp size="20"/><p>{reply.likeCount} Likes</p></div> */}
           </div>
           {(reply.memberDto.role==="ADMIN" || reply.hasAuthority) &&
           (<div className={styles["icons"]}>

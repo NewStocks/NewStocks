@@ -95,10 +95,8 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
           :(<div onClick={() => handleLike()}><BsHandThumbsUp size="20"/><p>{currLikeCount} Likes</p></div>)
           }
           <div onClick={() => {
-            setReplyListToggle(prev=>!prev)
-            if(!ReplyList) {
-              HandleReplyList()
-            }
+            setReplyListToggle(prev=>!prev);
+            HandleReplyList();
           }}><p>대댓글</p><MdOutlineArrowDropDownCircle className={styles["reply-toggle-icon"]}size="20"/></div>
         </div>
         {hasAuthority && (
