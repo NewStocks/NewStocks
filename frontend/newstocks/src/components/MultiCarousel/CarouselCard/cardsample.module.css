@@ -2,6 +2,11 @@
   height: 315px;
   width: 250px;
   background-color: rgba(176, 176, 176, 0.107);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-container:hover {
+  transform: translate(-5px, -5px);
 }
 
 /* 이미지 영역 */
