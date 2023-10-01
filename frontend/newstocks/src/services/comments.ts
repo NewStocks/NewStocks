@@ -6,6 +6,7 @@ export type Member = {
   id: string
   name: string
   profileImage: string
+  role: string
 }
 
 export type Comment = {

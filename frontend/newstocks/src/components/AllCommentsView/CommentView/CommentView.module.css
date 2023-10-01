@@ -53,6 +53,10 @@
   margin: 0 0 0 28px;
 }
 
+.reply-toggle-icon {
+  margin: 2px 0 0 5px;
+}
+
 .icons div {
   display: flex;
   justify-content: space-between;
@@ -86,7 +90,7 @@
 
 /* 대댓글 박스 */
 .cocomment-box {
-  display: flex;
+  /* display: flex; */
   width: 100%;
   padding: 0 0 0 10px;
 }
@@ -95,4 +99,25 @@
   width: 100%;
   padding: 10px 0 10px 0;
   margin-left: 19px;
+}
+
+.reply-add-button {
+  display: flex;
+  cursor: pointer;
+  border: 1px solid #d9d9d96f;
+  width: 160px;
+  text-align: center;
+  border-radius: 14px;
+  padding: 5px;
+  margin-left: 8px;
+}
+
+.reply-add-button:hover {
+  font-weight: 550;
+  border: 2px solid #d9d9d96f;
+}
+
+.reply-add-icon {
+  margin-top: 3px;
+  margin-right: 8px;
 }
