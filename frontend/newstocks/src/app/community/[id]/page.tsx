@@ -15,6 +15,7 @@ import ImageDetailCarousel from "@/components/ImageDetailCarousel/ImageDetailCar
 import CommentInput from "@/components/CommentInput/CommentInput";
 import LikeButton from "@/components/LikeButton/LikeButton";
 import ScrapButton from "@/components/ScrapButton/ScrapButton"
+import MultiCarousel from "@/components/MultiCarousel/MultiCarousel";
 
 import { IoIosArrowBack } from "react-icons/io";
 import { BsBookmark } from "react-icons/bs";
