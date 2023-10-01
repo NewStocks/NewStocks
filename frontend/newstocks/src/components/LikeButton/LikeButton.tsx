@@ -30,11 +30,11 @@ export default function LikeButton({status, id, count, detail}: Props) {
 
   return (
     <div className={styles.button}>
-      <div>{likeCount}{detail && <span>명이 좋아합니다.</span>}</div>
+      <div className={styles.count}>{likeCount}{detail && <span>명이 좋아합니다.</span>}</div>
       {likeStatus ? 
-        (<BsHandThumbsUpFill className={styles["icons"]} size="21" id={styles.liked} onClick={() => {setLikeStatus(prev => !prev); handleDeleteLike()}}/>)
+        (<BsHandThumbsUpFill className={styles["icons"]} size="20" id={styles.liked} onClick={() => {setLikeStatus(prev => !prev); handleDeleteLike()}}/>)
         : 
-        (<BsHandThumbsUp className={styles["icons"]} size="21" onClick={() => {setLikeStatus(prev => !prev); handleLike()}}/>)
+        (<BsHandThumbsUp className={styles["icons"]} size="20" onClick={() => {setLikeStatus(prev => !prev); handleLike()}}/>)
       }
     </div>
   )

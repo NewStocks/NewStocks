@@ -103,7 +103,7 @@ export default function CardSample({ post }: Props) {
           <LikeButton status={post.isLiked} id={post.id} count={post.likeCount}/>
           </div>
           <div><BiCommentDetail className={styles["icons"]} size="21"/><p>{post.replyCount}</p></div>
-          <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div>
+          {/* <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div> */}
         </div>
       </div>
     </StyledLink>

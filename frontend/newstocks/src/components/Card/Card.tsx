@@ -113,7 +113,7 @@ export default function Card({post}: Props) {
           <LikeButton status={post.isLiked} id={post.id} count={post.likeCount}/>
           </div>
           <div><p>{post.replyCount}</p><BiCommentDetail className={styles["icons"]} size="21"/></div>
-          <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div>
+          {/* <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div> */}
         </div>
       </div>
     </div>

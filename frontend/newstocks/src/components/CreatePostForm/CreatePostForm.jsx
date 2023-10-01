@@ -136,7 +136,7 @@ export default function CreatePostForm({ work }) {
   
     if (work==="update") {
       const id = window.location.search;
-      const modifiedId = id.replace(/\?/g, '')
+      const modifiedId = id.replace(/[?=]/g, '');
       setNoteId(modifiedId)
       console.log('id', modifiedId)
       getPostDetail(modifiedId)
