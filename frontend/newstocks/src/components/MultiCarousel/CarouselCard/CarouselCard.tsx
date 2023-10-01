@@ -92,6 +92,7 @@ export default function CardSample({ post }: Props) {
 
         <div className={styles["time"]}>{post.settingDate?.slice(0, 16)}</div>
       </div>
+      </StyledLink>
 
       <div className={styles["bottom-container"]}>
         <div className={styles["tag-container"]}>
@@ -102,11 +103,10 @@ export default function CardSample({ post }: Props) {
           <div className={styles["like-button"]}>
           <LikeButton status={post.isLiked} id={post.id} count={post.likeCount}/>
           </div>
-          <div><BiCommentDetail className={styles["icons"]} size="21"/><p>{post.replyCount}</p></div>
+          <div><div className={styles["comment-count"]}>{post.replyCount}</div><BiCommentDetail className={styles["icons"]} size="21"/></div>
           {/* <div><AiOutlineShareAlt className={styles["icons"]} size="21"/></div> */}
         </div>
       </div>
-    </StyledLink>
     </div>
   )  
 }

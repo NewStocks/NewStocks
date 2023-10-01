@@ -56,7 +56,7 @@ export default function CommunityPage() {
           src={communityLanding}
           alt="note image"
           className={`${styles["landing-main-image"]} ${styles["title-animation"]}`}
-          height={410}
+          height={390}
           />
         </div>
       </div>

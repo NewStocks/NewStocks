@@ -67,8 +67,6 @@
   overflow: hidden;
   white-space: wrap;
   text-overflow: ellipsis;
-
-  border: 1px dotted red;
 }
 
 /* 내용 및 프로필 영역 */
@@ -82,7 +80,7 @@
   line-height: 18px;
   color: rgba(255, 255, 255, 0.818);
 
-  height: 39px;
+  height: 38px;
   line-height: 18px;
 
   overflow: hidden;
@@ -162,4 +160,9 @@
 
 .tag-icons {
   margin: 2px 2px 0 0;
+}
+
+.comment-count {
+  color: rgba(255, 255, 255, 0.818);
+  margin: 0 5px;
 }
