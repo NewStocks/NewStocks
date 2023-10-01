@@ -167,7 +167,6 @@ export default function Newstab() {
             }
           });
           setNewsData(filteredNewsData)
-          console.log(filteredNewsData)
           // setNewsData(newsData)
           const datenews: DateNewsItem[]=[]
 					res.data.forEach((item:any) => {
@@ -232,7 +231,6 @@ export default function Newstab() {
 						}
 					});
           setdateValuenews(datevaluenews)
-          console.log(valuenews)
         })
         .catch((err) => {
           console.log(err);
