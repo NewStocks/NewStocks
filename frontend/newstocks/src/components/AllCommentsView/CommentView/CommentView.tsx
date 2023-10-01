@@ -10,7 +10,7 @@ import { BiCommentDots } from "react-icons/bi"
 import { MdOutlineArrowDropDownCircle } from "react-icons/md"
 
 import { likeComment, deleteLikeComment } from '@/services/comments'
-import { getAllReplies, createReply, deleteReply } from "@/services/replies"
+import { getAllReplies, createReply, deleteReply, updateReply } from "@/services/replies"
 
 import CommentInput from '@/components/CommentInput/CommentInput'
 import CoCommentView from '@/components/AllCommentsView/CoCommentView/CoCommentView'
@@ -67,6 +67,12 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
     .then((res) => {console.log(res); getAllReplies(id).then(res => {console.log(res); setReplyList(res.data)})})
   }
 
+  // 대댓글 수정 관리
+  const UpdateReplyApi = (commentId: string, content: string, replyId: string) => {
+    updateReply(commentId, content, replyId)
+    .then((res) => {console.log(res); getAllReplies(id).then(res => {console.log(res); setReplyList(res.data)})})
+  }
+
   // 해당 댓글의 대댓글 불러오기
   const HandleReplyList = () => {
     getAllReplies(id)
@@ -75,8 +81,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
   
   return (
     <>
-    {!updateToggle ?
-    (<div className={styles["comment-container"]}>
+    <div className={styles["comment-container"]}>
 
       <div className={styles["profile"]}>
         <Image
@@ -89,7 +94,8 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
         <div className={styles["profile-name"]}>{memberDto.name}</div>
         <div className={styles["time"]}>23.08.30 11:41</div>
       </div>
-
+    {!updateToggle ?
+    (<>
       <pre className={styles["content"]}>
         {content}
       </pre>
@@ -112,10 +118,11 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
         </div>
         )}
       </div>
-
-    </div>)
-     : (<CommentInput id={id} postId={postId} type="update" UpdateCommentApi={UpdateCommentApi} handleUpdateToggle={handleUpdateToggle} content={content}/>)
+    </>
+    )
+    : (<CommentInput id={id} postId={postId} type="update" UpdateCommentApi={UpdateCommentApi} handleUpdateToggle={handleUpdateToggle} content={content}/>)
     }
+    </div>
     {replyListToggle && <div className={styles["cocomment-box"]}>
       {/* <hr/> */}
       <div className={styles["cocomment-input"]}>
@@ -125,7 +132,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
           <BsSendPlus size={17} className={styles["reply-add-icon"]}/>대댓글 작성하기
         </div>}
       </div>
-      {ReplyList && ReplyList.map(reply => {console.log(reply); return (<CoCommentView reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id}/>)})}
+      {ReplyList && ReplyList.map(reply => {console.log(reply); return (<CoCommentView reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
     </div>}
     </>
   );

@@ -5,8 +5,9 @@ import Image from "next/image";
 
 type Props = {
   id: string
+  commentId?: string
   postId?: string
-  type: "comment" | "cocomment" | "update"
+  type: "comment" | "cocomment" | "update" | "coUpdate"
   content?: string
   img?: string
   CreateCommentApi?: (id: string, comment: string) => void;
@@ -14,13 +15,15 @@ type Props = {
   handleUpdateToggle?: () => void;
   UpdateCommentApi?: (postId: string, comment: string, commentId: string) => void;
   handleCreateReplyApi?: (id: string, content: string) => void
+  handleUpdateReplyToggle?: () => void;
+  UpdateReplyApi?: (commentId: string, content: string, replyId: string) => void;
 };
 
-export default function CommentInput({ id, postId, type, content, img, CreateCommentApi, handleToggle, UpdateCommentApi, handleUpdateToggle, handleCreateReplyApi }: Props) {
+export default function CommentInput({ id, commentId, postId, type, content, img, CreateCommentApi, handleToggle, UpdateCommentApi, handleUpdateToggle, handleCreateReplyApi, handleUpdateReplyToggle, UpdateReplyApi }: Props) {
   const [commentInput, setCommentInput] = useState("")
 
   useEffect(() => {
-    if (type==="update") {
+    if (type==="update" || type==="coUpdate") {
       const textarea = document.getElementById(`my-textarea-${id}`) as HTMLInputElement | null;
       if (textarea) {
         textarea.value = `${content}`
@@ -71,6 +74,22 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
     }
   }
 
+  // 대댓글 수정 관리
+  const handleUpdateReply = () => {
+    const comment = commentInput.trim()
+    if (!comment) {
+    alert('변경 내용이 없습니다!')
+    } else {
+      console.log('대댓글 수정 진입!!', id, comment)
+      if (id && commentId && handleUpdateReplyToggle && UpdateReplyApi) {
+        UpdateReplyApi(commentId, comment, id)
+        handleUpdateReplyToggle()
+        setCommentInput("")
+        handleReset()
+      }
+    }
+  }
+
   // 댓글 초기화 관리
   const handleReset = () => {
     const textarea = document.getElementById(`my-textarea-${id}`) as HTMLInputElement | null;
@@ -96,10 +115,13 @@ export default function CommentInput({ id, postId, type, content, img, CreateCom
         />
         <div className={styles["button-box"]}>
           <div className={styles["submit-comment"]}>
-            <button onClick={type==="comment" ? handleReset : type==="cocomment" ? handleToggle : handleUpdateToggle} className={styles["submit-button"]}>{type=='comment' ? '🧹 초기화' : '🗑 취소'}</button>
+            <button onClick={type==="comment" ? handleReset : type==="cocomment" ? handleToggle : type==="update" ? handleUpdateToggle : handleUpdateReplyToggle } className={styles["submit-button"]}>
+              {type=='comment' ? '🧹 초기화' : '🗑 취소'}
+            </button>
           </div>
           <div className={styles["submit-comment"]}>
-            <button className={styles["submit-button"]} onClick={type==="comment" ? handleComment : type==="update" ? handleUpdate : handleCreateReply}>✍ 등록하기</button>
+            <button className={styles["submit-button"]} onClick={type==="comment" ? handleComment : type==="update" ? handleUpdate : type==="cocomment" ? handleCreateReply : handleUpdateReply}>
+              ✍ 등록하기</button>
           </div>
         </div>
       </div>
