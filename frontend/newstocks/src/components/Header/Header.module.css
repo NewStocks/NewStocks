@@ -63,6 +63,9 @@
   align-items: center;
   /* border: 1px dotted white; */
 }
+.header-link:hover {
+  color:#4FE7B0
+}
 .header-logo {
   width: 30px;
   display: inline-block;
