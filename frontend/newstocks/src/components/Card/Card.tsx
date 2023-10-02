@@ -99,7 +99,7 @@ export default function Card({post}: Props) {
         </div>
         </StyledLink>
 
-        <div className={styles["time"]}>{post.settingDate}</div>
+        <div className={styles["time"]}>{post.createdDate}</div>
       </div>
       </StyledLink>
 

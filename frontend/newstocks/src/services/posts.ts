@@ -65,6 +65,7 @@ export type Post = {
   sellPrice: string | null
   sellQuantity: string | null
   settingDate: string
+  createdDate: string
   stockDto: Stock
   title: string
   type: string

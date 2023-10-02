@@ -66,6 +66,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [sellPrice, setSellPrice] = useState(null)
   const [buyQuantity, setBuyQuantity] = useState(null)
   const [sellQuantity, setSellQuantity] = useState(null)
+  const [createdDate, setCreatedDate] = useState("")
+  const [settingDate, setSettingDate] = useState("")
 
   useEffect(() => {
     getPostDetail(id)
@@ -82,6 +84,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setSellPrice(res.sellPrice)
       setBuyQuantity(res.buyQuantity)
       setSellQuantity(res.sellQuantity)
+      setCreatedDate(res.createdDate)
     })
   // eslint-disable-next-line 
   }, [])
@@ -134,7 +137,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
               />
               <div className={styles["profile-name"]}>{member && member.name}</div>
             </div>
-            <div className={styles["time"]}>23.08.30 11:41</div>
+            <div className={styles["time"]}>{createdDate?.slice(0, 16)}</div>
           </div>
 
           <div className={styles["header-right"]}>

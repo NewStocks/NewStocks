@@ -16,6 +16,8 @@ export type Comment = {
   isLiked: boolean
   likeCount: number
   memberDto: Member
+  createdDate: String
+  modifiedDate: String
 }
 
 
