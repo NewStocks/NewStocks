@@ -166,7 +166,7 @@ export default function CommunityNav() {
         </div>
 
         <div className="tab create">
-          <Link href='/community/create' style={{ textDecoration: "none", color: "white"}}><p>글 작성 임시버튼</p></Link>
+          <Link href='/community/create' style={{ textDecoration: "none", color: "white"}}><p>글 작성</p></Link>
         </div>
 
       </div>
