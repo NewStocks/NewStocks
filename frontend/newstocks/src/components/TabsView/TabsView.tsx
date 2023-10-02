@@ -25,7 +25,7 @@ export default function TabsView() {
         <TabHeader />
     
         {tabName?.get('tab') === 'company' && (<CompanyInfo />)}
-        {tabName?.get('tab') === 'chat' && (<Chat />)}
+        {tabName?.get('tab') === 'chat' && (<div style={{display: "flex", justifyContent: "center", marginTop: "20px", color: "#3FBFA0"}}>추후 업데이트될 예정입니다.</div>)}
         {accessToken ? (
           <>
             {tabName?.get('tab') === 'more' && (

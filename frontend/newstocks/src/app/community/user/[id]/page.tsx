@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { getUserInfo } from '@/services/userInfo';
-import UserInfo from '@/components/UserInfo/UserInfo';
-import { UserType } from '@/types/user';
+import { getUserInfo } from "@/services/userInfo";
+import UserInfo from "@/components/UserInfo/UserInfo";
+import { UserType } from "@/types/user";
 
-import styles from './userpage.module.css';
+import styles from "./userpage.module.css";
 import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
-
 
 type Props = {
   params: {
@@ -16,20 +16,35 @@ type Props = {
   };
 };
 
-export default function UserPage({params}: Props) {
+export default function UserPage({ params }: Props) {
+  const router = useRouter();
 
-  const [userInfo, setUserInfo ] = useState<UserType>(  {
-    id: 0, 
+
+  const [userInfo, setUserInfo] = useState<UserType>({
+    id: 0,
     name: "",
-    profileImage: "" 
-  }); 
+    profileImage: "",
+  });
 
-  
   useEffect(() => {
+    async function checkUser() {
+      try {
+        const res = await getUserInfo();
+        if (res.status === 200) {
+          if (res.data.id === params.id) {
+            router.push("/community/user/me");
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  });
 
+  useEffect(() => {
     async function getUserData() {
       try {
-        const res = await getUserInfo(params.id); 
+        const res = await getUserInfo(params.id);
         if (res.status === 200) {
           setUserInfo(res.data);
         }
@@ -38,15 +53,13 @@ export default function UserPage({params}: Props) {
       }
     }
 
-    getUserData(); 
-
-  }, [])
+    getUserData();
+  }, []);
 
   return (
     <div className={styles["main"]}>
-      
-      { userInfo && <UserInfo mypage={false} user={userInfo} /> } 
-      
+      {userInfo && <UserInfo mypage={false} user={userInfo} />}
+
       <div className={styles["user-middle-box"]}>
         {/* <div className={styles["email"]}>
           <div className={styles["title-mini"]}>이메일</div>
@@ -85,7 +98,6 @@ export default function UserPage({params}: Props) {
           </div>
         </div> */}
       </div>
-
     </div>
-  )
+  );
 }

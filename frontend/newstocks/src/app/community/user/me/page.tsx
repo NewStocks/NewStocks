@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "@/recoil/userInfo";
 import { deleteUser, getUserInfo } from "@/services/userInfo";
 import UserInfo from "@/components/UserInfo/UserInfo";
+import { getAccessToken } from '@/utils/token';
 
 import styles from "./mypage.module.css";
 import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
@@ -23,6 +24,12 @@ export default function MyPage({ params }: Props) {
   const router = useRouter(); 
 
   useEffect(() => {
+    const token = getAccessToken();
+
+    if (!token) {
+      router.push("/community")
+      return; 
+    }
     async function getUserData() {
       try {
         const res = await getUserInfo();
