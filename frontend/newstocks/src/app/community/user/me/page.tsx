@@ -1,56 +1,48 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+
 
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '@/recoil/userInfo'; 
 import { getUserInfo } from '@/services/userInfo';
+import UserInfo from '@/components/UserInfo/UserInfo';
 
-import styles from './userpage.module.css';
+import styles from './mypage.module.css';
 import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
 
-export default function MyPage() {
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
-  const [ userInfo, setUserInfo ] = useRecoilState(userInfoState);
+export default function MyPage({params}: Props) {
 
-  //to-do: 로그인할 때 바로 userInfo 들어가도록 하기
-  //to-do: 로그인 안 되어있으면 redirect되도록 하기  
+  const [userInfo, setUserInfo ] = useRecoilState(userInfoState); 
+  
   useEffect(() => {
-    async function getUserData() {
 
-      try {
+    async function getUserData() {
+      try { 
         const res = await getUserInfo();
         if (res.status === 200) {
-          setUserInfo(res.data); 
+          setUserInfo(res.data);
         }
       } catch (e) {
-        console.error(e); 
+        console.error(e);
       }
     }
-    getUserData(); 
+
+    getUserData();  
+
   }, [])
 
   return (
     <div className={styles["main"]}>
       
-      <div className={styles["user-info-box"]}>
-        <div className={styles["profile-box"]}>
-          <div>
-            {userInfo && userInfo.profileImage ? <Image width={115} height={115} src={userInfo.profileImage} alt={userInfo.name} className={styles['profile-img']}/> : "" }
-          </div>
-          <button className={styles["edit-button"]} id={styles["img-edit"]}>Edit</button>
-        </div>
-
-        <div className={styles["nickname-box"]}>
-          <div className={styles["user-nickname-box"]}>
-            <div id={styles["nickname-hello"]}>Hello 👋</div>
-            <div id={styles["nickname-curr"]}>{userInfo ? userInfo.name : "사용자"}</div>
-          </div>
-          <button className={styles["edit-button"]}>Edit</button>
-        </div>
-      </div>
-
+      { userInfo && <UserInfo mypage={true} user={userInfo} /> }
+      
       <div className={styles["user-middle-box"]}>
         <div className={styles["email"]}>
           <div className={styles["title-mini"]}>이메일</div>
