@@ -47,7 +47,7 @@ export default function UserPage({params}: Props) {
       { userInfo && <UserInfo mypage={false} user={userInfo} /> } 
       
       <div className={styles["user-middle-box"]}>
-        <div className={styles["email"]}>
+        {/* <div className={styles["email"]}>
           <div className={styles["title-mini"]}>이메일</div>
           <div className={styles["email-box"]}>
             <div className={styles["email-box-content"]}>
@@ -55,7 +55,7 @@ export default function UserPage({params}: Props) {
               <div id={styles["email-managedby"]}>Managed by Google</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className={styles["activity"]}>
           <div className={styles["title-mini"]}>Today</div>
@@ -85,15 +85,6 @@ export default function UserPage({params}: Props) {
         </div>
       </div>
 
-      <div className={styles["user-analysis-box"]}>
-        <div className={styles["first-analysis"]}>
-          사용자 오답노트 분석 기록 등 ?
-        </div>
-
-        <div className={styles["second-analysis"]}>
-          사용자 오답노트 분석 기록 등 ?
-        </div>
-      </div>
     </div>
   )
 }

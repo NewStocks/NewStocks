@@ -44,7 +44,7 @@ export default function MyPage({params}: Props) {
       { userInfo && <UserInfo mypage={true} user={userInfo} /> }
       
       <div className={styles["user-middle-box"]}>
-        <div className={styles["email"]}>
+        {/* <div className={styles["email"]}>
           <div className={styles["title-mini"]}>이메일</div>
           <div className={styles["email-box"]}>
             <div className={styles["email-box-content"]}>
@@ -52,7 +52,7 @@ export default function MyPage({params}: Props) {
               <div id={styles["email-managedby"]}>Managed by Google</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className={styles["activity"]}>
           <div className={styles["title-mini"]}>Today</div>

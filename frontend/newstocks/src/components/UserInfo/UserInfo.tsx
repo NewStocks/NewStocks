@@ -2,8 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import { useRecoilState } from 'recoil';
-import { userInfoState } from '@/recoil/userInfo'; 
+import { useRecoilState } from "recoil";
+import { userInfoState } from "@/recoil/userInfo";
 import { UserType } from "@/types/user";
 import { editUserInfo } from "@/services/userInfo";
 
@@ -16,8 +16,30 @@ type Props = {
 
 export default function UserInfo({ mypage, user }: Props) {
   const [editingUsername, setEditingUsername] = useState(false);
-  const [ editedUsername, setEditedUsername ] = useState(""); 
-  const [userInfo, setUserInfo ] = useRecoilState(userInfoState);
+  const [editedUsername, setEditedUsername] = useState("");
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+
+  const handleEditPfpFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; 
+    console.log("여기까지")
+    if (file) {
+
+      try {
+        const res = await editUserInfo({ multipartFile: file})
+        
+        console.log(res.data);
+
+        if (res.status === 200 ) {
+          setUserInfo(res.data as UserType);
+        }
+
+      } catch (e) {
+        alert("프로필사진 변경에 실패했습니다.")
+        console.error(e);
+      }
+    }
+  }
 
   const handleEditUserName = () => {
     if (!editingUsername) {
@@ -28,27 +50,24 @@ export default function UserInfo({ mypage, user }: Props) {
   };
 
   const handleConfirmEditUserName = async () => {
-
     if (editedUsername.trim() === "") {
-      setEditingUsername(!editingUsername)
-      return; 
+      setEditingUsername(!editingUsername);
+      return;
     }
 
     try {
-      const res = await editUserInfo({name: editedUsername})
-      console.log(res.data)
-      if (res.status === 200 ) {
-        console.log(typeof res.data)
-        setUserInfo(res.data as UserType); 
-      
+      const res = await editUserInfo({ name: editedUsername });
+      console.log(res.data);
+      if (res.status === 200) {
+        setUserInfo(res.data as UserType);
       }
     } catch (e) {
-      alert("닉네임 변경에 실패했습니다.")
-      console.error(e); 
+      alert("닉네임 변경에 실패했습니다.");
+      console.error(e);
     } finally {
-      setEditingUsername(!editingUsername)
+      setEditingUsername(!editingUsername);
     }
-  }
+  };
 
   return (
     <div className={styles["user-info-box"]}>
@@ -67,9 +86,12 @@ export default function UserInfo({ mypage, user }: Props) {
           )}
         </div>
         {mypage && (
-          <button className={styles["edit-button"]} id={styles["img-edit"]}>
-            Edit
-          </button>
+          <>
+            <input type="file" name="editProfileImage" id="editProfileImage" style={{display: "none"}} accept="image/*" onChange={handleEditPfpFile}/>
+            <label className={`${styles["edit-button"]} ${styles["img-edit"]}`} htmlFor="editProfileImage">
+              수정
+            </label>
+          </>
         )}
       </div>
 
@@ -84,7 +106,9 @@ export default function UserInfo({ mypage, user }: Props) {
           </div>
           <input
             className={styles["nickname-change-input"]}
-            style={{ display: editingUsername ? "inline" : "none" }} value={editedUsername} onChange={(e)=>setEditedUsername(e.target.value)}
+            style={{ display: editingUsername ? "inline" : "none" }}
+            value={editedUsername}
+            onChange={(e) => setEditedUsername(e.target.value)}
           />
         </div>
         {mypage && (

@@ -36,9 +36,11 @@
   cursor: pointer;
 }
 
-#img-edit {
-  margin-top: 10px;
-  margin-left: 35px;
+.img-edit {
+  width: 115px; 
+  display: flex;
+  justify-content: center; 
+  margin: 10px auto 0px;
 }
 
 .nickname-box {
