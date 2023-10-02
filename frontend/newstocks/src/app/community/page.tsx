@@ -17,12 +17,19 @@ import { IoIosArrowForward } from "react-icons/io"
 
 import { getHotPostsList } from '@/services/postsReturn'
 
+import { addAccessTokenToHeaders } from '@/utils/token';
+
 export default function CommunityPage() {
   const [posts, setPosts] = useState([])
+  const [accessToken, setAccessToken] = useState(false)
   
   useEffect(() => {
     getHotPostsList()
     .then(res => setPosts(res.data.slice(0, 10)))
+
+    const token = addAccessTokenToHeaders()
+    // console.log(token['access-token'])
+    if (token) {setAccessToken(true)}
 
   }, [])
   // const posts = await getHotPostsList()
@@ -71,12 +78,19 @@ export default function CommunityPage() {
 
       <div className={styles["sorted-note-box"]}>
         <div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
+        {accessToken ? (
         <div className={styles["carousel-container"]}>
           <CarouselCardBox posts={posts}/>
-        </div>
+        </div>)
+        :(
+        <div className={styles["mynote-out-box"]}>
+          <div>NEWStocks에 가입해 인기노트를 확인해보세요!</div>
+          <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={17} className={styles["login-icon"]}/></div>
+        </div> 
+        )}
       </div>
 
-      <LandingFooter />
+      {/* <LandingFooter /> */}
 
     </div>
   )
