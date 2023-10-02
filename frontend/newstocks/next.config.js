@@ -29,6 +29,15 @@ const nextConfig = {
       }
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: "/community/user", 
+        destination: "/community/user/me", 
+        permanent: false, 
+      }
+    ]
+  }
   // async redirects() {
   //   return [
   //     {

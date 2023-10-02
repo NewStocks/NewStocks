@@ -1,28 +1,50 @@
-import styles from './userpage.module.css';
+'use client'
 
+import { useEffect, useState } from 'react';
+
+
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '@/recoil/userInfo'; 
+import { getUserInfo } from '@/services/userInfo';
+import UserInfo from '@/components/UserInfo/UserInfo';
+
+import styles from './mypage.module.css';
 import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
 
-export default function MyPage() {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export default function MyPage({params}: Props) {
+
+  const [userInfo, setUserInfo ] = useRecoilState(userInfoState); 
+  
+  useEffect(() => {
+
+    async function getUserData() {
+      try { 
+        const res = await getUserInfo();
+        if (res.status === 200) {
+          setUserInfo(res.data);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    getUserData();  
+
+  }, [])
+
   return (
     <div className={styles["main"]}>
       
-      <div className={styles["user-info-box"]}>
-        <div className={styles["profile-box"]}>
-          <div></div>
-          <button className={styles["edit-button"]} id={styles["img-edit"]}>Edit</button>
-        </div>
-
-        <div className={styles["nickname-box"]}>
-          <div className={styles["user-nickname-box"]}>
-            <div id={styles["nickname-hello"]}>Hello 👋</div>
-            <div id={styles["nickname-curr"]}>Anima Ag.</div>
-          </div>
-          <button className={styles["edit-button"]}>Edit</button>
-        </div>
-      </div>
-
+      { userInfo && <UserInfo mypage={true} user={userInfo} /> }
+      
       <div className={styles["user-middle-box"]}>
-        <div className={styles["email"]}>
+        {/* <div className={styles["email"]}>
           <div className={styles["title-mini"]}>이메일</div>
           <div className={styles["email-box"]}>
             <div className={styles["email-box-content"]}>
@@ -30,7 +52,7 @@ export default function MyPage() {
               <div id={styles["email-managedby"]}>Managed by Google</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className={styles["activity"]}>
           <div className={styles["title-mini"]}>Today</div>
