@@ -3,7 +3,7 @@ import styles from './mycards.module.css'
 import { useEffect, useState } from 'react';
 
 import { Post } from '@/services/posts' 
-import { getMyPosts, getPheedPosts } from '@/services/sortedPosts'
+import {getMyPosts, getPheedPosts, getScrappedPosts} from '@/services/sortedPosts'
 
 import Card from '@/components/Card/Card';
 
@@ -28,6 +28,9 @@ export default function MyCards({ type }: Props) {
     } else if (type==="following") {
       getPheedPosts()
       .then((res) =>{setPosts(res.data); console.log(res.data)})
+    } else if (type==="scrap") {
+      getScrappedPosts()
+      .then((res) => {setPosts(res.data); console.log(res.data)})
     }
 
   }, [type])
@@ -47,7 +50,13 @@ export default function MyCards({ type }: Props) {
       <div className={styles["title-big"]}>🤔 현재 나의 노트가 없습니다 !</div>
       <div>주식 오답노트를 작성하고 나의 투자를 회고해보세요!</div>
     </div>
-    ) 
+    )
+    : type==="scrap" ? (
+    <div>
+      <div className={styles["title-big"]}>🤔 현재 스크랩한 노트가 없습니다 !</div>
+      <div>주식 오답노트를 스크랩하고 보다 많은 노트들을 확인해보세요!</div>
+    </div>
+    )
     : (<div>노트가 없습니다.</div>)}
   
   </section>;
