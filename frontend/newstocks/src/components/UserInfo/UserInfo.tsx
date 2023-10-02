@@ -38,7 +38,7 @@ export default function UserInfo({ mypage, user }: Props) {
           setIsFollowing(containsUser);
         }
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
     checkFollowingList();
@@ -50,14 +50,14 @@ export default function UserInfo({ mypage, user }: Props) {
       try {
         const res = await editUserInfo({ multipartFile: file });
 
-        console.log(res.data);
+        // console.log(res.data);
 
         if (res.status === 200) {
           setUserInfo(res.data as UserType);
         }
       } catch (e) {
         alert("프로필사진 변경에 실패했습니다.");
-        console.error(e);
+        // console.error(e);
       }
     }
   };
@@ -78,13 +78,13 @@ export default function UserInfo({ mypage, user }: Props) {
 
     try {
       const res = await editUserInfo({ name: editedUsername });
-      console.log(res.data);
+      // console.log(res.data);
       if (res.status === 200) {
         setUserInfo(res.data as UserType);
       }
     } catch (e) {
       alert("닉네임 변경에 실패했습니다.");
-      console.error(e);
+      // console.error(e);
     } finally {
       setEditingUsername(!editingUsername);
     }
@@ -97,13 +97,13 @@ export default function UserInfo({ mypage, user }: Props) {
 
     try {
       const res = await followUser(user.id);
-      console.log(res);
+      // console.log(res);
 
       if (res.status === 200) {
         setIsFollowing(!isFollowing);
       }
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -114,14 +114,14 @@ export default function UserInfo({ mypage, user }: Props) {
 
     try {
       const res = await unfollowUser(user.id);
-      console.log(res); 
+      // console.log(res); 
 
       if (res.status === 200) {
         setIsFollowing(!isFollowing); 
       }
 
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 

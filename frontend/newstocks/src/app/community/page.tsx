@@ -36,7 +36,7 @@ export default function CommunityPage() {
 
   }, [])
   // const posts = await getHotPostsList()
-  console.log('posts', posts)
+  // console.log('posts', posts)
 
   return ( 
     <div className={styles.main}>

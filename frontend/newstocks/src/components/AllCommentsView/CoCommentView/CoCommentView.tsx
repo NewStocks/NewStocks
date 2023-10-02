@@ -26,14 +26,14 @@ export default function CoCommentView({ reply, name, commentId, HandleDeleteRepl
   // 대댓글 좋아요 추가
   const handleLike = () => {
     likeReply(reply.id)
-    .then(res => console.log(res))
+    .then(res => {})
     .then(() => {setLikeCount(likeCount + 1); setLikeStatus(prev=>!prev)})
   }
 
   // 대댓글 좋아요 취소
   const handleDeleteLike = () => {
     deleteLikeReply(reply.id)
-    .then(res => console.log(res))
+    .then(res => {})
     .then(() => {setLikeCount(likeCount -1); setLikeStatus(prev=>!prev)})
   }
   

@@ -26,13 +26,13 @@ export default function MyCards({ type }: Props) {
 
     if (type==="my") {
       getMyPosts()
-      .then((res) =>{setPosts(res.data); console.log(res.data)})
+      .then((res) =>{setPosts(res.data);})
     } else if (type==="following") {
       getPheedPosts()
-      .then((res) =>{setPosts(res.data); console.log(res.data)})
+      .then((res) =>{setPosts(res.data);})
     } else if (type==="scrap") {
       getScrappedPosts()
-      .then((res) => {setPosts(res.data); console.log(res.data)})
+      .then((res) => {setPosts(res.data);})
     }
 
   }, [type])

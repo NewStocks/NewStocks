@@ -37,7 +37,7 @@ export default function MyPage({ params }: Props) {
           setUserInfo(res.data);
         }
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
 

@@ -15,7 +15,7 @@ export default function FilterableCards() {
   const pagesPerBlock = 10; // 각 블록당 표시할 페이지 수
 
   useEffect(() => {
-    getPostsAll().then((res) =>{setPosts(res.data); console.log(res.data)})
+    getPostsAll().then((res) =>{setPosts(res.data);})
   }, [])
 
   if (!posts) {

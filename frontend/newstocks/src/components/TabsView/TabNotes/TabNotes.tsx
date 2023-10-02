@@ -40,7 +40,7 @@ export default function TabNotes({ code }: TabProps) {
 					);
 			
 					setNote(slicedNote);
-          console.log(slicedNote)
+          // console.log(slicedNote)
 
           // setNote(notecode);
           const datenote: any[] = [];
@@ -57,7 +57,7 @@ export default function TabNotes({ code }: TabProps) {
           setdateNote(datenote);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
     fetchData();

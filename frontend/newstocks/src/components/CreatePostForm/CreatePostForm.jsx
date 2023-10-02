@@ -143,11 +143,11 @@ export default function CreatePostForm({ work }) {
       const id = window.location.search;
       const modifiedId = id.replace(/[?=]/g, '');
       setNoteId(modifiedId)
-      console.log('id', modifiedId)
+      // console.log('id', modifiedId)
       getPostDetail(modifiedId)
       .then(res => res.data)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         if (res) {
           if (res.buyDate) {setStartDate(new Date(res.buyDate))}
           if (res.buyPrice) {setBuyPrice(res.buyPrice)}
@@ -228,7 +228,7 @@ export default function CreatePostForm({ work }) {
         imageList.forEach((image) => {
           if (image.file) {
             formData.append("multipartFileList", image.file)
-            console.log('file input')
+            // console.log('file input')
           }
         })
       }
@@ -287,8 +287,8 @@ export default function CreatePostForm({ work }) {
   
 
   async function UpdateNote() {
-    console.log(imageList)
-    console.log(deletedImages)
+    // console.log(imageList)
+    // console.log(deletedImages)
 
     const formData = new FormData();
 
@@ -299,12 +299,12 @@ export default function CreatePostForm({ work }) {
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
 
-    console.log('buyDate', buyDate)
+    // console.log('buyDate', buyDate)
 
     await HandleImageList(formData)
 
     // window.URL.revokeObjectURL(image.url);
-    console.log('noteId', noteId)
+    // console.log('noteId', noteId)
 
     const handleFormData = () => {
       formData.append("id", noteId)

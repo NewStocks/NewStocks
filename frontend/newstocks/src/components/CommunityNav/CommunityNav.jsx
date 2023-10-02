@@ -71,7 +71,7 @@ export default function CommunityNav() {
           setUserInfo(res.data); 
         }
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
 

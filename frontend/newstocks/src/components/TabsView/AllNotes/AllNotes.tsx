@@ -36,7 +36,7 @@ export default function TabNotes({ code }: TabProps) {
           //     notecode.push(item);
           //   }
           // });
-          console.log(res.data)
+          // console.log(res.data)
           const notecode = res.data.reverse();
 					// notecode.sort((a, b) => {
 					// 	const dateA = new Date(a.settingDate).getTime();
@@ -50,11 +50,11 @@ export default function TabNotes({ code }: TabProps) {
 					);
 			
 					setNote(slicedNote);
-					console.log(slicedNote)
+					// console.log(slicedNote)
 
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
     fetchData();

@@ -5,12 +5,12 @@ import { getMyPosts, getPheedPosts, getHotPosts, getSearchPosts } from './sorted
 
 export async function getMyPostsList() {
   const posts = await getMyPosts();
-  console.log('myposts', posts)
+  // console.log('myposts', posts)
   return posts
 }
 
 export async function getHotPostsList() {
   const posts = await getHotPosts();
-  console.log('posts', posts)
+  // console.log('posts', posts)
   return posts
 }

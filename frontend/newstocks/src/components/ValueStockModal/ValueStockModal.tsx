@@ -43,7 +43,7 @@ export default function ValueStockModal({ code }: ModalProps) {
             setStockData(stockData)
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
           });
       };
 
@@ -61,7 +61,7 @@ export default function ValueStockModal({ code }: ModalProps) {
         setValueChains(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     };
     fetchData();

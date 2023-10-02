@@ -62,7 +62,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
     getPostDetail(id)
     .then(res => res.data)
     .then(res => {
-      console.log(res)
+      // console.log(res)
       setMember(res.memberDto)
       setComments(res.replyResDtoList)
       setStock(res.stockDto)
@@ -85,17 +85,17 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
   // 댓글 삭제 관리
   const DeleteCommentApi = (postId: string, commentId: string) => {
-    console.log(postId, commentId, 'delete 해보자')
+    // console.log(postId, commentId, 'delete 해보자')
     deleteComment(postId, commentId)
-    .then((res) => console.log(res))
-    .then(() => console.log('sucess!!'))
-    .then(() => getComments(postId).then((res) => {setComments(res.data); console.log(res.data)}))
+    .then((res) => {})
+    .then(() => {})
+    .then(() => getComments(postId).then((res) => {setComments(res.data); }))
   }
 
   // 노트 삭제
   const DeleteNoteApi = (postId: string) => {
     deletePost(postId)
-    .then(() => console.log("delete-sucess"))
+    .then(() => {})
     .then(() => router.push("/community/mine?page=my"))
   }
 

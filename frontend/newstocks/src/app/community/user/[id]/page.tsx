@@ -37,7 +37,7 @@ export default function UserPage({ params }: Props) {
           }
         }
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
     checkUser(); 
@@ -51,7 +51,7 @@ export default function UserPage({ params }: Props) {
           setUserInfo(res.data);
         }
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
 

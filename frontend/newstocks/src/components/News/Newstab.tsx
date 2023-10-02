@@ -204,7 +204,7 @@ export default function Newstab() {
 					setdateNews(filtereddateNewsData)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 
@@ -237,7 +237,7 @@ export default function Newstab() {
           setdateValuenews(datevaluenews)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 

@@ -36,7 +36,7 @@ export default function LikeStockTab() {
         // console.log(response);
         setAllFavoriteStocks(response.data);
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
     getData();
@@ -61,7 +61,7 @@ export default function LikeStockTab() {
           { stockId: stock.id, stockName: stock.name },
         ]);
       } catch (e) {
-        console.error(e);
+        // console.error(e);
         alert("등록에 실패했습니다.");
       }
     };
@@ -80,7 +80,7 @@ export default function LikeStockTab() {
       });
       setAllFavoriteStocks(changedStockList);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       alert("삭제에 실패했습니다.");
     }
   };
