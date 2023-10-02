@@ -10,7 +10,7 @@ import { FcGoogle } from 'react-icons/fc'
 export default function LoginButtons() {
   const kakaoLoginHandler = () => {
     const REST_API_KEY = '63c9797738fedd0efff04b806ed9cba0'
-    const REDIRECT_URI = 'http://localhost:3000/auth/login/kakao'
+    const REDIRECT_URI = 'https://www.newstocks.kr/auth/login/kakao'
     const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   
     window.location.href = link
@@ -20,7 +20,7 @@ export default function LoginButtons() {
 
   const googleLoginHandler = () => {
     const REST_API_KEY = '679511983072-6lgubsthb92sucrglp1cddt91g29er1n.apps.googleusercontent.com'
-    const REDIRECT_URI = 'http://localhost:3000/auth/login/google'
+    const REDIRECT_URI = 'https://www.newstocks.kr/auth/login/google'
     const link = `https://accounts.google.com/o/oauth2/auth?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&access_type=offline&prompt=consent&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`
     window.location.href = link
 

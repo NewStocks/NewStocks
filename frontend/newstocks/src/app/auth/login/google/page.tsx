@@ -12,7 +12,7 @@ export default function GoogleLogin() {
       axios({
         method: 'post',
         // url: `${BASE_URL}/auth/login/google`,
-        url: `http://localhost:8200/auth/login/google`,
+        url: `https://www.newstocks.kr/api/auth/login/google`,
         data: { code }})
         .then((res) => {
           localStorage.setItem('access-token' , res.data.accessToken)
