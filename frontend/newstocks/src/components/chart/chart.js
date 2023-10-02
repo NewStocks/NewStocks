@@ -494,27 +494,15 @@ export default function ChartComponent() {
           <div className="tradingview-widget-container__widget"></div>
         </div>
           </div>
-
         </div>
-        {/* <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
-        <ValueChainModal isOpen={isValueModalOpen} onClose={closeValueChainModal} code={code}/> */}
-        {chartData.valuechain ? (
           <div className='valuechain'>
             <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
             <div className='value2'><ChartModal id='valueinfo2'/></div>
           </div>
-        ) : 
-        // 벨류체인 없을때는??
-          <div className='valuechain'>
-            <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
-            <div className='value2'><ChartModal id='valueinfo2'/></div>
-          </div>
-        }
-
       </div>
       <div className="chartbox">
         <div className="chart">
-          <div ref={chartContainerRef} style={{ width: '900px', height: '400px' }}>
+          <div ref={chartContainerRef} style={{ width: '899px', height: '400px' }}>
           </div>
         </div>
       </div>

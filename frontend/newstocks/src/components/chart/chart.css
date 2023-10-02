@@ -26,6 +26,7 @@
   }
   .chartbox {
     display: flex;
+    /* border: 1px solid #5a5a5ada; */
   }
 
 /* 차트 헤더 */
@@ -35,8 +36,8 @@
     justify-content: space-between;
     height: 42px;
     border-left: 1px solid #5a5a5ada;
-    border-right: 1px solid #5a5a5ada;
-    /* width: 900px */
+    /* border-right: 1px solid #5a5a5ada; */
+    width: 902px
   }
   .headerinfo {
     height: 6vh;
@@ -56,7 +57,7 @@
   .stockinfo {
     margin-left: 20px;
     width: 550px;
-    height:100%
+    height:42px
   }
   #star {
     color: yellow;
@@ -71,7 +72,7 @@
     float: right;
     color: yellow;
     align-items: center;
-    width: 10vw;
+    width: 150px;
     height: 6vh;
   }
   .value {
