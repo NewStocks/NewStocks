@@ -40,12 +40,12 @@ export default async function MynotesPage({ searchParams }: Props) {
         {searchParams.page=='scrap' && (
           <>
           <div className={styles["page-title"]}>스크랩 노트</div>
-          {/* <div className={styles["my-button-box"]}>
-            <div className={styles["sorted-Button-width"]}><Button text="종목별" sorted={true}></Button></div>
-            <div className={styles["sorted-Button-width"]}><Button text="최신순" sorted={true}></Button></div>
-          </div> */}
+          <div className={styles["my-button-box"]}>
+            <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
+            <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div>
+          </div>
           <div className={styles["cards-container"]}>
-            <FilterableCards />
+            <MyCards type="scrap"/>
           </div>
           </>
         )}

@@ -10,7 +10,7 @@
   flex-direction: column;
   white-space: nowrap; 
   text-overflow: ellipsis;
-
+  height: 86px;
 }
 
 .like-title {
