@@ -62,6 +62,8 @@ export default function CreatePostForm({ work }) {
   const [sellPrice, setSellPrice] = useState(null)
   const [sellQuantity, setSellQuantity] = useState(null)
 
+  const [settingDate, setSettingDate] = useState(new Date())
+
   const router = useRouter();
 
   const changeImageList = (url, file) => {
@@ -239,9 +241,9 @@ export default function CreatePostForm({ work }) {
     if (editor) {content = editor.getHTML()}
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
+    const setDate = settingDate?.toISOString().slice(0,-5)
 
-    console.log('buyDate', buyDate)
-
+    console.log("setDate: ", setDate);
     await HandleImageList(formData)
 
     // window.URL.revokeObjectURL(image.url);
@@ -254,6 +256,7 @@ export default function CreatePostForm({ work }) {
       // formData.append("linkList", linkList)
       formData.append("content", content)
       if (buyDate) {formData.append("buyDate", buyDate)}
+      if (setDate) {formData.append("settingDate", setDate)}
       if (buyPrice) {formData.append("buyPrice", buyPrice)}
       if (buyQuantity){formData.append("buyQuantity", buyQuantity)}
       if (sellDate) {formData.append("sellDate", sellDate)}
@@ -359,6 +362,26 @@ export default function CreatePostForm({ work }) {
         )}
       </div>
 
+      <div className={styles["date-pick-box"]}>
+        <div>표기일</div>
+              <DatePicker
+                className={styles["datePicker"]}
+                dateFormat="yyyy-MM-dd"
+                calendarClassName={styles["calenderWrapper"]}
+                dayClassName={(d) =>
+                  d.getDate() === settingDate?.getDate()
+                    ? styles.selectedDay
+                    : styles.unselectedDay
+                }
+                selected={settingDate || new Date()}
+                onChange={(date) => setSettingDate(date)}
+                isClearable
+                // startDate={new Date()}
+                placeholderText="날짜를 입력해주세요!"
+                locale={ko}
+              />
+      </div>
+
       <div className={styles["invest-container"]}>
         <div className={styles["invest-box"]}>
           <div className={styles["date-pick-box"]}>
@@ -378,7 +401,7 @@ export default function CreatePostForm({ work }) {
               // startDate={new Date()}
               placeholderText="날짜를 입력해주세요!"
               locale={ko}
-            /> 
+            />  
           </div>
           <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} defaultValue={buyQuantity && buyQuantity} className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
           <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={buyPrice && buyPrice} onChange={(e) => setBuyPrice(e.target.value)}/></div>
