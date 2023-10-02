@@ -61,62 +61,66 @@ export default function MyCards({ type }: Props) {
     setCurrentPage(endPage + 1);
   };
 
-  return <section className={styles["section"]}>
-    {posts ? (
-      posts?.map((post, index) => <Card key={index} post={post} />)
-    )
-    : type==="following" ? (
-      <div>
-        <div className={styles["title-big"]}>🤔 현재 팔로잉 노트가 없습니다 !</div>
-        <div>다양한 사용자들을 팔로우하고 보다 많은 노트들을 확인해보세요!</div>
-      </div>
-    )
-    : type==="my" ? (
+  return (
     <div>
-      <div className={styles["title-big"]}>🤔 현재 나의 노트가 없습니다 !</div>
-      <div>주식 오답노트를 작성하고 나의 투자를 회고해보세요!</div>
-    </div>
-    )
-    : type==="scrap" ? (
-    <div>
-      <div className={styles["title-big"]}>🤔 현재 스크랩한 노트가 없습니다 !</div>
-      <div>주식 오답노트를 스크랩하고 보다 많은 노트들을 확인해보세요!</div>
-    </div>
-    )
-    : (<div>노트가 없습니다.</div>)}
-    <div>
+      <section className={styles["section"]}>
+        {posts ? (
+          posts?.map((post, index) => <Card key={index} post={post} />)
+        )
+        : type==="following" ? (
+          <div>
+            <div className={styles["title-big"]}>🤔 현재 팔로잉 노트가 없습니다 !</div>
+            <div>다양한 사용자들을 팔로우하고 보다 많은 노트들을 확인해보세요!</div>
+          </div>
+        )
+        : type==="my" ? (
+        <div>
+          <div className={styles["title-big"]}>🤔 현재 나의 노트가 없습니다 !</div>
+          <div>주식 오답노트를 작성하고 나의 투자를 회고해보세요!</div>
+        </div>
+        )
+        : type==="scrap" ? (
+        <div>
+          <div className={styles["title-big"]}>🤔 현재 스크랩한 노트가 없습니다 !</div>
+          <div>주식 오답노트를 스크랩하고 보다 많은 노트들을 확인해보세요!</div>
+        </div>
+        )
+        : (<div>노트가 없습니다.</div>)}
+        <div>
 
-    </div>
-    <div className={styles['page-button-box']}>
-      {currentBlock > 1 && (
-          <button
-              className={`${styles['page-button']} ${styles['prev-button']}`}
-              onClick={handlePrevBlock}
-          >
-            이전
-          </button>
-      )}
+        </div>
+      </section>
+        <div className={styles['page-button-box']}>
+          {currentBlock > 1 && (
+              <button
+                  className={`${styles['page-button']} ${styles['prev-button']}`}
+                  onClick={handlePrevBlock}
+              >
+                이전
+              </button>
+          )}
 
-      {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
-          <button
-              key={startPage + index}
-              className={`${styles['page-button']} ${
-                  startPage + index === currentPage ? styles['active'] : ''
-              }`}
-              onClick={() => handlePageChange(startPage + index)}
-          >
-            {startPage + index}
-          </button>
-      ))}
+          {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
+              <button
+                  key={startPage + index}
+                  className={`${styles['page-button']} ${
+                      startPage + index === currentPage ? styles['active'] : ''
+                  }`}
+                  onClick={() => handlePageChange(startPage + index)}
+              >
+                {startPage + index}
+              </button>
+          ))}
 
-      {currentBlock < totalBlocks && (
-          <button
-              className={`${styles['page-button']} ${styles['next-button']}`}
-              onClick={handleNextBlock}
-          >
-            다음
-          </button>
-      )}
+          {currentBlock < totalBlocks && (
+              <button
+                  className={`${styles['page-button']} ${styles['next-button']}`}
+                  onClick={handleNextBlock}
+              >
+                다음
+              </button>
+          )}
+        </div>
     </div>
-  </section>;
+  )
 }

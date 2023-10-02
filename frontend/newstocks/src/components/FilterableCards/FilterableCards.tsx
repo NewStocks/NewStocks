@@ -43,6 +43,7 @@ export default function FilterableCards() {
   };
 
   return (
+    <div>
       <section className={styles['section']}>
         {posts
         .slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage)
@@ -50,6 +51,7 @@ export default function FilterableCards() {
             <Card key={index} post={post} />
         ))}
 
+      </section>
         <div className={styles['page-button-box']}>
           {currentBlock > 1 && (
               <button
@@ -81,6 +83,6 @@ export default function FilterableCards() {
               </button>
           )}
         </div>
-      </section>
+    </div>
   );
 }

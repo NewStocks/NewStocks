@@ -36,7 +36,7 @@
 .cards-container {
   width: 103.3%;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   flex-wrap: wrap;
   /* flex-direction: column; */
   margin: 35px 0 0 0;
