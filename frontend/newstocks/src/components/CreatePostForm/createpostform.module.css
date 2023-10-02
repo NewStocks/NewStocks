@@ -190,7 +190,7 @@
 }
 
 .invest-box {
-  margin: 15px 15px 15px 0;
+  margin: 15px 15px 15px 0px;
 }
 
 .selectedDay,
@@ -252,7 +252,7 @@
   height: 43px;
   cursor: pointer;
   padding: 8px 12px 7px 18px;
-
+  margin-bottom: 7px;
   display: flex;
 }
 
@@ -310,4 +310,8 @@
   position: absolute;
   right: 0px;
   bottom: 5px;
+}
+
+.check-invest {
+  margin-bottom: 20px;
 }
