@@ -66,6 +66,9 @@ export default function CreatePostForm({ work }) {
 
   const router = useRouter();
 
+  const [showInvestFields, setShowInvestFields] = useState(false);
+
+
   const changeImageList = (url, file) => {
     setimageList([...imageList, { url, file }]);
   };
@@ -234,7 +237,7 @@ export default function CreatePostForm({ work }) {
   async function CreateNote() {
     const formData = new FormData();
 
-    const stockId = stock.id
+    const stockId = stock?.id
     const privacy = checkPrivate
     const title = titleRef.current.value
     let content = null
@@ -243,7 +246,14 @@ export default function CreatePostForm({ work }) {
     const sellDate = endDate?.toISOString().slice(0,-5)
     const setDate = settingDate?.toISOString().slice(0,-5)
 
-    console.log("setDate: ", setDate);
+    // console.log("setDate: ", setDate);
+    if (!stockId) {
+      alert("주식종목을 입력하세요.");
+      return;
+    } else if (!title) {
+      alert("제목을 입력하세요.");
+      return;
+    }
     await HandleImageList(formData)
 
     // window.URL.revokeObjectURL(image.url);
@@ -364,66 +374,73 @@ export default function CreatePostForm({ work }) {
 
       <div className={styles["date-pick-box"]}>
         <div>표기일</div>
-              <DatePicker
-                className={styles["datePicker"]}
-                dateFormat="yyyy-MM-dd"
-                calendarClassName={styles["calenderWrapper"]}
-                dayClassName={(d) =>
-                  d.getDate() === settingDate?.getDate()
-                    ? styles.selectedDay
-                    : styles.unselectedDay
-                }
-                selected={settingDate || new Date()}
-                onChange={(date) => setSettingDate(date)}
-                isClearable
-                // startDate={new Date()}
-                placeholderText="날짜를 입력해주세요!"
-                locale={ko}
-              />
+          <DatePicker
+            className={styles["datePicker"]}
+            dateFormat="yyyy-MM-dd"
+            calendarClassName={styles["calenderWrapper"]}
+            dayClassName={(d) =>
+              d.getDate() === settingDate?.getDate()
+                ? styles.selectedDay
+                : styles.unselectedDay
+            }
+            selected={settingDate || new Date()}
+            onChange={(date) => setSettingDate(date)}
+            isClearable
+            // startDate={new Date()}
+            placeholderText="날짜를 입력해주세요!"
+            locale={ko}
+          />
       </div>
-
+      <div className={styles["check-invest"]}>
+        <Checkbox colorScheme='red' isChecked={showInvestFields} onChange={() => setShowInvestFields(!showInvestFields)}>
+          <span>매수/매도 입력하기</span>
+        </Checkbox>
+      </div>
       <div className={styles["invest-container"]}>
-        <div className={styles["invest-box"]}>
-          <div className={styles["date-pick-box"]}>
-            <div>매수</div>
-            <DatePicker
-              className={styles["datePicker"]}
-              dateFormat="yyyy-MM-dd"
-              calendarClassName={styles["calenderWrapper"]}
-              dayClassName={(d) =>
-                d.getDate() === startDate?.getDate()
-                  ? styles.selectedDay
-                  : styles.unselectedDay
-              }
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              isClearable
-              // startDate={new Date()}
-              placeholderText="날짜를 입력해주세요!"
-              locale={ko}
-            />  
-          </div>
-          <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} defaultValue={buyQuantity && buyQuantity} className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
-          <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={buyPrice && buyPrice} onChange={(e) => setBuyPrice(e.target.value)}/></div>
-        </div>
-        <div className={styles["invest-box"]}>
-          <div className={styles["date-pick-box"]}>
-            <div>매도</div>
-            <DatePicker
-              className={styles["datePicker"]}
-              calendarClassName={styles["calenderWrapper"]}
-              dateFormat="yyyy-MM-dd"
-              dayClassName={(d) => (d.getDate() === endDate?.getDate() ? styles.selectedDay : styles.unselectedDay)}
-              selected={endDate}
-              onChange={(date) => {setEndDate(date)}}
-              isClearable
-              placeholderText="날짜를 입력해주세요!"
-              locale={ko}
-            />
-          </div> 
-          <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} defaultValue={sellQuantity && sellQuantity} className={styles["stock-input-box"]} onChange={(e) => setSellQuantity(e.target.value)}/></div>
-          <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={sellPrice && sellPrice} onChange={(e) => setSellPrice(e.target.value)}/></div>
-        </div>
+      {showInvestFields && (
+          <>
+            <div className={styles["invest-box"]}>
+              <div className={styles["date-pick-box"]}>
+                <div>매수</div>
+                <DatePicker
+                  className={styles["datePicker"]}
+                  dateFormat="yyyy-MM-dd"
+                  calendarClassName={styles["calenderWrapper"]}
+                  dayClassName={(d) =>
+                    d.getDate() === startDate?.getDate()
+                      ? styles.selectedDay
+                      : styles.unselectedDay
+                  }
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  isClearable
+                  placeholderText="날짜를 입력해주세요!"
+                  locale={ko}
+                />  
+              </div>
+              <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} defaultValue={buyQuantity && buyQuantity} className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
+              <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={buyPrice && buyPrice} onChange={(e) => setBuyPrice(e.target.value)}/></div>
+            </div>
+            <div className={styles["invest-box"]}>
+              <div className={styles["date-pick-box"]}>
+                <div>매도</div>
+                <DatePicker
+                  className={styles["datePicker"]}
+                  calendarClassName={styles["calenderWrapper"]}
+                  dateFormat="yyyy-MM-dd"
+                  dayClassName={(d) => (d.getDate() === endDate?.getDate() ? styles.selectedDay : styles.unselectedDay)}
+                  selected={endDate}
+                  onChange={(date) => {setEndDate(date)}}
+                  isClearable
+                  placeholderText="날짜를 입력해주세요!"
+                  locale={ko}
+                />
+              </div>
+              <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} defaultValue={sellQuantity && sellQuantity} className={styles["stock-input-box"]} onChange={(e) => setSellQuantity(e.target.value)}/></div>
+              <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={sellPrice && sellPrice} onChange={(e) => setSellPrice(e.target.value)}/></div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className={styles["title-input-box"]}>
