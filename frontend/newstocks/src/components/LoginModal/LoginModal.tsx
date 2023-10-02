@@ -16,9 +16,12 @@ import Logo from '@/components/Logo/Logo'
 import LoginButtons from './LoginButtons/LoginButtons'
 
 import { PiArrowSquareRightBold } from "react-icons/pi"
+import { AiOutlineGlobal } from 'react-icons/ai'
+import Link from 'next/link'
+import { IoIosAddCircleOutline } from 'react-icons/io'
 
 type Props = {
-  type: 'nav' | 'header' | undefined
+  type: 'nav' | 'headerLogin' | 'headerCommunity' | 'note' | 'favorite' | undefined
 }
 
 export default function LoginModal({type}: Props) {
@@ -32,8 +35,26 @@ export default function LoginModal({type}: Props) {
   };
 
   return (
-    <>  
-      {type === "nav" ? 
+    <>
+      {/* 관심 종목 추가 */}
+      {type === "favorite" && (
+        <div className={styles["like-button"]}>
+          <button onClick={onOpen}>
+          종목 추가
+          <IoIosAddCircleOutline id={styles["like-button-icon"]} />
+          </button>
+        </div>
+      )}
+      {/* 차트 페이지에서 노트 탭 클릭했을 때 뜨는 것들 */}
+      {type === "note" && (
+        <div className={styles["mynote-out-box"]}>
+          <div>NEWStocks에 가입해 오답 노트를 관리해보세요!</div>
+          <button onClick={onOpen}>
+            <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={17} className={styles["login-icon"]}/></div>
+          </button>
+        </div>
+      )}
+      {/* {type === "nav" && 이제 nav바에 로그인버튼 없어도 되니 지워도 됨
         (
           accessToken ? (
             // 로그인 했고 nav바 일 때 넣어야할 것들 ex) 프로필 이미지, 내 정보로 가기 등
@@ -48,7 +69,10 @@ export default function LoginModal({type}: Props) {
               </button>
             </>
           )
-        ) : (
+        )
+      } */}
+      {type === "headerLogin" && 
+        (
           accessToken ? (
             <>
               <button className={styles["logout-button"]} onClick={handleLogout}>로그아웃</button>
@@ -59,7 +83,16 @@ export default function LoginModal({type}: Props) {
             </>
           )
         )}
-
+      {type === "headerCommunity" && 
+        (
+          accessToken ? (
+              <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
+          ) : (
+            <>
+              <button><AiOutlineGlobal size="28" onClick={onOpen}/></button>
+            </>
+          )
+        )}
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
