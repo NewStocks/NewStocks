@@ -3,5 +3,9 @@ import { UserType } from "@/types/user";
 
 export const userInfoState= atom<UserType | null>({
   key: 'userInfo',
-  default: null,
+  default: {
+    id: 0, 
+    name: "",
+    profileImage: "" 
+  },
 });

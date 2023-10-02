@@ -43,7 +43,7 @@
 
 .nickname-box {
   margin-left: 10px;
-  width: 400px;
+  width: 500px;
 }
 
 .user-nickname-box {
@@ -59,4 +59,22 @@
 #nickname-curr {
   font-size: 45px;
   font-weight: 700;
+}
+
+.nickname-change-input {
+  font-size: 45px;
+  font-weight: 700;
+  color: black
+
+}
+
+.cancel-button {
+  width: 70px;
+  height: 30px;
+  border: 0;
+  background-color: transparent;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+
 }

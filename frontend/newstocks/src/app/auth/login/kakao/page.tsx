@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 // import { redirect } from 'next/navigation'
 import axios from 'axios';
+import { BASE_URL } from '@/utils/url';
 
 export default function KakaoLogin() {
   // const code = window.location.search;
@@ -12,11 +13,14 @@ export default function KakaoLogin() {
       axios({
         method: 'post',
         url: `http://localhost:8200/auth/login/kakao`,
+        // url: `${BASE_URL}/auth/login/kakao`,
         data: { code }})
         .then((res) => {
-          console.log(res);
-          localStorage.setItem('token' , res.data?.memberDto.id)
+          localStorage.setItem('access-token' , res.data.accessToken)
           window.location.href = '/'
+        })
+        .catch((error) => {
+          console.error("에러 발생:", error);
         })
       }
     })

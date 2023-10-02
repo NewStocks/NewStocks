@@ -17,7 +17,11 @@ type Props = {
 
 export default function UserPage({params}: Props) {
 
-  const [userInfo, setUserInfo ] = useState<UserType|null>(null); 
+  const [userInfo, setUserInfo ] = useState<UserType|null>(  {
+    id: 0, 
+    name: "",
+    profileImage: "" 
+  }); 
 
   
   useEffect(() => {
@@ -40,7 +44,7 @@ export default function UserPage({params}: Props) {
   return (
     <div className={styles["main"]}>
       
-      { userInfo && <UserInfo mypage={false} user={userInfo} /> }
+      { userInfo && <UserInfo mypage={false} user={userInfo} /> } 
       
       <div className={styles["user-middle-box"]}>
         <div className={styles["email"]}>

@@ -19,7 +19,7 @@ const PointText = styled.span`
 `;
 
 
-export default function LoginModal() {
+export default function ValueModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>

@@ -44,9 +44,9 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
         <div className={styles["time"]}>23.08.30 11:41</div>
       </div>
 
-      <div className={styles["content"]}>
+      <pre className={styles["content"]}>
         {content}
-      </div>
+      </pre>
 
       <div className={styles["icons"]}>
         <div>
