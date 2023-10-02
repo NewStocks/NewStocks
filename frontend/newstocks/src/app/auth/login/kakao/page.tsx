@@ -12,7 +12,7 @@ export default function KakaoLogin() {
     if (code) {
       axios({
         method: 'post',
-        url: `https://www.newstocks.kr/api/auth/login/kakao`,
+        url: `http://localhost:8200/auth/login/kakao`,
         data: { code }})
         .then((res) => {
           localStorage.setItem('access-token' , res.data.accessToken)
