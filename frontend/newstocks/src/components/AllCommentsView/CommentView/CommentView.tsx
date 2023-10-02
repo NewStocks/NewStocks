@@ -21,7 +21,7 @@ type Props = {
   DeleteCommentApi: (postId: string, commentId: string) => void
 }
 
-export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto }, postId, UpdateCommentApi, DeleteCommentApi} : Props) {
+export default function CommentView({comment: { id, content, hasAuthority, isLiked, likeCount, memberDto, createdDate, modifiedDate }, postId, UpdateCommentApi, DeleteCommentApi} : Props) {
   const [likeStatus, setLikeStatus] = useState(isLiked)
   const [currLikeCount, setCurrLikeCount] = useState(likeCount)
   const [cocommentToggle, setcocommentToggle] = useState(false);
@@ -90,7 +90,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
           className={styles["profile-img"]}
         />
         <div className={styles["profile-name"]}>{memberDto.name}</div>
-        <div className={styles["time"]}>23.08.30 11:41</div>
+        <div className={styles["time"]}>{createdDate?.slice(0, 16)}</div>
       </div>
     {!updateToggle ?
     (<>
