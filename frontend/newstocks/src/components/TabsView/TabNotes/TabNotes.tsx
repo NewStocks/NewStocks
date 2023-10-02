@@ -32,7 +32,13 @@ export default function TabNotes({ code }: TabProps) {
     const fetchData = () => {
       fetchMyReviewNoteData()
         .then((res) => {
-          const notecode = res.data.reverse();
+          const notecode: any[] = [];
+          res.data.forEach((item: any) => {
+            if (item.stockDto.id === code) {
+              notecode.push(item);
+            }
+          });
+          notecode.reverse();
 
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,
