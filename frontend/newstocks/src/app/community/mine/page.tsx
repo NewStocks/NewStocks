@@ -29,8 +29,8 @@ export default async function MynotesPage({ searchParams }: Props) {
           <>
           <div className={styles["page-title"]}>나의 노트</div>
           <div className={styles["my-button-box"]}>
-            <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
-            <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div>
+            {/* <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
+            <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div> */}
           </div>
           <div className={styles["cards-container"]}>
             <MyCards type="my"/>
@@ -41,8 +41,8 @@ export default async function MynotesPage({ searchParams }: Props) {
           <>
           <div className={styles["page-title"]}>스크랩 노트</div>
           <div className={styles["my-button-box"]}>
-            <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
-            <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div>
+            {/* <div className={styles["sorted-Button-width"]}><Button text="종목별" kindof="sorted" highlight={false}></Button></div>
+            <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div> */}
           </div>
           <div className={styles["cards-container"]}>
             <MyCards type="scrap"/>
@@ -53,8 +53,8 @@ export default async function MynotesPage({ searchParams }: Props) {
           <>
           <div className={styles["page-title"]}>팔로잉 노트</div>
           <div className={styles["my-button-box"]}>
-            <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="Anima Ag." kindof="sorted" highlight={false}></Button></div>
-            <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="오준석바보" kindof="sorted" highlight={false}></Button></div>
+            {/* <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="Anima Ag." kindof="sorted" highlight={false}></Button></div>
+            <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="오준석바보" kindof="sorted" highlight={false}></Button></div> */}
           </div>
           <div className={styles["cards-container"]}>
             <MyCards type="following" />
