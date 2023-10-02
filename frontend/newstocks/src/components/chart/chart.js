@@ -90,10 +90,7 @@ export default function ChartComponent() {
     setIsStarred(!isStarred);
   };
 
-  const[chartData, setChartData] = useState({
-    valuechain: true,
-    name:'',
-  })
+  const[chartData, setChartData] = useState({})
 
   useEffect(() => {
     if (code && allFavoriteStocks.some((item) => item.stockId === code)) {
@@ -109,14 +106,10 @@ export default function ChartComponent() {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
-        const chartname = res.data.name
+        console.log(res.data)
         if (res.status === 200) {
           setStockInfo(res.data);
         }
-        setChartData((prevdata) => ({
-          ...prevdata,
-          name: chartname
-        }))
       })
       .catch((err) => {
         console.log(err);
@@ -124,6 +117,8 @@ export default function ChartComponent() {
     };
     fetchStockData(code);
   },[code])
+
+  console.log(stockInfo)
 
   useEffect(() => {
     
@@ -486,7 +481,7 @@ export default function ChartComponent() {
               size="small"
               stockMarket=""
               stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
-            />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+            />{stockInfo.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
             {/* 여기에 위젯 */}

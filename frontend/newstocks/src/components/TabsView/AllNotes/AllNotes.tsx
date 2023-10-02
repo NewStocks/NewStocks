@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link'; 
 import styled from 'styled-components';
-import { fetchReviewNoteData } from '@/services/chart';
+import { fetchStockReviewNoteData } from '@/services/chart';
 import Notepreview from '@/components/Notepreview/Notepreview';
 import StockProfile from "@/components/StockProfile/StockProfile";
 import styles from './AllNotes.module.css';
@@ -28,19 +28,21 @@ export default function TabNotes({ code }: TabProps) {
 
   useEffect(() => {
     const fetchData = () => {
-      fetchReviewNoteData()
+      fetchStockReviewNoteData(code)
         .then((res) => {
-          const notecode: any[] = [];
-          res.data.forEach((item: any) => {
-						if (item.stockDto.id == code) {
-              notecode.push(item);
-            }
-          });
-					notecode.sort((a, b) => {
-						const dateA = new Date(a.settingDate).getTime();
-						const dateB = new Date(b.settingDate).getTime();
-						return dateB - dateA;
-					});
+          // const notecode: any[] = [];
+          // res.data.forEach((item: any) => {
+					// 	if (item.stockDto.id == code) {
+          //     notecode.push(item);
+          //   }
+          // });
+          console.log(res.data)
+          const notecode = res.data.reverse();
+					// notecode.sort((a, b) => {
+					// 	const dateA = new Date(a.settingDate).getTime();
+					// 	const dateB = new Date(b.settingDate).getTime();
+					// 	return dateB - dateA;
+					// });
 
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,
@@ -78,10 +80,9 @@ export default function TabNotes({ code }: TabProps) {
           <StyledLink key={item.id} href={`/community/${item.id}`}>
             <Notepreview 
 							title = {item.title}
-							// date = {item.settingDate}
-							date = {item.settingDate.split(' ')[0]}
-							name = {item.memberDto.name}
-							profile= {item.memberDto.profileImage}
+							date={item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
+							name = {item.memberDto?.name}
+							profile= {item.memberDto?.profileImage}
 							content = {item.content}
 							image = {item.reviewNoteImageDtoList[0]?.url}
               likeCount = {item.likeCount}
