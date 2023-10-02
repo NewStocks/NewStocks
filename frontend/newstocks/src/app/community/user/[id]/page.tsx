@@ -39,7 +39,8 @@ export default function UserPage({ params }: Props) {
         console.error(e);
       }
     }
-  });
+    checkUser(); 
+  }, []);
 
   useEffect(() => {
     async function getUserData() {
