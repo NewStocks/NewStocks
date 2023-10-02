@@ -5,6 +5,9 @@ import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineStar } from "react-icons/ai"
 import { AiOutlineShareAlt } from "react-icons/ai"
 
+import stockimg from '@/assets/stockimg.png'
+import Image from 'next/image';
+
 interface CardSampleProps {
   title: string;
   content: string;
@@ -15,7 +18,11 @@ interface CardSampleProps {
 export default function CardSample({ title, content, author, stock }:CardSampleProps) {
   return (
     <div className={styles['card-container']} id={styles['landing-container']}>
-      <div className={styles['image-container']}></div>
+      <div className={styles['image-container']}>
+        <Image
+					src={stockimg}
+          alt="stockimg"
+				/></div>
 
       <div className={styles['title-container']}>
         <div className={styles['title-left']}>
