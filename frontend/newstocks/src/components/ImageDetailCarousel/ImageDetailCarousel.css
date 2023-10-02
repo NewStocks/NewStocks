@@ -24,7 +24,7 @@
 .embla__slide__img {
   display: block;
   height: var(--slide-height);
-  width: 100%;
+  width: 60%;
   object-fit: cover;
 }
 .embla__slide__number {
