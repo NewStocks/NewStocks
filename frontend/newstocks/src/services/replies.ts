@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/url'
+import { addAccessTokenToHeaders } from '@/utils/token';
 
 export type Member = {
   id: string
@@ -17,10 +18,11 @@ export type Comment = {
 }
 
 // 댓글에 대한 모든 대댓글 조회
-export async function getReplies(id: string) {
+export async function getAllReplies(id: string) {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/reply/${id}/reply-comment`
+   url: `${BASE_URL}/reply/${id}/reply-comment`,
+   headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -29,6 +31,7 @@ export async function createReply(id: string, content: string){
   return await axios({
     method: 'post',
     url: `${BASE_URL}/reply/${id}/reply-comment`,
+    headers: addAccessTokenToHeaders(),
     data: { content }
     })
 }
@@ -38,6 +41,7 @@ export async function updateReply(commentId: string, content: string, replyId: s
   return await axios({
   method: 'patch',
   url: `${BASE_URL}/reply/${commentId}/reply-comment/${replyId}`,
+  headers: addAccessTokenToHeaders(),
   data: { content }
   })
 }
@@ -47,18 +51,24 @@ export async function deleteReply(commentId: string, replyId: string) {
   return await axios({
   method: 'delete',
   url: `${BASE_URL}/reply/${commentId}/reply-comment/${replyId}`,
+  headers: addAccessTokenToHeaders(),
   })
 }
 
-// 댓글 좋아요
+// 대댓글 좋아요
 export async function likeReply(id: string) {
   return await axios({
     method: 'post',
-    url: `${BASE_URL}/reply/reply-comment/${id}/like`
+    url: `${BASE_URL}/reply/reply-comment/${id}/like`,
+    headers: addAccessTokenToHeaders(),
   })
 }
 
-// 댓글 좋아요 취소
+// 대댓글 좋아요 취소
 export async function deleteLikeReply(id: string) {
-  return console.log('아직!')
+  return await axios({
+    method: 'delete',
+    url: `${BASE_URL}/reply/reply-comment/${id}/like`,
+    headers: addAccessTokenToHeaders(),
+  })
 }

@@ -25,10 +25,18 @@
 
 .sort-button-box {
   display: flex;
+  border: 1px dotted red;
+  width: 50%;
 }
 
 .sorted-Button-width {
   width: 130px;
+  height: 37px;
+  margin-right: 20px;
+}
+
+.search-Button-width {
+  width: 125px;
   height: 37px;
   margin-right: 20px;
 }

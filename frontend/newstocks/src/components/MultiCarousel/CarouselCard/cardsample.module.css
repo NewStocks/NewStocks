@@ -1,7 +1,12 @@
 .card-container {
-  height: 340px;
+  height: 315px;
   width: 250px;
   background-color: rgba(176, 176, 176, 0.107);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-container:hover {
+  transform: translate(-5px, -5px);
 }
 
 /* 이미지 영역 */
@@ -17,11 +22,8 @@
 /* title 영역 */
 .title-container {
   display: flex;
-  padding: 8px 13px;
-}
-
-.title-left {
-  width: 90%;
+  justify-content: space-between;
+  padding: 3px 10px;
 }
 
 .stock-box {
@@ -34,6 +36,7 @@
   background-color: #d9d9d96f;
   border-radius: 100%;
   margin-right: 8px;
+  margin-top: 5px;
 }
 
 .stock-name {
@@ -41,27 +44,48 @@
   margin: 3px 0 0 0;
 }
 
-.title-right {
-  width: 10%;
-  padding: 2% 0 0 3%;
+.stock-id {
+  font-size: 14px;
+  color: #d9d9d9a8;
+
+  padding: 5px 0 0 0;
+  margin: 0 0 0 5px;
+}
+
+.scrap-icon {
+  margin: 2px 0 0 0;
 }
 
 .title {
   font-weight: 500;
   font-size: 15px;
   margin-top: 7px;
+  padding: 0 10px;
+  width: 230px;
+  height: 23px;
+
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
 }
 
 /* 내용 및 프로필 영역 */
 .content-container {
   padding: 5px 9px;
-  height: 85px;
+  height: 53px;
 }
 
 .content {
   font-size: 12px;
   line-height: 18px;
   color: rgba(255, 255, 255, 0.818);
+
+  height: 38px;
+  line-height: 18px;
+
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
 }
 
 .content-bottom-container {
@@ -74,10 +98,24 @@
   display: flex;
 }
 
-.time {
+.profile-img {
+  width: 20px;
+  height: 20px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+
+.profile-name {
+  margin-top: 2px;
   font-size: 13px;
+}
+
+.time {
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.818);
-  padding: 5px 0 0 0;
+  padding: 7px 0 0 0;
 }
 
 .bottom-container {
@@ -110,6 +148,7 @@
 }
 
 .tag-container div {
+  display: flex;
   border-radius: 50px;
   font-size: 10px;
   height: 17px;
@@ -117,4 +156,13 @@
   padding-top: 1px;
   background-color: #4fe7af4f;
   margin-right: 6px;
+}
+
+.tag-icons {
+  margin: 2px 2px 0 0;
+}
+
+.comment-count {
+  color: rgba(255, 255, 255, 0.818);
+  margin: 0 5px;
 }

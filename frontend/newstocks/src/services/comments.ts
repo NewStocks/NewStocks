@@ -6,6 +6,7 @@ export type Member = {
   id: string
   name: string
   profileImage: string
+  role: string
 }
 
 export type Comment = {
@@ -60,7 +61,8 @@ export async function deleteComment(PostId: string, commentId: string) {
 export async function likeComment(id: string) {
   return await axios({
     method: 'post',
-    url: `${BASE_URL}/review-note/reply/${id}/like`
+    url: `${BASE_URL}/review-note/reply/${id}/like`,
+    headers: addAccessTokenToHeaders(),
   })
 }
 
@@ -68,7 +70,8 @@ export async function likeComment(id: string) {
 export async function deleteLikeComment(id: string) {
   return await axios({
     method: 'delete',
-    url: `${BASE_URL}/review-note/reply/${id}/like`
+    url: `${BASE_URL}/review-note/reply/${id}/like`,
+    headers: addAccessTokenToHeaders(),
   })
 }
 

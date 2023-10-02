@@ -10,9 +10,10 @@ type Props = {
   status: boolean
   id: string
   count: number
+  detail?: boolean
 }
 
-export default function ScrapButton({status, id, count}: Props) {
+export default function ScrapButton({status, id, count, detail}: Props) {
   const [scrap, setScrap] = useState(status)
   const [scrapCount, setScrapCount] = useState(count)
   
@@ -29,7 +30,7 @@ export default function ScrapButton({status, id, count}: Props) {
   }
 
   return <div className={styles.button}>
-          <div className={styles["scrap-count"]}>{scrapCount}</div>
+          <div className={styles["scrap-count"]}>{scrapCount}{detail && <span>명이 스크랩했습니다</span>}</div>
           {scrap ? 
             (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap()}}/>)
             : 

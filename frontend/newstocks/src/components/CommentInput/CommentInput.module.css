@@ -1,6 +1,8 @@
 .commentinput-container {
+  margin: 8px 0;
   padding: 0 6px;
   display: flex;
+  width: 100%;
 }
 
 .writer {
