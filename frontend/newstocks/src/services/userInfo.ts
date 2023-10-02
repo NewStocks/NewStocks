@@ -1,9 +1,9 @@
 import axios from "axios";
-// import { BASE_URL } from '../utils/url'
+import { BASE_URL } from '../utils/url'
 import { addAccessTokenToHeaders } from "@/utils/token";
 
 
-const BASE_URL = "http://localhost:8200";
+// const BASE_URL = "http://localhost:8200";
 
 export const getUserInfo = async (userId?: string) => {
   if (userId) {
