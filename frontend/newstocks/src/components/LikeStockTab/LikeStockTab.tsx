@@ -17,6 +17,9 @@ import {
   postFavoriteStock,
   deleteFavoriteStock,
 } from "@/services/favoriteStocks";
+import { getAccessToken } from '@/utils/token';
+import LoginModal from '../LoginModal/LoginModal';
+import { Provider } from '@/utils/ChakraProvider';
 
 export default function LikeStockTab() {
   const router = useRouter();
@@ -109,13 +112,20 @@ export default function LikeStockTab() {
     <div className={styles["container"]}>
       <div className={styles["like-header"]}>
         <div className={styles["like-title"]}>관심 종목</div>
-        <div
-          className={styles["like-button"]}
-          onClick={() => setAddtoggle((prev) => !prev)}
-        >
-          종목 추가
-          <IoIosAddCircleOutline id={styles["like-button-icon"]} />
-        </div>
+        {getAccessToken() ? (
+          <div
+            className={styles["like-button"]}
+            onClick={() => setAddtoggle((prev) => !prev)}
+          >
+            종목 추가
+            <IoIosAddCircleOutline id={styles["like-button-icon"]} />
+          </div>
+          ) : (
+            <Provider>
+              <LoginModal type="favorite"/>
+            </Provider>
+          )
+        }
         <div
           className={styles["like-search"]}
           style={{ display: addtoggle ? "block" : "none" }}

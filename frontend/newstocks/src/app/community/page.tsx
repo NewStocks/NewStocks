@@ -17,7 +17,10 @@ import { IoIosArrowForward } from "react-icons/io"
 
 import { getHotPostsList } from '@/services/postsReturn'
 
-import { addAccessTokenToHeaders } from '@/utils/token';
+import { addAccessTokenToHeaders, getAccessToken } from '@/utils/token';
+import LoginModal from '@/components/LoginModal/LoginModal';
+import { Provider } from '@/utils/ChakraProvider';
+import Link from 'next/link';
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState([])
@@ -68,13 +71,20 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      <div className={styles["sorted-note-box"]}>
-        <div className={styles["sorted-note-title"]}>✍나의 노트 모아보기<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
+      {/* <div className={styles["sorted-note-box"]}>
+        <div className={styles["sorted-note-title"]}>
+          ✍나의 노트 모아보기
+            <Link href="/your-target-url">
+              더보기
+              <IoIosArrowForward className={styles["sorted-note-icon"]} />
+            </Link>
+        </div>
         <div className={styles["mynote-out-box"]}>
+          여기에 나의 노트 목록 들어가야할듯?
           <div>NEWStocks에 가입해 나의 주식 오답노트를 관리해보세요!</div>
           <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={17} className={styles["login-icon"]}/></div>
         </div>
-      </div>
+      </div> */}
 
       <div className={styles["sorted-note-box"]}>
         <div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
