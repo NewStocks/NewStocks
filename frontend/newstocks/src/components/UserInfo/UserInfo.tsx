@@ -1,13 +1,19 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 import { useRecoilState } from "recoil";
 import { userInfoState } from "@/recoil/userInfo";
 import { UserType } from "@/types/user";
-import { editUserInfo } from "@/services/userInfo";
+import {
+  editUserInfo,
+  getFollowingInfo,
+  followUser,
+  unfollowUser,
+} from "@/services/userInfo";
 
 import styles from "./UserInfo.module.css";
+import { BiUserPlus, BiUserMinus } from "react-icons/bi";
 
 type Props = {
   mypage: boolean;
@@ -18,28 +24,43 @@ export default function UserInfo({ mypage, user }: Props) {
   const [editingUsername, setEditingUsername] = useState(false);
   const [editedUsername, setEditedUsername] = useState("");
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [isFollowing, setIsFollowing] = useState(false);
 
-
-  const handleEditPfpFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; 
-    console.log("여기까지")
-    if (file) {
-
+  useEffect(() => {
+    async function checkFollowingList() {
       try {
-        const res = await editUserInfo({ multipartFile: file})
-        
-        console.log(res.data);
-
-        if (res.status === 200 ) {
-          setUserInfo(res.data as UserType);
+        const res = await getFollowingInfo();
+        if (res.status === 200) {
+          const followingList = res.data;
+          const containsUser = followingList.some((followinguser: UserType) => {
+            return followinguser.id === user.id;
+          });
+          setIsFollowing(containsUser);
         }
-
       } catch (e) {
-        alert("프로필사진 변경에 실패했습니다.")
         console.error(e);
       }
     }
-  }
+    checkFollowingList();
+  }, [user]);
+
+  const handleEditPfpFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const res = await editUserInfo({ multipartFile: file });
+
+        console.log(res.data);
+
+        if (res.status === 200) {
+          setUserInfo(res.data as UserType);
+        }
+      } catch (e) {
+        alert("프로필사진 변경에 실패했습니다.");
+        console.error(e);
+      }
+    }
+  };
 
   const handleEditUserName = () => {
     if (!editingUsername) {
@@ -69,6 +90,39 @@ export default function UserInfo({ mypage, user }: Props) {
     }
   };
 
+  const handleFollow = async () => {
+    if (user.id === 0) {
+      return;
+    }
+
+    try {
+      const res = await followUser(user.id);
+
+      if (res.status === 200) {
+        setIsFollowing(!isFollowing);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    if (user.id === 0) {
+      return; 
+    }
+
+    try {
+      const res = await unfollowUser(user.id); 
+
+      if (res.status === 200) {
+        setIsFollowing(!isFollowing); 
+      }
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className={styles["user-info-box"]}>
       <div className={styles["profile-box"]}>
@@ -87,8 +141,18 @@ export default function UserInfo({ mypage, user }: Props) {
         </div>
         {mypage && (
           <>
-            <input type="file" name="editProfileImage" id="editProfileImage" style={{display: "none"}} accept="image/*" onChange={handleEditPfpFile}/>
-            <label className={`${styles["edit-button"]} ${styles["img-edit"]}`} htmlFor="editProfileImage">
+            <input
+              type="file"
+              name="editProfileImage"
+              id="editProfileImage"
+              style={{ display: "none" }}
+              accept="image/*"
+              onChange={handleEditPfpFile}
+            />
+            <label
+              className={`${styles["edit-button"]} ${styles["img-edit"]}`}
+              htmlFor="editProfileImage"
+            >
               수정
             </label>
           </>
@@ -98,12 +162,31 @@ export default function UserInfo({ mypage, user }: Props) {
       <div className={styles["nickname-box"]}>
         <div className={styles["user-nickname-box"]}>
           <div id={styles["nickname-hello"]}>Hello 👋</div>
-          <div
-            id={styles["nickname-curr"]}
-            style={{ display: editingUsername ? "none" : "block" }}
-          >
-            {user ? user.name : "사용자"}
+          <div className={styles["nickname-button-box"]}>
+            <div
+              id={styles["nickname-curr"]}
+              style={{ display: editingUsername ? "none" : "block" }}
+            >
+              {user ? user.name : "사용자"}
+            </div>
+            {!mypage &&
+              (isFollowing ? (
+                <button
+                  className={`${styles["unfollow-button"]}`}
+                  onClick={handleUnfollow}
+                >
+                  <BiUserMinus size="35" />
+                </button>
+              ) : (
+                <button
+                  className={styles["follow-button"]}
+                  onClick={handleFollow}
+                >
+                  <BiUserPlus size="35" />
+                </button>
+              ))}
           </div>
+
           <input
             className={styles["nickname-change-input"]}
             style={{ display: editingUsername ? "inline" : "none" }}

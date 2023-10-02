@@ -9,6 +9,7 @@ import { UserType } from '@/types/user';
 import styles from './userpage.module.css';
 import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
 
+
 type Props = {
   params: {
     id: string;
@@ -17,7 +18,7 @@ type Props = {
 
 export default function UserPage({params}: Props) {
 
-  const [userInfo, setUserInfo ] = useState<UserType|null>(  {
+  const [userInfo, setUserInfo ] = useState<UserType>(  {
     id: 0, 
     name: "",
     profileImage: "" 

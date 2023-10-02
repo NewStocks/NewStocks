@@ -1,8 +1,9 @@
 import axios from "axios";
-// import { BASE_URL } from '../utils/url'
+import { BASE_URL } from '../utils/url'
 import { addAccessTokenToHeaders } from "@/utils/token";
 
-const BASE_URL = "http://localhost:8200";
+
+// const BASE_URL = "http://localhost:8200";
 
 export const getUserInfo = async (userId?: string) => {
   if (userId) {
@@ -32,3 +33,20 @@ export const editUserInfo = async (editInfo: editInfo) => {
     headers: addAccessTokenToHeaders({ "Content-Type": "multipart/form-data" }),
   });
 };
+
+
+export const getFollowingInfo = async () => {
+  return axios.get(`${BASE_URL}/follow/following`, { headers: addAccessTokenToHeaders()}); 
+}
+
+export const followUser = async (userId: number) => {
+  return axios.post(`${BASE_URL}/follow/${userId}`, {
+    headers: addAccessTokenToHeaders()
+  })
+}
+
+export const unfollowUser = async (userId: number) => {
+  return axios.delete(`${BASE_URL}/follow/${userId}`, {
+    headers: addAccessTokenToHeaders()
+  })
+}

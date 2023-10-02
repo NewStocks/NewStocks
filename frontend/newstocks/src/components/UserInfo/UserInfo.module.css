@@ -53,6 +53,11 @@
   margin-bottom: 5px;
 }
 
+.nickname-button-box {
+  display: flex; 
+  flex-wrap: wrap;
+}
+
 #nickname-hello {
   font-size: 22px;
   font-weight: 600;
@@ -61,6 +66,7 @@
 #nickname-curr {
   font-size: 45px;
   font-weight: 700;
+  margin-right: 30px;
 }
 
 .nickname-change-input {
@@ -79,4 +85,18 @@
   font-size: 20px;
   cursor: pointer;
 
+}
+
+.follow-button {
+  background-color: transparent;
+  color: #4FE7B0;
+  cursor: pointer; 
+  border-radius: 100%; 
+}
+
+.unfollow-button {
+  background-color: transparent;
+  color: red;
+  cursor: pointer; 
+  border-radius: 100%; 
 }
