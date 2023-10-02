@@ -11,17 +11,18 @@ type Props = {
   id: string
   count: number
   detail?: boolean
+  handleChange?: () => void
 }
 
-export default function ScrapButton({status, id, count, detail}: Props) {
+export default function ScrapButton({status, id, count, detail, handleChange}: Props) {
   const [scrap, setScrap] = useState<boolean>(status)
   const [scrapCount, setScrapCount] = useState<number>(count)
 
-  useEffect(() => {
-    setScrap(status)
-    setScrapCount(count)
-  }, [count])
-  
+  // useEffect(() => {
+  //   setScrap(status)
+  //   setScrapCount(count)
+  // }, [count])
+
   const handleScrap = () => {
     scrapPost(id)
     .then(res => {})
@@ -31,15 +32,17 @@ export default function ScrapButton({status, id, count, detail}: Props) {
   const handleDeleteScrap = () => {
     deleteScrapPost(id)
     .then(res => {})
-    .then(() => setScrapCount(scrapCount -1))
+    .then(() => {
+      setScrapCount(scrapCount -1);
+    })
   }
 
   return <div className={styles.button}>
           <div className={styles["scrap-count"]}>{scrapCount}{detail && <span>명이 스크랩했습니다</span>}</div>
-          {scrap ? 
-            (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap()}}/>)
-            : 
+          {!scrap ? 
             (<FaRegBookmark className={styles["scrap-icon"]} onClick={() => {setScrap(prev => !prev); handleScrap()}}/>)
+          :
+          (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap();}}/>)
           }
         </div>
 }

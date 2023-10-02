@@ -19,9 +19,11 @@ type Props = {
 
 export default function MyCards({ type }: Props) {
   const [posts, setPosts] = useState<Post[] | null>(null)
+  const [checkStatus, setCheckStatus] = useState(false)
   const [currentPage, setCurrentPage] = useState<number>(1);
   const postsPerPage = 6; // 페이지당 표시할 카드 수
   const pagesPerBlock = 10; // 각 블록당 표시할 페이지 수
+  
   useEffect(() => {
 
     if (type==="my") {
@@ -35,7 +37,19 @@ export default function MyCards({ type }: Props) {
       .then((res) => {setPosts(res.data);})
     }
 
-  }, [posts])
+  }, [])
+
+  // useEffect(() => {
+  //   if (type==="scrap") {
+  //     getScrappedPosts()
+  //     .then((res) => {setPosts(res.data);})
+  //   }
+  // }, [checkStatus])
+
+  const handleChange = () => {
+    getScrappedPosts()
+    .then((res) => {setPosts(res.data); console.log(res.data)})
+  }
 
   if (!posts) {
     return <div>Loading...</div>; // 로딩 중 처리 (선택 사항)
@@ -65,7 +79,7 @@ export default function MyCards({ type }: Props) {
     <>
       <section className={styles["section"]}>
         {posts ? (
-          posts?.map((post, index) => <Card key={index} post={post} />)
+          posts?.map((post, index) => <Card key={index} post={post}/>)
         )
         : type==="following" ? (
           <div>
