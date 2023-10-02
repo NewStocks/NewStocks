@@ -42,6 +42,17 @@
   cursor: pointer;
 }
 
+
+.delete-button {
+  width: 100px;
+  height: 30px;
+  border: 0;
+  background-color: transparent;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 #img-edit {
   margin-top: 10px;
   margin-left: 35px;
