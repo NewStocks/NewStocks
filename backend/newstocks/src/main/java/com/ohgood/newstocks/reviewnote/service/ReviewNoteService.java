@@ -405,4 +405,16 @@ public class ReviewNoteService {
         return newsRepository.findById(newsId)
             .orElseThrow(() -> new BadRequestException("해당하는 뉴스가 없습니다."));
     }
+
+    public List<ReviewNoteResDto> findReviewNoteListByStockId(String stockId) {
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockId(stockId);
+        return reviewNoteList.stream()
+            .map(reviewNote -> {
+                ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
+                    reviewNote);
+                reviewNoteResDto.addDetailDtos();
+                return reviewNoteResDto;
+            })
+            .toList();
+    }
 }

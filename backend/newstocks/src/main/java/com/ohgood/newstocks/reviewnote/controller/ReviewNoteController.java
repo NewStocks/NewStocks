@@ -38,6 +38,11 @@ public class ReviewNoteController {
             authentication.getName())), HttpStatus.OK);
     }
 
+    @GetMapping("find-by-stock-id/{stockId}")
+    public ResponseEntity<List<ReviewNoteResDto>> findReviewNoteListByStockId(@PathVariable String stockId){
+        return new ResponseEntity<>(reviewNoteService.findReviewNoteListByStockId(stockId), HttpStatus.OK);
+    }
+
     @PatchMapping
     public ResponseEntity<ReviewNoteResDto> updateReviewNote(
         ReviewNoteUpdateReqDto reviewNoteUpdateReqDto, Authentication authentication) {
