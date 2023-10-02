@@ -407,7 +407,7 @@ public class ReviewNoteService {
     }
 
     public List<ReviewNoteResDto> findReviewNoteListByStockId(String stockId) {
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockId(stockId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalse(stockId);
         return reviewNoteList.stream()
             .map(reviewNote -> {
                 ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(

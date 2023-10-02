@@ -28,4 +28,6 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
     List<ReviewNote> findReviewNotesByStockIdAndMemberId(String stockId, Long memberId);
     
     List<ReviewNote> findByPrivacyFalseAndDeletedFalseAndAndTitleContainingOrContentContaining(String title, String content);
+
+    List<ReviewNote> findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalse(String stockId);
 }
