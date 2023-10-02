@@ -45,6 +45,14 @@ export async function fetchReviewNoteData () {
     headers: addAccessTokenToHeaders(),
     })
 };
+// 모든 오답노트 정보
+export async function fetchStockReviewNoteData (code: string) {
+  return await axios({
+    method: 'get',
+    url: `${BASE_URL}/review-note/find-by-stock-id/${code}`,
+    headers: addAccessTokenToHeaders(),
+    })
+};
 // 나의 오답노트 정보
 export async function fetchMyReviewNoteData () {
   return await axios({
