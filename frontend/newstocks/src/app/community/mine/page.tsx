@@ -33,7 +33,7 @@ export default async function MynotesPage({ searchParams }: Props) {
             <div className={styles["sorted-Button-width"]}><Button text="최신순" kindof="sorted" highlight={false}></Button></div>
           </div>
           <div className={styles["cards-container"]}>
-            <MyCards />
+            <MyCards type="my"/>
           </div>
           </>
         )}
@@ -57,7 +57,7 @@ export default async function MynotesPage({ searchParams }: Props) {
             <div className={styles["sorted-Button-width"]} id={styles["following"]}><Button text="오준석바보" kindof="sorted" highlight={false}></Button></div>
           </div>
           <div className={styles["cards-container"]}>
-            <FilterableCards />
+            <MyCards type="following" />
           </div>
           </>
         )}

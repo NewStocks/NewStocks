@@ -180,7 +180,7 @@ export default function CreatePostForm({ work }) {
         setEditor(initializeEditor)
       })
     }
-  }, [])
+  }, [work])
 
   const deleteImage = (indexToRemove, image) => {
     // imageList.splice(index, 1)
@@ -235,7 +235,8 @@ export default function CreatePostForm({ work }) {
     const stockId = stock.id
     const privacy = checkPrivate
     const title = titleRef.current.value
-    const content = editor.getHTML()
+    let content = null
+    if (editor) {content = editor.getHTML()}
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
 
@@ -280,7 +281,8 @@ export default function CreatePostForm({ work }) {
 
     const privacy = checkPrivate
     const title = titleRef.current.value
-    const content = editor.getHTML()
+    let content = null
+    if (editor) {content = editor.getHTML()}
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
 

@@ -1,7 +1,6 @@
 'use client';
 import styles from './CommentView.module.css';
 import Image from 'next/image';
-import { Comment } from '@/services/comments'
 import { useState } from 'react'
 
 import { BsHandThumbsUp, BsHandThumbsUpFill, BsSendPlus } from "react-icons/bs"
@@ -9,7 +8,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai"
 import { BiCommentDots } from "react-icons/bi"
 import { MdOutlineArrowDropDownCircle } from "react-icons/md"
 
-import { likeComment, deleteLikeComment } from '@/services/comments'
+import { likeComment, deleteLikeComment, Comment } from '@/services/comments'
 import { getAllReplies, createReply, deleteReply, updateReply } from "@/services/replies"
 
 import CommentInput from '@/components/CommentInput/CommentInput'
@@ -28,8 +27,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
   const [cocommentToggle, setcocommentToggle] = useState(false);
   const [replyListToggle, setReplyListToggle] = useState(false);
   const [updateToggle, setUpdateToggle] = useState(false);
-
-  const [ReplyList, setReplyList] = useState(null);
+  const [ReplyList, setReplyList] = useState<Comment[] | null>(null);
 
   // 대댓글 입력 input 활성화 토글
   function handleToggle() {
@@ -132,7 +130,7 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
           <BsSendPlus size={17} className={styles["reply-add-icon"]}/>대댓글 작성하기
         </div>}
       </div>
-      {ReplyList && ReplyList.map(reply => {console.log(reply); return (<CoCommentView reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
+      {ReplyList && ReplyList.map((reply) => {console.log(reply); return (<CoCommentView key={reply.id} reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
     </div>}
     </>
   );
