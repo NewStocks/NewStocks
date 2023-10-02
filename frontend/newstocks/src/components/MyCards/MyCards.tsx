@@ -19,7 +19,9 @@ type Props = {
 
 export default function MyCards({ type }: Props) {
   const [posts, setPosts] = useState<Post[] | null>(null)
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const postsPerPage = 6; // 페이지당 표시할 카드 수
+  const pagesPerBlock = 10; // 각 블록당 표시할 페이지 수
   useEffect(() => {
 
     if (type==="my") {
@@ -34,6 +36,30 @@ export default function MyCards({ type }: Props) {
     }
 
   }, [type])
+
+  if (!posts) {
+    return <div>Loading...</div>; // 로딩 중 처리 (선택 사항)
+  }
+
+  // 현재 페이지의 카드 목록 계산
+  const totalPosts = posts.length;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const totalBlocks = Math.ceil(totalPages / pagesPerBlock);
+  const currentBlock = Math.ceil(currentPage / pagesPerBlock);
+  const startPage = (currentBlock - 1) * pagesPerBlock + 1;
+  const endPage = Math.min(currentBlock * pagesPerBlock, totalPages);
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+  const handlePrevBlock = () => {
+    setCurrentPage(startPage - 1);
+  };
+
+  const handleNextBlock = () => {
+    setCurrentPage(endPage + 1);
+  };
 
   return <section className={styles["section"]}>
     {posts ? (
@@ -58,6 +84,39 @@ export default function MyCards({ type }: Props) {
     </div>
     )
     : (<div>노트가 없습니다.</div>)}
-  
+    <div>
+
+    </div>
+    <div className={styles['page-button-box']}>
+      {currentBlock > 1 && (
+          <button
+              className={`${styles['page-button']} ${styles['prev-button']}`}
+              onClick={handlePrevBlock}
+          >
+            이전
+          </button>
+      )}
+
+      {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
+          <button
+              key={startPage + index}
+              className={`${styles['page-button']} ${
+                  startPage + index === currentPage ? styles['active'] : ''
+              }`}
+              onClick={() => handlePageChange(startPage + index)}
+          >
+            {startPage + index}
+          </button>
+      ))}
+
+      {currentBlock < totalBlocks && (
+          <button
+              className={`${styles['page-button']} ${styles['next-button']}`}
+              onClick={handleNextBlock}
+          >
+            다음
+          </button>
+      )}
+    </div>
   </section>;
 }
