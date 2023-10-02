@@ -58,7 +58,7 @@ export default function UserPage({params}: Props) {
           </div>
         </div> */}
 
-        <div className={styles["activity"]}>
+        {/* <div className={styles["activity"]}>
           <div className={styles["title-mini"]}>Today</div>
           <div className={styles["activity-container"]}>
 
@@ -83,7 +83,7 @@ export default function UserPage({params}: Props) {
             </div>
 
           </div>
-        </div>
+        </div> */}
       </div>
 
     </div>

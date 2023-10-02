@@ -97,6 +97,7 @@ export default function UserInfo({ mypage, user }: Props) {
 
     try {
       const res = await followUser(user.id);
+      console.log(res);
 
       if (res.status === 200) {
         setIsFollowing(!isFollowing);
@@ -112,7 +113,8 @@ export default function UserInfo({ mypage, user }: Props) {
     }
 
     try {
-      const res = await unfollowUser(user.id); 
+      const res = await unfollowUser(user.id);
+      console.log(res); 
 
       if (res.status === 200) {
         setIsFollowing(!isFollowing); 

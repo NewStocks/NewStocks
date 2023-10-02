@@ -3,18 +3,25 @@ import styles from './CommunityNav.module.css';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-
+import { getAccessToken } from '@/utils/token';
 import LoginModal from '@/components/LoginModal/LoginModal'
+import { getUserInfo } from '@/services/userInfo';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '@/recoil/userInfo';
+import { IoIosArrowForward } from 'react-icons/io';
+import Image from 'next/image';
 
 export default function CommunityNav() {
   const [mytoggle, setMytoggle] = useState(false);
   const [pagename, setpageName] = useState(null);
   const [highlight, setHighlight] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const tabsRef = useRef(null);
   const highlightRef = useRef(null);
   const mynoteRef = useRef(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   function mineToggle(pathname) {
     if (pathname?.slice(11)=="mine") {
@@ -54,6 +61,29 @@ export default function CommunityNav() {
       await switchHighlight()
     }, 100);
   }
+
+  useEffect(()=> {
+
+    async function getUserBasicInfo() {
+      try {
+        const res = await getUserInfo();
+        if (res.status === 200) {
+          setUserInfo(res.data); 
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    const token = getAccessToken();
+
+    if (token && token.trim()) {
+      setIsLoggedIn(true); 
+      getUserBasicInfo(); 
+    }
+
+    // eslint-disable-next-line 
+  }, [])
 
   useEffect(() => {
     setHighlight(false)
@@ -135,7 +165,28 @@ export default function CommunityNav() {
       </Link> */}
       
       <div className={`${styles["profile-container"]} tab user`}>
-        <LoginModal type="nav"/>
+        {isLoggedIn ? (
+          <Link href="/community/user/me" style={{textDecoration: "none"}}>
+            <div className={styles["profile-box"]}>
+              <div className={styles["profile-image"]}>
+                <Image width={37} height={37} src={userInfo.profileImage} className={styles["profile-image-pic"]}/>
+              </div>
+              <div className={styles["profile-name"]}>
+                <div>Hello 👋</div>
+                <p className={styles["profile-name-text"]}>{userInfo.name}</p>
+              </div>
+              <div className={styles["profile-button"]}>
+                <IoIosArrowForward
+                  id={styles["profile-button-icon"]}
+                  color="white"
+                />
+              </div>
+            </div>
+          </Link>
+          ) : (
+            <LoginModal type="nav" />
+        )}
+       
       </div>
 
       <div className={styles["nav-container"]}>

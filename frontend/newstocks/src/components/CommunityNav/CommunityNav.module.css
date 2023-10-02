@@ -56,7 +56,8 @@
 .profile-name {
   width: 105px;
   margin: 0 0 0 10px;
-
+  display: flex;
+  flex-direction: column;
   color: white;
   /* border: 1px dotted red; */
 }
@@ -64,14 +65,13 @@
 .profile-name div {
   padding: 2px 0 0 0;
   font-size: 13px;
-  height: 1px;
+
 }
 
-.profile-name p {
+.profile-name-text {
   font-size: 20px;
+  height: 20px; 
   font-weight: 700;
-  height: 1px;
-
   padding: 0;
 }
 
@@ -82,6 +82,13 @@
 
   border-radius: 30%;
   background-color: white;
+  overflow: hidden;
+}
+
+.profile-image-pic {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover;
 }
 
 .profile-button {
