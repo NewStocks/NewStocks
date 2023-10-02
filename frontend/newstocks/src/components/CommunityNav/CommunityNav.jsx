@@ -191,9 +191,14 @@ export default function CommunityNav() {
 
       <div className={styles["nav-container"]}>
         <div className={`${styles["nav-mynote"]} tab mine`}>
-          <Link ref={mynoteRef} href='/community/mine?page=my' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('my')}>
+          {isLoggedIn ?
+          (<Link ref={mynoteRef} href='/community/mine?page=my' style={{ textDecoration: "none", color: "white"}} onClick={() => setpageName('my')}>
             <p>나의 노트</p>
-          </Link>
+          </Link>)
+          :(<LoginModal>
+              <p>나의 노트</p>
+            </LoginModal>
+          )}
           {/* <p><IoIosArrowForward className={styles["nav-mynote-arrow"]}/></p> */}
         </div>
         <ul className={styles["nav-mynote-toggle"]} style={{ display: mytoggle ? "block" : "none" }}>
@@ -209,15 +214,21 @@ export default function CommunityNav() {
         </ul>
 
         <div className="tab all">
-        <Link href='/community/all' style={{ textDecoration: "none", color: "white"}}><p>전체노트</p></Link>
+        {isLoggedIn ? 
+        (<Link href='/community/all' style={{ textDecoration: "none", color: "white"}}><p>전체노트</p></Link>)
+        :(<LoginModal><p>전체노트</p></LoginModal>)}
         </div>
 
         <div className="tab notice">
-          <Link href='/community/notice' style={{ textDecoration: "none", color: "white"}}><p>공지사항</p></Link>
+        {isLoggedIn ? 
+        (<Link href='/community/notice' style={{ textDecoration: "none", color: "white"}}><p>공지사항</p></Link>)
+        :(<LoginModal><p>공지사항</p></LoginModal>)}
         </div>
 
         <div className="tab create">
-          <Link href='/community/create' style={{ textDecoration: "none", color: "white"}}><p>글 작성</p></Link>
+        {isLoggedIn ? 
+        (<Link href='/community/create' style={{ textDecoration: "none", color: "white"}}><p>글 작성</p></Link>)
+        :(<LoginModal><p>글 작성</p></LoginModal>)}
         </div>
 
       </div>

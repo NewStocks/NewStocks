@@ -1,3 +1,5 @@
+'use cline'
+import { useEffect, useState } from "react"
 import styles from './loginmodel.module.css'
 
 import {
@@ -21,12 +23,19 @@ import Link from 'next/link'
 import { IoIosAddCircleOutline } from 'react-icons/io'
 
 type Props = {
-  type: 'nav' | 'headerLogin' | 'headerCommunity' | 'note' | 'favorite' | undefined
+  type?: 'nav' | 'headerLogin' | 'headerCommunity' | 'note' | 'favorite' | undefined
+  children: React.ReactNode;
 }
 
-export default function LoginModal({type}: Props) {
+export default function LoginModal({type, children}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const accessToken = localStorage.getItem("access-token")
+  const [ accessToken, setAccessToken ] = useState<string | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem("access-token");
+    if (token) {setAccessToken(token)}
+  }, [])
+
 
   const handleLogout = () => {
     // 로그아웃 버튼을 눌렀을 때 실행될 코드
@@ -54,10 +63,9 @@ export default function LoginModal({type}: Props) {
           </button>
         </div>
       )}
-      {/* {type === "nav" && 이제 nav바에 로그인버튼 없어도 되니 지워도 됨
+      {type === "nav" &&
         (
           accessToken ? (
-            // 로그인 했고 nav바 일 때 넣어야할 것들 ex) 프로필 이미지, 내 정보로 가기 등
             <>
             </>
           ) : (
@@ -70,7 +78,7 @@ export default function LoginModal({type}: Props) {
             </>
           )
         )
-      } */}
+      }
       {type === "headerLogin" && 
         (
           accessToken ? (
@@ -83,7 +91,7 @@ export default function LoginModal({type}: Props) {
             </>
           )
         )}
-      {type === "headerCommunity" && 
+      {/* {type === "headerCommunity" && 
         (
           accessToken ? (
               <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
@@ -92,7 +100,13 @@ export default function LoginModal({type}: Props) {
               <button><AiOutlineGlobal size="28" onClick={onOpen}/></button>
             </>
           )
-        )}
+        )} */}
+      {!type &&
+      (
+        <section onClick={onOpen}>
+          {children}
+        </section>
+      )}
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
