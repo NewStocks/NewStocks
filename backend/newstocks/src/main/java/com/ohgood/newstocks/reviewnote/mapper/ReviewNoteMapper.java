@@ -50,6 +50,5 @@ public interface ReviewNoteMapper {
             return null;
         }
     }
-
-    void updateReviewNote(ReviewNoteUpdateReqDto reviewNoteUpdateReqDto, @MappingTarget ReviewNote reviewNote);
+//    void updateReviewNote(ReviewNoteUpdateReqDto reviewNoteUpdateReqDto, @MappingTarget ReviewNote reviewNote);
 }

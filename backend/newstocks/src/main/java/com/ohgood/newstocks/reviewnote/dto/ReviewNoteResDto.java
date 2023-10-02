@@ -7,7 +7,6 @@ import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.news.dto.NewsDto;
 import com.ohgood.newstocks.reviewnote.entity.NoteType;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteImage;
-import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLike;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNoteLink;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteImageMapper;
 import com.ohgood.newstocks.reviewnote.mapper.ReviewNoteLinkMapper;
@@ -39,6 +38,8 @@ public class ReviewNoteResDto {
     private LocalDateTime buyDate;
     private LocalDateTime sellDate;
     private LocalDateTime settingDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private NoteType type;
     //    private Boolean display;
     private Boolean privacy;
@@ -74,6 +75,7 @@ public class ReviewNoteResDto {
         this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(this.member);
         this.stockDto = StockMapper.INSTANCE.entityToStockDto(this.stock);
         this.reviewNoteImageDtoList = this.reviewNoteImageList.stream()
+            .filter(reviewNoteImage -> !reviewNoteImage.getDeleted())
             .map(ReviewNoteImageMapper.INSTANCE::entityToReviewNoteImageDto).toList();
         if (reviewNoteLinkList != null) {
             this.reviewNoteLinkDtoList = this.reviewNoteLinkList.stream()
