@@ -19,6 +19,7 @@ import ScrapButton from "@/components/ScrapButton/ScrapButton"
 import MultiCarousel from "@/components/MultiCarousel/MultiCarousel";
 
 import { IoIosArrowBack } from "react-icons/io";
+import { HiMiniArrowTrendingUp } from "react-icons/hi2"
 
 type Member = {
   profileImage: string
@@ -62,6 +63,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [post, setPost] = useState<Post | null>(null)
   const [imageList, setImageList] = useState(null)
   const [imageListLength, setimageListLength] = useState(null)
+  const [buyDate, setBuyDate] = useState(null)
+  const [sellDate, setSellDate] = useState(null)
   const [buyPrice, setBuyPrice] = useState(null)
   const [sellPrice, setSellPrice] = useState(null)
   const [buyQuantity, setBuyQuantity] = useState(null)
@@ -73,13 +76,15 @@ export default function DetailnotePage({ params: {id} }: Props) {
     getPostDetail(id)
     .then(res => res.data)
     .then(res => {
-      // console.log(res)
+      console.log(res)
       setMember(res.memberDto)
       setComments(res.replyResDtoList)
       setStock(res.stockDto)
       setPost(res)
       setImageList(res.reviewNoteImageDtoList)
       setimageListLength(res.reviewNoteImageDtoList.length)
+      setBuyDate(res.butDate?.slice(0, 10))
+      setSellDate(res.sellDate?.slice(0, 10))
       setBuyPrice(res.buyPrice)
       setSellPrice(res.sellPrice)
       setBuyQuantity(res.buyQuantity)
@@ -164,18 +169,48 @@ export default function DetailnotePage({ params: {id} }: Props) {
           <div>#우량주</div>
           <div>#급매</div>
         </div> */}
-        <div className={styles["content-box"]}>
-          <div className={styles["stock-box"]}>
-            {buyPrice ? `매수 가격 : ${buyPrice} | ` : ``}
-            {buyQuantity ? `매수량 : ${buyQuantity} | ` : ``}
-            {buyPrice && buyQuantity ? `매수 금액 : ${buyPrice * buyQuantity}` : ``}
-          </div>
-          <div className={styles["stock-box"]}>
-            {sellPrice ? `매도 가격 : ${sellPrice} | ` : ``}
-            {sellQuantity ? `매도량 : ${sellQuantity} | ` : ``}
-            {sellPrice && sellQuantity ? `매도 금액 : ${sellPrice * sellQuantity}` : ``}
-          </div>
-          <br/>
+        <div className={styles["deal-info-container"]}>
+          <div>
+            <div className={styles["deal-container"]}>
+              <div className={styles["deal-box"]}>
+                <div className={styles["deal-dot"]}></div>
+                <div className={styles["deal-title"]}>매수</div>
+                {buyDate && (<div className={styles["deal-date"]}>{buyDate}</div>)}
+              </div>
+              {(buyPrice || buyQuantity) &&
+              <div className={styles["deal-sub-box"]}>
+                <div className={styles["deal-subtitle"]}>매수 가격</div>{buyPrice && (<div className={styles["deal-figure"]}>{buyPrice}원</div>)}
+                <div className={styles["deal-subtitle"]}>매수량</div>{buyQuantity && (<div className={styles["deal-figure"]}>{buyQuantity}</div>)}
+                {buyPrice && buyQuantity ? (<><div className={styles["deal-subtitle"]}>매수 금액</div><div className={styles["deal-figure"]}>{buyPrice * buyQuantity}원 </div></>) 
+                : ``}
+              </div>
+              }
+            </div>
+
+            <div className={styles["deal-container"]}>
+              <div>
+                <div className={styles["deal-box"]}>
+                  <div className={styles["deal-dot"]}></div>
+                  <div className={styles["deal-title"]}>매도</div>
+                  {sellDate && (<div className={styles["deal-date"]}>{sellDate}</div>)}
+                </div>
+                {(sellPrice || sellQuantity) &&
+                <div className={styles["deal-sub-box"]}>
+                  <div className={styles["deal-subtitle"]}>매도 가격</div>{sellPrice && (<div className={styles["deal-figure"]}>{sellPrice}원</div>)}
+                  <div className={styles["deal-subtitle"]}>매도량</div>{sellQuantity && (<div className={styles["deal-figure"]}>{sellQuantity}</div>)}
+                  {sellPrice && sellQuantity ? (<><div className={styles["deal-subtitle"]}>매도 금액</div><div className={styles["deal-figure"]}>{sellPrice * sellQuantity}원</div></>) 
+                  : ``}
+                </div>
+              }</div>
+            </div>
+            </div>
+
+            {(buyPrice && buyQuantity && sellPrice && sellQuantity) && (
+              <div className={styles["deal-profit-box"]}>
+                <div className={styles["deal-subtitle"]} id={styles["profit-title"]}>수익</div>
+                <div className={styles["deal-figure"]} id={styles["profit"]}>{sellPrice * sellQuantity - buyPrice * buyQuantity}원 <HiMiniArrowTrendingUp id={styles["profit-icon"]}/></div>
+              </div>
+            )}
         </div>
 
         <div className={styles["content-box"]}>

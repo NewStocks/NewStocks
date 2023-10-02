@@ -43,11 +43,12 @@
 }
 
 .profile-img {
-  /* width: 25px;
-  height: 25px;
-  background-color: #d9d9d96f; */
+  width: 30px;
+  height: 30px;
+  background-color: #d9d9d96f;
   border-radius: 100%;
   margin-right: 10px;
+  margin-top: 5px;
 } 
 
 .profile-name {
@@ -100,6 +101,82 @@
 .stock-box {
   display: flex;
   margin-bottom: 23px;
+}
+
+/* 매수, 매도 정보 */
+.deal-info-container {
+  display: flex;
+}
+.deal-container {
+  margin-bottom: 23px;
+}
+
+.deal-box {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.deal-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  background-color: #4FE7B0;
+  margin-top: 8px;
+  margin-right: 8px;
+}
+
+.deal-title {
+  color: #4FE7B0;
+  font-size: 21px;
+  font-weight: 550;
+}
+
+.deal-date {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.818);
+  margin: 4px 0 0 12px;
+}
+
+.deal-sub-box {
+  display: flex;
+  margin-left: 65px;
+}
+
+.deal-subtitle {
+  font-size: 20px;
+  font-weight: 550;
+  margin: 0 10px 10px 10px;
+}
+
+.deal-figure {
+  margin-top: 3px;
+}
+
+.deal-profit-box {
+  width: 250px;
+  height: 110px;
+  border-radius: 16px;
+  background: #12172D;
+
+  margin: 0 0 0 60px;
+}
+
+#profit-title {
+  margin: 20px 0 0 30px;
+  font-size: 21px;
+  display: flex;
+}
+
+#profit-icon {
+  color: #4FE7B0;
+  margin: 3px 0 0 8px;
+}
+
+#profit {
+  margin: 7px 0 0 30px;
+  font-size: 21px;
+  font-weight: 600;
+  display: flex;
 }
 
 /* 오답노트 태그 */
