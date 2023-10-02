@@ -75,6 +75,7 @@ public class ReviewNoteResDto {
         this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(this.member);
         this.stockDto = StockMapper.INSTANCE.entityToStockDto(this.stock);
         this.reviewNoteImageDtoList = this.reviewNoteImageList.stream()
+            .filter(reviewNoteImage -> !reviewNoteImage.getDeleted())
             .map(ReviewNoteImageMapper.INSTANCE::entityToReviewNoteImageDto).toList();
         if (reviewNoteLinkList != null) {
             this.reviewNoteLinkDtoList = this.reviewNoteLinkList.stream()
