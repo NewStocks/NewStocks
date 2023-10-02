@@ -1,33 +1,33 @@
 import os
-import dotenv
+# import dotenv
 from flask import Flask,request
 from pykrx import stock
 import pandas as pd
 import pymysql
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 
-dotenv_file=dotenv.find_dotenv()
-dotenv.load_dotenv(dotenv_file)
+# dotenv_file=dotenv.find_dotenv()
+# dotenv.load_dotenv(dotenv_file)
 app = Flask(__name__)
 # Flask 애플리케이션 설정
 app.config['SCHEDULER_API_ENABLED'] = True
 
 # .env 파일에서 환경 변수 로드
-load_dotenv()
+# load_dotenv()
 # .env 파일에서 데이터베이스 연결 정보 가져오기
-DB_URL = os.environ['DB_URL']
-DB_ID = os.environ['DB_ID']
-DB_PWD = os.environ['DB_PWD']
-DB_NAME = os.environ['DB_NAME']
+# DB_URL = os.environ['DB_URL']
+# DB_ID = os.environ['DB_ID']
+# DB_PWD = os.environ['DB_PWD']
+# DB_NAME = os.environ['DB_NAME']
 # MySQL 연결 설정
 db_config = {
-    'host': DB_URL,
-    'user': DB_ID,
-    'password': DB_PWD,
-    'database': DB_NAME,  # 데이터베이스 이름
+    'host': 'jdbc:mysql://newstocks-rds.czvfjrx99bcw.ap-northeast-2.rds.amazonaws.com:3306/newstocks_rds',
+    'user': 'joonsuk',
+    'password': 'dhwnstjr12!',
+    'database': 'newstocks_rds',  # 데이터베이스 이름
 }
 
 kospi_industry_data = {
@@ -153,6 +153,7 @@ def save_all_stock_info_data(start_date,end_date):
         for index, row in stock_info_list.iterrows():
             stock_code = index  # 주식 코드
             stock_name = stock.get_market_ticker_name(stock_code)  # 주식 이름
+            time.sleep(1)
             # 이미 포함된 정보 활용
             listed_shares = int(row['상장주식수'])  # 상장주식수
             market_cap = int(row['시가총액'])  # 시가총액
