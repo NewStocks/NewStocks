@@ -126,7 +126,7 @@
 	/* border-radius: 5px; */
 	/* border: 1px solid #4FE7B0; */
 	border: none;
-	box-shadow: 'none';
+	box-shadow: none;
 	cursor: pointer;
 }
 .pagenumber {
