@@ -60,5 +60,10 @@
 
   display: flex;
   justify-content: center;
+  align-items: center;
   /* border: 1px dotted white; */
+}
+.header-logo {
+  width: 30px;
+  display: inline-block;
 }

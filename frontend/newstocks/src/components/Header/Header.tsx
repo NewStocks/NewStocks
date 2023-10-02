@@ -16,6 +16,8 @@ import { AiOutlineGlobal } from "react-icons/ai";
 import { Stock } from "@/types/stock";
 
 import LoginModal from "@/components/LoginModal/LoginModal";
+import Logoimg from '@/assets/logo.png'
+import Image from 'next/image';
 
 // type User = {
 //   name: string;
@@ -48,7 +50,12 @@ return (
     <div className={styles["header"]}>
       <div className={styles["header-left"]}>
         <Link href='/' className={styles["home-link"]}>
-          <svg width="30" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <Image
+            className={styles["header-logo"]}
+            src={Logoimg}
+            alt="Logoimg"
+          />
+          {/* <svg width="30" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fillRule="evenodd">
               <path
                 d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
@@ -63,7 +70,7 @@ return (
                 fill="#91BAF8"
               />
             </g>
-          </svg>
+          </svg> */}
           <h1>NEWStocks</h1>
         </Link>
       </div>

@@ -1,10 +1,17 @@
 import styles from './footer.module.css'
+import Logoimg from '@/assets/logo.png'
+import Image from 'next/image';
 
 export default function Footer() {
   return (
     <div className={styles["footer-container"]}>
       <div className={styles["LOGO"]}>
-        <p>
+      <Image
+            className={styles["header-logo"]}
+            src={Logoimg}
+            alt="Logoimg"
+          />
+        {/* <p>
           <svg width="30" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fillRule="evenodd">
               <path
@@ -21,7 +28,7 @@ export default function Footer() {
               />
             </g>
           </svg>
-        </p>
+        </p> */}
         <div className={styles["logo-title"]}>
           <div id={styles["main-title"]}>NEWStocks</div>
           <div id={styles["sub-title"]}>STOCK NEWS AND REVIEW</div>
