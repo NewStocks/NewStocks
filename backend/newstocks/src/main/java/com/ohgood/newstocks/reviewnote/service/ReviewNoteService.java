@@ -131,7 +131,9 @@ public class ReviewNoteService {
         checkUserAuth(userId, reviewNote);
 
         // 수정 처리, 사용 하기 위해 Setter 엶
-        ReviewNoteMapper.INSTANCE.updateReviewNote(reviewNoteUpdateReqDto, reviewNote);
+        // Setter 다시 닫음
+//        ReviewNoteMapper.INSTANCE.updateReviewNote(reviewNoteUpdateReqDto, reviewNote);
+        reviewNote.updateReviewNote(reviewNoteUpdateReqDto);
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
             reviewNote);
         log.info("업데이트" + reviewNote);
@@ -402,5 +404,17 @@ public class ReviewNoteService {
     public News findNewsById(Long newsId) {
         return newsRepository.findById(newsId)
             .orElseThrow(() -> new BadRequestException("해당하는 뉴스가 없습니다."));
+    }
+
+    public List<ReviewNoteResDto> findReviewNoteListByStockId(String stockId) {
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalse(stockId);
+        return reviewNoteList.stream()
+            .map(reviewNote -> {
+                ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
+                    reviewNote);
+                reviewNoteResDto.addDetailDtos();
+                return reviewNoteResDto;
+            })
+            .toList();
     }
 }

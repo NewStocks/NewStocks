@@ -112,7 +112,7 @@ public class StockService {
     }
 
     public List<ReviewNoteDto> findAllReviewNoteDto(String stockId, Long memberId) {
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndMemberId(stockId, memberId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndMemberIdAndDeletedFalse(stockId, memberId);
         List<ReviewNoteDto> reviewNoteDtoList = new ArrayList<>();
         for (ReviewNote reviewNote : reviewNoteList) {
             reviewNoteDtoList.add(ReviewNoteMapper.INSTANCE.entityToReviewNoteDto(reviewNote));
@@ -133,7 +133,9 @@ public class StockService {
         System.out.println("findStockInfo");
         Stock stock = stockRepository.findById(stockId)
             .orElseThrow(() -> new BadRequestException("관련 주식 정보가 존재하지 않습니다."));
-        stock.setSector(stock.getStockCategoryList().get(0).getCategoryName());
+        if(!stock.getStockCategoryList().isEmpty()){
+            stock.setSector(stock.getStockCategoryList().get(0).getCategoryName());
+        }
         return StockMapper.INSTANCE.entityToStockResDto(stock);
     }
 
