@@ -39,7 +39,7 @@
 
 .profile {
   display: flex;
-  padding-right: 6px;
+  margin-right: 6px;
 }
 
 .profile-img {
@@ -47,12 +47,14 @@
   height: 25px;
   background-color: #d9d9d96f; */
   border-radius: 100%;
-  margin-right: 6px;
+  margin-right: 10px;
 } 
 
 .profile-name {
   font-size: 20px;
   font-weight: 550;
+  margin-top: 5px;
+  margin-right: 6px;
 }
 
 .time {
@@ -142,7 +144,7 @@
   display: flex;
   padding: 0 6px;
   margin-bottom: 20px;
-  width: 150px;
+  width: 180px;
   margin-left: auto;
 }
 
@@ -158,6 +160,7 @@
 
 .icons {
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 /* 댓글 작성 */

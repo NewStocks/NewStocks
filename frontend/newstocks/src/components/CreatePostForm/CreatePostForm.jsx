@@ -27,7 +27,7 @@ import ImagePreview from "./ImagePreview/ImagePreview";
 import SearchBox from "@/components/SearchBox/SearchBox";
 
 import { fetchStockInfo } from '@/services/chart' 
-import { getPostDetail, createPost, updatePost } from '@/services/posts'
+import { getPostDetail, createPost, updatePost, deletePost } from '@/services/posts'
 
 import { Checkbox } from '@chakra-ui/react'
 import DatePicker from 'react-datepicker';
@@ -136,7 +136,7 @@ export default function CreatePostForm({ work }) {
   
     if (work==="update") {
       const id = window.location.search;
-      const modifiedId = id.replace(/\?/g, '')
+      const modifiedId = id.replace(/[?=]/g, '');
       setNoteId(modifiedId)
       console.log('id', modifiedId)
       getPostDetail(modifiedId)
@@ -180,7 +180,7 @@ export default function CreatePostForm({ work }) {
         setEditor(initializeEditor)
       })
     }
-  }, [])
+  }, [work])
 
   const deleteImage = (indexToRemove, image) => {
     // imageList.splice(index, 1)
@@ -235,7 +235,8 @@ export default function CreatePostForm({ work }) {
     const stockId = stock.id
     const privacy = checkPrivate
     const title = titleRef.current.value
-    const content = editor.getHTML()
+    let content = null
+    if (editor) {content = editor.getHTML()}
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
 
@@ -280,7 +281,8 @@ export default function CreatePostForm({ work }) {
 
     const privacy = checkPrivate
     const title = titleRef.current.value
-    const content = editor.getHTML()
+    let content = null
+    if (editor) {content = editor.getHTML()}
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
 

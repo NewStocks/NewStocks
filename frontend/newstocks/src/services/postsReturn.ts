@@ -1,7 +1,13 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/url'
 
-import { getHotPosts } from './sortedPosts'
+import { getMyPosts, getPheedPosts, getHotPosts, getSearchPosts } from './sortedPosts'
+
+export async function getMyPostsList() {
+  const posts = await getMyPosts();
+  console.log('myposts', posts)
+  return posts
+}
 
 export async function getHotPostsList() {
   const posts = await getHotPosts();

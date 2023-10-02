@@ -13,7 +13,6 @@ export default function KakaoLogin() {
       axios({
         method: 'post',
         url: `http://localhost:8200/auth/login/kakao`,
-        // url: `${BASE_URL}/auth/login/kakao`,
         data: { code }})
         .then((res) => {
           localStorage.setItem('access-token' , res.data.accessToken)
