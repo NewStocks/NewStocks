@@ -51,8 +51,8 @@ export default function Notepreview({ title, date, name, content, profile, image
             <div className={styles["Note-preview-title"]}>
               {title}
             </div>
-            <div className={styles["Note-preview-content"]}>
-              {truncateContent(content, 100)}
+            <div className={styles["Note-preview-content"]} dangerouslySetInnerHTML={{ __html: truncateContent(content, 100) }}>              
+              {/* {truncateContent(content, 100)} */}
             </div>
           </div>
           <div className={styles["Note-preview-image"]}>
