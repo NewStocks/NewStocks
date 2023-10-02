@@ -49,7 +49,7 @@ export default function ChartComponent() {
           { stockId: stock.id, stockName: stock.name },
         ]);
       } catch (e) {
-        console.error(e);
+        // console.error(e);
         alert("등록에 실패했습니다.");
       }
     };
@@ -67,7 +67,7 @@ export default function ChartComponent() {
       });
       setAllFavoriteStocks(changedStockList);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       alert("삭제에 실패했습니다.");
     }
   };
@@ -90,10 +90,7 @@ export default function ChartComponent() {
     setIsStarred(!isStarred);
   };
 
-  const[chartData, setChartData] = useState({
-    valuechain: true,
-    name:'',
-  })
+  const[chartData, setChartData] = useState({})
 
   useEffect(() => {
     if (code && allFavoriteStocks.some((item) => item.stockId === code)) {
@@ -109,21 +106,19 @@ export default function ChartComponent() {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
-        const chartname = res.data.name
+        // console.log(res.data)
         if (res.status === 200) {
           setStockInfo(res.data);
         }
-        setChartData((prevdata) => ({
-          ...prevdata,
-          name: chartname
-        }))
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     };
     fetchStockData(code);
   },[code])
+
+  // console.log(stockInfo)
 
   useEffect(() => {
     
@@ -131,7 +126,7 @@ export default function ChartComponent() {
       fetchChartData(code)
       .then((res) => {
         // const code = res.data.name
-        console.log(res.data)
+        // console.log(res.data)
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
@@ -358,7 +353,7 @@ export default function ChartComponent() {
       
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     };
     
@@ -486,7 +481,7 @@ export default function ChartComponent() {
               size="small"
               stockMarket=""
               stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
-            />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+            />{stockInfo.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
             {/* 여기에 위젯 */}

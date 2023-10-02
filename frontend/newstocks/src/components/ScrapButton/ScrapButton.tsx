@@ -19,13 +19,13 @@ export default function ScrapButton({status, id, count, detail}: Props) {
   
   const handleScrap = () => {
     scrapPost(id)
-    .then(res => console.log(res))
+    .then(res => {})
     .then(() => setScrapCount(scrapCount + 1))
   }
 
   const handleDeleteScrap = () => {
     deleteScrapPost(id)
-    .then(res => console.log(res))
+    .then(res => {})
     .then(() => setScrapCount(scrapCount -1))
   }
 

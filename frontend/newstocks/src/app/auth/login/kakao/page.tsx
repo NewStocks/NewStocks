@@ -8,7 +8,7 @@ export default function KakaoLogin() {
   // const code = window.location.search;
   useEffect(() => {
     const code = new URL(document.location.toString()).searchParams.get('code');
-    console.log('code', code)
+    // console.log('code', code)
     if (code) {
       axios({
         method: 'post',
@@ -19,7 +19,7 @@ export default function KakaoLogin() {
           window.location.href = '/'
         })
         .catch((error) => {
-          console.error("에러 발생:", error);
+          // console.error("에러 발생:", error);
         })
       }
     })

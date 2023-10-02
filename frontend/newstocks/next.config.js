@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['s3.ap-northeast-2.amazonaws.com', 'file.alphasquare.co.kr', 'k.kakaocdn.net']
+    domains: ['s3.ap-northeast-2.amazonaws.com', 'file.alphasquare.co.kr', 'k.kakaocdn.net','lh3.googleusercontent.com']
   },
   experimental: {
     appDir: true,
@@ -29,6 +29,15 @@ const nextConfig = {
       }
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: "/community/user", 
+        destination: "/community/user/me", 
+        permanent: false, 
+      }
+    ]
+  }
   // async redirects() {
   //   return [
   //     {

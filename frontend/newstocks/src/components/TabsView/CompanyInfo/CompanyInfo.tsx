@@ -44,7 +44,7 @@ export default function CompanyInfo() {
           setStockData(stockData)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 

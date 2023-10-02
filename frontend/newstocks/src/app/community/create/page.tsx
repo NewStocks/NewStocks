@@ -25,7 +25,7 @@ export default function CreatePage() {
 
   const browserPreventEvent = (event: () => void) => {
     history.pushState(null, "", location.href);
-    console.log(location.href)
+    // console.log(location.href)
     event();
   };
 

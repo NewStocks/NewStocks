@@ -64,7 +64,7 @@ export default function CommentInput({ id, commentId, postId, type, content, img
     if (!comment) {
       alert('변경 내용이 없습니다!')
     } else {
-      console.log('대댓글 등록 진입!!', id, comment)
+      // console.log('대댓글 등록 진입!!', id, comment)
       if (id && handleToggle && handleCreateReplyApi) {
         handleCreateReplyApi(id, comment);
         handleToggle();
@@ -80,7 +80,7 @@ export default function CommentInput({ id, commentId, postId, type, content, img
     if (!comment) {
     alert('변경 내용이 없습니다!')
     } else {
-      console.log('대댓글 수정 진입!!', id, comment)
+      // console.log('대댓글 수정 진입!!', id, comment)
       if (id && commentId && handleUpdateReplyToggle && UpdateReplyApi) {
         UpdateReplyApi(commentId, comment, id)
         handleUpdateReplyToggle()

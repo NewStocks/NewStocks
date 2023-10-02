@@ -10,11 +10,11 @@
   flex-direction: column;
   white-space: nowrap; 
   text-overflow: ellipsis;
-  height: 86px;
+  /* height: 86px; */
 }
 
 .like-title {
-  padding: 10px 0 10px 5px;
+  padding: 10px 0 8px 5px;
   border-bottom: 1px solid #5a5a5ada;
 }
 

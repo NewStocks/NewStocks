@@ -1,7 +1,7 @@
 'use client';
 import styles from './landingfooter.module.css'
 import { useEffect, useState } from 'react';
-
+import Link from 'next/link';
 import Button from '../../Button/Button'
 
 export default function LandingFooter() {
@@ -38,7 +38,7 @@ export default function LandingFooter() {
 
           <div className={styles["footer-box"]}>
             <div className={styles["footer-title"]}><span>뉴스탁스</span>의 새소식</div>
-            <div className={styles["Button-width"]}><Button text="공지사항" kindof="arrow" highlight={false}></Button></div>
+            <div className={styles["Button-width"]}><Link href="/community/notice"><Button text="공지사항" kindof="arrow" highlight={false}></Button></Link></div>
           </div>
 
 

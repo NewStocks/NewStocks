@@ -69,3 +69,8 @@
   margin-top: 10px;
   margin-bottom: 30px;
 }
+.header-logo {
+  width: 40px;
+  margin-right: 10px;
+  /* display: inline-block; */
+}

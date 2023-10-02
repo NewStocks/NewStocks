@@ -115,6 +115,7 @@ export default function Newstab() {
     // 제거된 URL로 이동
     // window.location.href = updatedUrl;
     router.push(updatedUrl)
+    setShowFilterControls(true); // 전체 뉴스로 전환 시 필터 컨트롤 표시
   };
 
   const router = useRouter();
@@ -122,6 +123,9 @@ export default function Newstab() {
   const code = tabName.split('/').filter(Boolean)[0];
   const newsDate = useSearchParams()?.get('newsdate')
 	// console.log(newsDate)
+
+  const [showFilterControls, setShowFilterControls] = useState(true);
+
   
 	const [datenews, setdateNews] = useState<any[]>([]);
   const [newsData, setNewsData] = useState<any[]>([]);
@@ -200,7 +204,7 @@ export default function Newstab() {
 					setdateNews(filtereddateNewsData)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 
@@ -233,7 +237,7 @@ export default function Newstab() {
           setdateValuenews(datevaluenews)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
 
@@ -285,13 +289,25 @@ export default function Newstab() {
             <div className={styles["globalheader"]}>
               <div
                 className={`${styles["headertab"]} ${
-                  selectedView === "news" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("news")}>국내 뉴스
+                  selectedView === "news" ? styles["activeTab"] : ""
+                }`}
+                onClick={() => {
+                  setSelectedView("news");
+                  setShowFilterControls(true);
+                }}
+              >
+                국내 뉴스
               </div>
               <div
                 className={`${styles["headertab"]} ${
-                  selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
-                onClick={() => setSelectedView("overseasNews")}>해외 뉴스
+                  selectedView === "overseasNews" ? styles["activeTab"] : ""
+                }`}
+                onClick={() => {
+                  setSelectedView("overseasNews");
+                  setShowFilterControls(false);
+                }}
+              >
+                해외 뉴스
               </div>
               <div 
                 className={styles["headertab"]}
@@ -302,18 +318,29 @@ export default function Newstab() {
           )} 
           
           <div className={styles["filter-controls"]}>
-              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.sortBy} onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}>
-                <option value="latest">최신순</option>
-                <option value="oldest">오래된순</option>
-                <option value="mentions">언급 횟수 순</option> 
-              </select>
-              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.filterBy} onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}>
-                <option value="all">전체 보기</option>
-                <option value="positive">긍정 뉴스</option>
-                <option value="negative">부정 뉴스</option>
-              </select>
-            </div>
-          
+            {showFilterControls && (
+              <>
+                <select
+                  className={`${styles["filter-option"]} ${styles["custom-select"]}`}
+                  value={filterOptions.sortBy}
+                  onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}
+                >
+                  <option value="latest">최신순</option>
+                  <option value="oldest">오래된순</option>
+                  <option value="mentions">언급 횟수 순</option>
+                </select>
+                <select
+                  className={`${styles["filter-option"]} ${styles["custom-select"]}`}
+                  value={filterOptions.filterBy}
+                  onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}
+                >
+                  <option value="all">전체 보기</option>
+                  <option value="positive">긍정 뉴스</option>
+                  <option value="negative">부정 뉴스</option>
+                </select>
+              </>
+            )}
+          </div>
         </div>
         <div>
           {/* 국내뉴스 */}
@@ -406,29 +433,53 @@ export default function Newstab() {
           <div className={styles["newsheader"]}>
             {valuenews && (
               <div className={styles["globalheader"]}>
-                <div
-                  className={`${styles["headertab"]} ${
-                    selectedView === "news" ? styles["activeTab"] : ""}`}
-                  onClick={() => setSelectedView("news")}>국내 뉴스
-                </div>
-                <div
-                  className={`${styles["headertab"]} ${
-                    selectedView === "overseasNews" ? styles["activeTab"] : ""}`}
-                  onClick={() => setSelectedView("overseasNews")}>해외 뉴스
-                </div>
+              <div
+                className={`${styles["headertab"]} ${
+                  selectedView === "news" ? styles["activeTab"] : ""
+                }`}
+                onClick={() => {
+                  setSelectedView("news");
+                  setShowFilterControls(true);
+                }}
+              >
+                국내 뉴스
               </div>
+              <div
+                className={`${styles["headertab"]} ${
+                  selectedView === "overseasNews" ? styles["activeTab"] : ""
+                }`}
+                onClick={() => {
+                  setSelectedView("overseasNews");
+                  setShowFilterControls(false);
+                }}
+              >
+                해외 뉴스
+              </div>
+            </div>
             )}
             <div className={styles["filter-controls"]}>
-              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.sortBy} onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}>
-                <option value="latest">최신순</option>
-                <option value="oldest">오래된순</option>
-                <option value="mentions">언급 횟수 순</option> 
-              </select>
-              <select className={`${styles["filter-option"]} ${styles["custom-select"]}`} value={filterOptions.filterBy} onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}>
-                <option value="all">전체 보기</option>
-                <option value="positive">긍정 뉴스</option>
-                <option value="negative">부정 뉴스</option>
-              </select>
+              {showFilterControls && (
+                <>
+                  <select
+                    className={`${styles["filter-option"]} ${styles["custom-select"]}`}
+                    value={filterOptions.sortBy}
+                    onChange={(e) => handleSortChange(e.target.value as NewsFilterOptions['sortBy'])}
+                  >
+                    <option value="latest">최신순</option>
+                    <option value="oldest">오래된순</option>
+                    <option value="mentions">언급 횟수 순</option>
+                  </select>
+                  <select
+                    className={`${styles["filter-option"]} ${styles["custom-select"]}`}
+                    value={filterOptions.filterBy}
+                    onChange={(e) => handleFilterChange(e.target.value as NewsFilterOptions['filterBy'])}
+                  >
+                    <option value="all">전체 보기</option>
+                    <option value="positive">긍정 뉴스</option>
+                    <option value="negative">부정 뉴스</option>
+                  </select>
+                </>
+              )}
             </div>
           </div>
           <div>

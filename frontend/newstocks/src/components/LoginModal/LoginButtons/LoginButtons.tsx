@@ -15,7 +15,7 @@ export default function LoginButtons() {
   
     window.location.href = link
 
-    console.log('kakao success!!')
+    // console.log('kakao success!!')
   }
 
   const googleLoginHandler = () => {
@@ -24,7 +24,7 @@ export default function LoginButtons() {
     const link = `https://accounts.google.com/o/oauth2/auth?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&access_type=offline&prompt=consent&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`
     window.location.href = link
 
-    console.log('google success!!')
+    // console.log('google success!!')
   }
 
 

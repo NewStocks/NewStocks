@@ -34,15 +34,11 @@ export default function TabNotes({ code }: TabProps) {
         .then((res) => {
           const notecode: any[] = [];
           res.data.forEach((item: any) => {
-            if (item.stockDto.id == code) {
+            if (item.stockDto.id === code) {
               notecode.push(item);
             }
           });
-					notecode.sort((a, b) => {
-						const dateA = new Date(a.settingDate).getTime();
-						const dateB = new Date(b.settingDate).getTime();
-						return dateB - dateA;
-					});
+          notecode.reverse();
 
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,
@@ -50,7 +46,7 @@ export default function TabNotes({ code }: TabProps) {
 					);
 			
 					setNote(slicedNote);
-          console.log(slicedNote)
+          // console.log(slicedNote)
 
           // setNote(notecode);
           const datenote: any[] = [];
@@ -67,7 +63,7 @@ export default function TabNotes({ code }: TabProps) {
           setdateNote(datenote);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
     fetchData();
@@ -93,9 +89,9 @@ export default function TabNotes({ code }: TabProps) {
               <StyledLink key={item.id} href={`/community/${item.id}`}>
 								<Notepreview 
 									title = {item.title}
-									date = {item.settingDate.split(' ')[0]}
-									name = {item.memberDto.name}
-                  profile= {item.memberDto.profileImage}
+									date={item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
+									name = {item.memberDto?.name}
+                  profile= {item.memberDto?.profileImage}
 									content = {item.content}
                   image = {item.reviewNoteImageDtoList[0]?.url}
                   likeCount = {item.likeCount}

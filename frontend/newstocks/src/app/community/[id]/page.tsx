@@ -34,6 +34,11 @@ type Post = {
   isLiked: boolean
   scrapCount: number
   likeCount: number
+  buyPrice : number
+  buyQuantity : number
+  sellPrice : number
+  sellQuantity : number
+  // buyDate, sellDate 필요
 }
 type Stock = {
   id: string
@@ -57,18 +62,26 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [post, setPost] = useState<Post | null>(null)
   const [imageList, setImageList] = useState(null)
   const [imageListLength, setimageListLength] = useState(null)
+  const [buyPrice, setBuyPrice] = useState(null)
+  const [sellPrice, setSellPrice] = useState(null)
+  const [buyQuantity, setBuyQuantity] = useState(null)
+  const [sellQuantity, setSellQuantity] = useState(null)
 
   useEffect(() => {
     getPostDetail(id)
     .then(res => res.data)
     .then(res => {
-      console.log(res)
+      // console.log(res)
       setMember(res.memberDto)
       setComments(res.replyResDtoList)
       setStock(res.stockDto)
       setPost(res)
       setImageList(res.reviewNoteImageDtoList)
       setimageListLength(res.reviewNoteImageDtoList.length)
+      setBuyPrice(res.buyPrice)
+      setSellPrice(res.sellPrice)
+      setBuyQuantity(res.buyQuantity)
+      setSellQuantity(res.sellQuantity)
     })
   // eslint-disable-next-line 
   }, [])
@@ -85,17 +98,17 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
   // 댓글 삭제 관리
   const DeleteCommentApi = (postId: string, commentId: string) => {
-    console.log(postId, commentId, 'delete 해보자')
+    // console.log(postId, commentId, 'delete 해보자')
     deleteComment(postId, commentId)
-    .then((res) => console.log(res))
-    .then(() => console.log('sucess!!'))
-    .then(() => getComments(postId).then((res) => {setComments(res.data); console.log(res.data)}))
+    .then((res) => {})
+    .then(() => {})
+    .then(() => getComments(postId).then((res) => {setComments(res.data); }))
   }
 
   // 노트 삭제
   const DeleteNoteApi = (postId: string) => {
     deletePost(postId)
-    .then(() => console.log("delete-sucess"))
+    .then(() => {})
     .then(() => router.push("/community/mine?page=my"))
   }
 
@@ -148,6 +161,19 @@ export default function DetailnotePage({ params: {id} }: Props) {
           <div>#우량주</div>
           <div>#급매</div>
         </div> */}
+        <div className={styles["content-box"]}>
+          <div className={styles["title"]}>
+            {buyPrice ? `매수 가격 : ${buyPrice} | ` : ``}
+            {buyQuantity ? `매수량 : ${buyQuantity} | ` : ``}
+            {buyPrice && buyQuantity ? `매수 금액 : ${buyPrice * buyQuantity}` : ``}
+          </div>
+          <div className={styles["title"]}>
+            {sellPrice ? `매도 가격 : ${sellPrice} | ` : ``}
+            {sellQuantity ? `매도량 : ${sellQuantity} | ` : ``}
+            {sellPrice && sellQuantity ? `매도 금액 : ${sellPrice * sellQuantity}` : ``}
+          </div>
+          <br/>
+        </div>
 
         <div className={styles["content-box"]}>
             <div className={styles["img"]}>

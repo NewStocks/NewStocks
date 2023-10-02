@@ -1,28 +1,69 @@
-import styles from './userpage.module.css';
+"use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { getUserInfo } from "@/services/userInfo";
+import UserInfo from "@/components/UserInfo/UserInfo";
+import { UserType } from "@/types/user";
+
+import styles from "./userpage.module.css";
 import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
 
-export default function MyPage() {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export default function UserPage({ params }: Props) {
+  const router = useRouter();
+
+
+  const [userInfo, setUserInfo] = useState<UserType>({
+    id: 0,
+    name: "",
+    profileImage: "",
+  });
+
+  useEffect(() => {
+    async function checkUser() {
+      try {
+        const res = await getUserInfo();
+
+        if (res.status === 200) {
+          if (res.data.id.toString() === params.id) {
+            router.push("/community/user/me");
+          }
+        }
+      } catch (e) {
+        // console.error(e);
+      }
+    }
+    checkUser(); 
+  }, []);
+
+  useEffect(() => {
+    async function getUserData() {
+      try {
+        const res = await getUserInfo(params.id);
+        if (res.status === 200) {
+          setUserInfo(res.data);
+        }
+      } catch (e) {
+        // console.error(e);
+      }
+    }
+
+    getUserData();
+  }, []);
+
   return (
     <div className={styles["main"]}>
-      
-      <div className={styles["user-info-box"]}>
-        <div className={styles["profile-box"]}>
-          <div></div>
-          <button className={styles["edit-button"]} id={styles["img-edit"]}>Edit</button>
-        </div>
-
-        <div className={styles["nickname-box"]}>
-          <div className={styles["user-nickname-box"]}>
-            <div id={styles["nickname-hello"]}>Hello 👋</div>
-            <div id={styles["nickname-curr"]}>Anima Ag.</div>
-          </div>
-          <button className={styles["edit-button"]}>Edit</button>
-        </div>
-      </div>
+      {userInfo && <UserInfo mypage={false} user={userInfo} />}
 
       <div className={styles["user-middle-box"]}>
-        <div className={styles["email"]}>
+        {/* <div className={styles["email"]}>
           <div className={styles["title-mini"]}>이메일</div>
           <div className={styles["email-box"]}>
             <div className={styles["email-box-content"]}>
@@ -30,9 +71,9 @@ export default function MyPage() {
               <div id={styles["email-managedby"]}>Managed by Google</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className={styles["activity"]}>
+        {/* <div className={styles["activity"]}>
           <div className={styles["title-mini"]}>Today</div>
           <div className={styles["activity-container"]}>
 
@@ -57,18 +98,8 @@ export default function MyPage() {
             </div>
 
           </div>
-        </div>
-      </div>
-
-      <div className={styles["user-analysis-box"]}>
-        <div className={styles["first-analysis"]}>
-          사용자 오답노트 분석 기록 등 ?
-        </div>
-
-        <div className={styles["second-analysis"]}>
-          사용자 오답노트 분석 기록 등 ?
-        </div>
+        </div> */}
       </div>
     </div>
-  )
+  );
 }

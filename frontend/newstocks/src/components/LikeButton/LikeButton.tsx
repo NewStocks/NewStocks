@@ -17,13 +17,13 @@ export default function LikeButton({status, id, count, detail}: Props) {
 
   const handleLike = () => {
     likePost(id)
-    .then(res => console.log(res))
+    .then(res => {})
     .then(() => setLikeCount(likeCount + 1))
   }
 
   const handleDeleteLike = () => {
     deleteLikePost(id)
-    .then(res => console.log(res))
+    .then(res => {})
     .then(() => setLikeCount(likeCount -1))
   }
 

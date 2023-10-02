@@ -29,18 +29,18 @@ export default function ChartModal() {
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
         <ModalContent bg="#262730" top="20%">
-          <ModalHeader><h3>차트 설명??</h3></ModalHeader>
+          <ModalHeader><h3>차트 이용 방법</h3></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <div className={styles["logo"]}>
-							<PointText>차트</PointText >뭐라고 설명하지..
 							<Image
 								src={stockimg}
                 alt="stockimg"
 							/>
-							<div>
-								<div>1. 해당 날짜에 해당하는 일봉 차트 하단에는 뉴스 및 상단에는 작성한 오답노트 표시</div>
-								<div>2. 클릭시 뉴스 및 오답노트 상세보기</div> 
+							<div >
+								<div className={styles["logo"]}>1. 해당 날짜의 일봉 차트 하단에는 <PointText>뉴스</PointText>, 상단에는 작성한 <PointText>오답노트</PointText> 유무 표시</div>
+                <div className={styles["logo"]}>2. 해당 날짜 클릭 시 뉴스 및 오답노트 상세보기</div>  
+								<div className={styles["logo"]}>3. <PointText>ValueChain</PointText> 버튼 클릭 시 해당 종목의 <PointText>ValueChain</PointText> 주식 정보 보기</div>  
 							</div>
 								
 						</div>

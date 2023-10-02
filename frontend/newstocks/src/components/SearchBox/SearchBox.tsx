@@ -33,7 +33,7 @@ export default function SearchBox({searchFunc}: Props) {
         const stockData = response.data.stockDtoList;
         setAllStocks(stockData);
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
 
