@@ -169,7 +169,7 @@ export default function CommunityNav() {
           <Link href="/community/user/me" style={{textDecoration: "none"}}>
             <div className={styles["profile-box"]}>
               <div className={styles["profile-image"]}>
-                <Image width={37} height={37} src={userInfo.profileImage} alt={userInfo.name} className={styles["profile-image-pic"]}/>
+                <Image width={37} height={37} src={userInfo.profileImage} className={styles["profile-image-pic"]} alt={userInfo.name} />
               </div>
               <div className={styles["profile-name"]}>
                 <div>Hello 👋</div>

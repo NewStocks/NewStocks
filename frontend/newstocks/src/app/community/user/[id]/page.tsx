@@ -30,8 +30,9 @@ export default function UserPage({ params }: Props) {
     async function checkUser() {
       try {
         const res = await getUserInfo();
+
         if (res.status === 200) {
-          if (res.data.id === params.id) {
+          if (res.data.id.toString() === params.id) {
             router.push("/community/user/me");
           }
         }
