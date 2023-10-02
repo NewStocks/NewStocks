@@ -177,13 +177,14 @@ export default function DetailnotePage({ params: {id} }: Props) {
                 <div className={styles["deal-title"]}>매수</div>
                 {buyDate && (<div className={styles["deal-date"]}>{buyDate}</div>)}
               </div>
-              {(buyPrice || buyQuantity) &&
-              <div className={styles["deal-sub-box"]}>
+              {(buyPrice || buyQuantity) ?
+              (<div className={styles["deal-sub-box"]}>
                 <div className={styles["deal-subtitle"]}>매수 가격</div>{buyPrice && (<div className={styles["deal-figure"]}>{buyPrice}원</div>)}
                 <div className={styles["deal-subtitle"]}>매수량</div>{buyQuantity && (<div className={styles["deal-figure"]}>{buyQuantity}</div>)}
-                {buyPrice && buyQuantity ? (<><div className={styles["deal-subtitle"]}>매수 금액</div><div className={styles["deal-figure"]}>{buyPrice * buyQuantity}원 </div></>) 
-                : ``}
-              </div>
+                {(buyPrice && buyQuantity) ? (<><div className={styles["deal-subtitle"]}>매수 금액</div><div className={styles["deal-figure"]}>{buyPrice * buyQuantity}원 </div></>) 
+                : ''}
+              </div>)
+              : (<div className={styles["deal-sub-box"]}>매수 정보가 없습니다</div>)
               }
             </div>
 
@@ -194,23 +195,25 @@ export default function DetailnotePage({ params: {id} }: Props) {
                   <div className={styles["deal-title"]}>매도</div>
                   {sellDate && (<div className={styles["deal-date"]}>{sellDate}</div>)}
                 </div>
-                {(sellPrice || sellQuantity) &&
-                <div className={styles["deal-sub-box"]}>
+                {(sellPrice || sellQuantity) ?
+                (<div className={styles["deal-sub-box"]}>
                   <div className={styles["deal-subtitle"]}>매도 가격</div>{sellPrice && (<div className={styles["deal-figure"]}>{sellPrice}원</div>)}
                   <div className={styles["deal-subtitle"]}>매도량</div>{sellQuantity && (<div className={styles["deal-figure"]}>{sellQuantity}</div>)}
-                  {sellPrice && sellQuantity ? (<><div className={styles["deal-subtitle"]}>매도 금액</div><div className={styles["deal-figure"]}>{sellPrice * sellQuantity}원</div></>) 
-                  : ``}
-                </div>
-              }</div>
+                  {(sellPrice && sellQuantity) ? (<><div className={styles["deal-subtitle"]}>매도 금액</div><div className={styles["deal-figure"]}>{sellPrice * sellQuantity}원</div></>) 
+                  : '매도 정보가 없습니다.'}
+                </div>)
+                :(<div className={styles["deal-sub-box"]}>매도 정보가 없습니다.</div>)
+              }
+              </div>
             </div>
             </div>
 
-            {(buyPrice && buyQuantity && sellPrice && sellQuantity) && (
+            {(buyPrice && buyQuantity && sellPrice && sellQuantity) ? (
               <div className={styles["deal-profit-box"]}>
                 <div className={styles["deal-subtitle"]} id={styles["profit-title"]}>수익</div>
                 <div className={styles["deal-figure"]} id={styles["profit"]}>{sellPrice * sellQuantity - buyPrice * buyQuantity}원 <HiMiniArrowTrendingUp id={styles["profit-icon"]}/></div>
               </div>
-            )}
+            ): ''}
         </div>
 
         <div className={styles["content-box"]}>
