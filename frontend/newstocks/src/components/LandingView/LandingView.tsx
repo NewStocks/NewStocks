@@ -11,7 +11,7 @@ export default function LandingView() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setHideArrow(window.scrollY > 1400);
+      setHideArrow(window.scrollY > 1500);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -21,12 +21,6 @@ export default function LandingView() {
     };
   }, []);
 
-  const scrollToContent = () => {
-    window.scrollTo({
-      top: 700,
-      behavior: 'smooth',
-    });
-  };
 
   return (
     <>
@@ -38,7 +32,6 @@ export default function LandingView() {
       <div
         ref={scrollArrowRef}
         className={`${styles.arrow} ${hideArrow ? styles.hide : ''}`}
-        onClick={scrollToContent}
       >
         &#9660;
       </div>

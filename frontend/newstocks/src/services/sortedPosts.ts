@@ -41,3 +41,11 @@ export async function getSearchPosts({ keyword }: Search) {
    headers: addAccessTokenToHeaders(),
   })
 }
+
+export async function getScrappedPosts() {
+  return await axios({
+   method: 'get',
+   url: `${BASE_URL}/review-note/find-scrapped`,
+   headers: addAccessTokenToHeaders()
+  })
+}

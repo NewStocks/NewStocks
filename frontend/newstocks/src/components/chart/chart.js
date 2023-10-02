@@ -90,10 +90,7 @@ export default function ChartComponent() {
     setIsStarred(!isStarred);
   };
 
-  const[chartData, setChartData] = useState({
-    valuechain: true,
-    name:'',
-  })
+  const[chartData, setChartData] = useState({})
 
   useEffect(() => {
     if (code && allFavoriteStocks.some((item) => item.stockId === code)) {
@@ -109,14 +106,10 @@ export default function ChartComponent() {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
-        const chartname = res.data.name
+        console.log(res.data)
         if (res.status === 200) {
           setStockInfo(res.data);
         }
-        setChartData((prevdata) => ({
-          ...prevdata,
-          name: chartname
-        }))
       })
       .catch((err) => {
         console.log(err);
@@ -125,13 +118,15 @@ export default function ChartComponent() {
     fetchStockData(code);
   },[code])
 
+  console.log(stockInfo)
+
   useEffect(() => {
     
     const fetchData = () => {
       fetchChartData(code)
       .then((res) => {
         // const code = res.data.name
-        
+        console.log(res.data)
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
@@ -144,12 +139,25 @@ export default function ChartComponent() {
         sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 3);
         const initialTime = sixMonthsAgo.getTime() / 1000;
 
-
         const stockdata = data.map((item, index) => {
+          const open = item.y[0];
+          const high = item.y[1];
+          const low = item.y[2];
+          const close = item.y[3];
+
+          // 만약 open, high, low가 모두 0이라면 종가로 바꾸기?
+          const modifiedOpen = (open === 0 && close != 0) ? close : open;
+          const modifiedHigh = (high === 0 && close != 0) ? close : high;
+          const modifiedLow = (low === 0 && close != 0) ? close : low;
+
           return {
-            open: item.y[0], high: item.y[1], low: item.y[2], close: item.y[3], time: (new Date(item.x.toLocaleString('en-US', { timeZone: koreanTimezone })).getTime()/1000)+32400
-          }
-        })
+            open: modifiedOpen,
+            high: modifiedHigh,
+            low: modifiedLow,
+            close: close,
+            time: (new Date(item.x.toLocaleString('en-US', { timeZone: koreanTimezone })).getTime() / 1000) + 32400
+          };
+        });
         const volumdata = data.map((item, index) => {
           return {
             time: new Date(item.x).getTime()/1000+32400, value: item.y[4]
@@ -473,7 +481,7 @@ export default function ChartComponent() {
               size="small"
               stockMarket=""
               stockImageUrl={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${code}.png`}
-            />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
+            />{stockInfo.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
             {/* 여기에 위젯 */}
@@ -481,27 +489,15 @@ export default function ChartComponent() {
           <div className="tradingview-widget-container__widget"></div>
         </div>
           </div>
-
         </div>
-        {/* <ValueInfoModal isOpen={isModalOpen} onClose={closeValueInfoModal} />
-        <ValueChainModal isOpen={isValueModalOpen} onClose={closeValueChainModal} code={code}/> */}
-        {chartData.valuechain ? (
           <div className='valuechain'>
             <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
             <div className='value2'><ChartModal id='valueinfo2'/></div>
           </div>
-        ) : 
-        // 벨류체인 없을때는??
-          <div className='valuechain'>
-            <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
-            <div className='value2'><ChartModal id='valueinfo2'/></div>
-          </div>
-        }
-
       </div>
       <div className="chartbox">
         <div className="chart">
-          <div ref={chartContainerRef} style={{ width: '900px', height: '400px' }}>
+          <div ref={chartContainerRef} style={{ width: '899px', height: '400px' }}>
           </div>
         </div>
       </div>

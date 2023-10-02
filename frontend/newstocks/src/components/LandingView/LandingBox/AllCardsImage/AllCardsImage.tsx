@@ -1,13 +1,26 @@
 import styles from './allcardsimage.module.css'
-
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
 import CardSample from '../CardSample/CardSample'
-
 import { FaSortAmountDown } from 'react-icons/fa'
 
+interface CardData {
+  title: string;
+  content: string;
+  author: string;
+  stock: string;
+}
+
 export default function AllCardsImage() {
+
+  const cardData: CardData[] = [
+    { title: '제목 1', content: '내용 1', author: '작성자 1', stock: '카카오' },
+    { title: '제목 2', content: '내용 2', author: '작성자 2', stock: '삼성전자' },
+    { title: '제목 3', content: '내용 3', author: '작성자 3', stock: 'Naver' },
+    { title: '제목 4', content: '내용 4', author: '작성자 4', stock: '카카오' },
+    { title: '제목 5', content: '내용 5', author: '작성자 5', stock: 'LG전자' }
+  ];
+
   return (
     <div className={styles["image-container"]}>
 
@@ -21,7 +34,7 @@ export default function AllCardsImage() {
       </div>
       <Carousel
         additionalTransfrom={0}
-        arrows
+        arrows={false}
         autoPlay
         autoPlaySpeed={2500}
         centerMode={false}
@@ -73,11 +86,15 @@ export default function AllCardsImage() {
         slidesToSlide={2}
         swipeable
       >
-        <CardSample />
-        <CardSample />
-        <CardSample />
-        <CardSample />
-        <CardSample />
+        {cardData.map(({ title, content, author, stock }, index) => (
+          <CardSample
+            key={index}
+            title={title}
+            content={content}
+            author={author}
+            stock={stock}
+          />
+        ))}
       </Carousel>
     </div>
   )
