@@ -87,7 +87,8 @@ export default function CommunityPage() {
       </div> */}
 
       <div className={styles["sorted-note-box"]}>
-        <div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>
+        {/*<div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>*/}
+        <div className={styles["sorted-note-title"]}>🔥현재 인기 노트</div>
         {accessToken ? (
         <div className={styles["carousel-container"]}>
           <CarouselCardBox posts={posts}/>
