@@ -62,7 +62,7 @@ export default function MyCards({ type }: Props) {
   };
 
   return (
-    <div>
+    <>
       <section className={styles["section"]}>
         {posts ? (
           posts?.map((post, index) => <Card key={index} post={post} />)
@@ -121,6 +121,6 @@ export default function MyCards({ type }: Props) {
               </button>
           )}
         </div>
-    </div>
+    </>
   )
 }

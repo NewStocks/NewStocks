@@ -1,6 +1,6 @@
 'use client'
 import styles from './LikeButton.module.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs"
 import { likePost, deleteLikePost } from "@/services/posts"
 
@@ -14,6 +14,11 @@ type Props = {
 export default function LikeButton({status, id, count, detail}: Props) {
   const [likeStatus, setLikeStatus] = useState(status)
   const [likeCount, setLikeCount] = useState(count)
+
+  useEffect(() => {
+    setLikeStatus(status)
+    setLikeCount(count)
+  }, [count || status])
 
   const handleLike = () => {
     likePost(id)

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './ScrapButton.module.css'
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa6'
@@ -14,8 +14,13 @@ type Props = {
 }
 
 export default function ScrapButton({status, id, count, detail}: Props) {
-  const [scrap, setScrap] = useState(status)
-  const [scrapCount, setScrapCount] = useState(count)
+  const [scrap, setScrap] = useState<boolean>(status)
+  const [scrapCount, setScrapCount] = useState<number>(count)
+
+  useEffect(() => {
+    setScrap(status)
+    setScrapCount(count)
+  }, [count])
   
   const handleScrap = () => {
     scrapPost(id)
