@@ -35,7 +35,7 @@ export default function MyCards({ type }: Props) {
       .then((res) => {setPosts(res.data);})
     }
 
-  }, [type])
+  }, [posts])
 
   if (!posts) {
     return <div>Loading...</div>; // 로딩 중 처리 (선택 사항)
