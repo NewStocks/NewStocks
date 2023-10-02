@@ -162,12 +162,12 @@ export default function DetailnotePage({ params: {id} }: Props) {
           <div>#급매</div>
         </div> */}
         <div className={styles["content-box"]}>
-          <div className={styles["title"]}>
+          <div className={styles["stock-box"]}>
             {buyPrice ? `매수 가격 : ${buyPrice} | ` : ``}
             {buyQuantity ? `매수량 : ${buyQuantity} | ` : ``}
             {buyPrice && buyQuantity ? `매수 금액 : ${buyPrice * buyQuantity}` : ``}
           </div>
-          <div className={styles["title"]}>
+          <div className={styles["stock-box"]}>
             {sellPrice ? `매도 가격 : ${sellPrice} | ` : ``}
             {sellQuantity ? `매도량 : ${sellQuantity} | ` : ``}
             {sellPrice && sellQuantity ? `매도 금액 : ${sellPrice * sellQuantity}` : ``}
