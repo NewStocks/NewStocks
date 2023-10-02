@@ -1,0 +1,168 @@
+.card-container {
+  height: 315px;
+  width: 250px;
+  background-color: rgba(176, 176, 176, 0.107);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-container:hover {
+  transform: translate(-5px, -5px);
+}
+
+/* 이미지 영역 */
+.image-container {
+  width: 100%;
+  height: 130px;
+
+  margin: 0 auto;
+  background-color:#d9d9d96f;
+  border-radius: 2px;
+}
+
+/* title 영역 */
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 10px;
+}
+
+.stock-box {
+  display: flex;
+}
+
+.stock-img {
+  width: 20px;
+  height: 20px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+
+.stock-name {
+  font-size: 15px;
+  margin: 3px 0 0 0;
+}
+
+.stock-id {
+  font-size: 14px;
+  color: #d9d9d9a8;
+
+  padding: 5px 0 0 0;
+  margin: 0 0 0 5px;
+}
+
+.scrap-icon {
+  margin: 2px 0 0 0;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 15px;
+  margin-top: 7px;
+  padding: 0 10px;
+  width: 230px;
+  height: 23px;
+
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+}
+
+/* 내용 및 프로필 영역 */
+.content-container {
+  padding: 5px 9px;
+  height: 53px;
+}
+
+.content {
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.818);
+
+  height: 38px;
+  line-height: 18px;
+
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+}
+
+.content-bottom-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.profile-container {
+  display: flex;
+}
+
+.profile-img {
+  width: 20px;
+  height: 20px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+
+.profile-name {
+  margin-top: 2px;
+  font-size: 13px;
+}
+
+.time {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.818);
+  padding: 7px 0 0 0;
+}
+
+.bottom-container {
+  padding: 0 10px;
+  margin: 10px 0;
+  display: flex;
+}
+
+.icons-container {
+  display: flex;
+  font-size: 15px;
+  margin-left: auto;
+}
+
+.icons-container div{
+  display: flex;
+  font-size: 15px;
+}
+
+.icons-container p {
+  margin: 0;
+  margin-right: 4px;
+  margin-left: 2px;
+  font-size: 12px;
+}
+
+.tag-container {
+  display: flex;
+  width: 60%;
+}
+
+.tag-container div {
+  display: flex;
+  border-radius: 50px;
+  font-size: 10px;
+  height: 17px;
+  padding: 0 8px;
+  padding-top: 1px;
+  background-color: #4fe7af4f;
+  margin-right: 6px;
+}
+
+.tag-icons {
+  margin: 2px 2px 0 0;
+}
+
+.comment-count {
+  color: rgba(255, 255, 255, 0.818);
+  margin: 0 5px;
+}

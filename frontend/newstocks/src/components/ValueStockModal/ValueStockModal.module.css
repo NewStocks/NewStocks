@@ -8,3 +8,14 @@
 .valuename {
   font-size: 12px
 }
+.valuechain {
+  font-weight: bold;
+  font-size: 15px;
+  border: 2px solid yellow;
+  border-radius: 15px;
+  padding: 2px 6px 2px 6px;
+}
+.valuechaintitle {
+  display: flex;
+  /* color: #4FE7B0; */
+}

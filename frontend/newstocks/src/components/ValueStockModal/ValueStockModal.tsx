@@ -9,6 +9,8 @@ import { SingleTicker } from 'react-ts-tradingview-widgets';
 import styles from './ValueStockModal.module.css';
 import styled from 'styled-components';
 import { fetchStockInfo} from '@/services/chart';
+import ValueModal from "@/components/ValueModal/ValueModal";
+
 
 const PointText = styled.span`
   color: #4FE7B0; 
@@ -27,7 +29,7 @@ type StockItem = {
   name: string
 }
 
-export default function ValueModal({ code }: ModalProps) {
+export default function ValueStockModal({ code }: ModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [valueChains, setValueChains] = useState<ValueChain[]>([]);
 
@@ -39,7 +41,6 @@ export default function ValueModal({ code }: ModalProps) {
             // const date = new Date(res.data[0].publishTime).getTime()
             const stockData: StockItem = res.data.name;
             setStockData(stockData)
-            console.log(code)
           })
           .catch((err) => {
             console.log(err);
@@ -57,7 +58,6 @@ export default function ValueModal({ code }: ModalProps) {
         url: `https://www.newstocks.kr/api/stock/find-all-value-chains-of-stock/${code}`
       })
       .then((res) => {
-        console.log(res.data)
         setValueChains(res.data);
       })
       .catch((err) => {
@@ -73,15 +73,16 @@ export default function ValueModal({ code }: ModalProps) {
 
   return (
     <>
-      <button onClick={onOpen}>
-        <PiTreeStructure className={styles['icon']} />
+      <button className={styles['valuechain']} onClick={onOpen}>
+        ValueChain{/* <PiTreeStructure className={styles['icon']} /> */}
       </button>
       <Modal size={'xl'} blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg="#262730" top="-5%">
           <ModalHeader>
-            <h3>
-              <PointText>{stockData ? stockData.name : ''}</PointText> 밸류체인
+            <h3 className={styles['valuechaintitle']}>
+               밸류체인 
+              <PointText><ValueModal/></PointText>
             </h3>
           </ModalHeader>
           <ModalCloseButton />

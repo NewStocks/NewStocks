@@ -6,12 +6,10 @@ import { Post, getPostsAll } from '@/services/posts'
 
 import Card from '@/components/Card/Card';
 
+import { getMyPosts } from '@/services/sortedPosts'
+
 export default function FilterableCards() {
   const [posts, setPosts] = useState<Post[] | null>([])
-
-  // const getPostsAllApi = () => {
-  //   getPostsAll().then((res) => setPosts(res.data))
-  // }
 
   useEffect(() => {
     getPostsAll().then((res) =>{setPosts(res.data); console.log(res.data)})

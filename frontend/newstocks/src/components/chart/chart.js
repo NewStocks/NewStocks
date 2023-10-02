@@ -1,20 +1,15 @@
 'use client'
 import './chart.css';
-
 import { FaRegStar, FaStar } from "react-icons/fa";
-import { PiTreeStructure } from "react-icons/pi";
 import React, { useState, useEffect, useRef } from 'react';
-
 import { createChart, IChartApi, ISeriesApi, LineData, CrosshairMode, ColorType } from 'lightweight-charts';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import ValueInfoModal from './ValuechainQuestion';
-import ValueChainModal from './ValuechainInfo';
 import StockProfile from "@/components/StockProfile/StockProfile";
-import { TickerTape } from "react-ts-tradingview-widgets";
+
 import ValueModal from "@/components/ValueModal/ValueModal";
+import ChartModal from "@/components/ChartModal/ChartModal";
 import ValueStockModal from "@/components/ValueStockModal/ValueStockModal";
-// import { Provider } from '../utils/ChakraProvider'
 
 import { useRecoilState } from 'recoil';
 import { allFavoriteStocksState } from '@/recoil/favoriteStock';
@@ -287,8 +282,18 @@ export default function ChartComponent() {
         });
 
         chartApiRef.current.timeScale().fitContent();
+        
 
         // 클릭 이벤트 핸들러 함수
+        chartContainerRef.current.addEventListener('mouseenter', () => {
+          chartContainerRef.current.style.cursor = 'pointer';
+        });
+        
+        // 마우스가 차트 영역을 벗어날 때 포인터 스타일 기본값으로 변경
+        chartContainerRef.current.addEventListener('mouseleave', () => {
+          chartContainerRef.current.style.cursor = 'default';
+        });
+        
         
         const handleChartClick = (param) => {
           const date = new Date(param.time*1000+32400)
@@ -409,9 +414,53 @@ export default function ChartComponent() {
       }
     };
   // eslint-disable-next-line 
-  }, [code, tab]);
+  }, [code]);
   
+  useEffect(() => {
+    // ... (your existing code)
 
+    // Function to load TradingView widget script
+    const loadTradingViewWidget = () => {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+      script.async = true;
+      script.innerHTML = `
+        {
+          "symbols": [
+            {
+              "description": "",
+              "proName": "KRX:${code}"
+            },
+            {
+              "description": "",
+              "proName": "KRX:KOSPI"
+            },
+            {
+              "description": "",
+              "proName": "KRX:KOSDAQ"
+            },
+            {
+              "description": "",
+              "proName": "FX_IDC:USDKRW"
+            }
+          ],
+          "showSymbolLogo": true,
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "displayMode": "regular",
+          "locale": "kr"
+        }
+      `;
+      document.querySelector('.tradingview-widget-container__widget').appendChild(script);
+    };
+
+    // Call the function to load TradingView widget
+    loadTradingViewWidget();
+
+    // ... (your existing code)
+
+  }, [code]);
 
   return (
     <div>
@@ -427,32 +476,10 @@ export default function ChartComponent() {
             />{chartData.name}{isStarred ? <FaStar id='star'/> : <FaRegStar id='star'/>}</div>
           <div className='stockinfo'>
 
-            <TickerTape 
-              colorTheme="dark"
-              isTransparent="true"
-              locale="kr"
-              showSymbolLogo="false"
-              displayMode="regular"
-              symbols={[
-                {
-                  description: 'KRW 대 USD',
-                  proName: 'FX_IDC:KRWUSD',
-                },
-                {
-                  description: chartData.name, 
-                  proName: `KRX:${code}`, 
-                },
-                {
-                  description: '코스피',
-                  proName: 'KRX:KOSPI',
-                },
-                {
-                  description: '코스닥',
-                  proName: 'KRX:KOSDAQ',
-                },
-              ]}
-            >
-            </TickerTape>
+            {/* 여기에 위젯 */}
+            <div className="tradingview-widget-container">
+          <div className="tradingview-widget-container__widget"></div>
+        </div>
           </div>
 
         </div>
@@ -461,13 +488,13 @@ export default function ChartComponent() {
         {chartData.valuechain ? (
           <div className='valuechain'>
             <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
-            <div className='value2'><ValueModal id='valueinfo2'/></div>
+            <div className='value2'><ChartModal id='valueinfo2'/></div>
           </div>
         ) : 
         // 벨류체인 없을때는??
           <div className='valuechain'>
             <div className='value'><ValueStockModal code={code} id='valueinfo1'/></div>
-            <div className='value2'><ValueModal id='valueinfo2'/></div>
+            <div className='value2'><ChartModal id='valueinfo2'/></div>
           </div>
         }
 

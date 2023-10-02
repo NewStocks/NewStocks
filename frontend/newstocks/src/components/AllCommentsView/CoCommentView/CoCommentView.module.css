@@ -1,6 +1,9 @@
 .comment-container {
-  padding: 10px 0 10px 0;
+  /* padding: 10px 0 10px 0; */
   display: flex;
+  border-left: 1px solid #8C8C8C;
+  margin: 10px 0 18px 25px;
+  /* border-bottom: 1px solid white; */
 }
 
 .left {
@@ -47,6 +50,12 @@
   margin: 7px 0 7px 33px;
 }
 
+.content pre {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .replying-to {
   color: #8C8C8C;
   font-size: 14px;
@@ -63,6 +72,10 @@
 }
 
 /* 좋아요, 대댓글 */
+.reply-bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+}
 .icons {
   display: flex;
   padding: 10px;
@@ -99,4 +112,8 @@
 
 .comment-container hr {
   color: white;
+}
+
+#reply-update {
+  margin-right: 10px;
 }

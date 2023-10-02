@@ -2,19 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['s3.ap-northeast-2.amazonaws.com', 'file.alphasquare.co.kr']
+    domains: ['s3.ap-northeast-2.amazonaws.com', 'file.alphasquare.co.kr', 'k.kakaocdn.net']
   },
   experimental: {
     appDir: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https', 
-        hostname: "file.alphasquare.co.kr"
-      }
-    ]
-  },
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'https', 
+  //       hostname: "file.alphasquare.co.kr"
+  //     }
+  //   ]
+  // },
   async headers() {
     return [
       {

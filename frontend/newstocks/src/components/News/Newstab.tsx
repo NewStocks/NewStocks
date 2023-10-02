@@ -167,7 +167,6 @@ export default function Newstab() {
             }
           });
           setNewsData(filteredNewsData)
-          console.log(filteredNewsData)
           // setNewsData(newsData)
           const datenews: DateNewsItem[]=[]
 					res.data.forEach((item:any) => {
@@ -177,12 +176,15 @@ export default function Newstab() {
 							datenews.push(item)
 						}
 					});
-          const sorteddateNewsData = datenews.slice().sort((a, b) => {
-            if (filterOptions.sortBy === 'latest') {
-              return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
-            } else {
-              return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
-            }
+            const sorteddateNewsData = datenews.slice().sort((a: DateNewsItem, b: DateNewsItem) => {
+              if (filterOptions.sortBy === 'latest') {
+                return new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime();
+              } else if (filterOptions.sortBy === 'oldest') {
+                return new Date(a.publishTime).getTime() - new Date(b.publishTime).getTime();
+              } else if (filterOptions.sortBy === 'mentions') {
+                return b.duplicatedCount - a.duplicatedCount; // 언급 횟수 정렬
+              }
+              return 0;
           });
           const filtereddateNewsData = sorteddateNewsData.filter((item) => {
             if (filterOptions.filterBy === 'all') {
@@ -229,7 +231,6 @@ export default function Newstab() {
 						}
 					});
           setdateValuenews(datevaluenews)
-          console.log(valuenews)
         })
         .catch((err) => {
           console.log(err);
@@ -361,8 +362,13 @@ export default function Newstab() {
               date_valuecurrentItems.map((newsItem, index) => (
                 <div className={styles["newscontent"]} key={index}>
                   <div className={styles["newscontentup"]}>
-                    <div className={styles["newscompany"]}>
-                      {newsItem.company}
+                  <div className={styles["newscompany"]}>
+                      <div className={styles["value"]}>
+                        {newsItem.valueChainName}
+                      </div>
+                      <div>
+                        {newsItem.company}
+                      </div>
                     </div>
                     <div className={styles["newsdate"]}>{newsItem.publishTime}</div>
                   </div>

@@ -33,10 +33,15 @@
 }
 
 .social-login-button:hover {
+  border: 1.5px solid rgba(119, 119, 119, 0.849);
 }
 
 #google-box {
   border: 0.01rem solid rgba(119, 119, 119, 0.375);
+}
+
+#google-box:hover {
+  border: 1.5px solid rgba(119, 119, 119, 0.849);
 }
 
 .social-icon {

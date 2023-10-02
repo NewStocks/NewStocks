@@ -2,20 +2,23 @@
 import styles from "./detailpage.module.css";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import NEWStocksSample from '../../../../public/sample_image.png'
 
-import { getPostDetail } from '@/services/posts'
+import { getPostDetail, deletePost} from '@/services/posts'
 import { Comment, createComment, getComments, updateComment, deleteComment } from '@/services/comments'
 
 import Button from "@/components/Button/Button";
 import AllCommentsView from "@/components/AllCommentsView/AllCommentsView";
 import StockInfo from "@/components/StockInfo/StockInfo";
+import ImageDetailCarousel from "@/components/ImageDetailCarousel/ImageDetailCarousel"
 import CommentInput from "@/components/CommentInput/CommentInput";
+import LikeButton from "@/components/LikeButton/LikeButton";
+import ScrapButton from "@/components/ScrapButton/ScrapButton"
+import MultiCarousel from "@/components/MultiCarousel/MultiCarousel";
 
 import { IoIosArrowBack } from "react-icons/io";
-import { BsBookmark } from "react-icons/bs";
-import { BiCommentDetail } from "react-icons/bi";
-import { AiOutlineStar } from "react-icons/ai";
-import { AiOutlineShareAlt } from "react-icons/ai";
 
 type Member = {
   profileImage: string
@@ -23,9 +26,14 @@ type Member = {
 }
 
 type Post = {
+  id: string
   title: string
   content: string
   hasAuthority: boolean
+  isScrapped: boolean
+  isLiked: boolean
+  scrapCount: number
+  likeCount: number
 }
 type Stock = {
   id: string
@@ -42,19 +50,25 @@ type Props = {
 };
 
 export default function DetailnotePage({ params: {id} }: Props) {
+  const router = useRouter()
   const [member, setMember] = useState<Member | null>(null) 
   const [comments, setComments] = useState<Comment[] | null>([])
   const [stock, setStock] = useState<Stock | null>(null)
   const [post, setPost] = useState<Post | null>(null)
-  // const [imageList, setImageList] = useState([])
+  const [imageList, setImageList] = useState(null)
+  const [imageListLength, setimageListLength] = useState(null)
 
   useEffect(() => {
     getPostDetail(id)
+    .then(res => res.data)
     .then(res => {
-      setMember(res.data.memberDto)
-      setComments(res.data.replyResDtoList)
-      setStock(res.data.stockDto)
-      setPost(res.data)
+      console.log(res)
+      setMember(res.memberDto)
+      setComments(res.replyResDtoList)
+      setStock(res.stockDto)
+      setPost(res)
+      setImageList(res.reviewNoteImageDtoList)
+      setimageListLength(res.reviewNoteImageDtoList.length)
     })
   // eslint-disable-next-line 
   }, [])
@@ -78,6 +92,13 @@ export default function DetailnotePage({ params: {id} }: Props) {
     .then(() => getComments(postId).then((res) => {setComments(res.data); console.log(res.data)}))
   }
 
+  // 노트 삭제
+  const DeleteNoteApi = (postId: string) => {
+    deletePost(postId)
+    .then(() => console.log("delete-sucess"))
+    .then(() => router.push("/community/mine?page=my"))
+  }
+
   return (
     <div className={styles.main}>
       <div className={styles["detail-back"]}>
@@ -94,8 +115,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
               <Image
                 src={member ? member.profileImage : ''}
                 alt="image preview"
-                width="25"
-                height="25"
+                width="35"
+                height="10"
                 className={styles["profile-img"]}
               />
               <div className={styles["profile-name"]}>{member && member.name}</div>
@@ -104,8 +125,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
           </div>
 
           <div className={styles["header-right"]}>
-            <div>스크랩하기</div>
-            <BsBookmark size="20" />
+            {post && <ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount} detail={true}/>}
           </div>
         </div>
 
@@ -114,8 +134,8 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
           {post && post.hasAuthority && 
           (<div className={styles["sub-Buttons"]}>
-            <div><Button text="수정하기" highlight={true} kindof={null}/></div>
-            <div><Button text="삭제하기" highlight={true} kindof={null}/></div>
+            <div><Link href={{pathname: `/community/update`, query: id}}><Button text="수정하기" highlight={true} kindof={null}/></Link></div>
+            <div onClick={() => DeleteNoteApi(post.id)}><Button text="삭제하기" highlight={true} kindof={null}/></div>
           </div>)
           }
         </div>
@@ -124,30 +144,33 @@ export default function DetailnotePage({ params: {id} }: Props) {
           {stock && <StockInfo stock={stock}/>}
         </div>
 
-        <div className={styles["tag-box"]}>
+        {/* <div className={styles["tag-box"]}>
           <div>#우량주</div>
           <div>#급매</div>
-        </div>
+        </div> */}
 
         <div className={styles["content-box"]}>
-          <div className={styles["img"]}></div>
-          <div className={styles["content"]}>
-            {post && post.content}
-          </div>
+            <div className={styles["img"]}>
+              {imageListLength && imageList ? (<ImageDetailCarousel images={imageList} />)
+              :
+              (<Image
+                src={NEWStocksSample}
+                alt="note image"
+                className={styles["image-container"]}
+                placeholder="blur"
+              />)
+              }
+            </div>
+                  
+            {post && <div className={styles["content"]} dangerouslySetInnerHTML={{ __html: post.content }}></div>}
         </div>
       </div>
 
       <div className={styles["icons-container"]}>
+        {post && <LikeButton status={post.isLiked} id={id} count={post.likeCount} detail={true}/>}
+
         <div>
-          <BiCommentDetail className={styles["icons"]} size="23" />
-          <p>15</p>
-        </div>
-        <div>
-          <AiOutlineStar className={styles["icons"]} size="23" />
-          <p>15</p>
-        </div>
-        <div>
-          <AiOutlineShareAlt className={styles["icons"]} size="23" />
+          {/* <AiOutlineShareAlt className={styles["icons"]} size="23" /> */}
         </div>
       </div>
 
@@ -156,7 +179,11 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentview-container"]}>
-        {comments && <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>}
+        {comments && comments.length > 0 ? <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
+        : <div className={styles["no-comments"]}>
+            <div className={styles["no-comments-first"]}>🤔 댓글이 없습니다!</div>
+            <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>
+          </div>}
       </div>
     </div>
   );

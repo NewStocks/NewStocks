@@ -15,8 +15,18 @@ export default function LoginButtons() {
   
     window.location.href = link
 
-    console.log('success!!')
+    console.log('kakao success!!')
   }
+
+  const googleLoginHandler = () => {
+    const REST_API_KEY = '679511983072-6lgubsthb92sucrglp1cddt91g29er1n.apps.googleusercontent.com'
+    const REDIRECT_URI = 'http://localhost:3000/auth/login/google'
+    const link = `https://accounts.google.com/o/oauth2/auth?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&access_type=offline&prompt=consent&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`
+    window.location.href = link
+
+    console.log('google success!!')
+  }
+
 
   return (
     <div className={styles["buttons-container"]}>
@@ -34,11 +44,11 @@ export default function LoginButtons() {
           <div className={styles["social-title"]}>카카오 로그인</div>
         </button>
 
-
-        <div className={styles["social-login-button"]} id={styles["google-box"]} style={{ backgroundColor: "white", color: "black"}}>
+        <button className={styles["social-login-button"]} id={styles["google-box"]} style={{ backgroundColor: "white", color: "black"}}
+          onClick={googleLoginHandler}>
           <div className={styles["social-icon"]}><FcGoogle size="20"/></div>
           <div className={styles["social-title"]}>Google 로그인</div>
-        </div>
+        </button>
       </div>
 
       <p className={styles["statement"]}>By proceeding, you agree to our <span>Terms of use</span> and confirm

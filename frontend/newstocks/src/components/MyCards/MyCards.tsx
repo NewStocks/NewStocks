@@ -2,18 +2,53 @@
 import styles from './mycards.module.css'
 import { useEffect, useState } from 'react';
 
-import { Post, getPostsAll } from '@/services/posts' 
+import { Post } from '@/services/posts' 
+import { getMyPosts, getPheedPosts } from '@/services/sortedPosts'
 
 import Card from '@/components/Card/Card';
 
-export default function MyCards() {
-  const [posts, setPosts] = useState<Post[] | null>([])
+// type Props = {
+//   children: React.ReactNode;
+//   // prop으로 받아오는 children의 타입을 지정할 때 
+//   // React의 ReactNode라고 지정해주면 된다.
+// };
+
+type Props = {
+  type: "my" | "scrap" | "following"
+}
+
+export default function MyCards({ type }: Props) {
+  const [posts, setPosts] = useState<Post[] | null>(null)
 
   useEffect(() => {
-    getPostsAll().then((res) =>{setPosts(res.data); console.log(res.data)})
-  }, [])
+
+    if (type==="my") {
+      getMyPosts()
+      .then((res) =>{setPosts(res.data); console.log(res.data)})
+    } else if (type==="following") {
+      getPheedPosts()
+      .then((res) =>{setPosts(res.data); console.log(res.data)})
+    }
+
+  }, [type])
 
   return <section className={styles["section"]}>
-    {posts?.map((post, index) => <Card key={index} post={post} />)}
+    {posts ? (
+      posts?.map((post, index) => <Card key={index} post={post} />)
+    )
+    : type==="following" ? (
+      <div>
+        <div className={styles["title-big"]}>🤔 현재 팔로잉 노트가 없습니다 !</div>
+        <div>다양한 사용자들을 팔로우하고 보다 많은 노트들을 확인해보세요!</div>
+      </div>
+    )
+    : type==="my" ? (
+    <div>
+      <div className={styles["title-big"]}>🤔 현재 나의 노트가 없습니다 !</div>
+      <div>주식 오답노트를 작성하고 나의 투자를 회고해보세요!</div>
+    </div>
+    ) 
+    : (<div>노트가 없습니다.</div>)}
+  
   </section>;
 }

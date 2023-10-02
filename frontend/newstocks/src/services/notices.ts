@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/url'
+import { addAccessTokenToHeaders } from '@/utils/token';
 
 export type Notice = {
   title: string
@@ -16,7 +17,8 @@ export type updateNotice = {
 export async function getNoticesAll() {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/notice/find-all`
+   url: `${BASE_URL}/notice/find-all`,
+   headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }
 
@@ -24,7 +26,8 @@ export async function getNoticesAll() {
 export async function getNoticeDetail(id: string) {
   return await axios({
    method: 'get',
-   url: `${BASE_URL}/notice/find-detail/${id}`
+   url: `${BASE_URL}/notice/find-detail/${id}`,
+   headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }
 
@@ -33,7 +36,8 @@ export async function createNotice({ title, content, multipartFileList }: Notice
   return await axios({
   method: 'post',
   url: `${BASE_URL}/notice/insert`,
-  data: { title, content, multipartFileList }
+  data: { title, content, multipartFileList },
+  headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }
 
@@ -42,7 +46,8 @@ export async function updateNotice({ notice: {title, content, multipartFileList}
   return await axios({
    method: 'patch',
    url: `${BASE_URL}/notice/update/${id}`,
-   data: { title, content, multipartFileList, deletedImageList }
+   data: { title, content, multipartFileList, deletedImageList },
+   headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }
 
@@ -51,5 +56,6 @@ export async function deleteNotice(id: string) {
   return await axios({
    method: 'delete',
    url: `${BASE_URL}/notice/delete/${id}`,
+   headers: addAccessTokenToHeaders(),
   }).then((res) => res)
 }

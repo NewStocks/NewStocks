@@ -39,7 +39,7 @@
 
 .profile {
   display: flex;
-  padding-right: 6px;
+  margin-right: 6px;
 }
 
 .profile-img {
@@ -47,12 +47,14 @@
   height: 25px;
   background-color: #d9d9d96f; */
   border-radius: 100%;
-  margin-right: 6px;
+  margin-right: 10px;
 } 
 
 .profile-name {
   font-size: 20px;
   font-weight: 550;
+  margin-top: 5px;
+  margin-right: 6px;
 }
 
 .time {
@@ -74,7 +76,7 @@
 .detail-subheader {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 10px 0 15px 0;
 }
 
 .title {
@@ -97,7 +99,7 @@
 /* 주식 관련 정보 */
 .stock-box {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 23px;
 }
 
 /* 오답노트 태그 */
@@ -122,11 +124,15 @@
 
 .img {
   padding: 5px;
-  height: 400px;
+  /* height: 400px; */
   max-width: 1440px;
-  background-color: #d9d9d96f;
+  background-color: #d9d9d913;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.image-container {
+  margin: 0 auto;
 }
 
 .content {
@@ -138,7 +144,7 @@
   display: flex;
   padding: 0 6px;
   margin-bottom: 20px;
-  width: 150px;
+  width: 180px;
   margin-left: auto;
 }
 
@@ -154,6 +160,7 @@
 
 .icons {
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 /* 댓글 작성 */
@@ -163,4 +170,14 @@
 
 /* 댓글 view */
 .commentview-container {
+}
+
+.no-comments {
+  padding: 5px 0 5px 45px
+}
+
+.no-comments-first {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 10px 0 10px 0;
 }
