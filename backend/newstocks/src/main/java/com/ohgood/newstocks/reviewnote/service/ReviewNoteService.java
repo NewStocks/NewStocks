@@ -196,7 +196,7 @@ public class ReviewNoteService {
 
     public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseOrMemberAndDeletedFalse(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByDeletedFalseAndPrivacyFalseOrMember(
             member);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
