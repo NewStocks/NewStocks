@@ -3,6 +3,7 @@ package com.ohgood.newstocks.reviewnote.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ohgood.newstocks.global.entity.BaseEntity;
 import com.ohgood.newstocks.member.entity.Member;
+import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
 import com.ohgood.newstocks.stock.entity.Stock;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewNote extends BaseEntity {
@@ -170,5 +170,19 @@ public class ReviewNote extends BaseEntity {
 
     public void decreaseReplyCount() {
         this.replyCount--;
+    }
+
+    public void updateReviewNote(ReviewNoteUpdateReqDto updateDto) {
+        this.title = updateDto.getTitle() == null ? this.title : updateDto.getTitle();
+        this.content = updateDto.getContent() == null ? this.content : updateDto.getContent();
+        this.buyDate = updateDto.getBuyDate() == null ? this.buyDate : updateDto.getBuyDate();
+        this.sellDate = updateDto.getSellDate() == null ? this.sellDate : updateDto.getSellDate();
+        this.buyPrice = updateDto.getBuyPrice() == null ? this.buyPrice : updateDto.getBuyPrice();
+        this.sellPrice = updateDto.getSellPrice() == null ? this.sellPrice : updateDto.getSellPrice();
+        this.buyQuantity = updateDto.getBuyQuantity() == null ? this.buyQuantity : updateDto.getBuyQuantity();
+        this.sellQuantity = updateDto.getSellQuantity() == null ? this.sellQuantity : updateDto.getSellQuantity();
+        this.settingDate = updateDto.getSettingDate() == null ? this.settingDate : updateDto.getSettingDate();
+        this.privacy = updateDto.getPrivacy() == null ? this.privacy : updateDto.getPrivacy();
+        this.type = updateDto.getType() == null ? this.type : updateDto.getType();
     }
 }

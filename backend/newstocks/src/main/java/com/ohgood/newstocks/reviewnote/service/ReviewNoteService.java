@@ -131,7 +131,9 @@ public class ReviewNoteService {
         checkUserAuth(userId, reviewNote);
 
         // 수정 처리, 사용 하기 위해 Setter 엶
-        ReviewNoteMapper.INSTANCE.updateReviewNote(reviewNoteUpdateReqDto, reviewNote);
+        // Setter 다시 닫음
+//        ReviewNoteMapper.INSTANCE.updateReviewNote(reviewNoteUpdateReqDto, reviewNote);
+        reviewNote.updateReviewNote(reviewNoteUpdateReqDto);
         ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(
             reviewNote);
         log.info("업데이트" + reviewNote);
