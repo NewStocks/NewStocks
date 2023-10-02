@@ -1,6 +1,6 @@
 package com.ohgood.newstocks.reviewnote.controller;
 
-import com.ohgood.newstocks.global.service.AwsS3Service;
+
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReviewNoteUpdateReqDto;
@@ -23,89 +23,122 @@ public class ReviewNoteController {
     private final ReviewNoteService reviewNoteService;
 
     @PostMapping
-    public ResponseEntity<ReviewNoteResDto> insertReviewNote(@ModelAttribute ReviewNoteReqDto reviewNoteReqDto) {
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(reviewNoteService.insertReviewNote(reviewNoteReqDto, 5L), HttpStatus.OK);
+    public ResponseEntity<ReviewNoteResDto> insertReviewNote(
+        @ModelAttribute ReviewNoteReqDto reviewNoteReqDto, Authentication authentication) {
+        return new ResponseEntity<>(
+            reviewNoteService.insertReviewNote(reviewNoteReqDto, Long.parseLong(
+                authentication.getName())),
+            HttpStatus.OK);
     }
 
     @GetMapping("/{reviewNoteId}")
-    public ResponseEntity<ReviewNoteResDto> findReviewNote(@PathVariable Long reviewNoteId) {
-        return new ResponseEntity<>(reviewNoteService.findReviewNote(reviewNoteId, 5L), HttpStatus.OK);
+    public ResponseEntity<ReviewNoteResDto> findReviewNote(@PathVariable Long reviewNoteId,
+        Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.findReviewNote(reviewNoteId, Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
+    }
+
+    @GetMapping("find-by-stock-id/{stockId}")
+    public ResponseEntity<List<ReviewNoteResDto>> findReviewNoteListByStockId(@PathVariable String stockId){
+        return new ResponseEntity<>(reviewNoteService.findReviewNoteListByStockId(stockId), HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity<ReviewNoteResDto> updateReviewNote(ReviewNoteUpdateReqDto reviewNoteUpdateReqDto) {
-        log.info(reviewNoteUpdateReqDto + "");
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(reviewNoteService.updateReviewNote(reviewNoteUpdateReqDto, 5L), HttpStatus.OK);
+    public ResponseEntity<ReviewNoteResDto> updateReviewNote(
+        ReviewNoteUpdateReqDto reviewNoteUpdateReqDto, Authentication authentication) {
+        return new ResponseEntity<>(
+            reviewNoteService.updateReviewNote(reviewNoteUpdateReqDto, Long.parseLong(
+                authentication.getName())), HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewNoteId}")
-    public ResponseEntity<Void> deleteReviewNote(@PathVariable Long reviewNoteId) {
-        // Authentication 처리 전 임시 테스트
-        reviewNoteService.deleteReviewNote(reviewNoteId, 5L);
+    public ResponseEntity<Void> deleteReviewNote(@PathVariable Long reviewNoteId,
+        Authentication authentication) {
+        reviewNoteService.deleteReviewNote(reviewNoteId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/find-my")
-    public ResponseEntity<List<ReviewNoteResDto>> findMyReviewNoteList() {
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(reviewNoteService.findMyReviewNoteList(5L), HttpStatus.OK);
+    public ResponseEntity<List<ReviewNoteResDto>> findMyReviewNoteList(
+        Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.findMyReviewNoteList(Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 
     @GetMapping("/find/{memberId}")
-    public ResponseEntity<List<ReviewNoteResDto>> findOtherReviewNoteList(@PathVariable Long memberId) {
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(reviewNoteService.findOtherReviewNoteList(memberId, 5L), HttpStatus.OK);
+    public ResponseEntity<List<ReviewNoteResDto>> findOtherReviewNoteList(
+        @PathVariable Long memberId, Authentication authentication) {
+        return new ResponseEntity<>(
+            reviewNoteService.findOtherReviewNoteList(memberId, Long.parseLong(
+                authentication.getName())),
+            HttpStatus.OK);
     }
 
     @GetMapping("/find-all")
-    public ResponseEntity<List<ReviewNoteResDto>> findAllReviewNoteList() {
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(5L), HttpStatus.OK);
+    public ResponseEntity<List<ReviewNoteResDto>> findAllReviewNoteList(
+        Authentication authentication) {
+        System.out.println("컨트롤러 인");
+        return new ResponseEntity<>(reviewNoteService.findAllReviewNoteList(Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 
     @GetMapping("/find-hot")
-    public ResponseEntity<List<ReviewNoteResDto>> findHotReviewNoteList() {
-        return new ResponseEntity<>(reviewNoteService.findHotReviewNoteList(5L), HttpStatus.OK);
+    public ResponseEntity<List<ReviewNoteResDto>> findHotReviewNoteList(
+        Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.findHotReviewNoteList(Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-keyword/{keyword}")
+    public ResponseEntity<List<ReviewNoteResDto>> findKeywordReviewNoteList(@PathVariable String keyword, Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.findKeywordReviewNoteList(Long.parseLong(
+            authentication.getName()), keyword), HttpStatus.OK);
     }
 
     @GetMapping("/find-scrapped")
-    public ResponseEntity<List<ReviewNoteResDto>> findScrapReviewNoteList() {
-        return new ResponseEntity<>(reviewNoteService.findScrappedReviewNoteList(5L), HttpStatus.OK);
+    public ResponseEntity<List<ReviewNoteResDto>> findScrapReviewNoteList(
+        Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.findScrappedReviewNoteList(Long.parseLong(
+            authentication.getName())),
+            HttpStatus.OK);
     }
 
     @PostMapping("/{reviewNoteId}/like")
-    public ResponseEntity<Void> likeReviewNote(@PathVariable Long reviewNoteId) {
-        // Authentication 처리 전 임시 테스트
-        reviewNoteService.likeReviewNote(reviewNoteId, 5L);
+    public ResponseEntity<Void> likeReviewNote(@PathVariable Long reviewNoteId,
+        Authentication authentication) {
+        reviewNoteService.likeReviewNote(reviewNoteId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewNoteId}/like")
-    public ResponseEntity<Void> deleteLikeReviewNote(@PathVariable Long reviewNoteId) {
-        // Authentication 처리 전 임시 테스트
-        reviewNoteService.deleteLikeReviewNote(reviewNoteId, 5L);
+    public ResponseEntity<Void> deleteLikeReviewNote(@PathVariable Long reviewNoteId,
+        Authentication authentication) {
+        reviewNoteService.deleteLikeReviewNote(reviewNoteId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/{reviewNoteId}/scrap")
-    public ResponseEntity<Void> scrapReviewNote(@PathVariable Long reviewNoteId) {
-        // Authentication 처리 전 임시 테스트
-        reviewNoteService.scrapReviewNote(reviewNoteId, 5L);
+    public ResponseEntity<Void> scrapReviewNote(@PathVariable Long reviewNoteId,
+        Authentication authentication) {
+        reviewNoteService.scrapReviewNote(reviewNoteId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewNoteId}/scrap")
-    public ResponseEntity<Void> deleteScrapReviewNote(@PathVariable Long reviewNoteId) {
-        // Authentication 처리 전 임시 테스트
-        reviewNoteService.deleteScrapReviewNote(reviewNoteId, 5L);
+    public ResponseEntity<Void> deleteScrapReviewNote(@PathVariable Long reviewNoteId,
+        Authentication authentication) {
+        reviewNoteService.deleteScrapReviewNote(reviewNoteId, Long.parseLong(
+            authentication.getName()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/pheed")
-    public ResponseEntity<List<ReviewNoteResDto>> getPheed() {
-        // Authentication 처리 전 임시 테스트
-        return new ResponseEntity<>(reviewNoteService.getPheed(5L), HttpStatus.OK);
+    public ResponseEntity<List<ReviewNoteResDto>> getPheed(Authentication authentication) {
+        return new ResponseEntity<>(reviewNoteService.getPheed(Long.parseLong(
+            authentication.getName())), HttpStatus.OK);
     }
 }

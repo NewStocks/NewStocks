@@ -5,6 +5,8 @@ import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -14,10 +16,9 @@ public class ReplyResDto {
     private String content;
     private MemberDto memberDto;
     private Integer likeCount;
-
     private Boolean hasAuthority;
     private Boolean isLiked;
-
+    private List<ReplyCommentResDto> replyCommentResDtoList = new ArrayList<>();
 
     @JsonIgnore
     private ReviewNote reviewNote;
@@ -36,10 +37,12 @@ public class ReplyResDto {
         this.memberDto = MemberMapper.INSTANCE.entityToMemberDto(this.member);
     }
 
-    public void checkMember(Member member) {
+    public void checkMemberAndIsLiked(Member member, Boolean isLiked) {
         this.hasAuthority = this.getMember().equals(member);
+        this.isLiked = isLiked;
+    }
 
-        // TODO 추후 변경 필요
-        this.isLiked = false;
+    public void addReplyComment(List<ReplyCommentResDto> replyCommentResDtoList) {
+        this.replyCommentResDtoList = replyCommentResDtoList;
     }
 }

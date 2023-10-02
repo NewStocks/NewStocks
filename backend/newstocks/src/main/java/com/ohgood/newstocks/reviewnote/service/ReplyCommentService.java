@@ -8,9 +8,12 @@ import com.ohgood.newstocks.reviewnote.dto.ReplyCommentReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReplyCommentResDto;
 import com.ohgood.newstocks.reviewnote.entity.Reply;
 import com.ohgood.newstocks.reviewnote.entity.ReplyComment;
+import com.ohgood.newstocks.reviewnote.entity.ReplyCommentLike;
 import com.ohgood.newstocks.reviewnote.mapper.ReplyCommentMapper;
+import com.ohgood.newstocks.reviewnote.repository.ReplyCommentLikeRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReplyCommentRepository;
 import com.ohgood.newstocks.reviewnote.repository.ReplyRepository;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +29,14 @@ public class ReplyCommentService {
     private final ReplyCommentRepository replyCommentRepository;
     private final ReplyRepository replyRepository;
     private final MemberRepository memberRepository;
+    private final ReplyCommentLikeRepository replyCommentLikeRepository;
 
     @Transactional
     public ReplyCommentResDto insertReplyComment(ReplyCommentReqDto replyCommentReqDto,
-        Long replyId, long memberId) {
+        Long replyId, Long memberId) {
         Member member = findMemberById(memberId);
         Reply reply = findReplyById(replyId);
+
         ReplyCommentResDto replyCommentResDto = ReplyCommentMapper.INSTANCE.replyCommentReqDtoToReplyCommentResDto(
             replyCommentReqDto);
         replyCommentResDto.addDetails(member, reply);
@@ -41,21 +46,31 @@ public class ReplyCommentService {
 
         replyCommentResDto = ReplyCommentMapper.INSTANCE.entityToReplyCommentResDto(replyComment);
         replyCommentResDto.addDetailDtos();
-        replyCommentResDto.checkMember(member);
+        replyCommentResDto.checkMemberAndIsLiked(member, false);
+        reply.getReviewNote().increaseReplyCount();
 
         return replyCommentResDto;
     }
 
     public List<ReplyCommentResDto> findReplyComment(Long replyId, Long memberId) {
+        System.out.println("replyId = " + replyId);
         Reply reply = findReplyById(replyId);
         Member member = findMemberById(memberId);
 
-        List<ReplyComment> replyCommentList = replyCommentRepository.findByReply(reply);
-        List<ReplyCommentResDto> replyCommentResDtoList = replyCommentList.stream()
-            .map(ReplyCommentMapper.INSTANCE::entityToReplyCommentResDto).toList();
-        replyCommentResDtoList.forEach(ReplyCommentResDto::addDetailDtos);
-        replyCommentResDtoList.forEach(
-            replyCommentResDto -> replyCommentResDto.checkMember(member));
+        List<ReplyComment> replyCommentList = replyCommentRepository.findByReplyAndDeletedFalse(
+            reply);
+        List<ReplyCommentResDto> replyCommentResDtoList = new ArrayList<>();
+
+        for (ReplyComment replyComment : replyCommentList) {
+            ReplyCommentResDto replyCommentResDto = ReplyCommentMapper.INSTANCE.entityToReplyCommentResDto(
+                replyComment);
+            Boolean isLiked = replyCommentLikeRepository.findByReplyCommentAndMember(replyComment,
+                member).isPresent();
+            replyCommentResDto.checkMemberAndIsLiked(member, isLiked);
+            replyCommentResDto.addDetailDtos();
+            replyCommentResDtoList.add(replyCommentResDto);
+        }
+
         return replyCommentResDtoList;
     }
 
@@ -69,11 +84,40 @@ public class ReplyCommentService {
     }
 
     @Transactional
-    public void deleteReplyComment(Long replyCommentId, Long memberId) {
+    public void deleteReplyComment(Long replyId, Long replyCommentId, Long memberId) {
         ReplyComment replyComment = findReplyCommentById(replyCommentId);
+        Reply reply = findReplyById(replyId);
+
+        reply.getReviewNote().decreaseReplyCount();
         checkUserAuth(memberId, replyComment);
         replyComment.delete();
         replyCommentRepository.save(replyComment);
+    }
+
+    @Transactional
+    public void likeReplyComment(Long replyCommentId, Long memberId) {
+        ReplyComment replyComment = findReplyCommentById(replyCommentId);
+        Member member = findMemberById(memberId);
+
+        if (replyCommentLikeRepository.findByReplyCommentAndMember(replyComment, member)
+            .isPresent()) {
+            throw new BadRequestException("이미 좋아요한 대댓글입니다.");
+        }
+        replyCommentLikeRepository.save(
+            ReplyCommentLike.builder().replyComment(replyComment).member(member).build());
+        replyComment.increaseLikeCount();
+    }
+
+    @Transactional
+    public void deleteLikeReplyComment(Long replyCommentId, Long memberId) {
+        ReplyComment replyComment = findReplyCommentById(replyCommentId);
+        Member member = findMemberById(memberId);
+
+        ReplyCommentLike replyCommentLike = replyCommentLikeRepository.findByReplyCommentAndMember(
+                replyComment, member)
+            .orElseThrow(() -> new BadRequestException("좋아요 하지 않은 대댓글입니다."));
+        replyCommentLikeRepository.delete(replyCommentLike);
+        replyComment.decreaseLikeCount();
     }
 
     // -- 내부 메서드 --

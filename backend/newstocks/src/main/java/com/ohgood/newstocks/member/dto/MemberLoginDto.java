@@ -9,11 +9,13 @@ import lombok.Data;
 public class MemberLoginDto {
 
     private MemberDto memberDto;
+    private String accessToken;
     private List<FavoriteStock> favoriteStockList;
 
     @Builder
-    public MemberLoginDto(MemberDto memberDto, List<FavoriteStock> favoriteStockList) {
+    public MemberLoginDto(MemberDto memberDto, List<FavoriteStock> favoriteStockList, String accessToken) {
         this.memberDto = memberDto;
         this.favoriteStockList = favoriteStockList;
+        this.accessToken=accessToken;
     }
 }

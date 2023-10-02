@@ -17,11 +17,16 @@ public class ReplyCommentLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reply_comment_id")
+    private ReplyComment replyComment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public ReplyCommentLike(Member member) {
+    public ReplyCommentLike(ReplyComment replyComment, Member member) {
+        this.replyComment = replyComment;
         this.member = member;
     }
 }

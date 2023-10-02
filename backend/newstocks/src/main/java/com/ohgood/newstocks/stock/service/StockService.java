@@ -59,20 +59,28 @@ public class StockService {
         List<ChartSeriesDto> chartSeriesDtoList = new ArrayList<>();
         String[] names = {"주식정보", "뉴스정보", "오답노트 정보"};
         String[] types = {"candlestick", "scatter", "scatter"};
-        for (int branch = 0; branch < 3; branch++) {
-            chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[branch]).type(types[branch])
-                .data(findAllDataByStockId(branch, stockId)).build());
-        }
+        chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[0]).type(types[0])
+            .data(findAllChartDataByStockId(stockId)).build());
+        chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[1]).type(types[1])
+            .data(findAllNewsDataByStockId(stockId)).build());
+        chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[2]).type(types[2])
+            .data(new ArrayList<>()).build());
         return ChartResDto.builder().name(stockId).series(chartSeriesDtoList).build();
     }
 
-    public List<DataDto> findAllDataByStockId(int branch, String stockId) {
-        return switch (branch) {
-            case 0 -> findAllChartDataByStockId(stockId);
-            case 1 -> findAllNewsDataByStockId(stockId);
-            default -> findAllReviewNoteDataByStockId(stockId);
-        };
+    public ChartResDto findChartSeriesByStockIdAndNote(String stockId, String memberId) {
+        List<ChartSeriesDto> chartSeriesDtoList = new ArrayList<>();
+        String[] names = {"주식정보", "뉴스정보", "오답노트 정보"};
+        String[] types = {"candlestick", "scatter", "scatter"};
+        chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[0]).type(types[0])
+            .data(findAllChartDataByStockId(stockId)).build());
+        chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[1]).type(types[1])
+            .data(findAllNewsDataByStockId(stockId)).build());
+        chartSeriesDtoList.add(ChartSeriesDto.builder().name(names[2]).type(types[2])
+            .data(findAllReviewNoteDataByStockIdAndMemberId(stockId,Long.parseLong(memberId))).build());
+        return ChartResDto.builder().name(stockId).series(chartSeriesDtoList).build();
     }
+
 
     private List<DataDto> findAllChartDataByStockId(String stockId) {
         List<DataDto> chartDataDtoList = new ArrayList<>();
@@ -92,9 +100,9 @@ public class StockService {
         return chartDtoList;
     }
 
-    private List<DataDto> findAllReviewNoteDataByStockId(String stockId) {
+    private List<DataDto> findAllReviewNoteDataByStockIdAndMemberId(String stockId, Long memberId) {
         List<DataDto> reviewNoteDataDtoList = new ArrayList<>();
-        List<ReviewNoteDto> reviewNoteDtoList = findAllReviewNoteDto(stockId);
+        List<ReviewNoteDto> reviewNoteDtoList = findAllReviewNoteDto(stockId, memberId);
 
         for (ReviewNoteDto reviewNoteDto : reviewNoteDtoList) {
             reviewNoteDataDtoList.add(
@@ -103,8 +111,8 @@ public class StockService {
         return reviewNoteDataDtoList;
     }
 
-    public List<ReviewNoteDto> findAllReviewNoteDto(String stockId) {
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockId(stockId);
+    public List<ReviewNoteDto> findAllReviewNoteDto(String stockId, Long memberId) {
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndMemberId(stockId, memberId);
         List<ReviewNoteDto> reviewNoteDtoList = new ArrayList<>();
         for (ReviewNote reviewNote : reviewNoteList) {
             reviewNoteDtoList.add(ReviewNoteMapper.INSTANCE.entityToReviewNoteDto(reviewNote));
@@ -122,8 +130,12 @@ public class StockService {
     }
 
     public StockResDto findStockInfoByStockId(String stockId) {
+        System.out.println("findStockInfo");
         Stock stock = stockRepository.findById(stockId)
             .orElseThrow(() -> new BadRequestException("관련 주식 정보가 존재하지 않습니다."));
+        if(!stock.getStockCategoryList().isEmpty()){
+            stock.setSector(stock.getStockCategoryList().get(0).getCategoryName());
+        }
         return StockMapper.INSTANCE.entityToStockResDto(stock);
     }
 
@@ -204,6 +216,5 @@ public class StockService {
             // 예외가 발생하면 예외 메시지를 문자열로 반환
             return "실패: " + e.getMessage();
         }
-
     }
 }
