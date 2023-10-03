@@ -1,0 +1,51 @@
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_ID}
+    password: ${DB_PWD}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 5
+      connection-timeout: 10000
+      connection-init-sql: SELECT 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+python:
+  server:
+    stock:
+      url: ${PYTHON_SERVER_STOCK_URL}
+
+logging:
+  level:
+    root: info
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS}
+      secret-key: ${AWS_SECRET}
+    s3:
+      bucket: ${S3_BUCKET}
+      url: ${S3_URL}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+server:
+  port: 8200
