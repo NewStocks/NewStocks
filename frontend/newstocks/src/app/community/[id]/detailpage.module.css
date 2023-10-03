@@ -1,0 +1,260 @@
+.main {
+  padding: 4rem 4rem;
+  min-height: 100vh;
+  min-width: 900px;
+}
+
+/* 상단 뒤로가기 버튼 */
+.detail-back button {
+  border: 0;
+  display: flex;
+  background-color: transparent;
+  color: #4FE7B0;
+  cursor: pointer;
+}
+
+.detail-back button:hover {
+  font-weight: 550;
+}
+
+.detail-back button div {
+  font-size: 16px;
+}
+
+/* 작성한 글 content 출력 */
+.content-container {
+  padding: 0 6px;
+}
+
+/* 작성자 프로필 및 스크랩 */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.header-left {
+  display: flex;
+}
+
+.profile {
+  display: flex;
+  margin-right: 6px;
+}
+
+.profile-img {
+  width: 30px;
+  height: 30px;
+  background-color: #d9d9d96f;
+  border-radius: 100%;
+  margin-right: 10px;
+  margin-top: 5px;
+} 
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 550;
+  margin-top: 5px;
+  margin-right: 6px;
+}
+
+.time {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.818);
+  padding: 7px 0 0 0;
+}
+
+.header-right {
+  display: flex;
+  cursor: pointer;
+}
+
+.header-right div {
+  margin: 0 6px 10px 0;
+}
+
+/* 글 제목 영역 */
+.detail-subheader {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0 15px 0;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.sub-Buttons {
+  display: flex;
+}
+
+.sub-Buttons div {
+  width: 100px;
+  height: 35px;
+  margin-left: 15px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* 주식 관련 정보 */
+.stock-box {
+  display: flex;
+  margin-bottom: 23px;
+}
+
+/* 매수, 매도 정보 */
+.deal-info-container {
+  display: flex;
+}
+.deal-container {
+  margin-bottom: 18px;
+}
+
+.deal-box {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.deal-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  background-color: #4FE7B0;
+  margin-top: 8px;
+  margin-right: 8px;
+}
+
+.deal-title {
+  color: #4FE7B0;
+  font-size: 21px;
+  font-weight: 550;
+}
+
+.deal-date {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.818);
+  margin: 4px 0 0 12px;
+}
+
+.deal-sub-box {
+  display: flex;
+  margin-left: 65px;
+}
+
+.deal-subtitle {
+  font-size: 20px;
+  font-weight: 550;
+  margin: 0 10px 10px 10px;
+}
+
+.deal-figure {
+  margin-top: 3px;
+}
+
+.deal-profit-box {
+  width: 250px;
+  height: 110px;
+  border-radius: 16px;
+  background: #12172D;
+
+  margin: 0 0 0 60px;
+}
+
+#profit-title {
+  margin: 20px 0 0 30px;
+  font-size: 21px;
+  display: flex;
+}
+
+#profit-icon {
+  color: #4FE7B0;
+  margin: 3px 0 0 8px;
+}
+
+#profit {
+  margin: 7px 0 0 30px;
+  font-size: 21px;
+  font-weight: 600;
+  display: flex;
+}
+
+/* 오답노트 태그 */
+.tag-box {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.tag-box div {
+  border-radius: 50px;
+  font-size: 13.5px;
+  height: 25px;
+  padding: 0 8px;
+  padding-top: 2px;
+  background-color: #4fe7af4f;
+  margin-right: 7px;
+}
+
+/* content 영역 ( 사진 + 내용 ) */
+.content-box {
+}
+
+.img {
+  padding: 5px;
+  /* height: 400px; */
+  max-width: 1440px;
+  background-color: #d9d9d913;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.image-container {
+  margin: 0 auto;
+}
+
+.content {
+  margin-bottom: 20px;
+}
+
+/* 하단 댓글 좋아요 공유 아이콘 */
+.icons-container {
+  display: flex;
+  padding: 0 6px;
+  margin-bottom: 20px;
+  width: 180px;
+  margin-left: auto;
+}
+
+.icons-container div {
+  display: flex;
+}
+
+.icons-container div p {
+  margin: 0;
+  margin-right: 10px;
+  font-size: 17px;
+}
+
+.icons {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+/* 댓글 작성 */
+.commentinput-container {
+  margin-bottom: 15px;
+}
+
+/* 댓글 view */
+.commentview-container {
+}
+
+.no-comments {
+  padding: 5px 0 5px 45px
+}
+
+.no-comments-first {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 10px 0 10px 0;
+}

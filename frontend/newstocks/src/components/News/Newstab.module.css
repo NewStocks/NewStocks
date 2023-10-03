@@ -1,0 +1,162 @@
+.newsmain {
+	border: 1px solid #5a5a5ada;
+	width: 901px;
+}
+.newsmain-head{
+	display: flex;
+}
+.filter-controls {
+	background-color: transparent;
+	display: flex;
+	outline: none;
+	border: none;
+	/* color: #4FE7B0; */
+}
+.filter-option {
+	color: #4FE7B0;
+	background-color: transparent;
+	font-size: 12px;
+}
+
+.custom-select {
+  font-size: 12px;
+  background-color: transparent;
+}
+
+.custom-select::after {
+  content: '\25BC'; 
+  position: absolute;
+  /* top: 10px;
+  right: 10px; */
+  pointer-events: none; 
+}
+
+.custom-select option {
+	/* border: none; */
+  background-color: #00051E;
+  color: rgb(255, 255, 255); 
+	border-radius: 10px;
+}
+
+.custom-select option:checked {
+  background-color: #00051E; 
+  color: rgb(255, 255, 255);
+}
+
+.newscontent{
+	border-bottom: 1px solid #5a5a5ada;
+	padding-left: 5px;
+	height: 50px;
+	transition-duration: 250ms;
+}
+.newscontent:hover {
+	background-color: #646a8990;
+}
+.newsheader {
+	border-bottom: 1px solid #4FE7B0;
+	display: flex;
+	justify-content: space-between;
+	/* display: flex; */
+}
+.globalheader {
+	display: flex;
+	/* justify-content: center; */
+}
+
+
+.headertab {
+	padding: 8px 8px;
+	cursor: pointer;
+	transition: background-color 0.3s ease; 
+}
+.headertab:hover {
+	/* border: 1px solid #4FE7B0;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px; */
+}
+  
+/* .headertab + .headertab {
+	margin-left: 10px;
+  } */
+
+.activeTab {
+	background-color: #4FE7B0; /* 활성 탭 배경색 */
+	color: rgb(0, 0, 0); 
+	cursor: pointer; 
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	font-weight: bold;
+  }
+
+.newscontentup {
+	display: flex;
+	justify-content: space-between;
+	padding-top: 5px;
+}
+.newscontentdown {
+	display: flex;
+	justify-content: space-between;
+}
+.duplicatedCount {
+	margin-right: 10px;
+	font-size: 12px;
+}
+.newstitle {
+	margin-bottom: 5px;
+}
+.newsdate {
+	font-size: 9px;
+	/* display: flex; */
+	justify-content: right;
+	margin-right: 10px;
+}
+.newscompany {
+	font-size: 9px;
+	padding-bottom: 5px;
+	display: flex;
+}
+.pagebuttonbox {
+	display: flex;
+	justify-content: center;
+}
+.pagebutton {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	/* border-radius: 5px; */
+	/* border: 1px solid #4FE7B0; */
+	border: none;
+	box-shadow: none;
+	cursor: pointer;
+}
+.pagenumber {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+.active {
+	margin: 10px;
+	color: aquamarine;
+	background-color: transparent;
+	border-bottom: 1px solid aquamarine;
+	cursor: pointer;
+}
+.no-news {
+	margin: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.datetab {
+	display: flex;
+	align-items: center;
+	margin-left: 10px;
+	font-size: 12px;
+	justify-content: right;
+}
+.value {
+	margin-right: 15px;
+	/* font-size: 13px; */
+}

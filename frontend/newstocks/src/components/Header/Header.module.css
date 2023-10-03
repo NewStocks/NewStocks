@@ -1,32 +1,72 @@
-.storybook-header {
+.header {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 15px 20px;
+  border-bottom: 1px solid #4FE7B0;
+  padding: 15px 30px 15px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
+  height: 48px;
+  color: #fff;
+
+  /* border: 1px dotted red; */
 }
 
-.storybook-header svg {
+.home-link {
+  cursor: pointer;
+}
+
+.header svg {
   display: inline-block;
   vertical-align: top;
 }
 
-.storybook-header h1 {
+.header h1 {
   font-weight: 700;
   font-size: 20px;
   line-height: 1;
   margin: 6px 0 6px 10px;
   display: inline-block;
   vertical-align: top;
+  
+  color: #4FE7B0;
 }
 
-.storybook-header button + button {
+.header button + button {
   margin-left: 10px;
 }
 
-.storybook-header .welcome {
-  color: #333;
-  font-size: 14px;
-  margin-right: 10px;
+.header-left {
+  width: 220px;
+  /* border: 1px dotted white; */
+}
+
+.search-box-container {
+  width: 450px; 
+}
+
+.header-right {
+  width: 220px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-link{
+  width: 60px;
+  margin: 0 0 3px 0;
+  color: #FFF;
+  /* text-align: center; */
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px dotted white; */
+}
+.header-link:hover {
+  color:#4FE7B0
+}
+.header-logo {
+  width: 30px;
+  display: inline-block;
 }

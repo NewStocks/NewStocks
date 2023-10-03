@@ -1,0 +1,32 @@
+.image-box {
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image-box:hover {
+  transform: translate(-2px, -2px);
+}
+
+.image {
+  width: 200px;
+  height: 115px;
+  cursor: pointer; 
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.delete-button {
+  position: absolute;
+  border: 0;
+
+  top: 0px;
+  right: 20px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #c9ffeb;
+  transition: transform 0.3s ease-in-out;
+}
+
+.delete-button:hover {
+  transform: translate(-1px, -1px);
+}

@@ -1,0 +1,15 @@
+.main {
+  padding: 4rem 4rem;
+  min-height: 100vh;
+  min-width: 900px;
+}
+
+.top-menu div {
+  color: #4FE7B0;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.top-menu div:hover {
+  font-weight: 550;
+}

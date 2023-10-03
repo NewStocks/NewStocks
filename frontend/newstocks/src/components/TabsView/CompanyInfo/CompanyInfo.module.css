@@ -1,0 +1,49 @@
+.company-info-wrapper {
+  margin: 10px; 
+  padding: 10px; 
+  /* border: 1px solid white;  */
+}
+
+.company-info-wrapper .hr {
+  margin-top:10px;
+  border-top: 1px solid #8C8C8C;
+}
+
+.stock-profile-wrapper {
+  height: 50px; 
+}
+
+
+.company-detail-wrapper {
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;  
+  margin-top: 20px;
+}
+
+.company-detail-wrapper > p {
+  width: 100%;
+}
+
+.company-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  width: 50%;
+  height: 50px;
+  margin-bottom: 30px;
+  padding-left: 10px;   
+  border-left: 2px solid #4FE7B0; 
+}
+
+.company-detail-title {
+  font-size: 12px;
+  margin-bottom: 2px;
+  color: #8C8C8C 
+
+}
+
+.company-detail-content {
+  font-size: 14px; 
+
+}

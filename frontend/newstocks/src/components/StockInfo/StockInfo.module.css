@@ -1,0 +1,87 @@
+.stock-box {
+  display: flex;
+}
+
+/* 1 */
+.first-box {
+  display: flex;
+  margin-right: 5px;
+}
+
+.first-box div {
+  margin-right: 6px;
+}
+
+.stock-info {
+  color: #8C8C8C;
+  font-size: 14px;
+  padding-top: 1.5px;
+}
+
+.stock-img {
+  border-radius: 100%;
+  margin-right: 6px;
+}
+
+.stock-name {
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 3px;
+}
+
+.stock-id {
+  color: #d9d9d9a8;
+  font-size: 17px;
+  padding-top: 3px;
+}
+
+.move-to-chart {
+  display: flex;
+  /* margin-left: 3px; */
+  border: 1px solid #d9d9d9a8;
+  border-radius: 14px;
+  padding: 2px 3px 2px 6px;
+}
+
+.move-to-chart:hover {
+  color: #4FE7B0;
+  border: 1px solid #4FE7B0;
+  /* border: 1.7px solid #d9d9d9a8; */
+}
+
+.chart-icon {
+ padding-top: 2px;
+}
+
+.move-to-chart div {
+  /* margin-left: 4px; */
+  font-size: 14px;
+  padding: 3px;
+}
+
+/* 2 */
+.second-box {
+  display: flex;
+  margin-right: 5px;
+}
+
+.second-box div {
+  margin-right: 6px;
+}
+
+.upper-case {
+  color: #F00;
+}
+
+#KOSPI {
+  font-size: 17px;
+}
+
+/* 3 */
+.third-box {
+  display: flex;
+}
+
+.third-box div {
+  margin-right: 6px;
+}

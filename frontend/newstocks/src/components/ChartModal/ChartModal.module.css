@@ -1,0 +1,10 @@
+.icon {
+  display: flex;
+  width: auto;
+  height: 32px;
+  cursor: pointer;
+  }
+
+  .logo {
+    margin: 10px;
+  }

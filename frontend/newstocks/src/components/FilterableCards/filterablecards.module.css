@@ -1,0 +1,36 @@
+.section {
+  /* width: 100%; */
+  /* display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0px;
+  justify-content: center; */
+
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0 10px;
+}
+.page-button-box {
+  display: flex;
+  justify-content: center;
+  /* border: 1px dotted red; */
+}
+.page-button {
+  margin: 10px;
+  color: aquamarine;
+  background-color: transparent;
+  /* border-radius: 5px; */
+  /* border: 1px solid #4FE7B0; */
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.page-number {
+  margin: 10px;
+  color: aquamarine;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,86 @@
+.Note-preview-wrapper {
+	border: 1px solid rgba(255, 255, 255, 0.51);
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 10px;
+	height: 150px;
+  overflow-y: scroll;
+	text-decoration: none;
+	color: white;
+	transition: transform 0.3s, border 0.3s;
+}
+.Note-preview-wrapper:hover {
+	transform: translate(2px, 0px);
+	border: 1px solid #4FE7B0;
+}
+.Note-preview-wrapper::-webkit-scrollbar {
+	width: 10px;  
+}
+
+.Note-preview-wrapper::-webkit-scrollbar-thumb {
+	background: rgb(79, 79, 79);/* 스크롤바 색상 */
+	border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+.Note-preview-wrapper::-webkit-scrollbar-track {
+	background: rgba(91, 91, 91, 0.1);  /*스크롤바 뒷 배경 색상*/
+}
+
+.Note-preview-head{
+ display: flex;
+ justify-content: space-between;
+ margin-bottom: 5px;
+}
+.Note-preview-name {
+	display: flex;
+	font-size: 11px;
+	align-items: center;
+}
+.Note-preview-name img {
+	width: 30px; 
+	height: 30px; 
+	border-radius: 50%; 
+	margin-right: 10px; 
+  }
+
+.Note-preview-date {
+	font-size: 11px;
+}
+.Note-preview-text {
+	width: 200px
+}
+.Note-preview-title {
+	display: flex;
+	/* text-decoration: underline rgba(255, 255, 255, 0.51); */
+	margin-bottom: 5px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.Note-preview-content {
+	display: flex;
+	font-size: 11px;
+}
+.Note-preview-image img {
+	width: 130px; 
+	height: 90px; 
+	border-radius: 10%; 
+	/* margin-top: 5px;  */
+}
+.Note-preview-body {
+	display: flex;
+	justify-content: space-between;
+
+}
+.Note-preview-likescrap {
+	display: flex;
+	align-items: center;
+}
+.Note-preview-likescrap-icon {
+	margin-left: 5px;
+	margin-right: 3px;
+}
+.Note-preview-date-text {
+	display: flex;
+	justify-content: flex-end;
+}
