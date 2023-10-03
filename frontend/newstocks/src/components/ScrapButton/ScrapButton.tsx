@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './ScrapButton.module.css'
 
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa6'
@@ -11,12 +11,18 @@ type Props = {
   id: string
   count: number
   detail?: boolean
+  handleChange?: () => void
 }
 
-export default function ScrapButton({status, id, count, detail}: Props) {
-  const [scrap, setScrap] = useState(status)
-  const [scrapCount, setScrapCount] = useState(count)
-  
+export default function ScrapButton({status, id, count, detail, handleChange}: Props) {
+  const [scrap, setScrap] = useState<boolean>(status)
+  const [scrapCount, setScrapCount] = useState<number>(count)
+
+  // useEffect(() => {
+  //   setScrap(status)
+  //   setScrapCount(count)
+  // }, [count])
+
   const handleScrap = () => {
     scrapPost(id)
     .then(res => {})
@@ -26,15 +32,17 @@ export default function ScrapButton({status, id, count, detail}: Props) {
   const handleDeleteScrap = () => {
     deleteScrapPost(id)
     .then(res => {})
-    .then(() => setScrapCount(scrapCount -1))
+    .then(() => {
+      setScrapCount(scrapCount -1);
+    })
   }
 
   return <div className={styles.button}>
           <div className={styles["scrap-count"]}>{scrapCount}{detail && <span>명이 스크랩했습니다</span>}</div>
-          {scrap ? 
-            (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap()}}/>)
-            : 
+          {!scrap ? 
             (<FaRegBookmark className={styles["scrap-icon"]} onClick={() => {setScrap(prev => !prev); handleScrap()}}/>)
+          :
+          (<FaBookmark className={styles["scrap-icon"]} id={styles.scrapped} onClick={() => {setScrap(prev => !prev); handleDeleteScrap();}}/>)
           }
         </div>
 }

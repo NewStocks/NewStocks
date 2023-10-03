@@ -31,8 +31,8 @@ export default function RootLayout({
         <RecoilRootWrapper>
           <Provider>
             <Header />
+            {children}
           </Provider>
-          {children}
         </RecoilRootWrapper>
 
         <Script

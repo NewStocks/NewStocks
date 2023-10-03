@@ -82,7 +82,7 @@ return (
       
       <div className={styles["header-right"]}>
         <Link className={styles["header-link"]} href='/005930?tab=company'><BiBarChartAlt2 size="29"/></Link>
-        {/* <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link> */}
+        <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
         <LoginModal type="headerCommunity"/>
         <LoginModal type="headerLogin"/>
         {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
