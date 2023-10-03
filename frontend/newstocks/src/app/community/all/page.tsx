@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import styles from './allpage.module.css';
 
 import Button from '@/components/Button/Button';
@@ -13,14 +13,24 @@ import { StyledLink } from '@/components/StyledLink/StyledLink'
 
 export default function AllnotesPage() {
   const searchParams = useSearchParams()
+  const router = useRouter();
   const [stockToggle, setStockToggle] = useState(true)
   const [stockInfo, setStockInfo] = useState(null)
+  const [keyword, setKeyword] = useState<string | null>(null)
   const [currFilter, setCurrFilter] = useState<string | null>(null)
 
   useEffect(() => {
     const getItem = searchParams.get('filter')
     setCurrFilter(getItem)
   }, [])
+
+  const handleSearchKeyword = () => {
+    if (!keyword?.trim()) {
+      alert('검색어를 입력해주세요!')
+    } else {
+      router.push(`/community/all?filter=find-keyword&key=${keyword?.trim()}`)
+    }
+  }
   
   return (
     <div className={styles.main}>
@@ -46,8 +56,9 @@ export default function AllnotesPage() {
           </div>
 
           <div className={styles["search-keyword-box"]}>
-            <BiSearch className={styles["search-icon"]} size={25}/>
-            <input type="text" placeholder="'키워드'로 노트 검색"/>
+            <BiSearch className={styles["search-icon"]} size={22}/>
+            <input type="text" placeholder="'키워드'로 노트 검색" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}/>
+            <div className={styles["submit-button"]} onClick={() => handleSearchKeyword()}>검색</div>
           </div>
           
         </div>

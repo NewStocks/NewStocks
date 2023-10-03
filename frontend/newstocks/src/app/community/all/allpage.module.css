@@ -94,13 +94,32 @@
   background-color: transparent;
   width: 350px;
   margin-left: 5px;
-  margin-top: 5px;
+  /* margin-top: 5px; */
   color: white;
 }
 
 .search-icon {
   margin-top: 8px;
   margin-left: 15px;
+}
+
+.search-form {
+  display: flex;
+}
+
+.submit-button {
+  width: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.295);
+  height: 30px;
+  border-radius: 14px;
+  padding-left: 5px;
+  padding-top: 2px;
+  margin: 5px 5px 0 0;
+  cursor:pointer;
+}
+
+.submit-button:hover {
+  border: 1.5px solid #d9d9d9e0;
 }
 
 
@@ -138,6 +157,7 @@
   width: 103.3%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   /* flex-direction: column; */
   margin: 35px 0 0 0;
 }

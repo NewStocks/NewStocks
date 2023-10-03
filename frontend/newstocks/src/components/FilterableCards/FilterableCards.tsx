@@ -21,12 +21,23 @@ export default function FilterableCards() {
 
   useEffect(() => {
     const getItem = searchParams.get('filter')
+    const hasKeyword = searchParams.has('key')
 
-    axios({
-      method: 'get',
-      url: `${BASE_URL}/review-note/${getItem}`,
-      headers: addAccessTokenToHeaders(),
-    }).then((res) => setPosts(res.data))
+    if (!hasKeyword) {
+      axios({
+        method: 'get',
+        url: `${BASE_URL}/review-note/${getItem}`,
+        headers: addAccessTokenToHeaders(),
+      }).then((res) => setPosts(res.data))
+    } else {
+      const getKey = searchParams.get('key')
+      axios({
+        method: 'get',
+        url: `${BASE_URL}/review-note/${getItem}/${getKey}`,
+        headers: addAccessTokenToHeaders(),
+      }).then((res) => setPosts(res.data))
+    }
+
   }, [])
 
   if (!posts) {
@@ -54,7 +65,7 @@ export default function FilterableCards() {
   };
 
   return (
-    <div>
+    <>
       <section className={styles['section']}>
         {posts
         .slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage)
@@ -63,37 +74,37 @@ export default function FilterableCards() {
         ))}
 
       </section>
-        <div className={styles['page-button-box']}>
-          {currentBlock > 1 && (
-              <button
-                  className={`${styles['page-button']} ${styles['prev-button']}`}
-                  onClick={handlePrevBlock}
-              >
-                이전
-              </button>
-          )}
+      <div className={styles['page-button-box']}>
+        {currentBlock > 1 && (
+            <button
+                className={`${styles['page-button']} ${styles['prev-button']}`}
+                onClick={handlePrevBlock}
+            >
+              이전
+            </button>
+        )}
 
-          {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
-              <button
-                  key={startPage + index}
-                  className={`${styles['page-button']} ${
-                      startPage + index === currentPage ? styles['active'] : ''
-                  }`}
-                  onClick={() => handlePageChange(startPage + index)}
-              >
-                {startPage + index}
-              </button>
-          ))}
+        {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
+            <button
+                key={startPage + index}
+                className={`${styles['page-button']} ${
+                    startPage + index === currentPage ? styles['active'] : ''
+                }`}
+                onClick={() => handlePageChange(startPage + index)}
+            >
+              {startPage + index}
+            </button>
+        ))}
 
-          {currentBlock < totalBlocks && (
-              <button
-                  className={`${styles['page-button']} ${styles['next-button']}`}
-                  onClick={handleNextBlock}
-              >
-                다음
-              </button>
-          )}
-        </div>
-    </div>
+        {currentBlock < totalBlocks && (
+            <button
+                className={`${styles['page-button']} ${styles['next-button']}`}
+                onClick={handleNextBlock}
+            >
+              다음
+            </button>
+        )}
+      </div>
+    </>
   );
 }
