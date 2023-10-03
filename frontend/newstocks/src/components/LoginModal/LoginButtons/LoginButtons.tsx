@@ -10,7 +10,7 @@ import { FcGoogle } from 'react-icons/fc'
 export default function LoginButtons() {
   const kakaoLoginHandler = () => {
     const REST_API_KEY = '63c9797738fedd0efff04b806ed9cba0'
-    const REDIRECT_URI = 'https://www.newstocks.kr/auth/login/kakao'
+    const REDIRECT_URI = 'https://www.newstocks.kr/auth/api/login/kakao'
     const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   
     window.location.href = link
