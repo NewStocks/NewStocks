@@ -9,6 +9,7 @@ import { getUserInfo } from '@/services/userInfo';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '@/recoil/userInfo';
 import { IoIosArrowForward } from 'react-icons/io';
+import { AiOutlinePlusCircle } from 'react-icons/ai'
 import Image from 'next/image';
 
 export default function CommunityNav() {
@@ -227,8 +228,8 @@ export default function CommunityNav() {
 
         <div className="tab create">
         {isLoggedIn ? 
-        (<Link href='/community/create' style={{ textDecoration: "none", color: "white"}}><p>글 작성</p></Link>)
-        :(<LoginModal><p>글 작성</p></LoginModal>)}
+        (<Link href='/community/create' style={{ textDecoration: "none", color: "white"}}><div style={{display: "flex"}}><AiOutlinePlusCircle className={styles["add-icon"]}/><p>노트 작성</p></div></Link>)
+        :(<LoginModal><div style={{display: "flex"}}><AiOutlinePlusCircle className={styles["add-icon"]}/><p>노트 작성</p></div></LoginModal>)}
         </div>
 
       </div>
