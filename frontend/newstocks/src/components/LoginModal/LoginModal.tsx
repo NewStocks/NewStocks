@@ -24,7 +24,7 @@ import { IoIosAddCircleOutline } from 'react-icons/io'
 
 type Props = {
   type?: 'nav' | 'headerLogin' | 'headerCommunity' | 'note' | 'favorite' | undefined
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function LoginModal({type, children}: Props) {
