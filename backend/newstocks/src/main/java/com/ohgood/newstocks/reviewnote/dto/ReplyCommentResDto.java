@@ -9,6 +9,8 @@ import com.ohgood.newstocks.reviewnote.entity.Reply;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Data
 @ToString
 public class ReplyCommentResDto {
@@ -20,6 +22,8 @@ public class ReplyCommentResDto {
 
     private Boolean hasAuthority;
     private Boolean isLiked;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     @JsonIgnore
     private Reply reply;
