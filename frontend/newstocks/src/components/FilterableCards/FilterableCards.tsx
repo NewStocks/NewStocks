@@ -1,21 +1,32 @@
 'use client';
 import styles from './filterablecards.module.css'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
+
+import axios from 'axios';
+import { BASE_URL } from '@/utils/url'
+import { addAccessTokenToHeaders } from '@/utils/token';
 
 import { Post, getPostsAll } from '@/services/posts' 
 
 import Card from '@/components/Card/Card';
 
-import { getMyPosts } from '@/services/sortedPosts'
-
 export default function FilterableCards() {
+  const searchParams = useSearchParams();
   const [posts, setPosts] = useState<Post[] | null>([])
+  // const [currFilter, setCurrFilter] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1);
   const postsPerPage = 6; // 페이지당 표시할 카드 수
   const pagesPerBlock = 10; // 각 블록당 표시할 페이지 수
 
   useEffect(() => {
-    getPostsAll().then((res) =>{setPosts(res.data);})
+    const getItem = searchParams.get('filter')
+
+    axios({
+      method: 'get',
+      url: `${BASE_URL}/review-note/${getItem}`,
+      headers: addAccessTokenToHeaders(),
+    }).then((res) => setPosts(res.data))
   }, [])
 
   if (!posts) {

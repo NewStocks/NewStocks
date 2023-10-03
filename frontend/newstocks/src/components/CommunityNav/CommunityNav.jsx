@@ -215,7 +215,7 @@ export default function CommunityNav() {
 
         <div className="tab all">
         {isLoggedIn ? 
-        (<Link href='/community/all?sort=all' style={{ textDecoration: "none", color: "white"}}><p>전체노트</p></Link>)
+        (<Link href='/community/all?filter=find-all' style={{ textDecoration: "none", color: "white"}}><p>전체노트</p></Link>)
         :(<LoginModal><p>전체노트</p></LoginModal>)}
         </div>
 
