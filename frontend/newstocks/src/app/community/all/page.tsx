@@ -17,11 +17,21 @@ export default function AllnotesPage() {
   const [stockToggle, setStockToggle] = useState(true)
   const [stockInfo, setStockInfo] = useState(null)
   const [keyword, setKeyword] = useState<string | null>(null)
-  const [currFilter, setCurrFilter] = useState<string | null>(null)
+  const [currFilter, setCurrFilter] = useState<string | null>('find-all')
+  // const [type, setType] = useState<string>('find-all')
+  const [key, setKey] = useState<string | null>('find-all')
+  // const [keyStatus, setKeyStatus] = useState<boolean>(false)
 
   useEffect(() => {
     const getItem = searchParams.get('filter')
     setCurrFilter(getItem)
+
+    const hasKeyword = searchParams.has('key')
+    // setKeyStatus(hasKeyword)
+    if (hasKeyword) {
+      const getKey = searchParams.get('key')
+      setKey(getKey)
+    }
   }, [])
 
   const handleSearchKeyword = () => {
@@ -42,8 +52,8 @@ export default function AllnotesPage() {
           <StyledLink href='/community/all?filter=find-all'>
             <div className={currFilter==="find-all" ? styles["selected-filter"] : styles["filter"]}>📚전체노트</div>
           </StyledLink>
-          {/* {/* <StyledLink href='/community/all?filter=find-hot'><div className={styles["filter"]}>🔥인기노트</div></StyledLink> */}
-          {/* {stockToggle ?
+          <StyledLink href='/community/all?filter=find-hot'><div className={styles["filter"]}>🔥인기노트</div></StyledLink>
+          {stockToggle ?
           (<div className={styles["filter"]} onClick={() => setStockToggle(prev=>!prev)}>📈종목검색</div>)
           : (<>
           <div className={styles["stock-box"]}>
@@ -52,20 +62,20 @@ export default function AllnotesPage() {
           <div title="종목검색 닫기" onClick={() => setStockToggle(prev=>!prev)} className={styles["stock-close"]}><RiCloseFill className={styles["close-icon"]} size={21}/></div>
           </>
           )
-          } */}
+          }
           </div>
 
-          {/* <div className={styles["search-keyword-box"]}>
+          <div className={styles["search-keyword-box"]}>
             <BiSearch className={styles["search-icon"]} size={22}/>
             <input type="text" placeholder="'키워드'로 노트 검색" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}/>
             <div className={styles["submit-button"]} onClick={() => handleSearchKeyword()}>검색</div>
-          </div> */}
+          </div>
           
         </div>
       </div>
 
       <div className={styles["cards-container"]}>
-        <FilterableCards />
+        <FilterableCards type={currFilter} key={key}/>
       </div>
     </div>
   )
