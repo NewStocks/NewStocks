@@ -45,39 +45,14 @@ export default function LoginModal({type, children}: Props) {
 
   return (
     <>
-      {/* 관심 종목 추가 */}
-      {type === "favorite" && (
-        <div className={styles["like-button"]}>
-          <button onClick={onOpen}>
-          종목 추가
-          <IoIosAddCircleOutline id={styles["like-button-icon"]} />
-          </button>
-        </div>
-      )}
-      {/* 차트 페이지에서 노트 탭 클릭했을 때 뜨는 것들 */}
-      {type === "note" && (
-        <div className={styles["mynote-out-box"]}>
-          <div>NEWStocks에 가입해 오답 노트를 관리해보세요!</div>
-          <button onClick={onOpen}>
-            <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={17} className={styles["login-icon"]}/></div>
-          </button>
-        </div>
-      )}
       {type === "nav" &&
-        (
-          accessToken ? (
-            <>
-            </>
-          ) : (
-            <>
-              <div className={styles["login-subtitle"]}>더 다양한 서비스 이용하기</div>
-              <button onClick={onOpen}>
-                <div className={styles["login-title"]}>로그인 | 회원가입</div>
-                <div className={styles["login-icon"]}><PiArrowSquareRightBold size="21"/></div>
-              </button>
-            </>
-          )
-        )
+        <>
+          <div className={styles["login-subtitle"]}>더 다양한 서비스 이용하기</div>
+          <button onClick={onOpen}>
+            <div className={styles["login-title"]}>로그인 | 회원가입</div>
+            <div className={styles["login-icon"]}><PiArrowSquareRightBold size="21"/></div>
+          </button>
+        </>
       }
       {type === "headerLogin" && 
         (
@@ -91,16 +66,6 @@ export default function LoginModal({type, children}: Props) {
             </>
           )
         )}
-      {/* {type === "headerCommunity" && 
-        (
-          accessToken ? (
-              <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
-          ) : (
-            <>
-              <button><AiOutlineGlobal size="28" onClick={onOpen}/></button>
-            </>
-          )
-        )} */}
       {!type &&
       (
         <section onClick={onOpen}>
