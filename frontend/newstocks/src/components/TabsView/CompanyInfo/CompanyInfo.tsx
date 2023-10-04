@@ -18,12 +18,14 @@ type StockItem = {
   sector: string
 }
 function formatNumber(amount: number) {
-  if (amount >= 1e12) {
-    return (amount / 1e12).toFixed(1) + '조';
-  } else if (amount >= 1e8) {
-    return (amount / 1e8).toFixed(1) + '천억';
-  } else if (amount >= 1e4) {
-    return (amount / 1e4).toFixed(1) + '억';
+  if (amount >= 1000000000000) {
+    return (amount / 1000000000000).toFixed(2) + '조';
+  } else if (amount >= 100000000000) {
+    return (amount / 100000000000).toFixed(2) + '천억';
+  } else if (amount >= 100000000) {
+    return (amount / 100000000).toFixed(2) + '억';
+  } else if (amount >= 10000000) {
+    return (amount / 10000000).toFixed(2) + '천만';
   } else {
     return amount.toString();
   }
@@ -40,6 +42,7 @@ export default function CompanyInfo() {
       fetchStockInfo(code)
         .then((res) => {
           // const date = new Date(res.data[0].publishTime).getTime()
+          console.log(res.data)
           const stockData: StockItem = res.data;
           setStockData(stockData)
         })
@@ -86,7 +89,7 @@ export default function CompanyInfo() {
           </div>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>외국인 비중</div>
-            <div className={styles["company-detail-content"]}>{formatNumber(stockData.foreignPercent)}%</div>
+            <div className={styles["company-detail-content"]}>{stockData.foreignPercent.toFixed(2)}%</div>
           </div>
           <div className={styles["company-detail"]}>
             <div className={styles["company-detail-title"]}>산업군</div>
