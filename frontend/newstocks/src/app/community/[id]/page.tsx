@@ -192,7 +192,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
                   <div className={styles["deal-title"]}>매수</div>
                   {buyDate && (<div className={styles["deal-date"]}>{buyDate}</div>)}
                 </div>
-                {(buyPrice || buyQuantity) ?
+                {(buyPrice != 0 || buyQuantity != 0) ?
                     (<div className={styles["deal-sub-box"]}>
                       <div className={styles["deal-subtitle"]}>매수 가격</div>{buyPrice && (<div className={styles["deal-figure"]}>{buyPrice}원</div>)}
                       <div className={styles["deal-subtitle"]}>매수량</div>{buyQuantity && (<div className={styles["deal-figure"]}>{buyQuantity}</div>)}
@@ -210,7 +210,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
                     <div className={styles["deal-title"]}>매도</div>
                     {sellDate && (<div className={styles["deal-date"]}>{sellDate}</div>)}
                   </div>
-                  {(sellPrice || sellQuantity) ?
+                  {(sellPrice != 0 || sellQuantity != 0) ?
                       (<div className={styles["deal-sub-box"]}>
                         <div className={styles["deal-subtitle"]}>매도 가격</div>{sellPrice && (<div className={styles["deal-figure"]}>{sellPrice}원</div>)}
                         <div className={styles["deal-subtitle"]}>매도량</div>{sellQuantity && (<div className={styles["deal-figure"]}>{sellQuantity}</div>)}
@@ -223,7 +223,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
               </div>
             </div>
 
-            {(buyPrice && buyQuantity && sellPrice && sellQuantity) ? (
+            {(buyPrice != 0 && buyQuantity != 0 && sellPrice != 0 && sellQuantity != 0) ? (
                 <div className={styles["deal-profit-box"]}>
                   <div className={styles["deal-subtitle"]} id={styles["profit-title"]}>수익</div>
                   <div className={styles["deal-figure"]} id={styles["profit"]}>{total}원 <HiMiniArrowTrendingUp id={styles["profit-icon"]}/></div>
