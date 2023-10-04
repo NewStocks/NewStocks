@@ -55,7 +55,7 @@ export default function MyPage({ params }: Props) {
     async function getMyPostsForMyPage() {
       try {
         const res = await getMyPosts();
-        console.log(res.data);
+        // console.log(res.data);
 
         if (res.status === 200) {
           const myPosts = res.data;
@@ -70,8 +70,8 @@ export default function MyPage({ params }: Props) {
               post.sellPrice &&
               post.buyPrice
             ) {
-              console.log(post);
-              console.log(typeof post.sellDate);
+              // console.log(post);
+              // console.log(typeof post.sellDate);
               const profitPerPost =
                 parseInt(post.sellPrice) * parseInt(post.sellQuantity) -
                 parseInt(post.buyPrice) * parseInt(post.buyQuantity);
@@ -99,7 +99,7 @@ export default function MyPage({ params }: Props) {
   const handleLogout = () => {
     // 로그아웃 버튼을 눌렀을 때 실행될 코드
     localStorage.removeItem("access-token"); // access-token 제거
-    router.replace("/");
+    window.location.href="/";
   };
 
   const handleDeleteToast = async () => {
