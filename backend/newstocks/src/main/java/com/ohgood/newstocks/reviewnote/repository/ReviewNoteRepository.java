@@ -16,21 +16,21 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
 
     List<ReviewNote> findReviewNotesByStockId(String stockId);
 
-    List<ReviewNote> findByMemberAndDeletedFalse(Member member);
+    List<ReviewNote> findByMemberAndDeletedFalseOrderByCreatedDateDesc(Member member);
 
-    List<ReviewNote> findByPrivacyFalseAndMemberAndDeletedFalse(Member member);
+    List<ReviewNote> findByPrivacyFalseAndMemberAndDeletedFalseOrderByCreatedDateDesc(Member member);
 
     @Query("select rv from ReviewNote rv where rv.deleted = false and (rv.privacy = false or rv.member = :member)")
     List<ReviewNote> findByDeletedFalseAndPrivacyFalseOrMember(Member member);
 
 
-    List<ReviewNote> findByMemberInAndPrivacyFalseAndDeletedFalse(List<Member> memberList);
+    List<ReviewNote> findByMemberInAndPrivacyFalseAndDeletedFalseOrderByCreatedDateDesc(List<Member> memberList);
 
     List<ReviewNote> findByPrivacyFalseAndDeletedFalseOrderByLikeCountDesc();
 
-    List<ReviewNote> findReviewNotesByStockIdAndMemberIdAndDeletedFalse(String stockId, Long memberId);
+    List<ReviewNote> findReviewNotesByStockIdAndMemberIdAndDeletedFalseOrderByCreatedDateDesc(String stockId, Long memberId);
     
-    List<ReviewNote> findByPrivacyFalseAndDeletedFalseAndAndTitleContainingOrContentContaining(String title, String content);
+    List<ReviewNote> findByPrivacyFalseAndDeletedFalseAndTitleContainingOrContentContainingOrderByCreatedDateDesc(String title, String content);
 
-    List<ReviewNote> findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalse(String stockId);
+    List<ReviewNote> findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalseOrderByCreatedDateDesc(String stockId);
 }
