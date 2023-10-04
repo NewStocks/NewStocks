@@ -22,6 +22,8 @@ export default function AllCommentsView({comments, postId, UpdateCommentApi, Del
       const commentsNumber = comments?.length  
       setLength(commentsNumber) 
     }
+
+    console.log('comments', comments)
   }
   , [comments])
 

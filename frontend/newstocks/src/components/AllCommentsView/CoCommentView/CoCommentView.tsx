@@ -3,7 +3,7 @@ import styles from './CoCommentView.module.css';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { Comment } from "@/services/comments"
+import { Comment, Reply } from "@/services/comments"
 import { likeReply, deleteLikeReply } from "@/services/replies"
 
 import CommentInput from "@/components/CommentInput/CommentInput"
@@ -11,7 +11,7 @@ import CommentInput from "@/components/CommentInput/CommentInput"
 import { BsHandThumbsUpFill, BsHandThumbsUp } from 'react-icons/bs'
 
 type Props = {
-  reply: Comment
+  reply: Reply
   name: string
   commentId: string
   HandleDeleteReplyApi: (commentId: string, replyId: string) => void
