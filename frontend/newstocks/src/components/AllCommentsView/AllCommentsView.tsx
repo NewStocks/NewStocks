@@ -10,7 +10,7 @@ import CoCommentView from './CoCommentView/CoCommentView'
 type Props = {
   comments: Comment[] | null
   postId: string
-  replyCount: string | null
+  replyCount: number| null
   UpdateCommentApi: (postId: string, comment: string, commentId: string) => void
   DeleteCommentApi: (postId: string, commentId: string) => void
 }

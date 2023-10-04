@@ -54,7 +54,7 @@ export default function AllnotesPage() {
     }
   }
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
       handleSearchKeyword()
     }

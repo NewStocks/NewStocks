@@ -72,7 +72,7 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
   // 대댓글 수정 관리
   const UpdateReplyApi = (commentId: string, content: string, replyId: string) => {
     updateReply(commentId, content, replyId)
-    .then(() => getAllReplies(id).then(res => {setReplyList(res.data); setReplyListLength(res.data.length)}))
+    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
   }
 
   // 해당 댓글의 대댓글 불러오기
