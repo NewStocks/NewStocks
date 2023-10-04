@@ -1,5 +1,6 @@
 import styles from './Notepreview.module.css';
 import { FaRegComment, FaRegHeart, FaRegBookmark } from "react-icons/fa";
+import { BsHandThumbsUp } from "react-icons/bs"
 
 interface Props {
   title?: string
@@ -39,7 +40,8 @@ export default function Notepreview({ title, date, name, content, profile, image
             <div className={styles["Note-preview-date-text"]}>{date}</div>
             
             <div className={styles["Note-preview-likescrap"]}>
-              <FaRegHeart className={styles["Note-preview-likescrap-icon"]}/>{likeCount}
+              <BsHandThumbsUp className={styles["Note-preview-likescrap-icon"]}/>{likeCount}
+              {/* <LikeButton />{likeCount} */}
               <FaRegBookmark className={styles["Note-preview-likescrap-icon"]}/>{scrapCount}
               <FaRegComment className={styles["Note-preview-likescrap-icon"]}/>{replyCount}
             </div>

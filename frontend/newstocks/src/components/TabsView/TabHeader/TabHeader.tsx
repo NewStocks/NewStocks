@@ -10,6 +10,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { IoMegaphoneOutline } from "react-icons/io5";
 import { useSearchParams } from 'next/navigation'
+import { AiOutlineUser } from "react-icons/ai";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -41,7 +42,7 @@ export default function TabHeader() {
           className={`${styles["header-item"]} ${searchParams === 'more' ? styles["selected-item"] : ''}`}
           onClick={() => handleIconClick(1)}
         >
-          <IoMegaphoneOutline id={styles["item-icon"]} />
+          <IoDocumentTextOutline id={styles["item-icon"]} />
           <div className={styles["item-text"]}>오답 노트</div>
         </div>
         </StyledLink>
@@ -55,7 +56,7 @@ export default function TabHeader() {
             className={`${styles["header-item"]} ${searchParams === 'notes' ? styles["selected-item"] : ''}`}
             onClick={() => handleIconClick(2)}
           >
-          <IoDocumentTextOutline id={styles["item-icon"]} />
+          <AiOutlineUser id={styles["item-icon"]} />
           <div className={styles["item-text"]}>나의 노트</div>
         </div>
         </StyledLink>

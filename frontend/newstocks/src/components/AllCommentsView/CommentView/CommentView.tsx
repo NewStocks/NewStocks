@@ -1,5 +1,7 @@
 'use client';
 import styles from './CommentView.module.css';
+import styled from 'styled-components'
+import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react'
 
@@ -14,6 +16,11 @@ import { getAllReplies, createReply, deleteReply, updateReply } from "@/services
 import CommentInput from '@/components/CommentInput/CommentInput'
 import CoCommentView from '@/components/AllCommentsView/CoCommentView/CoCommentView'
 import { StyledLink } from '@/components/StyledLink/StyledLink'
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
 
 type Props = {
   comment: Comment

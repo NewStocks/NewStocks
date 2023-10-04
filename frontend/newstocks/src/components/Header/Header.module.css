@@ -70,3 +70,50 @@
   width: 30px;
   display: inline-block;
 }
+
+.tooltip-container {
+  position: relative;
+}
+
+.header-link {
+  position: relative;
+}
+
+.tooltip-community {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #343333;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1;
+  width: 55px;
+  height: 25px;
+  font-size: 11px;
+}
+.tooltip-chart {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #343333;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1;
+  width: 32px;
+  height: 25px;
+  font-size: 11px;
+}
+
+
+.header-link:hover .tooltip-community {
+  display: block;
+}
+.header-link:hover .tooltip-chart {
+  display: block;
+}
