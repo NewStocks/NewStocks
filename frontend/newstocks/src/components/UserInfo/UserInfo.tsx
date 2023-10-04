@@ -62,6 +62,22 @@ export default function UserInfo({ mypage, user }: Props) {
     }
   };
 
+  const editUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputText = e.target.value;
+    console.log(inputText)
+    
+    // 정규 표현식을 사용하여 허용되는 문자 패턴을 정의
+    const allowedPattern = /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$/;
+
+    // 입력 값이 허용된 패턴과 일치하지 않으면 업데이트하지 않음
+    if (!allowedPattern.test(inputText)) {
+      alert("닉네임에는 한글, 영어, 숫자만 사용해주세요")
+      return;
+    }
+
+    setEditedUsername(inputText)
+  }
+
   const handleEditUserName = () => {
     if (!editingUsername) {
       setEditedUsername(user.name);
@@ -193,7 +209,8 @@ export default function UserInfo({ mypage, user }: Props) {
             className={styles["nickname-change-input"]}
             style={{ display: editingUsername ? "inline" : "none" }}
             value={editedUsername}
-            onChange={(e) => setEditedUsername(e.target.value)}
+            maxLength={8}
+            onChange={editUserName}
           />
         </div>
         {mypage && (
