@@ -8,6 +8,8 @@ import NEWStocksSample from '../../../public/sample_image.png';
 import ScrapButton from '@/components/ScrapButton/ScrapButton'
 import LikeButton from '@/components/LikeButton/LikeButton'
 
+import { BiSolidLock } from 'react-icons/bi'
+
 import { useState } from 'react';
 
 import { Post, Member  } from '@/services/posts'
@@ -29,6 +31,7 @@ import { AiOutlineShareAlt } from "react-icons/ai"
 import { MdOutlineSell, MdSell } from "react-icons/md"
 
 export default function Card({post, handleChange}: Props) {
+  console.log(post)
 
   return(
     <div className={styles["card-container"]}>
@@ -67,6 +70,7 @@ export default function Card({post, handleChange}: Props) {
               {/* <div className={styles["stock-img"]}></div> */}
               <div className={styles["stock-name"]}>{post.stockDto.name}</div>
               <div className={styles["stock-id"]}>{post.stockDto.id}</div>
+              {post.privacy && <BiSolidLock style={{ margin: "6px 0 0 3px"}}/>}
             </div>
           </StyledLink>
         </div>
