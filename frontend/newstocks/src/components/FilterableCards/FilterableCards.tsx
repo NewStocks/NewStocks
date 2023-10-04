@@ -53,7 +53,7 @@ export default function FilterableCards({type, key}: Props) {
       .then((res) => setPosts(res))
     }
 
-  }, [type, key])
+  }, [type || key])
 
   if (!posts) {
     return <div>Loading...</div>; // 로딩 중 처리 (선택 사항)
@@ -82,11 +82,16 @@ export default function FilterableCards({type, key}: Props) {
   return (
     <>
       <section className={styles['section']}>
-        {posts
+        {posts.length > 0 ? (posts
         .slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage)
         .map((post, index) => (
             <Card key={index} post={post} />
-        ))}
+        )))
+        :(
+          <>
+          <div style={{ fontWeight: "550", fontSize: "30px"}}>🤔 해당하는 노트가 없습니다!</div>
+          </>
+        )}
 
       </section>
       <div className={styles['page-button-box']}>

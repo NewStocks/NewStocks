@@ -18,10 +18,10 @@ export default function ScrapButton({status, id, count, detail, handleChange}: P
   const [scrap, setScrap] = useState<boolean>(status)
   const [scrapCount, setScrapCount] = useState<number>(count)
 
-  // useEffect(() => {
-  //   setScrap(status)
-  //   setScrapCount(count)
-  // }, [count])
+  useEffect(() => {
+    setScrap(status)
+    setScrapCount(count)
+  }, [count || status])
 
   const handleScrap = () => {
     scrapPost(id)
