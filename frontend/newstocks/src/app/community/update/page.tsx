@@ -9,6 +9,7 @@ const CreatePostForm = dynamic(() => import('@/components/CreatePostForm/CreateP
 import { IoIosArrowBack } from 'react-icons/io'
 
 import { Provider } from '@/utils/ChakraProvider'
+import { useRouter } from 'next/navigation';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -19,6 +20,7 @@ const StyledLink = styled(Link)`
 
 export default function UpdatePage() {
   const [noteId, setNoteId] = useState<string | null>(null)
+  const router = useRouter();
 
   useEffect(() => {
     const id = window.location.search;
@@ -29,10 +31,16 @@ export default function UpdatePage() {
 
   }, []);
 
+  const handleGoBack = () => {
+    router.back();
+  };
+  
   return (
     <div className={styles["main"]}>
       <div className={styles["top-menu"]}>
-        <StyledLink href='/'><IoIosArrowBack /><div>뒤로가기</div></StyledLink>
+        <div style={{ display: "flex"}} onClick={handleGoBack}>
+          <IoIosArrowBack style={{ marginTop: "3px"}}/><button>뒤로가기</button>
+        </div>
       </div>
       <Provider>
         <CreatePostForm work="update"/>

@@ -137,12 +137,17 @@ export default function DetailnotePage({ params: {id} }: Props) {
     .then(() => router.push("/community/mine?page=my"))
   }
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   return (
       <div className={styles.main}>
         <div className={styles["detail-back"]}>
           <button>
-            <IoIosArrowBack size="23" />
-            <div>뒤로가기</div>
+            <div style={{ display: "flex"}} onClick={handleGoBack}>
+              <IoIosArrowBack size="23" />뒤로가기
+            </div>
           </button>
         </div>
 
