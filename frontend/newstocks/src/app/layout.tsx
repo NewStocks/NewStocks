@@ -27,7 +27,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={sans.className}>
+      <body className={sans.className} data-theme="light">
         <RecoilRootWrapper>
           <Provider>
             <Header />
