@@ -99,7 +99,7 @@ export default function MyPage({ params }: Props) {
   const handleLogout = () => {
     // 로그아웃 버튼을 눌렀을 때 실행될 코드
     localStorage.removeItem("access-token"); // access-token 제거
-    router.replace("/")
+    router.replace("/");
   };
 
   const handleDeleteToast = async () => {
@@ -143,7 +143,9 @@ export default function MyPage({ params }: Props) {
     <div className={styles["main"]}>
       <div className={styles["user-info-box"]}>
         {userInfo && <UserInfo mypage={true} user={userInfo} />}
-        <button className={styles["logout-button"]} onClick={handleLogout}>로그아웃</button>
+        <button className={styles["logout-button"]} onClick={handleLogout}>
+          로그아웃
+        </button>
       </div>
 
       {/* <div className={styles["user-middle-box"]}> */}
