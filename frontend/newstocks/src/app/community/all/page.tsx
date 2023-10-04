@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation'
 import styles from './allpage.module.css';
 
+import { Stock } from '@/types/stock' 
+
 import Button from '@/components/Button/Button';
 import FilterableCards from '@/components/FilterableCards/FilterableCards'
 import SearchBox from '@/components/SearchBox/SearchBox'
@@ -15,7 +17,7 @@ export default function AllnotesPage() {
   const searchParams = useSearchParams()
   const router = useRouter();
   const [stockToggle, setStockToggle] = useState(true)
-  const [stockInfo, setStockInfo] = useState(null)
+  const [stockInfo, setStockInfo] = useState<Stock | null>(null)
   const [keyword, setKeyword] = useState<string | null>(null)
   const [currFilter, setCurrFilter] = useState<string | null>('find-all')
   // const [type, setType] = useState<string>('find-all')
@@ -33,6 +35,10 @@ export default function AllnotesPage() {
       setKey(getKey)
     }
   }, [])
+
+  const handleStock = (stock: Stock) => {
+    router.push(`/community/all?filter=find-stock&key=${stock.id?.trim()}`)
+  }
 
   const handleSearchKeyword = () => {
     if (!keyword?.trim()) {
@@ -52,12 +58,14 @@ export default function AllnotesPage() {
           <StyledLink href='/community/all?filter=find-all'>
             <div className={currFilter==="find-all" ? styles["selected-filter"] : styles["filter"]}>📚전체노트</div>
           </StyledLink>
-          <StyledLink href='/community/all?filter=find-hot'><div className={styles["filter"]}>🔥인기노트</div></StyledLink>
+          <StyledLink href='/community/all?filter=find-hot'>
+            <div className={currFilter==="find-hot" ? styles["selected-filter"] : styles["filter"]}>🔥인기노트</div>
+          </StyledLink>
           {stockToggle ?
-          (<div className={styles["filter"]} onClick={() => setStockToggle(prev=>!prev)}>📈종목검색</div>)
+          (<div className={currFilter==="find-stock" ? styles["selected-filter"] : styles["filter"]} onClick={() => setStockToggle(prev=>!prev)}>📈종목검색</div>)
           : (<>
           <div className={styles["stock-box"]}>
-            <SearchBox searchFunc={setStockInfo} />
+            <SearchBox searchFunc={handleStock} />
           </div>
           <div title="종목검색 닫기" onClick={() => setStockToggle(prev=>!prev)} className={styles["stock-close"]}><RiCloseFill className={styles["close-icon"]} size={21}/></div>
           </>
@@ -65,11 +73,16 @@ export default function AllnotesPage() {
           }
           </div>
 
+          {/* {!stockToggle ? ( */}
           <div className={styles["search-keyword-box"]}>
             <BiSearch className={styles["search-icon"]} size={22}/>
             <input type="text" placeholder="'키워드'로 노트 검색" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}/>
             <div className={styles["submit-button"]} onClick={() => handleSearchKeyword()}>검색</div>
           </div>
+          {/* ):( */}
+          {/* <div onClick={() => setStockToggle(prev=>!prev)}><BiSearch className={styles["search-icon"]} size={22}/></div> */}
+          {/* )} */}
+
           
         </div>
       </div>

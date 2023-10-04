@@ -35,13 +35,22 @@ export default function FilterableCards({type, key}: Props) {
         url: `${BASE_URL}/review-note/${getItem}`,
         headers: addAccessTokenToHeaders(),
       }).then((res) => setPosts(res.data))
-    } else {
+    } else if (getItem==="fild-keyword") {
       const getKey = searchParams.get('key')
       axios({
         method: 'get',
         url: `${BASE_URL}/review-note/${getItem}/${getKey}`,
         headers: addAccessTokenToHeaders(),
       }).then((res) => setPosts(res.data))
+    } else {
+      const getKey = searchParams.get('key')
+      axios({
+        method: 'get',
+        url: `${BASE_URL}/review-note/find-all`,
+        headers: addAccessTokenToHeaders(),
+      }).then((res) => res.data)
+      .then((notes) => notes.filter((note: Post) => note.stockDto.id===`${getKey}`))
+      .then((res) => setPosts(res))
     }
 
   }, [type, key])
