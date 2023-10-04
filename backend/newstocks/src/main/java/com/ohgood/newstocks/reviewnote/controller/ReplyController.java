@@ -1,5 +1,6 @@
 package com.ohgood.newstocks.reviewnote.controller;
 
+import com.ohgood.newstocks.reviewnote.dto.ReplyListResDto;
 import com.ohgood.newstocks.reviewnote.dto.ReplyReqDto;
 import com.ohgood.newstocks.reviewnote.dto.ReplyResDto;
 import com.ohgood.newstocks.reviewnote.service.ReplyService;
@@ -37,10 +38,11 @@ public class ReplyController {
     }
 
     @GetMapping("/{reviewNoteId}/reply")
-    public ResponseEntity<List<ReplyResDto>> findReply(@PathVariable Long reviewNoteId,
+    public ResponseEntity<ReplyListResDto> findReply(@PathVariable Long reviewNoteId,
         Authentication authentication) {
-        return new ResponseEntity<>(replyService.findReply(reviewNoteId, Long.parseLong(
-            authentication.getName())), HttpStatus.OK);
+        return new ResponseEntity<>(new ReplyListResDto().replyResDtoListToReplyListResDto(
+            replyService.findReply(reviewNoteId, Long.parseLong(
+                authentication.getName()))), HttpStatus.OK);
     }
 
     @PatchMapping("/{reviewNoteId}/reply/{replyId}")
