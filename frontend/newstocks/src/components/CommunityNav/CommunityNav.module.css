@@ -183,6 +183,10 @@
   color: #4FE7B0;
 }
 
+.add-icon {
+  margin-right: 5px;
+}
+
 /* 배경을 어둡게 하는 오버레이 */
 /* .overlay {
   position: fixed;

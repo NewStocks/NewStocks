@@ -53,7 +53,7 @@ export default function CoCommentView({ reply, name, commentId, HandleDeleteRepl
             className={styles["profile-img"]}
           />
           <div className={styles["profile-name"]}>{reply.memberDto.name}</div>
-          <div className={styles["time"]}>23.08.30 11:41</div>
+          <div className={styles["time"]}>{reply.createdDate?.slice(0, 16)}</div>
         </div>
 
       {!replyUpdateToggle ?

@@ -19,6 +19,7 @@ const StyledLink = styled(Link)`
 
 type Props = {
   post: Post
+  handleChange?: () => void
 }
 
 import { BsBookmark } from "react-icons/bs";
@@ -27,7 +28,7 @@ import { AiOutlineStar } from "react-icons/ai"
 import { AiOutlineShareAlt } from "react-icons/ai"
 import { MdOutlineSell, MdSell } from "react-icons/md"
 
-export default function Card({post}: Props) {
+export default function Card({post, handleChange}: Props) {
 
   return(
     <div className={styles["card-container"]}>
@@ -71,7 +72,7 @@ export default function Card({post}: Props) {
         </div>
         <div className={styles["title-right"]}>
           <div className={styles["scrap-button"]}>
-            <div className={styles["scrap-icon"]}><ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount}/></div>
+            <div className={styles["scrap-icon"]}><ScrapButton status={post.isScrapped} id={post.id} count={post.scrapCount} /></div>
           </div>
         </div>
       </div>
@@ -99,7 +100,7 @@ export default function Card({post}: Props) {
         </div>
         </StyledLink>
 
-        <div className={styles["time"]}>{post.settingDate}</div>
+        <div className={styles["time"]}>{post.createdDate}</div>
       </div>
       </StyledLink>
 

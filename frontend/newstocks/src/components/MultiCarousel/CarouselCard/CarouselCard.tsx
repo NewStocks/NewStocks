@@ -90,7 +90,7 @@ export default function CardSample({ post }: Props) {
         </div>
         </StyledLink>
 
-        <div className={styles["time"]}>{post.settingDate?.slice(0, 16)}</div>
+        <div className={styles["time"]}>{post.createdDate?.slice(0, 16)}</div>
       </div>
       </StyledLink>
 
