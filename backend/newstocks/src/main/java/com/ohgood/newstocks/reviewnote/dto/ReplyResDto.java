@@ -5,6 +5,8 @@ import com.ohgood.newstocks.member.dto.MemberDto;
 import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.member.mapper.MemberMapper;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -18,6 +20,8 @@ public class ReplyResDto {
     private Integer likeCount;
     private Boolean hasAuthority;
     private Boolean isLiked;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private List<ReplyCommentResDto> replyCommentResDtoList = new ArrayList<>();
 
     @JsonIgnore

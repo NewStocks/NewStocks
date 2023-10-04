@@ -4,6 +4,7 @@ import com.ohgood.newstocks.member.entity.Member;
 import com.ohgood.newstocks.reviewnote.entity.ReviewNote;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -19,7 +20,9 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
 
     List<ReviewNote> findByPrivacyFalseAndMemberAndDeletedFalseOrderByCreatedDateDesc(Member member);
 
-    List<ReviewNote> findByPrivacyFalseOrMemberAndDeletedFalseOrderByCreatedDateDesc(Member member);
+    @Query("select rv from ReviewNote rv where rv.deleted = false and (rv.privacy = false or rv.member = :member)")
+    List<ReviewNote> findByDeletedFalseAndPrivacyFalseOrMember(Member member);
+
 
     List<ReviewNote> findByMemberInAndPrivacyFalseAndDeletedFalseOrderByCreatedDateDesc(List<Member> memberList);
 
