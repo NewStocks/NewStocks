@@ -10,6 +10,8 @@ import {
   getFollowingInfo,
   followUser,
   unfollowUser,
+  getFollowerList,
+  getFollowingList
 } from "@/services/userInfo";
 
 import styles from "./UserInfo.module.css";
@@ -25,6 +27,8 @@ export default function UserInfo({ mypage, user }: Props) {
   const [editedUsername, setEditedUsername] = useState("");
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [follower, setFollower] = useState(null);
+  const [following, setFollowing] = useState(null);
 
   useEffect(() => {
     async function checkFollowingList() {
@@ -41,7 +45,22 @@ export default function UserInfo({ mypage, user }: Props) {
         // console.error(e);
       }
     }
+    async function getFollower() {
+      const res = await getFollowerList();
+      if (res.status === 200) {
+        console.log("follower", res.data);
+      }
+    }
+    async function getFollowing() {
+      const res = await getFollowingList();
+      if (res.status === 200) {
+        console.log("following", res.data)
+      }
+    }
     checkFollowingList();
+    getFollower();
+    getFollowing();
+
   }, [user]);
 
   const handleEditPfpFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
