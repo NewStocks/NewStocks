@@ -87,7 +87,7 @@ export default function Card({post, handleChange}: Props) {
         </div>
 
       <div className={styles["content-bottom-container"]}>
-        <StyledLink href="/community/user">  
+        <StyledLink href={`/community/user/${post.memberDto.id}`}>
         <div className={styles["profile-container"]}>
           <Image
             src={post.memberDto.profileImage !=='x' ? post.memberDto.profileImage : ''}

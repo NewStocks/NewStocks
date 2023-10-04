@@ -108,24 +108,23 @@ export default function LikeStockTab() {
     );
   });
 
+  const favoriteAddButton = () => (
+    <div
+      className={styles["like-button"]}
+      onClick={() => setAddtoggle((prev) => !prev)}
+    >
+      종목 추가
+      <IoIosAddCircleOutline id={styles["like-button-icon"]} />
+    </div>
+  );
+
   return (
     <div className={styles["container"]}>
       <div className={styles["like-header"]}>
         <div className={styles["like-title"]}>관심 종목</div>
-        {getAccessToken() ? (
-          <div
-            className={styles["like-button"]}
-            onClick={() => setAddtoggle((prev) => !prev)}
-          >
-            종목 추가
-            <IoIosAddCircleOutline id={styles["like-button-icon"]} />
-          </div>
-          ) : (
-            <Provider>
-              <LoginModal type="favorite"/>
-            </Provider>
-          )
-        }
+        <Provider>
+          { getAccessToken() ? favoriteAddButton() : <LoginModal>{favoriteAddButton()}</LoginModal>}
+        </Provider>
         <div
           className={styles["like-search"]}
           style={{ display: addtoggle ? "block" : "none" }}

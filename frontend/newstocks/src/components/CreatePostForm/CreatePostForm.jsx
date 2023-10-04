@@ -39,6 +39,11 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
+function formatNumber(num) {
+  // 숫자를 3자리마다 쉼표(,)로 나누고 "원"을 붙이는 함수
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export default function CreatePostForm({ work }) {
   const [noteId, setNoteId] = useState(null)
   // const pathname = usePathname();
@@ -55,18 +60,38 @@ export default function CreatePostForm({ work }) {
   const [linkList, setLinkList] = useState([])
   
   const [startDate, setStartDate] = useState(null)
-  const [buyPrice, setBuyPrice] = useState(null)
-  const [buyQuantity, setBuyQuantity] = useState(null)
-  
   const [endDate, setEndDate] = useState(null)
-  const [sellPrice, setSellPrice] = useState(null)
-  const [sellQuantity, setSellQuantity] = useState(null)
-
   const [settingDate, setSettingDate] = useState(new Date())
 
   const router = useRouter();
 
   const [showInvestFields, setShowInvestFields] = useState(false);
+
+  const [buyPrice, setBuyPrice] = useState('')
+  const [buyQuantity, setBuyQuantity] = useState('')
+
+  const [sellQuantity, setSellQuantity] = useState('');
+  const [sellPrice, setSellPrice] = useState('');
+
+  const handleSellQuantityChange = (e) => {
+    const newValue = e.target.value.replace(/[^0-9]/g, '');
+    setSellQuantity(newValue);
+  };
+
+  const handleBuyQuantityChange = (e) => {
+    const newValue = e.target.value.replace(/[^0-9]/g, '');
+    setBuyQuantity(newValue);
+  };
+
+  const handleSellPriceChange = (e) => {
+    const newValue = e.target.value.replace(/[^0-9]/g, '');
+    setSellPrice(newValue);
+  };
+  
+  const handleBuyPriceChange = (e) => {
+    const newValue = e.target.value.replace(/[^0-9]/g, '');
+    setBuyPrice(newValue);
+  };
 
 
   const changeImageList = (url, file) => {
@@ -418,8 +443,27 @@ export default function CreatePostForm({ work }) {
                   locale={ko}
                 />  
               </div>
-              <div className={styles["option"]}><div>매수량</div><input type="text" id={styles["quantity"]} defaultValue={buyQuantity && buyQuantity} className={styles["stock-input-box"]} onChange={(e) => setBuyQuantity(e.target.value)}/></div>
-              <div className={styles["option"]}><div>매수 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={buyPrice && buyPrice} onChange={(e) => setBuyPrice(e.target.value)}/></div>
+              <div className={styles["option"]}>
+                <div>매수량</div>
+                <input
+                  type="text"
+                  id={styles["quantity"]}
+                  value={formatNumber(buyQuantity)}
+                  className={styles["stock-input-box"]}
+                  onChange={handleBuyQuantityChange}
+                />
+                <span style={{ margin: '6px 4px' }}>개</span> 
+              </div>
+              <div className={styles["option"]}>
+                <div>매수 가격</div>
+                <input
+                  type="text"
+                  value={formatNumber(buyPrice)}
+                  className={styles["stock-input-box"]}
+                  onChange={handleBuyPriceChange}
+                />
+                <span style={{ margin: '6px 4px' }}>원</span> 
+              </div>
             </div>
             <div className={styles["invest-box"]}>
               <div className={styles["date-pick-box"]}>
@@ -436,8 +480,27 @@ export default function CreatePostForm({ work }) {
                   locale={ko}
                 />
               </div>
-              <div className={styles["option"]}><div>매도량</div><input type="text" id={styles["quantity"]} defaultValue={sellQuantity && sellQuantity} className={styles["stock-input-box"]} onChange={(e) => setSellQuantity(e.target.value)}/></div>
-              <div className={styles["option"]}><div>매도 가격</div><input type="text" className={styles["stock-input-box"]} defaultValue={sellPrice && sellPrice} onChange={(e) => setSellPrice(e.target.value)}/></div>
+              <div className={styles["option"]}>
+                <div>매도량</div>
+                <input
+                  type="text"
+                  id={styles["quantity"]}
+                  value={formatNumber(sellQuantity)}
+                  className={styles["stock-input-box"]}
+                  onChange={handleSellQuantityChange}
+                />
+                <span style={{ margin: '6px 4px' }}>개</span>
+              </div>
+              <div className={styles["option"]}>
+                <div>매도 가격</div>
+                <input
+                  type="text"
+                  value={formatNumber(sellPrice)}
+                  className={styles["stock-input-box"]}
+                  onChange={handleSellPriceChange}
+                />
+                <span style={{ margin: '6px 4px' }}>원</span> {/* "원" 표시 */}
+              </div>
             </div>
           </>
         )}
