@@ -7,6 +7,8 @@
 .user-info-box {
   display: flex;
   height: 155px;
+  width: 100%;
+  justify-content: space-between;
   /* border: 1px dotted red; */
 }
 
@@ -48,11 +50,28 @@
   height: 30px;
   border: 0;
   background-color: transparent;
-  color: red;
-  font-size: 20px;
+  color: gray;
+  font-size: 16px;
   cursor: pointer;
   margin-top: 160px;
   margin-left: 20px;
+}
+
+.logout-button {
+  margin-left: 0px;
+  width: 80px;
+  height: 30px; 
+  background-color: transparent;
+  color: red;
+  border: 2px solid red;
+  border-radius: 12px;
+  margin-bottom: 1px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  border: 2.5px solid red;
+  font-weight: 500;
 }
 
 #img-edit {
@@ -137,7 +156,7 @@
 .activity-container {
   width: 100%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 20px;
 
   display: flex;
   justify-content: space-between;

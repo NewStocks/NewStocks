@@ -27,14 +27,22 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Script
+      <body className={sans.className}>
+        <RecoilRootWrapper>
+          <Provider>
+            <Header />
+            {children}
+          </Provider>
+        </RecoilRootWrapper>
+
+        <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0JQQ2BY563"
           strategy="beforeInteractive"
         />
 
         <Script
           id="googleAnalytics"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         >
           {`
             window.dataLayer = window.dataLayer || [];
@@ -43,18 +51,9 @@ export default function RootLayout({
             gtag('config', 'G-0JQQ2BY563');
           `}
         </Script>
-      <body className={sans.className}>
-        <RecoilRootWrapper>
-          <Provider>
-            <Header />
-            
-            {children}
-          </Provider>
-        </RecoilRootWrapper>
-
-        
 
       </body>
+
     </html>
   )
 }

@@ -1,6 +1,7 @@
 .user-info-box {
   display: flex;
   height: 155px;
+  width: 650px; 
   /* border: 1px dotted red; */
 }
 

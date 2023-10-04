@@ -96,6 +96,12 @@ export default function MyPage({ params }: Props) {
     getMyPostsForMyPage();
   }, []);
 
+  const handleLogout = () => {
+    // 로그아웃 버튼을 눌렀을 때 실행될 코드
+    localStorage.removeItem("access-token"); // access-token 제거
+    router.replace("/")
+  };
+
   const handleDeleteToast = async () => {
     Swal.fire({
       title: "정말 탈퇴하시겠습니까?",
@@ -135,7 +141,10 @@ export default function MyPage({ params }: Props) {
 
   return (
     <div className={styles["main"]}>
-      {userInfo && <UserInfo mypage={true} user={userInfo} />}
+      <div className={styles["user-info-box"]}>
+        {userInfo && <UserInfo mypage={true} user={userInfo} />}
+        <button className={styles["logout-button"]} onClick={handleLogout}>로그아웃</button>
+      </div>
 
       {/* <div className={styles["user-middle-box"]}> */}
       {/* <div className={styles["email"]}>
@@ -162,7 +171,7 @@ export default function MyPage({ params }: Props) {
                   {thisMonthProfit > 0 ? (
                     <HiOutlineArrowTrendingUp size={30} />
                   ) : thisMonthProfit < 0 ? (
-                    <HiOutlineArrowTrendingDown />
+                    <HiOutlineArrowTrendingDown size={30} />
                   ) : (
                     ""
                   )}
@@ -185,7 +194,7 @@ export default function MyPage({ params }: Props) {
                   {totalProfit > 0 ? (
                     <HiOutlineArrowTrendingUp size={30} />
                   ) : totalProfit < 0 ? (
-                    <HiOutlineArrowTrendingDown />
+                    <HiOutlineArrowTrendingDown size={30} />
                   ) : (
                     ""
                   )}
