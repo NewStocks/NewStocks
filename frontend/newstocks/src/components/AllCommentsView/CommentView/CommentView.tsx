@@ -17,11 +17,6 @@ import CommentInput from '@/components/CommentInput/CommentInput'
 import CoCommentView from '@/components/AllCommentsView/CoCommentView/CoCommentView'
 import { StyledLink } from '@/components/StyledLink/StyledLink'
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: white;
-`
-
 type Props = {
   comment: Comment
   postId: string

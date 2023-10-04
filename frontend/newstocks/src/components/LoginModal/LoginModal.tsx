@@ -14,6 +14,8 @@ import {
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 
+import { UserType } from '@/types/user'
+
 import Logo from '@/components/Logo/Logo'
 import LoginButtons from './LoginButtons/LoginButtons'
 
@@ -33,16 +35,16 @@ type Props = {
   children?: React.ReactNode;
 }
 
-interface UserInfo {
-  name: string;
-  profileImage: string;
-  // Other properties...
-}
+// interface UserInfo {
+//   name: string;
+//   profileImage: string;
+//   // Other properties...
+// }
 
 export default function LoginModal({type, children}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ accessToken, setAccessToken ] = useState<string | null>(null)
-  const [userInfo, setUserInfo] = useRecoilState<UserInfo>(userInfoState);
+  const [userInfo, setUserInfo] = useRecoilState<UserType>(userInfoState);
 
   useEffect(() => {
     const token = localStorage.getItem("access-token");

@@ -81,6 +81,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [buyTotal, setBuyTotal] = useState("")
   const [sellTotal, setSellTotal] = useState("")
   const [total, setTotal] = useState("")
+  const [replyCount, setReplyCount] = useState(0)
 
   useEffect(() => {
     getPostDetail(id)
@@ -100,6 +101,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setBuyQuantity(res.buyQuantity.toLocaleString('ko-KR'))
       setSellQuantity(res.sellQuantity.toLocaleString('ko-KR'))
       setCreatedDate(res.createdDate)
+      setReplyCount(res.replyCount)
       setBuyTotal((res.buyPrice * res.buyQuantity).toLocaleString('ko-KR'))
       setSellTotal((res.sellPrice * res.sellQuantity).toLocaleString('ko-KR'))
       setTotal((res.sellPrice * res.sellQuantity - res.buyPrice * res.buyQuantity).toLocaleString('ko-KR'))
@@ -269,5 +271,6 @@ export default function DetailnotePage({ params: {id} }: Props) {
             <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>
           </div>}
       </div>
+    </div>
   );
 }
