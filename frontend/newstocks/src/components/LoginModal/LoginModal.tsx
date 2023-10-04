@@ -21,15 +21,28 @@ import { PiArrowSquareRightBold } from "react-icons/pi"
 import { AiOutlineGlobal } from 'react-icons/ai'
 import Link from 'next/link'
 import { IoIosAddCircleOutline } from 'react-icons/io'
+import { AiOutlineUser } from "react-icons/ai";
+import Image from 'next/image';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '@/recoil/userInfo';
+import { getUserInfo } from '@/services/userInfo';
+
 
 type Props = {
   type?: 'nav' | 'headerLogin' | 'headerCommunity' | 'note' | 'favorite' | undefined
   children?: React.ReactNode;
 }
 
+interface UserInfo {
+  name: string;
+  profileImage: string;
+  // Other properties...
+}
+
 export default function LoginModal({type, children}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ accessToken, setAccessToken ] = useState<string | null>(null)
+  const [userInfo, setUserInfo] = useRecoilState<UserInfo>(userInfoState);
 
   useEffect(() => {
     const token = localStorage.getItem("access-token");
@@ -42,6 +55,25 @@ export default function LoginModal({type, children}: Props) {
     localStorage.removeItem("access-token"); // access-token 제거
     window.location.href = '/'
   };
+
+  useEffect(()=> {
+
+    async function getUserBasicInfo() {
+      try {
+        const res = await getUserInfo();
+        if (res.status === 200) {
+          setUserInfo(res.data); 
+        }
+      } catch (e) {
+        // console.error(e);
+      }
+    }
+
+      getUserBasicInfo(); 
+   
+
+    // eslint-disable-next-line 
+  }, [])
 
   return (
     <>
@@ -83,7 +115,11 @@ export default function LoginModal({type, children}: Props) {
         (
           accessToken ? (
             <>
-              <button className={styles["logout-button"]} onClick={handleLogout}>로그아웃</button>
+              <Link href="/community/user/me" className={styles["profile"]} style={{textDecoration: "none"}}>
+                <div className={styles["profile-image"]}>
+                  <Image width={37} height={37} src={userInfo.profileImage} className={styles["profile-image-pic"]} alt={userInfo.name} />
+                </div>
+              </Link>
             </>
           ) : (
             <>
