@@ -35,10 +35,12 @@
 }
 
 .input-container {
+  position: sticky;
+  bottom: 20px;
   width: 100%;
   padding: 5%;
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -55,6 +57,7 @@
   box-shadow: 3.8px 3.8px 7.5px 0px rgba(212, 192, 192, 0.25);
   font-family: 'Open Sans';
   overflow-y: hidden;
+  color: black;
 }
 
 .button-wrap {
