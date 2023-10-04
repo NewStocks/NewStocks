@@ -27,8 +27,8 @@ export default function UserInfo({ mypage, user }: Props) {
   const [editedUsername, setEditedUsername] = useState("");
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [follower, setFollower] = useState(null);
-  const [following, setFollowing] = useState(null);
+  const [follower, setFollower] = useState<any[]>([]);
+  const [following, setFollowing] = useState<any[]>([]);
 
   useEffect(() => {
     async function checkFollowingList() {
@@ -49,12 +49,14 @@ export default function UserInfo({ mypage, user }: Props) {
       const res = await getFollowerList();
       if (res.status === 200) {
         console.log("follower", res.data);
+        setFollower(res.data)
       }
     }
     async function getFollowing() {
       const res = await getFollowingList();
       if (res.status === 200) {
         console.log("following", res.data)
+        setFollowing(res.data)
       }
     }
     checkFollowingList();
@@ -257,6 +259,28 @@ export default function UserInfo({ mypage, user }: Props) {
             >
               확인
             </button>
+          </div>
+        )}
+        {mypage && (
+          <div>
+            <div>
+              <h2>FOLLOWER</h2>
+              {follower.map((followerItem, index) => (
+                <div key={index}>
+                <p>Name: {followerItem.name}</p>
+                {/* 나머지 정보도 필요에 따라 추가하세요 */}
+              </div>
+              ))}
+            </div>
+            <div>
+              <h2>FOLLOWING</h2>
+              {following.map((followingItem, index) => (
+                <div key={index}>
+                <p>Name: {followingItem.name}</p>
+                {/* 나머지 정보도 필요에 따라 추가하세요 */}
+              </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
