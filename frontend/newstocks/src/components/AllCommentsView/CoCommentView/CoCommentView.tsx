@@ -24,7 +24,6 @@ export default function CoCommentView({ reply, name, commentId, HandleDeleteRepl
   const [likeCount, setLikeCount] = useState(reply.likeCount)
   const [likeStatus, setLikeStatus] = useState(reply.isLiked)
   const [replyUpdateToggle, setReplyUpdateToggle] = useState(false)
-  console.log(reply)
 
   // 대댓글 좋아요 추가
   const handleLike = () => {

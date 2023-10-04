@@ -58,7 +58,7 @@ export default function FilterableCards({type, key}: Props) {
   }, [type || key])
 
   useEffect(() => {
-    console.log('currPage', currentPage)
+
   }, [currentPage])
 
   if (!posts) {
