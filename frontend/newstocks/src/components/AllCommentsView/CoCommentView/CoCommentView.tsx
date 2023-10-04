@@ -83,7 +83,7 @@ export default function CoCommentView({ reply, name, commentId, HandleDeleteRepl
             :(<div onClick={() => handleLike()}><BsHandThumbsUp size="20"/><p>{likeCount} Likes</p></div>)
             }
           </div>
-          {(reply.memberDto.role==="ADMIN" || reply.hasAuthority) &&
+          {(reply.hasAuthority) &&
           (<div className={styles["icons"]}>
             <div id={styles["reply-update"]} onClick={() => setReplyUpdateToggle(prev=>!prev)}>✏️수정하기</div>
             <div onClick={() => HandleDeleteReplyApi(commentId, reply.id)}>🗑️삭제하기</div>
