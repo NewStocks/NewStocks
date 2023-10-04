@@ -451,6 +451,7 @@ export default function CreatePostForm({ work }) {
                   value={formatNumber(buyQuantity)}
                   className={styles["stock-input-box"]}
                   onChange={handleBuyQuantityChange}
+                  maxLength={15}
                 />
                 <span style={{ margin: '6px 4px' }}>개</span> 
               </div>
@@ -461,6 +462,7 @@ export default function CreatePostForm({ work }) {
                   value={formatNumber(buyPrice)}
                   className={styles["stock-input-box"]}
                   onChange={handleBuyPriceChange}
+                  maxLength={15}
                 />
                 <span style={{ margin: '6px 4px' }}>원</span> 
               </div>
@@ -488,6 +490,7 @@ export default function CreatePostForm({ work }) {
                   value={formatNumber(sellQuantity)}
                   className={styles["stock-input-box"]}
                   onChange={handleSellQuantityChange}
+                  maxLength={15}
                 />
                 <span style={{ margin: '6px 4px' }}>개</span>
               </div>
@@ -498,6 +501,7 @@ export default function CreatePostForm({ work }) {
                   value={formatNumber(sellPrice)}
                   className={styles["stock-input-box"]}
                   onChange={handleSellPriceChange}
+                  maxLength={15}
                 />
                 <span style={{ margin: '6px 4px' }}>원</span> {/* "원" 표시 */}
               </div>
@@ -507,7 +511,13 @@ export default function CreatePostForm({ work }) {
       </div>
 
       <div className={styles["title-input-box"]}>
-        <input type="text" placeholder="제목을 입력하세요" ref={titleRef} defaultValue={title && title}/>
+        <input
+          type="text"
+          placeholder="제목을 입력하세요"
+          ref={titleRef}
+          defaultValue={title && title}
+          maxLength={30}
+        />
       </div>
 
       <div className={styles["image-add-container"]}>

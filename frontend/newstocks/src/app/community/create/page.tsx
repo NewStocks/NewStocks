@@ -9,6 +9,7 @@ const CreatePostForm = dynamic(() => import('@/components/CreatePostForm/CreateP
 import { IoIosArrowBack } from 'react-icons/io'
 
 import { Provider } from '@/utils/ChakraProvider'
+import { useRouter } from 'next/navigation';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -18,33 +19,18 @@ const StyledLink = styled(Link)`
 `
 
 export default function CreatePage() {
+  const router = useRouter();
 
-  const onAlertModalOpen = () => {
-    // alert('정말 뒤로 가시겠습니까 ?????')
-  }
-
-  const browserPreventEvent = (event: () => void) => {
-    history.pushState(null, "", location.href);
-    // console.log(location.href)
-    event();
+  const handleGoBack = () => {
+    router.back();
   };
-
-  useEffect(() => {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", () => {
-      browserPreventEvent(onAlertModalOpen);
-    });
-    return () => {
-      window.removeEventListener("popstate", () => {
-        browserPreventEvent(onAlertModalOpen);
-      });
-    };
-  }, []);
 
   return (
     <div className={styles["main"]}>
       <div className={styles["top-menu"]}>
-        <StyledLink href='/'><IoIosArrowBack /><div>뒤로가기</div></StyledLink>
+        <div style={{ display: "flex"}} onClick={handleGoBack}>
+          <IoIosArrowBack style={{ marginTop: "3px"}}/><button>뒤로가기</button>
+        </div>
       </div>
       <Provider>
         <CreatePostForm work="create"/>
