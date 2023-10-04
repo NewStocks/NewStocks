@@ -57,13 +57,13 @@
   margin: 2px 0 0 5px;
 }
 
-.icons div {
+.icons-div {
   display: flex;
   justify-content: space-between;
   width: 260px;
 }
 
-.icons div div {
+.icons-div-div {
   display: flex;
   justify-content: start;
   width: 125px;
@@ -77,15 +77,15 @@
   cursor: pointer;
 }
 
-.icons div div:hover {
+.icons-div-div:hover {
   font-weight: 500;
   cursor: pointer;
   border: 2px solid #d9d9d96f;
 }
 
-.icons div p {
+.icons-div-p {
   margin: 0;
-  margin-left: 7px;
+  /* margin-left: 7px; */
 }
 
 /* 대댓글 박스 */
@@ -104,7 +104,7 @@
 .reply-add-button {
   display: flex;
   cursor: pointer;
-  border: 1px solid #d9d9d96f;
+  border-bottom: 1px solid #d9d9d96f;
   width: 160px;
   text-align: center;
   border-radius: 14px;
@@ -114,10 +114,39 @@
 
 .reply-add-button:hover {
   font-weight: 550;
-  border: 2px solid #d9d9d96f;
+  /* border: 2px solid #d9d9d96f; */
 }
 
 .reply-add-icon {
   margin-top: 3px;
   margin-right: 8px;
+}
+
+.rotate-icon {
+  transform: rotate(180deg);
+  transform-origin: center; 
+}
+
+.icons-reply {
+  display: flex;
+  width: 130px;
+  height: 40px;
+  margin-left: 36px;
+  /* border: 1px solid #d9d9d96f; */
+  /* border-radius: 14px; */
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  padding: 7px 10px 7px 20px;
+  cursor: pointer;
+}
+
+.icons-reply:hover {
+  font-weight: 550;
+  text-decoration: underline;
+  /* border: 2px solid #d9d9d96f; */
+}
+
+.like-icon {
+  margin-right: 3px;
 }

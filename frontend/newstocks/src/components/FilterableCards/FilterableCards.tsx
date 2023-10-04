@@ -11,7 +11,12 @@ import { Post, getPostsAll } from '@/services/posts'
 
 import Card from '@/components/Card/Card';
 
-export default function FilterableCards() {
+type Props = {
+  type: string | null
+  key?: string | null
+}
+
+export default function FilterableCards({type, key}: Props) {
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<Post[] | null>([])
   // const [currFilter, setCurrFilter] = useState<string | null>(null)
@@ -22,6 +27,7 @@ export default function FilterableCards() {
   useEffect(() => {
     const getItem = searchParams.get('filter')
     const hasKeyword = searchParams.has('key')
+    // console.log(type, key)
 
     if (!hasKeyword) {
       axios({
@@ -29,16 +35,29 @@ export default function FilterableCards() {
         url: `${BASE_URL}/review-note/${getItem}`,
         headers: addAccessTokenToHeaders(),
       }).then((res) => setPosts(res.data))
-    } else {
+    } else if (getItem==="fild-keyword") {
       const getKey = searchParams.get('key')
       axios({
         method: 'get',
         url: `${BASE_URL}/review-note/${getItem}/${getKey}`,
         headers: addAccessTokenToHeaders(),
       }).then((res) => setPosts(res.data))
+    } else {
+      const getKey = searchParams.get('key')
+      axios({
+        method: 'get',
+        url: `${BASE_URL}/review-note/find-all`,
+        headers: addAccessTokenToHeaders(),
+      }).then((res) => res.data)
+      .then((notes) => notes.filter((note: Post) => note.stockDto.id===`${getKey}`))
+      .then((res) => setPosts(res))
     }
 
-  }, [])
+  }, [type || key])
+
+  useEffect(() => {
+    console.log('currPage', currentPage)
+  }, [currentPage])
 
   if (!posts) {
     return <div>Loading...</div>; // 로딩 중 처리 (선택 사항)
@@ -67,11 +86,16 @@ export default function FilterableCards() {
   return (
     <>
       <section className={styles['section']}>
-        {posts
+        {posts.length > 0 ? (posts
         .slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage)
         .map((post, index) => (
             <Card key={index} post={post} />
-        ))}
+        )))
+        :(
+          <>
+          <div style={{ fontWeight: "550", fontSize: "30px"}}>🤔 해당하는 노트가 없습니다!</div>
+          </>
+        )}
 
       </section>
       <div className={styles['page-button-box']}>

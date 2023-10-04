@@ -78,7 +78,7 @@ export default function MyCards({ type }: Props) {
   return (
     <>
       <section className={styles["section"]}>
-        {posts ? (
+        {posts.length > 0 ? (
           posts?.map((post, index) => <Card key={index} post={post}/>)
         )
         : type==="following" ? (
