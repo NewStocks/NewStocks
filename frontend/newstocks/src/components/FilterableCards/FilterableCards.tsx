@@ -55,6 +55,10 @@ export default function FilterableCards({type, key}: Props) {
 
   }, [type || key])
 
+  useEffect(() => {
+    console.log('currPage', currentPage)
+  }, [currentPage])
+
   if (!posts) {
     return <div>Loading...</div>; // 로딩 중 처리 (선택 사항)
   }
