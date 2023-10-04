@@ -35,7 +35,7 @@ export default function FilterableCards({type, key}: Props) {
         url: `${BASE_URL}/review-note/${getItem}`,
         headers: addAccessTokenToHeaders(),
       }).then((res) => setPosts(res.data))
-    } else if (getItem==="fild-keyword") {
+    } else if (getItem==="find-keyword") {
       const getKey = searchParams.get('key')
       axios({
         method: 'get',
