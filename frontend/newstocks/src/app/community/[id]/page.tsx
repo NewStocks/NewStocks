@@ -71,6 +71,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [sellQuantity, setSellQuantity] = useState(null)
   const [createdDate, setCreatedDate] = useState("")
   const [settingDate, setSettingDate] = useState("")
+  const [replyCount, setReplyCount] = useState(0)
 
   useEffect(() => {
     getPostDetail(id)
@@ -90,6 +91,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setBuyQuantity(res.buyQuantity)
       setSellQuantity(res.sellQuantity)
       setCreatedDate(res.createdDate)
+      setReplyCount(res.replyCount)
     })
   // eslint-disable-next-line 
   }, [])
@@ -248,7 +250,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       </div>
 
       <div className={styles["commentview-container"]}>
-        {comments && comments.length > 0 ? <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
+        {comments && comments.length > 0 ? <AllCommentsView comments={comments} postId={id} replyCount={replyCount} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
         : <div className={styles["no-comments"]}>
             <div className={styles["no-comments-first"]}>🤔 댓글이 없습니다!</div>
             <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>

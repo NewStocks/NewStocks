@@ -27,7 +27,7 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
   const [cocommentToggle, setcocommentToggle] = useState(false);
   const [replyListToggle, setReplyListToggle] = useState(false);
   const [updateToggle, setUpdateToggle] = useState(false);
-  const [ReplyListLength, setReplyListLength] = useState<number | null>(null);
+  const [ReplyListLength, setReplyListLength] = useState<number | null>(replyCommentResDtoList.length);
   const [ReplyList, setReplyList] = useState<Reply[] | null>(null)
 
   useEffect(() => {
@@ -60,19 +60,19 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
   // 대댓글 생성 관리
   const handleCreateReplyApi = (id: string, content: string) => {
     createReply(id, content)
-    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
+    .then(() => getAllReplies(id).then(res => {setReplyList(res.data); setReplyListLength(res.data.length)}))
   }
 
   // 대댓글 삭제 관리
   const HandleDeleteReplyApi = (commentId: string, replyId: string) => {
     deleteReply(commentId, replyId)
-    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
+    .then(() => getAllReplies(id).then(res => {setReplyList(res.data); setReplyListLength(res.data.length)}))
   }
 
   // 대댓글 수정 관리
   const UpdateReplyApi = (commentId: string, content: string, replyId: string) => {
     updateReply(commentId, content, replyId)
-    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
+    .then(() => getAllReplies(id).then(res => {setReplyList(res.data); setReplyListLength(res.data.length)}))
   }
 
   // 해당 댓글의 대댓글 불러오기
@@ -129,7 +129,7 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
     :''}
     <div className={styles["icons-reply"]} onClick={() => {
         setReplyListToggle(prev=>!prev);
-      }}><p>답글 {replyCommentResDtoList.length}개</p>
+      }}><p>답글 {ReplyListLength}개</p>
       {!replyListToggle ? 
       (<MdOutlineArrowDropDownCircle className={styles["reply-toggle-icon"]}size="20"/>)
       :(<MdOutlineArrowDropDownCircle className={`${styles["reply-toggle-icon"]} ${styles["rotate-icon"]}` }size="20"/>)}
