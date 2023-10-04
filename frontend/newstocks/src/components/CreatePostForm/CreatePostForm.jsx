@@ -28,6 +28,7 @@ import SearchBox from "@/components/SearchBox/SearchBox";
 
 import { fetchStockInfo } from '@/services/chart' 
 import { getPostDetail, createPost, updatePost, deletePost } from '@/services/posts'
+import { getUserInfo } from '@/services/userInfo'
 
 import { Checkbox } from '@chakra-ui/react'
 import DatePicker from 'react-datepicker';
@@ -67,6 +68,8 @@ export default function CreatePostForm({ work }) {
   const router = useRouter();
 
   const [showInvestFields, setShowInvestFields] = useState(false);
+
+  const [areYouADMIN, setAreYouADMIN] = useState(false)
 
 
   const changeImageList = (url, file) => {
@@ -330,6 +333,10 @@ export default function CreatePostForm({ work }) {
     .then((res) => res.data.id)
     .then((res) => router.push(`/community/${res}`))
   }
+
+  useEffect(() => {
+    getUserInfo().then((res) => console.log(res))
+  }, [])
 
   return (
     <div>
