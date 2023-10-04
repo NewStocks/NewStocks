@@ -20,8 +20,8 @@ public interface ReviewNoteRepository extends JpaRepository<ReviewNote, Long> {
 
     List<ReviewNote> findByPrivacyFalseAndMemberAndDeletedFalseOrderByCreatedDateDesc(Member member);
 
-    @Query("select rv from ReviewNote rv where rv.deleted = false and (rv.privacy = false or rv.member = :member)")
-    List<ReviewNote> findByDeletedFalseAndPrivacyFalseOrMember(Member member);
+    @Query("select rv from ReviewNote rv where rv.deleted = false and (rv.privacy = false or rv.member = :member) order by rv.createdDate desc")
+    List<ReviewNote> findByDeletedFalseAndPrivacyFalseOrMemberOrderByCreatedDateDesc(Member member);
 
 
     List<ReviewNote> findByMemberInAndPrivacyFalseAndDeletedFalseOrderByCreatedDateDesc(List<Member> memberList);
