@@ -94,29 +94,31 @@ export default function DetailnotePage({ params: {id} }: Props) {
   // eslint-disable-next-line 
   }, [])
 
+  // 댓글 전체 새로고침
+  const RefreshCommentsApi = (postId: string) => {
+    getComments(postId).then((res) => setComments(res.data))
+  }
+
   // 댓글 생성 관리
   const CreateCommentApi = (id: string, comment: string) => {
-    createComment(id, comment).then(() => getComments(id).then((res) => setComments(res.data)))
+    createComment(id, comment).then(() => RefreshCommentsApi(id))
   }
 
    // 댓글 수정 관리
    const UpdateCommentApi = (postId: string, comment: string, commentId: string) => {
-    updateComment(postId, comment, commentId).then(() => getComments(postId).then((res) => setComments(res.data)))
+    updateComment(postId, comment, commentId).then(() => RefreshCommentsApi(id))
   }
 
   // 댓글 삭제 관리
   const DeleteCommentApi = (postId: string, commentId: string) => {
     // console.log(postId, commentId, 'delete 해보자')
     deleteComment(postId, commentId)
-    .then((res) => {})
-    .then(() => {})
-    .then(() => getComments(postId).then((res) => {setComments(res.data); }))
+    .then(() => RefreshCommentsApi(id))
   }
 
   // 노트 삭제
   const DeleteNoteApi = (postId: string) => {
     deletePost(postId)
-    .then(() => {})
     .then(() => router.push("/community/mine?page=my"))
   }
 

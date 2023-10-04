@@ -1,14 +1,14 @@
 'use client';
 import styles from './CommentView.module.css';
 import Image from 'next/image';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { BsHandThumbsUp, BsHandThumbsUpFill, BsSendPlus } from "react-icons/bs"
 import { AiOutlinePlusCircle } from "react-icons/ai"
 import { BiCommentDots } from "react-icons/bi"
 import { MdOutlineArrowDropDownCircle, MdOutlineArrowCircleUp } from "react-icons/md"
 
-import { likeComment, deleteLikeComment, Comment, getComments } from '@/services/comments'
+import { likeComment, deleteLikeComment, Comment, getComments, Reply } from '@/services/comments'
 import { getAllReplies, createReply, deleteReply, updateReply } from "@/services/replies"
 
 import CommentInput from '@/components/CommentInput/CommentInput'
@@ -21,13 +21,18 @@ type Props = {
   DeleteCommentApi: (postId: string, commentId: string) => void
 }
 
-export default function CommentView({comment: { id, content, replyCommentResDtoList,hasAuthority, isLiked, likeCount, memberDto, createdDate, modifiedDate }, postId, UpdateCommentApi, DeleteCommentApi} : Props) {
+export default function CommentView({comment: { id, content, replyCommentResDtoList ,hasAuthority, isLiked, likeCount, memberDto, createdDate, modifiedDate }, postId, UpdateCommentApi, DeleteCommentApi} : Props) {
   const [likeStatus, setLikeStatus] = useState(isLiked)
   const [currLikeCount, setCurrLikeCount] = useState(likeCount)
   const [cocommentToggle, setcocommentToggle] = useState(false);
   const [replyListToggle, setReplyListToggle] = useState(false);
   const [updateToggle, setUpdateToggle] = useState(false);
   const [ReplyListLength, setReplyListLength] = useState<number | null>(null);
+  const [ReplyList, setReplyList] = useState<Reply[] | null>(null)
+
+  useEffect(() => {
+    setReplyList(replyCommentResDtoList)
+  }, [replyCommentResDtoList.length])
 
   // 대댓글 입력 input 활성화 토글
   function handleToggle() {
@@ -55,19 +60,19 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
   // 대댓글 생성 관리
   const handleCreateReplyApi = (id: string, content: string) => {
     createReply(id, content)
-    .then(() => {getAllReplies(id).then(res => { getComments(postId)})})
+    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
   }
 
   // 대댓글 삭제 관리
   const HandleDeleteReplyApi = (commentId: string, replyId: string) => {
     deleteReply(commentId, replyId)
-    .then(() => {getAllReplies(id).then(res => { getComments(postId)})})
+    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
   }
 
   // 대댓글 수정 관리
   const UpdateReplyApi = (commentId: string, content: string, replyId: string) => {
     updateReply(commentId, content, replyId)
-    .then(() => {getAllReplies(id).then(res => { getComments(postId)})})
+    .then(() => getAllReplies(id).then(res => setReplyList(res.data)))
   }
 
   // 해당 댓글의 대댓글 불러오기
@@ -134,7 +139,7 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
       {/* <hr/> */}
       <div className={styles["cocomment-input"]}>
       </div>
-      {replyCommentResDtoList && replyCommentResDtoList.map((reply) => {return (<CoCommentView key={reply.id} reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
+      {ReplyList && ReplyList.map((reply) => {return (<CoCommentView key={reply.id} reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
     </div>}
     </>
   );
