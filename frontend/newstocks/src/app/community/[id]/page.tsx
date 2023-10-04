@@ -81,6 +81,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
   const [buyTotal, setBuyTotal] = useState("")
   const [sellTotal, setSellTotal] = useState("")
   const [total, setTotal] = useState("")
+  const [replyCount, setReplyCount] = useState(0)
 
   useEffect(() => {
     getPostDetail(id)
@@ -100,6 +101,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
       setBuyQuantity(res.buyQuantity.toLocaleString('ko-KR'))
       setSellQuantity(res.sellQuantity.toLocaleString('ko-KR'))
       setCreatedDate(res.createdDate)
+      setReplyCount(res.replyCount)
       setBuyTotal((res.buyPrice * res.buyQuantity).toLocaleString('ko-KR'))
       setSellTotal((res.sellPrice * res.sellQuantity).toLocaleString('ko-KR'))
       setTotal((res.sellPrice * res.sellQuantity - res.buyPrice * res.buyQuantity).toLocaleString('ko-KR'))
@@ -107,38 +109,45 @@ export default function DetailnotePage({ params: {id} }: Props) {
     // eslint-disable-next-line
   }, [])
 
-  // 댓글 생성 관리
-  const CreateCommentApi = (id: string, comment: string) => {
-    createComment(id, comment).then(() => getComments(id).then((res) => setComments(res.data)))
+  // 댓글 전체 새로고침
+  const RefreshCommentsApi = (postId: string) => {
+    getComments(postId).then((res) => {setComments(res.data.replyResDtoList), setReplyCount(res.data.replyCount)})
   }
 
-  // 댓글 수정 관리
-  const UpdateCommentApi = (postId: string, comment: string, commentId: string) => {
-    updateComment(postId, comment, commentId).then(() => getComments(postId).then((res) => setComments(res.data)))
+  // 댓글 생성 관리
+  const CreateCommentApi = (id: string, comment: string) => {
+    createComment(id, comment).then(() => RefreshCommentsApi(id))
+  }
+
+   // 댓글 수정 관리
+   const UpdateCommentApi = (postId: string, comment: string, commentId: string) => {
+    updateComment(postId, comment, commentId).then(() => RefreshCommentsApi(id))
   }
 
   // 댓글 삭제 관리
   const DeleteCommentApi = (postId: string, commentId: string) => {
     // console.log(postId, commentId, 'delete 해보자')
     deleteComment(postId, commentId)
-    .then((res) => {})
-    .then(() => {})
-    .then(() => getComments(postId).then((res) => {setComments(res.data); }))
+    .then(() => RefreshCommentsApi(id))
   }
 
   // 노트 삭제
   const DeleteNoteApi = (postId: string) => {
     deletePost(postId)
-    .then(() => {})
     .then(() => router.push("/community/mine?page=my"))
   }
+
+  const handleGoBack = () => {
+    router.back();
+  };
 
   return (
       <div className={styles.main}>
         <div className={styles["detail-back"]}>
           <button>
-            <IoIosArrowBack size="23" />
-            <div>뒤로가기</div>
+            <div style={{ display: "flex"}} onClick={handleGoBack}>
+              <IoIosArrowBack size="23" />뒤로가기
+            </div>
           </button>
         </div>
 
@@ -260,13 +269,13 @@ export default function DetailnotePage({ params: {id} }: Props) {
           <CommentInput id={id} type="comment" CreateCommentApi={CreateCommentApi}/>
         </div>
 
-        <div className={styles["commentview-container"]}>
-          {comments && comments.length > 0 ? <AllCommentsView comments={comments} postId={id} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
-              : <div className={styles["no-comments"]}>
-                <div className={styles["no-comments-first"]}>🤔 댓글이 없습니다!</div>
-                <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>
-              </div>}
-        </div>
+      <div className={styles["commentview-container"]}>
+        {comments && comments.length > 0 ? <AllCommentsView comments={comments} postId={id} replyCount={replyCount} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi}/>
+        : <div className={styles["no-comments"]}>
+            <div className={styles["no-comments-first"]}>🤔 댓글이 없습니다!</div>
+            <div className={styles["no-comments-second"]}>첫번째 댓글을 작성해보세요!</div>
+          </div>}
       </div>
+    </div>
   );
 }

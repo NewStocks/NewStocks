@@ -7,7 +7,7 @@ import "./react-multi-carousel.css"
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
-    items: 4
+    items: 5
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024},
@@ -41,12 +41,12 @@ export default function MultiCarousel({ children }: Props) {
     rewindWithAnimation={false}
     rtl={false}
     shouldResetAutoplay
-    showDots={false}
+    // showDots={true}
     sliderClass=""
     slidesToSlide={1}
     swipeable
     additionalTransfrom={0}
-    arrows
+    arrows={false}
     autoPlaySpeed={2500}
     centerMode={false}
     className=""

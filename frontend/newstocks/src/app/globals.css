@@ -30,6 +30,11 @@ html::-webkit-scrollbar-track {
     background: rgba(91, 91, 91, 0.1);  /*스크롤바 뒷 배경 색상*/
 }
 
+html::-webkit-scrollbar-corner {
+  background: rgba(91, 91, 91, 0.1);
+}
+
+
 body {
   /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
