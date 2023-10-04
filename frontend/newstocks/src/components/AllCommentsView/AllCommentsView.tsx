@@ -19,7 +19,7 @@ export default function AllCommentsView({comments, postId, replyCount, UpdateCom
 
   return (
     <div className={styles["all-comments-container"]}>
-      <p className={styles["comment-title"]}>댓글</p>
+      <p className={styles["comment-title"]}>댓글 {replyCount}</p>
       {comments && comments.map((comment, index) => <CommentView key={index} comment={comment} postId={postId} UpdateCommentApi={UpdateCommentApi} DeleteCommentApi={DeleteCommentApi} />)}
       {/* <CoCommentView /> */}
     </div>

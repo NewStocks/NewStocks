@@ -98,8 +98,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
 
   // 댓글 전체 새로고침
   const RefreshCommentsApi = (postId: string) => {
-    getComments(postId).then((res) => {setComments(res.data), console.log(res)})
-    // getComments(postId).then((res) => {setComments(res.data), setReplyCount(res.replyCount)})
+    getComments(postId).then((res) => {setComments(res.data.replyResDtoList), setReplyCount(res.data.replyCount)})
   }
 
   // 댓글 생성 관리
