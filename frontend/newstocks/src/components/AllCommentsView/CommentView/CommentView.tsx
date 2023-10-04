@@ -1,5 +1,7 @@
 'use client';
 import styles from './CommentView.module.css';
+import styled from 'styled-components'
+import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react'
 
@@ -13,6 +15,11 @@ import { getAllReplies, createReply, deleteReply, updateReply } from "@/services
 
 import CommentInput from '@/components/CommentInput/CommentInput'
 import CoCommentView from '@/components/AllCommentsView/CoCommentView/CoCommentView'
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
 
 type Props = {
   comment: Comment
@@ -80,16 +87,20 @@ export default function CommentView({comment: { id, content, hasAuthority, isLik
   return (
     <>
     <div className={styles["comment-container"]}>
-
-      <div className={styles["profile"]}>
-        <Image
-          src={memberDto.profileImage}
-          alt="image preview"
-          width="25"
-          height="25"
-          className={styles["profile-img"]}
-        />
-        <div className={styles["profile-name"]}>{memberDto.name}</div>
+      {/*<div className={styles["header-left"]}>*/}
+        <div className={styles["profile"]}>
+          <StyledLink href={`/community/user/${memberDto.id}`}>
+          <Image
+            src={memberDto.profileImage}
+            alt="image preview"
+            width="25"
+            height="25"
+            className={styles["profile-img"]}
+          />
+          </StyledLink>
+          <StyledLink href={`/community/user/${memberDto.id}`}>
+          <div className={styles["profile-name"]}>{memberDto.name}</div>
+          </StyledLink>
         <div className={styles["time"]}>{createdDate?.slice(0, 16)}</div>
       </div>
     {!updateToggle ?

@@ -1,6 +1,7 @@
 'use client'
 import styles from "./detailpage.module.css";
 import { useEffect, useState } from 'react';
+import styled from 'styled-components'
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,7 +22,13 @@ import MultiCarousel from "@/components/MultiCarousel/MultiCarousel";
 import { IoIosArrowBack } from "react-icons/io";
 import { HiMiniArrowTrendingUp } from "react-icons/hi2"
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
+
 type Member = {
+  id: number
   profileImage: string
   name: string
 }
@@ -138,6 +145,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
         <div className={styles["content-container"]}>
           <div className={styles["detail-header"]}>
             <div className={styles["header-left"]}>
+              <StyledLink href={`/community/user/${member?.id}`}>
               <div className={styles["profile"]}>
                 <Image
                     src={member ? member.profileImage : ''}
@@ -148,6 +156,7 @@ export default function DetailnotePage({ params: {id} }: Props) {
                 />
                 <div className={styles["profile-name"]}>{member && member.name}</div>
               </div>
+              </StyledLink>
               <div className={styles["time"]}>{createdDate?.slice(0, 16)}</div>
             </div>
 
