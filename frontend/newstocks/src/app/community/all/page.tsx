@@ -2,8 +2,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation'
 import styles from './allpage.module.css';
+import Image from 'next/image'
 
 import { Stock } from '@/types/stock' 
+import { fetchStockInfo } from '@/services/chart'
 
 import Button from '@/components/Button/Button';
 import FilterableCards from '@/components/FilterableCards/FilterableCards'
@@ -33,6 +35,10 @@ export default function AllnotesPage() {
     if (hasKeyword) {
       const getKey = searchParams.get('key')
       setKey(getKey)
+      if (getItem==='find-stock' && getKey) {
+        fetchStockInfo(getKey)
+        .then(res => setStockInfo({'id': res.data.id, 'name': res.data.name}))
+      }
     }
   }, [])
 
@@ -45,6 +51,12 @@ export default function AllnotesPage() {
       alert('검색어를 입력해주세요!')
     } else {
       router.push(`/community/all?filter=find-keyword&key=${keyword?.trim()}`)
+    }
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchKeyword()
     }
   }
   
@@ -61,22 +73,34 @@ export default function AllnotesPage() {
           <StyledLink href='/community/all?filter=find-hot'>
             <div className={currFilter==="find-hot" ? styles["selected-filter"] : styles["filter"]}>🔥인기노트</div>
           </StyledLink>
-          {stockToggle ?
-          (<div className={currFilter==="find-stock" ? styles["selected-filter"] : styles["filter"]} onClick={() => setStockToggle(prev=>!prev)}>📈종목검색</div>)
-          : (<>
-          <div className={styles["stock-box"]}>
+          {!stockToggle ?
+          (<><div className={styles["stock-box"]}>
             <SearchBox searchFunc={handleStock} />
           </div>
-          <div title="종목검색 닫기" onClick={() => setStockToggle(prev=>!prev)} className={styles["stock-close"]}><RiCloseFill className={styles["close-icon"]} size={21}/></div>
-          </>
-          )
-          }
+          <div title="종목검색 닫기" onClick={() => setStockToggle(prev=>!prev)} className={styles["stock-close"]}><RiCloseFill className={styles["close-icon"]} size={21}/></div></>)
+          : !stockInfo ?
+          (<div className={currFilter==="find-stock" ? styles["selected-filter"] : styles["filter"]} onClick={() => setStockToggle(prev=>!prev)}>📈종목검색</div>)
+          : (<div className={styles["selected-stock-box"]}>
+          <div className={styles["selected-stock"]}>
+            <Image
+              src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stockInfo.id}.png`}
+              alt="member profile image"
+              width="25"
+              height="25"
+              className={styles["stock-img"]}
+              />
+            <div className={styles["stock-name"]}>{stockInfo.name}</div>
+            <div className={styles["stock-id"]}>{stockInfo.id}</div>
+          </div>
+          <button className={styles["search-stock-button"]} onClick={() => {setStockInfo(null); setStockToggle(prev=>!prev)} }>주식 검색</button>
+        </div>)
+        }
           </div>
 
           {/* {!stockToggle ? ( */}
           <div className={styles["search-keyword-box"]}>
             <BiSearch className={styles["search-icon"]} size={22}/>
-            <input type="text" placeholder="'키워드'로 노트 검색" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}/>
+            <input type="text" placeholder="'키워드'로 노트 검색" defaultValue={currFilter==="find-keyword" ? `${key}` : ''} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)} onKeyPress={handleKeyPress}/>
             <div className={styles["submit-button"]} onClick={() => handleSearchKeyword()}>검색</div>
           </div>
           {/* ):( */}
