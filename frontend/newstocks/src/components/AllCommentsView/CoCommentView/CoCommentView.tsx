@@ -9,6 +9,7 @@ import { likeReply, deleteLikeReply } from "@/services/replies"
 import CommentInput from "@/components/CommentInput/CommentInput"
 
 import { BsHandThumbsUpFill, BsHandThumbsUp } from 'react-icons/bs'
+import { StyledLink } from '@/components/StyledLink/StyledLink'
 
 type Props = {
   reply: Reply
@@ -45,21 +46,31 @@ export default function CoCommentView({ reply, name, commentId, HandleDeleteRepl
     <div className={styles["comment-container"]}>
       <div className={styles["right"]}>
         <div className={styles["profile"]}>
-          <Image
-            src={reply.memberDto.profileImage}
-            alt="image preview"
-            width="25"
-            height="25"
-            className={styles["profile-img"]}
-          />
-          <div className={styles["profile-name"]}>{reply.memberDto.name}</div>
+          <StyledLink href={`/community/user/${reply.memberDto.id}`}>
+            <div style={{ display: "flex" }}>
+              <Image
+                src={reply.memberDto.profileImage}
+                alt="image preview"
+                width="25"
+                height="25"
+                className={styles["profile-img"]}
+              />
+              <div className={styles["profile-name"]}>{reply.memberDto.name}</div>
+            </div>
+          </StyledLink>
           <div className={styles["time"]}>{reply.createdDate?.slice(0, 16)}</div>
         </div>
 
       {!replyUpdateToggle ?
       (<>
         <div className={styles["content"]}>
-          <div className={styles["replying-to"]}>Replying to <span>{name}</span></div>
+          <div className={styles["replying-to"]}>Replying to 
+            <StyledLink href={`/community/user/${reply.memberDto.id}`}>
+              <span id={styles["nikname"]}>
+                {name}
+              </span>
+            </StyledLink>
+          </div>
           <pre>{reply.content}</pre>
         </div>
 
