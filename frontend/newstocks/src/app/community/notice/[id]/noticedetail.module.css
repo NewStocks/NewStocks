@@ -1,0 +1,40 @@
+.main {
+  padding: 3rem;
+}
+
+/* 상단 뒤로가기 버튼 */
+.detail-back button {
+  border: 0;
+  display: flex;
+  background-color: transparent;
+  color: #4FE7B0;
+  cursor: pointer;
+}
+
+.detail-back button:hover {
+  font-weight: 550;
+}
+
+.detail-back button div {
+  font-size: 16px;
+}
+
+.head-title {
+  margin: 10px 0;
+}
+
+.date {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.818);
+  margin: 4px 0 0 12px;
+}
+
+.title {
+  font-size: 27px;
+  font-weight: 600;
+  margin: 4px 0 0 12px;
+}
+
+.paragraph {
+  margin: 8px 0 20px 12px;
+}

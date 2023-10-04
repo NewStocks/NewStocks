@@ -87,7 +87,6 @@ export default function DetailnotePage({ params: {id} }: Props) {
     getPostDetail(id)
     .then(res => res.data)
     .then(res => {
-      console.log(res)
       setMember(res.memberDto)
       setComments(res.replyResDtoList)
       setStock(res.stockDto)
