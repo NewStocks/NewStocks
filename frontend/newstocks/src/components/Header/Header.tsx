@@ -18,7 +18,7 @@ import { Stock } from "@/types/stock";
 import LoginModal from "@/components/LoginModal/LoginModal";
 import Logoimg from '@/assets/logo.png'
 import Image from 'next/image';
-
+import { BsRocketTakeoff } from "react-icons/bs";
 // type User = {
 //   name: string;
 // };
@@ -81,8 +81,21 @@ return (
 
       
       <div className={styles["header-right"]}>
-        <Link className={styles["header-link"]} href='/005930?tab=company'><BiBarChartAlt2 size="29"/></Link>
-        <Link className={styles["header-link"]} href='/community'><AiOutlineGlobal size="28"/></Link>
+        {/* <Link className={styles["header-link"]} href='/005930?tab=company'><BiBarChartAlt2 size="29"/></Link> */}
+        
+        <div className={styles["header-link"]}>
+          <Link className={styles["community-link"]} href='/005930?tab=company'>
+            <BiBarChartAlt2 size="29"/>
+            <span className={styles["tooltip-chart"]}>차트</span>
+          </Link>
+        </div>
+        <div className={styles["header-link"]}>
+          <Link className={styles["community-link"]} href='/community'>
+            <BsRocketTakeoff size="28"/>
+            <span className={styles["tooltip-community"]}>커뮤니티</span>
+          </Link>
+        </div>
+
         <LoginModal type="headerCommunity"/>
         <LoginModal type="headerLogin"/>
         {/* <Link className={styles["header-link"]} href='/community/user'><FaRegUserCircle size="27"/></Link> */}
