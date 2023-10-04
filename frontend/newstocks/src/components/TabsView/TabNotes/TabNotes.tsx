@@ -38,7 +38,6 @@ export default function TabNotes({ code }: TabProps) {
               notecode.push(item);
             }
           });
-          notecode.reverse();
 
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,

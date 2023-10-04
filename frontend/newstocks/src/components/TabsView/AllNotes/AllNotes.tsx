@@ -37,7 +37,7 @@ export default function TabNotes({ code }: TabProps) {
           //   }
           // });
           // console.log(res.data)
-          const notecode = res.data.reverse();
+          const notecode = res.data
 					// notecode.sort((a, b) => {
 					// 	const dateA = new Date(a.settingDate).getTime();
 					// 	const dateB = new Date(b.settingDate).getTime();
