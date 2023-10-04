@@ -64,7 +64,6 @@ export default function UserInfo({ mypage, user }: Props) {
 
   const editUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;
-    console.log(inputText)
     
     // 정규 표현식을 사용하여 허용되는 문자 패턴을 정의
     const allowedPattern = /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$/;

@@ -27,18 +27,18 @@ export default function AllnotesPage() {
   // const [keyStatus, setKeyStatus] = useState<boolean>(false)
 
   useEffect(() => {
-    const getItem = searchParams.get('filter')
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const getItem = urlParams.get("filter");
     setCurrFilter(getItem)
 
-    const hasKeyword = searchParams.has('key')
+    // const hasKeyword = searchParams.has('key')
     // setKeyStatus(hasKeyword)
-    if (hasKeyword) {
-      const getKey = searchParams.get('key')
-      setKey(getKey)
-      if (getItem==='find-stock' && getKey) {
-        fetchStockInfo(getKey)
-        .then(res => setStockInfo({'id': res.data.id, 'name': res.data.name}))
-      }
+    const getKey = urlParams.get("key");
+    setKey(getKey)
+    if (getItem==='find-stock' && getKey) {
+      fetchStockInfo(getKey)
+      .then(res => setStockInfo({'id': res.data.id, 'name': res.data.name}))
     }
   }, [])
 
