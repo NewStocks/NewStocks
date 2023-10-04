@@ -160,3 +160,25 @@
 	margin-right: 15px;
 	/* font-size: 13px; */
 }
+
+.pn-info {
+	padding: 8px 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.pn-info-text {
+	display: flex;
+	font-size: 12px;
+	align-items: center;
+	margin-left: 10px;
+}
+
+.p-icon {
+	color: #4FE7B0;
+	fill: #4FE7B0;
+}
+.n-icon {
+	color: rgba(255, 66, 66, 1);
+	fill: rgba(255, 66, 66, 1)
+}
