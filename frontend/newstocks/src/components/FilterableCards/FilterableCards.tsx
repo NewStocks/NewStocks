@@ -25,8 +25,10 @@ export default function FilterableCards({type, key}: Props) {
   const pagesPerBlock = 10; // 각 블록당 표시할 페이지 수
 
   useEffect(() => {
-    const getItem = searchParams.get('filter')
-    const hasKeyword = searchParams.has('key')
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const getItem = urlParams.get('filter')
+    const hasKeyword = urlParams.has('key')
     // console.log(type, key)
 
     if (!hasKeyword) {

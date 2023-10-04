@@ -15,14 +15,16 @@ type Props = {
   reply: Reply
   name: string
   commentId: string
+  parentId: string
   HandleDeleteReplyApi: (commentId: string, replyId: string) => void
   UpdateReplyApi: (commentId: string, content: string, replyId: string) => void
 }
 
-export default function CoCommentView({ reply, name, commentId, HandleDeleteReplyApi, UpdateReplyApi }: Props) {
+export default function CoCommentView({ reply, name, commentId, HandleDeleteReplyApi, UpdateReplyApi, parentId }: Props) {
   const [likeCount, setLikeCount] = useState(reply.likeCount)
   const [likeStatus, setLikeStatus] = useState(reply.isLiked)
   const [replyUpdateToggle, setReplyUpdateToggle] = useState(false)
+  console.log(reply)
 
   // 대댓글 좋아요 추가
   const handleLike = () => {
@@ -65,7 +67,7 @@ export default function CoCommentView({ reply, name, commentId, HandleDeleteRepl
       (<>
         <div className={styles["content"]}>
           <div className={styles["replying-to"]}>Replying to 
-            <StyledLink href={`/community/user/${reply.memberDto.id}`}>
+            <StyledLink href={`/community/user/${parentId}`}>
               <span id={styles["nikname"]}>
                 {name}
               </span>

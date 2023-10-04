@@ -114,7 +114,7 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
           {likeStatus ?
           (<div className={styles["icons-div-div"]} onClick={() => handleDeleteLike()}>
             <BsHandThumbsUpFill className={styles["like-icon"]} size="20"/><p>{currLikeCount} Likes</p></div>)
-          :(<div className={styles["icons-div-div"]} onClick={() => handleLike()}><BsHandThumbsUp size="20"/><p>{currLikeCount} Likes</p></div>)
+          :(<div className={styles["icons-div-div"]} onClick={() => handleLike()}><BsHandThumbsUp className={styles["like-icon"]} size="20"/><p>{currLikeCount} Likes</p></div>)
           }
           <div className={styles["icons-div-div"]} onClick={() => setcocommentToggle(prev=>!prev)}>
             <BsSendPlus size={17} className={styles["reply-add-icon"]}/>답글작성
@@ -146,7 +146,7 @@ export default function CommentView({comment: { id, content, replyCommentResDtoL
       {/* <hr/> */}
       <div className={styles["cocomment-input"]}>
       </div>
-      {ReplyList && ReplyList.map((reply) => {return (<CoCommentView key={reply.id} reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
+      {ReplyList && ReplyList.map((reply) => {return (<CoCommentView key={reply.id} parentId={memberDto.id} reply={reply} name={memberDto.name} HandleDeleteReplyApi={HandleDeleteReplyApi} commentId={id} UpdateReplyApi={UpdateReplyApi}/>)})}
     </div>}
     </>
   );
