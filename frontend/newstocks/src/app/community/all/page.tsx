@@ -18,7 +18,7 @@ import { StyledLink } from "@/components/StyledLink/StyledLink";
 export default function AllnotesPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [stockToggle, setStockToggle] = useState(true);
+  const [stockToggle, setStockToggle] = useState(false);
   const [stockInfo, setStockInfo] = useState<Stock | null>(null);
   const [keyword, setKeyword] = useState<string | null>(null);
   const [currFilter, setCurrFilter] = useState<string | null>("find-all");
@@ -38,7 +38,8 @@ export default function AllnotesPage() {
     setKey(getKey);
     if (getItem === "find-stock" && getKey) {
       fetchStockInfo(getKey).then((res) =>
-        setStockInfo({ id: res.data.id, name: res.data.name })
+        {setStockInfo({ id: res.data.id, name: res.data.name });
+        setStockToggle(true)}
       );
     }
   }, [searchParams]);
@@ -90,7 +91,19 @@ export default function AllnotesPage() {
                 🔥인기노트
               </div>
             </StyledLink>
+          
             {!stockToggle ? (
+              <div
+              className={
+                currFilter === "find-stock"
+                  ? styles["selected-filter"]
+                  : styles["filter"]
+              }
+              onClick={() => setStockToggle((prev) => !prev)}
+              >
+                📈종목검색
+              </div>
+            ) : !stockInfo ? (
               <>
                 <div className={styles["stock-box"]}>
                   <SearchBox searchFunc={handleStock} />
@@ -103,17 +116,6 @@ export default function AllnotesPage() {
                   <RiCloseFill className={styles["close-icon"]} size={21} />
                 </div>
               </>
-            ) : !stockInfo ? (
-              <div
-                className={
-                  currFilter === "find-stock"
-                    ? styles["selected-filter"]
-                    : styles["filter"]
-                }
-                onClick={() => setStockToggle((prev) => !prev)}
-              >
-                📈종목검색
-              </div>
             ) : (
               <div className={styles["selected-stock-box"]}>
                 <div className={styles["selected-stock"]}>
@@ -131,7 +133,6 @@ export default function AllnotesPage() {
                   className={styles["search-stock-button"]}
                   onClick={() => {
                     setStockInfo(null);
-                    setStockToggle((prev) => !prev);
                   }}
                 >
                   주식 검색

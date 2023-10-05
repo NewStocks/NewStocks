@@ -30,6 +30,8 @@
   /* border: 1px solid rgb(119, 119, 119); */
   border-radius: 5px;
   margin: 17px 2px;
+
+  position: relative;
 }
 
 .social-login-button:hover {
@@ -45,6 +47,7 @@
 }
 
 .social-icon {
+  position: absolute;
   width: 12%;
   height: 100%;
   border-right: 0.01rem dotted rgba(119, 119, 119, 0.63);
@@ -54,7 +57,7 @@
 }
 
 .social-title {
-  width: 88%;
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
