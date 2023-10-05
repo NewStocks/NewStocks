@@ -74,11 +74,15 @@
 }
 .Note-preview-likescrap {
 	display: flex;
-	align-items: center;
+	float: right;
+	padding-top: 3px;
+	/*align-items: center;*/
+	/*margin-left: auto;*/
 }
 .Note-preview-likescrap-icon {
 	margin-left: 5px;
 	margin-right: 3px;
+	padding-top: 3px;
 }
 .Note-preview-date-text {
 	display: flex;

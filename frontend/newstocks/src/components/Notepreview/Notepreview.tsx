@@ -19,7 +19,7 @@ interface Props {
   replyCount?: number
 }
 
-export default function Notepreview({ title, date, name, content, profile, image,
+export default function Notepreview({ title, date, createdDate ,name, content, profile, image,
   scrapCount, likeCount, replyCount}: Props) {
   const truncateContent = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
@@ -38,9 +38,7 @@ export default function Notepreview({ title, date, name, content, profile, image
             {name}
           </div>
           <div className={styles["Note-preview-date"]}>
-            <div className={styles["Note-preview-date-text"]}>표기일 {date}</div>
-            <div className={styles["Note-preview-date-text"]}>작성일 {createdDate}</div>
-
+            <div className={styles["Note-preview-date-text"]}>작성일 {createdDate} | 표기일 {date}</div>
             <div className={styles["Note-preview-likescrap"]}>
               <BsHandThumbsUp className={styles["Note-preview-likescrap-icon"]}/>{likeCount}
               {/* <LikeButton />{likeCount} */}
