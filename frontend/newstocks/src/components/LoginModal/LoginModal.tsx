@@ -71,11 +71,13 @@ export default function LoginModal({type, children}: Props) {
       }
     }
 
+    if (accessToken) {
       getUserBasicInfo(); 
+    }
    
 
     // eslint-disable-next-line 
-  }, [])
+  }, [accessToken])
 
   return (
     <>

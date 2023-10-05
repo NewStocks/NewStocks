@@ -5,9 +5,10 @@ import Image from 'next/image';
 import stockimg from '@/assets/stockimg.png'
 import valueimg from '@/assets/valueimg.png'
 // import graphimg from '@/assets/graphimg.png'
-import Link from 'next/link';
-import Button from '../../Button/Button'
 import AllCardsImage from './AllCardsImage/AllCardsImage'
+import { HiArrowNarrowRight } from 'react-icons/hi';
+import { getAccessToken } from '@/utils/token';
+import { getFavoriteStocks } from '@/services/favoriteStocks';
 
 type Props = {
   position: number | 0,
@@ -37,6 +38,19 @@ export default function LandingBox({ position, right }: Props) {
   // eslint-disable-next-line 
   }, []);
 
+  const handleStartClick = async () => {
+    if (!getAccessToken()) {
+      window.location.href = '/005930?tab=company';
+    }
+
+    const response = await getFavoriteStocks();
+    if (response.data.length !== 0) {
+      window.location.href = `${response.data[0].stockId}/?tab=company`;
+    }
+    else {
+      window.location.href = '/005930?tab=company';
+    }
+  };
 
   return (
     <>
@@ -89,9 +103,9 @@ export default function LandingBox({ position, right }: Props) {
           <div className={`${styles["landing-containers"]} ${styles['scroll-animation']} ${isVisible ? styles['title-animation-show'] : ''}`}>
           <div className={styles["landing-containers-num"]}>03</div>
             <div className={styles["content-box"]}>
-              <div className={`${styles['title']} ${styles['scroll-animation']} ${isVisible ? styles['title-animation-show'] : ''}`}><span>밸류 체인</span> 정보 확인</div>
+              <div className={`${styles['title']} ${styles['scroll-animation']} ${isVisible ? styles['title-animation-show'] : ''}`}><span>해외 밸류 체인</span> 정보 확인</div>
               <div className={`${styles['description']} ${styles['scroll-animation']} ${isVisible ? styles['description-animation-show'] : ''}`} >
-                <div>몇몇 국내 종목에 해당하는 밸류 체인 기업 정보 제공</div>
+                <div>국내 우량주 종목과 관련된 해외 밸류 체인 기업 정보 제공</div>
                 <div></div>
                 <div></div>
                 <div></div>
@@ -109,9 +123,13 @@ export default function LandingBox({ position, right }: Props) {
           </div>
           <div className={styles["start"]}>
             <div className={styles["Button-width"]}>
-              <Link href="/005930?tab=company">
+              <button onClick={handleStartClick} className={styles["button-box"]} style={{ color: "#4FE7B0", border: "2px solid #4FE7B0" }}>
+                  <div>NEWStocks 시작하기</div>
+                  <HiArrowNarrowRight size="14"/>
+              </button>
+              {/* <Link href="/005930?tab=company">
                 <Button text="NEWStocks 시작하기" highlight={true} kindof="arrow"></Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </>

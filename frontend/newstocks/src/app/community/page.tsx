@@ -28,10 +28,13 @@ export default function CommunityPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
-    getHotPostsList()
-    .then(res => setPosts(res.data.slice(0, 10)))
-
     const token = getAccessToken();
+    
+    if (token && token.trim()) {
+      getHotPostsList()
+      .then(res => setPosts(res.data.slice(0, 10)))
+      .catch(() => {})
+    }
 
     if (token && token.trim()) {
       setIsLoggedIn(true);  

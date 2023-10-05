@@ -121,3 +121,20 @@
   margin-top: 20px;
   margin-left: 20px;
 }
+
+.button-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 65.153px;
+
+  cursor: pointer;
+}
