@@ -24,15 +24,17 @@ public class FollowController {
 
     private final FollowService followService;
 
-    @GetMapping("/follower")
-    public ResponseEntity<List<MemberDto>> findFollowerList(Authentication authentication) {
-        return new ResponseEntity<>(followService.findFollowerList(Long.parseLong(
+    @GetMapping({"/follower", "/follower/{memberId}"})
+    public ResponseEntity<List<MemberDto>> findFollowerList(Authentication authentication,
+        @PathVariable(required = false) Long memberId) {
+        return new ResponseEntity<>(followService.findFollowerList(memberId, Long.parseLong(
             authentication.getName())), HttpStatus.OK);
     }
 
-    @GetMapping("/following")
-    public ResponseEntity<List<MemberDto>> findFollowingList(Authentication authentication) {
-        return new ResponseEntity<>(followService.findFollowingList(Long.parseLong(
+    @GetMapping({"/following", "/following/{memberId}"})
+    public ResponseEntity<List<MemberDto>> findFollowingList(Authentication authentication,
+        @PathVariable(required = false) Long memberId) {
+        return new ResponseEntity<>(followService.findFollowingList(memberId, Long.parseLong(
             authentication.getName())), HttpStatus.OK);
     }
 

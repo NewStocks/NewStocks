@@ -184,21 +184,21 @@ public class ReviewNoteService {
 
     public List<ReviewNoteResDto> findMyReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalse(member);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberAndDeletedFalseOrderByCreatedDateDesc(member);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
     public List<ReviewNoteResDto> findOtherReviewNoteList(Long findUserId, Long userId) {
         Member member = findMemberById(userId);
         Member findMember = findMemberById(findUserId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndMemberAndDeletedFalse(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndMemberAndDeletedFalseOrderByCreatedDateDesc(
             findMember);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
 
     public List<ReviewNoteResDto> findAllReviewNoteList(Long userId) {
         Member member = findMemberById(userId);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByDeletedFalseAndPrivacyFalseOrMember(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByDeletedFalseAndPrivacyFalseOrMemberOrderByCreatedDateDesc(
             member);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
@@ -221,7 +221,7 @@ public class ReviewNoteService {
     public List<ReviewNoteResDto> findKeywordReviewNoteList(Long userId, String keyword) {
         Member member = findMemberById(userId);
         log.info(keyword);
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndDeletedFalseAndAndTitleContainingOrContentContaining(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByPrivacyFalseAndDeletedFalseAndTitleContainingOrContentContainingOrderByCreatedDateDesc(
             keyword, keyword);
         return reviewNoteListToReviewNoteResDtoList(member, reviewNoteList);
     }
@@ -285,7 +285,7 @@ public class ReviewNoteService {
         Member follower = findMemberById(followerId);
         List<Long> followingIdList = followRepository.findByFollowerId(followerId).stream()
             .map(Follow::getFollowingId).toList();
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberInAndPrivacyFalseAndDeletedFalse(
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findByMemberInAndPrivacyFalseAndDeletedFalseOrderByCreatedDateDesc(
             memberRepository.findByIdInAndDeletedFalse(followingIdList));
 
         return reviewNoteListToReviewNoteResDtoList(follower, reviewNoteList);
@@ -407,7 +407,7 @@ public class ReviewNoteService {
     }
 
     public List<ReviewNoteResDto> findReviewNoteListByStockId(String stockId) {
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalse(stockId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndPrivacyFalseAndDeletedFalseOrderByCreatedDateDesc(stockId);
         return reviewNoteList.stream()
             .map(reviewNote -> {
                 ReviewNoteResDto reviewNoteResDto = ReviewNoteMapper.INSTANCE.entityToReviewNoteResDto(

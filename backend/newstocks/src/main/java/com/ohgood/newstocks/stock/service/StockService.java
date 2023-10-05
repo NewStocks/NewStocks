@@ -112,7 +112,7 @@ public class StockService {
     }
 
     public List<ReviewNoteDto> findAllReviewNoteDto(String stockId, Long memberId) {
-        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndMemberIdAndDeletedFalse(stockId, memberId);
+        List<ReviewNote> reviewNoteList = reviewNoteRepository.findReviewNotesByStockIdAndMemberIdAndDeletedFalseOrderByCreatedDateDesc(stockId, memberId);
         List<ReviewNoteDto> reviewNoteDtoList = new ArrayList<>();
         for (ReviewNote reviewNote : reviewNoteList) {
             reviewNoteDtoList.add(ReviewNoteMapper.INSTANCE.entityToReviewNoteDto(reviewNote));
