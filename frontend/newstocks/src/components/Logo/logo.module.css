@@ -29,3 +29,7 @@
 .LOGO p{
   margin: 0 10px 15px 0;
 }
+.header-logo {
+  margin-bottom: 18px;
+  margin-right: 5px;
+}
