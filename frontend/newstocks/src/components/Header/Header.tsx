@@ -19,6 +19,8 @@ import LoginModal from "@/components/LoginModal/LoginModal";
 import Logoimg from '@/assets/logo.png'
 import Image from 'next/image';
 import { BsRocketTakeoff } from "react-icons/bs";
+import { getAccessToken } from '@/utils/token';
+import { getFavoriteStocks } from '@/services/favoriteStocks';
 // type User = {
 //   name: string;
 // };
@@ -44,6 +46,20 @@ export default function Header() {
     router.push(`/${stock.id}?tab=${tabName}`);
   };
 
+
+  const handleStartClick = async () => {
+    if (!getAccessToken()) {
+      window.location.href = '/005930?tab=company';
+    }
+
+    const response = await getFavoriteStocks();
+    if (response.data.length !== 0) {
+      window.location.href = `${response.data[0].stockId}/?tab=company`;
+    }
+    else {
+      window.location.href = '/005930?tab=company';
+    }
+  };
 
 return (
   <header>
@@ -83,11 +99,9 @@ return (
       <div className={styles["header-right"]}>
         {/* <Link className={styles["header-link"]} href='/005930?tab=company'><BiBarChartAlt2 size="29"/></Link> */}
         
-        <div className={styles["header-link"]}>
-          <Link className={styles["community-link"]} href='/005930?tab=company'>
+        <div className={styles["header-link"]} onClick={handleStartClick}>
             <BiBarChartAlt2 size="29"/>
-            <span className={styles["tooltip-chart"]}>차트</span>
-          </Link>
+              <span className={styles["tooltip-chart"]}>차트</span>
         </div>
         <div className={styles["header-link"]}>
           <Link className={styles["community-link"]} href='/community'>
