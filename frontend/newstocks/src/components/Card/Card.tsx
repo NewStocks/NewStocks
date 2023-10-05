@@ -31,7 +31,7 @@ import { AiOutlineShareAlt } from "react-icons/ai"
 import { MdOutlineSell, MdSell } from "react-icons/md"
 
 export default function Card({post, handleChange}: Props) {
-  console.log(post)
+  //console.log(post)
 
   return(
     <div className={styles["card-container"]}>
