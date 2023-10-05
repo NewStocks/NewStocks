@@ -48,7 +48,7 @@ export default function MyCards({ type }: Props) {
 
   const handleChange = () => {
     getScrappedPosts()
-    .then((res) => {setPosts(res.data); console.log(res.data)})
+    .then((res) => setPosts(res.data))
   }
 
   if (!posts) {
