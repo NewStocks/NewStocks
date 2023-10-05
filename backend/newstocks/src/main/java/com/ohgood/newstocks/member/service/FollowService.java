@@ -23,7 +23,10 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
-    public List<MemberDto> findFollowerList(Long followingId) {
+    public List<MemberDto> findFollowerList(Long otherMemberId, Long followingId) {
+        // 본인의 follower 조회가 아닐 때
+        if (otherMemberId != null)
+            followingId = otherMemberId;
         List<Long> followerIdList = followRepository.findByFollowingId(followingId).stream()
             .map(Follow::getFollowerId).toList();
 
@@ -31,7 +34,10 @@ public class FollowService {
             .map(MemberMapper.INSTANCE::entityToMemberDto).toList();
     }
 
-    public List<MemberDto> findFollowingList(Long followerId) {
+    public List<MemberDto> findFollowingList(Long otherMemberId, Long followerId) {
+        // 본인의 following 조회가 아닐 때
+        if (otherMemberId != null)
+            followerId = otherMemberId;
         List<Long> followingIdList = followRepository.findByFollowerId(followerId).stream()
             .map(Follow::getFollowingId).toList();
 
