@@ -8,6 +8,7 @@
   background: #4FE7B0;
   white-space: pre-wrap;
   line-height: 1.6;
+  font-size: 14px;
 
 }
 
@@ -21,6 +22,7 @@
   background: white;
   color: black;
   white-space: pre-wrap;
-  line-height: 1.6; 
+  line-height: 1.6;
+  font-size: 14px; 
    
 }
