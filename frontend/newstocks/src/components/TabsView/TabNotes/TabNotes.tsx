@@ -38,7 +38,6 @@ export default function TabNotes({ code }: TabProps) {
               notecode.push(item);
             }
           });
-          notecode.reverse();
 
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,
@@ -89,6 +88,7 @@ export default function TabNotes({ code }: TabProps) {
               <StyledLink key={item.id} href={`/community/${item.id}`}>
 								<Notepreview 
 									title = {item.title}
+                  createdDate = {item.createdDate.split(' ')[0]}
 									date={item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
 									name = {item.memberDto?.name}
                   profile= {item.memberDto?.profileImage}
@@ -108,6 +108,7 @@ export default function TabNotes({ code }: TabProps) {
               <StyledLink key={item.id} href={`/community/${item.id}`}>
                 <Notepreview 
 									title = {item.title}
+                  createdDate = {item.createdDate.split(' ')[0]}
 									date = {item.settingDate?.split(' ')[0]}
 									name = {item.memberDto.name}
                   profile = {item.memberDto.profileImage}

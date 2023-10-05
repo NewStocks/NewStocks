@@ -28,18 +28,19 @@ export default function CommunityPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
-    getHotPostsList()
-    .then(res => setPosts(res.data.slice(0, 10)))
-
     const token = getAccessToken();
+    
+    if (token && token.trim()) {
+      getHotPostsList()
+      .then(res => setPosts(res.data.slice(0, 10)))
+      .catch(() => {})
+    }
 
     if (token && token.trim()) {
       setIsLoggedIn(true);  
     }
 
   }, [])
-  // const posts = await getHotPostsList()
-  // console.log('posts', posts)
 
   return ( 
     <div className={styles.main}>
@@ -82,24 +83,19 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      {/* <div className={styles["sorted-note-box"]}>
-        <div className={styles["sorted-note-title"]}>
-          ✍나의 노트 모아보기
-            <Link href="/your-target-url">
-              더보기
-              <IoIosArrowForward className={styles["sorted-note-icon"]} />
-            </Link>
-        </div>
-        <div className={styles["mynote-out-box"]}>
-          여기에 나의 노트 목록 들어가야할듯?
-          <div>NEWStocks에 가입해 나의 주식 오답노트를 관리해보세요!</div>
-          <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={17} className={styles["login-icon"]}/></div>
-        </div>
-      </div> */}
-
       <div className={styles["sorted-note-box"]}>
-        {/*<div className={styles["sorted-note-title"]}>🔥현재 인기 노트<span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span></div>*/}
-        <div className={styles["sorted-note-title"]}>🔥현재 인기 노트</div>
+        <div className={styles["sorted-note-title"]}>🔥현재 인기 노트
+        {isLoggedIn ? (
+          <StyledLink href="/community/all?filter=find-hot">
+            <span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span>
+          </StyledLink>)
+          : (
+          <LoginModal>
+            <span>더보기<IoIosArrowForward className={styles["sorted-note-icon"]}/></span>
+          </LoginModal>)
+          }
+        </div>
+        {/* <div className={styles["sorted-note-title"]}>🔥현재 인기 노트</div> */}
         {isLoggedIn ? (
         <div className={styles["carousel-container"]}>
           <CarouselCardBox posts={posts}/>
@@ -114,8 +110,6 @@ export default function CommunityPage() {
         </div> 
         )}
       </div>
-
-      {/* <LandingFooter /> */}
 
     </div>
   )

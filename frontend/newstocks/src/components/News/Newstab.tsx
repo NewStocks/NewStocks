@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Newstab.module.css'
 import { useRouter } from 'next/navigation';
 import { LiaSortDownSolid } from "react-icons/lia";
+import { LuRectangleVertical } from "react-icons/lu";
 
 import { fetchNewsData, fetchValueNewsData } from '@/services/chart';
 
@@ -112,8 +113,6 @@ export default function Newstab() {
     const currentUrl = window.location.href;
     const updatedUrl = currentUrl.replace(/&newsdate=[^&]*/, '');
     
-    // 제거된 URL로 이동
-    // window.location.href = updatedUrl;
     router.push(updatedUrl)
     setShowFilterControls(true); // 전체 뉴스로 전환 시 필터 컨트롤 표시
   };
@@ -122,11 +121,8 @@ export default function Newstab() {
   const tabName = usePathname() || '';
   const code = tabName.split('/').filter(Boolean)[0];
   const newsDate = useSearchParams()?.get('newsdate')
-	// console.log(newsDate)
 
   const [showFilterControls, setShowFilterControls] = useState(true);
-
-  
 	const [datenews, setdateNews] = useState<any[]>([]);
   const [newsData, setNewsData] = useState<any[]>([]);
   const [valuenews, setValuenews] = useState<any[]>([]);
@@ -229,7 +225,6 @@ export default function Newstab() {
           const datevaluenews: DateValueNewsItem[]=[]
           res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
-            // console.log(itemdate)
 						if (itemdate[0] == newsDate) {
 							datevaluenews.push(item)
 						}
@@ -314,6 +309,10 @@ export default function Newstab() {
                 onClick={handleShowAllNews}>전체 뉴스
               </div>
               <div className={styles["datetab"]}>{newsDate}</div>
+              <div className={styles["pn-info"]}>
+                  <div className={styles["pn-info-text"]}><LuRectangleVertical className={styles["p-icon"]}/> : 긍정 뉴스</div>
+                  <div className={styles["pn-info-text"]}><LuRectangleVertical className={styles["n-icon"]}/> : 부정 뉴스</div>
+                </div>
             </div>
           )} 
           
@@ -433,29 +432,33 @@ export default function Newstab() {
           <div className={styles["newsheader"]}>
             {valuenews && (
               <div className={styles["globalheader"]}>
-              <div
-                className={`${styles["headertab"]} ${
-                  selectedView === "news" ? styles["activeTab"] : ""
-                }`}
-                onClick={() => {
-                  setSelectedView("news");
-                  setShowFilterControls(true);
-                }}
-              >
-                국내 뉴스
+                <div
+                  className={`${styles["headertab"]} ${
+                    selectedView === "news" ? styles["activeTab"] : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedView("news");
+                    setShowFilterControls(true);
+                  }}
+                >
+                  국내 뉴스
+                </div>
+                <div
+                  className={`${styles["headertab"]} ${
+                    selectedView === "overseasNews" ? styles["activeTab"] : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedView("overseasNews");
+                    setShowFilterControls(false);
+                  }}
+                >
+                  해외 뉴스
+                </div>
+                <div className={styles["pn-info"]}>
+                  <div className={styles["pn-info-text"]}><LuRectangleVertical className={styles["p-icon"]}/> : 긍정 뉴스</div>
+                  <div className={styles["pn-info-text"]}><LuRectangleVertical className={styles["n-icon"]}/> : 부정 뉴스</div>
+                </div>
               </div>
-              <div
-                className={`${styles["headertab"]} ${
-                  selectedView === "overseasNews" ? styles["activeTab"] : ""
-                }`}
-                onClick={() => {
-                  setSelectedView("overseasNews");
-                  setShowFilterControls(false);
-                }}
-              >
-                해외 뉴스
-              </div>
-            </div>
             )}
             <div className={styles["filter-controls"]}>
               {showFilterControls && (

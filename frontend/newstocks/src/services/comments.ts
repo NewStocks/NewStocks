@@ -9,6 +9,17 @@ export type Member = {
   role: string
 }
 
+export type Reply = {
+  id: string
+  content: string
+  hasAuthority: boolean
+  isLiked: boolean
+  likeCount: number
+  memberDto: Member
+  createdDate: String
+  modifiedDate: String
+}
+
 export type Comment = {
   id: string
   content: string
@@ -18,6 +29,7 @@ export type Comment = {
   memberDto: Member
   createdDate: String
   modifiedDate: String
+  replyCommentResDtoList: Reply[]
 }
 
 

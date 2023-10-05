@@ -64,7 +64,6 @@ export default function CommentInput({ id, commentId, postId, type, content, img
     if (!comment) {
       alert('변경 내용이 없습니다!')
     } else {
-      // console.log('대댓글 등록 진입!!', id, comment)
       if (id && handleToggle && handleCreateReplyApi) {
         handleCreateReplyApi(id, comment);
         handleToggle();
@@ -80,7 +79,6 @@ export default function CommentInput({ id, commentId, postId, type, content, img
     if (!comment) {
     alert('변경 내용이 없습니다!')
     } else {
-      // console.log('대댓글 수정 진입!!', id, comment)
       if (id && commentId && handleUpdateReplyToggle && UpdateReplyApi) {
         UpdateReplyApi(commentId, comment, id)
         handleUpdateReplyToggle()
@@ -112,6 +110,7 @@ export default function CommentInput({ id, commentId, postId, type, content, img
           placeholder="오답노트에 대한 댓글을 남겨주세요! (300자 이내)&#13;&#10;띄어쓰기는 'shift + Enter'로 입력 가능"
           onChange={(e) => setCommentInput(e.target.value)}
           id={`my-textarea-${id}`}
+          maxLength={500}
         />
         <div className={styles["button-box"]}>
           <div className={styles["submit-comment"]}>

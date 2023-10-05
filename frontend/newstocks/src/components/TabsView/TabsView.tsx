@@ -11,6 +11,7 @@ import { getAccessToken } from '@/utils/token';
 import LoginButtons from '../LoginModal/LoginButtons/LoginButtons';
 import LoginModal from '../LoginModal/LoginModal';
 import { Provider } from '@/utils/ChakraProvider';
+import { PiArrowSquareRightBold } from 'react-icons/pi';
 
 
 export default function TabsView() {
@@ -37,7 +38,14 @@ export default function TabsView() {
           </>
         ) : (
           tabName?.get('tab') !== 'company' && tabName?.get('tab') !== 'chat' && (
-            <LoginModal type="note"/>
+            <div className={styles["mynote-out-box"]}>
+              <div>NEWStocks에 가입해 <br/> 오답노트를 관리해보세요!</div>
+              <LoginModal>
+                <button>
+                  <div className={styles["login-box"]}>로그인<PiArrowSquareRightBold size={22} className={styles["login-icon"]}/></div>
+                </button>
+              </LoginModal>
+            </div>
           )
         )}
       </Provider>

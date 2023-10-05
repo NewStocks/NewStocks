@@ -33,10 +33,8 @@ export default function LikeStockTab() {
     async function getData() {
       try {
         const response = await getFavoriteStocks();
-        // console.log(response);
         setAllFavoriteStocks(response.data);
       } catch (e) {
-        // console.error(e);
       }
     }
     getData();
@@ -55,13 +53,11 @@ export default function LikeStockTab() {
     const addFavoriteStock = async (stock: Stock) => {
       try {
         const response = await postFavoriteStock(stock);
-        // console.log(response);
         setAllFavoriteStocks((prev) => [
           ...prev,
           { stockId: stock.id, stockName: stock.name },
         ]);
       } catch (e) {
-        // console.error(e);
         alert("등록에 실패했습니다.");
       }
     };
@@ -108,24 +104,23 @@ export default function LikeStockTab() {
     );
   });
 
+  const favoriteAddButton = () => (
+    <div
+      className={styles["like-button"]}
+      onClick={() => setAddtoggle((prev) => !prev)}
+    >
+      종목 추가
+      <IoIosAddCircleOutline id={styles["like-button-icon"]} />
+    </div>
+  );
+
   return (
     <div className={styles["container"]}>
       <div className={styles["like-header"]}>
         <div className={styles["like-title"]}>관심 종목</div>
-        {getAccessToken() ? (
-          <div
-            className={styles["like-button"]}
-            onClick={() => setAddtoggle((prev) => !prev)}
-          >
-            종목 추가
-            <IoIosAddCircleOutline id={styles["like-button-icon"]} />
-          </div>
-          ) : (
-            <Provider>
-              <LoginModal type="favorite"/>
-            </Provider>
-          )
-        }
+        <Provider>
+          { getAccessToken() ? favoriteAddButton() : <LoginModal>{favoriteAddButton()}</LoginModal>}
+        </Provider>
         <div
           className={styles["like-search"]}
           style={{ display: addtoggle ? "block" : "none" }}

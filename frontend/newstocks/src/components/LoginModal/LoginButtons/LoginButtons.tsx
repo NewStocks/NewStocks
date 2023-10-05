@@ -14,8 +14,6 @@ export default function LoginButtons() {
     const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
   
     window.location.href = link
-
-    // console.log('kakao success!!')
   }
 
   const googleLoginHandler = () => {
@@ -23,8 +21,6 @@ export default function LoginButtons() {
     const REDIRECT_URI = 'https://www.newstocks.kr/auth/login/google'
     const link = `https://accounts.google.com/o/oauth2/auth?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&access_type=offline&prompt=consent&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`
     window.location.href = link
-
-    // console.log('google success!!')
   }
 
 

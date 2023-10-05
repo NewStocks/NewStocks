@@ -108,7 +108,3 @@ export default function ImageDetailCarousel({images}: Props) {
   )
 }
 
-{/* {images.map((image) => {
-      console.log(image)
-      return <img src={image.url} alt="note image" />
-    })} */}

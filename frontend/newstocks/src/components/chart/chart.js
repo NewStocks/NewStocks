@@ -43,13 +43,11 @@ export default function ChartComponent() {
     const addStock = async (stock) => {
       try {
         const response = await postFavoriteStock(stock);
-        // console.log(response);
         setAllFavoriteStocks((prev) => [
           ...prev,
           { stockId: stock.id, stockName: stock.name },
         ]);
       } catch (e) {
-        // console.error(e);
         alert("등록에 실패했습니다.");
       }
     };
@@ -67,7 +65,6 @@ export default function ChartComponent() {
       });
       setAllFavoriteStocks(changedStockList);
     } catch (e) {
-      // console.error(e);
       alert("삭제에 실패했습니다.");
     }
   };
@@ -106,27 +103,22 @@ export default function ChartComponent() {
     const fetchStockData = () => {
       fetchStockInfo(code)
       .then((res) => {
-        // console.log(res.data)
         if (res.status === 200) {
           setStockInfo(res.data);
         }
       })
       .catch((err) => {
-        // console.log(err);
       });
     };
     fetchStockData(code);
   },[code])
 
-  // console.log(stockInfo)
 
   useEffect(() => {
     
     const fetchData = () => {
       fetchChartData(code)
       .then((res) => {
-        // const code = res.data.name
-        // console.log(res.data)
         const data = res.data.series[0].data;
         const seriesdata = res.data.series
         const koreanTimezone = 'Asia/Seoul';
@@ -163,9 +155,6 @@ export default function ChartComponent() {
             time: new Date(item.x).getTime()/1000+32400, value: item.y[4]
           }
         })
-
-        // console.log(stockdata)
-        // console.log(volumdata)
     
         candlestickSeries.current.setData(
           stockdata
@@ -196,8 +185,6 @@ export default function ChartComponent() {
             uniqueNoteData[dateKey] = item;
           }
         });
-        
-        // console.log(Object.values(uniqueNewsData))
 
         function isWeekend(date) {
           const day = date.getDay(); 

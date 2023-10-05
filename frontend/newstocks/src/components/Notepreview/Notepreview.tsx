@@ -1,9 +1,11 @@
 import styles from './Notepreview.module.css';
 import { FaRegComment, FaRegHeart, FaRegBookmark } from "react-icons/fa";
+import { BsHandThumbsUp } from "react-icons/bs"
 
 interface Props {
   title?: string
   date?: string
+  createdDate?: string
   name?: string
   content: string 
   profile?: string
@@ -17,7 +19,7 @@ interface Props {
   replyCount?: number
 }
 
-export default function Notepreview({ title, date, name, content, profile, image,
+export default function Notepreview({ title, date, createdDate ,name, content, profile, image,
   scrapCount, likeCount, replyCount}: Props) {
   const truncateContent = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
@@ -36,10 +38,10 @@ export default function Notepreview({ title, date, name, content, profile, image
             {name}
           </div>
           <div className={styles["Note-preview-date"]}>
-            <div className={styles["Note-preview-date-text"]}>{date}</div>
-            
+            <div className={styles["Note-preview-date-text"]}>작성일 {createdDate} | 표기일 {date}</div>
             <div className={styles["Note-preview-likescrap"]}>
-              <FaRegHeart className={styles["Note-preview-likescrap-icon"]}/>{likeCount}
+              <BsHandThumbsUp className={styles["Note-preview-likescrap-icon"]}/>{likeCount}
+              {/* <LikeButton />{likeCount} */}
               <FaRegBookmark className={styles["Note-preview-likescrap-icon"]}/>{scrapCount}
               <FaRegComment className={styles["Note-preview-likescrap-icon"]}/>{replyCount}
             </div>

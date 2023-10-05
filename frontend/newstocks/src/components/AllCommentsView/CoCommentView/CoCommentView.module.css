@@ -71,6 +71,11 @@
   font-weight: 550;
 }
 
+#nikname {
+  margin-left: 4px;
+  color: #8C8C8C;
+}
+
 /* 좋아요, 대댓글 */
 .reply-bottom-buttons {
   display: flex;

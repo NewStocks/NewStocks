@@ -30,27 +30,13 @@ export default function TabNotes({ code }: TabProps) {
     const fetchData = () => {
       fetchStockReviewNoteData(code)
         .then((res) => {
-          // const notecode: any[] = [];
-          // res.data.forEach((item: any) => {
-					// 	if (item.stockDto.id == code) {
-          //     notecode.push(item);
-          //   }
-          // });
-          // console.log(res.data)
-          const notecode = res.data.reverse();
-					// notecode.sort((a, b) => {
-					// 	const dateA = new Date(a.settingDate).getTime();
-					// 	const dateB = new Date(b.settingDate).getTime();
-					// 	return dateB - dateA;
-					// });
-
+          const notecode = res.data
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,
 						currentPage * notesPerPage
 					);
 			
 					setNote(slicedNote);
-					// console.log(slicedNote)
 
         })
         .catch((err) => {
@@ -80,7 +66,8 @@ export default function TabNotes({ code }: TabProps) {
           <StyledLink key={item.id} href={`/community/${item.id}`}>
             <Notepreview 
 							title = {item.title}
-							date={item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
+              createdDate = {item.createdDate.split(' ')[0]}
+							date= {item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
 							name = {item.memberDto?.name}
 							profile= {item.memberDto?.profileImage}
 							content = {item.content}

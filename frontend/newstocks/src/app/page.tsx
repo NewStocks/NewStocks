@@ -1,15 +1,32 @@
+'use client'
 import './globals.css';
 import styles from './page.module.css'
-import Link from 'next/link';
 import LandingView from '@/components/LandingView/LandingView'
 import Footer from '@/components/Footer/Footer'
-import Button from '@/components/Button/Button'
 import graphimg from '@/assets/graphimg.png'
 import Image from 'next/image';
+import { HiArrowNarrowRight } from 'react-icons/hi';
+import { getFavoriteStocks } from '@/services/favoriteStocks';
+import { getAccessToken } from '@/utils/token';
 
 export default function Home() {
-  // const router = useRouter();
 
+  const handleStartClick = async () => {
+    if (!getAccessToken()) {
+      window.location.href = '/005930?tab=company';
+    }
+
+    const response = await getFavoriteStocks();
+    const size = response.data.length;
+
+    if (size !== 0) {
+      window.location.href = `/${response.data[size-1].stockId}?tab=company`;
+    }
+    else {
+      window.location.href = '/005930?tab=company';
+    }
+  };
+  
   return (
     <div className={styles.main}>
       <div>
@@ -36,9 +53,13 @@ export default function Home() {
           </div>
           <div className={styles["title-botton-box"]}>
             <div className={styles["Button-width"]}>
-              <Link href="/005930?tab=company">
+              <button onClick={handleStartClick} className={styles["button-box"]} style={{ color: "#4FE7B0", border: "2px solid #4FE7B0" }}>
+                <div>시작하기</div>
+                <HiArrowNarrowRight size="14"/>
+              </button>
+              {/* <Link href="/005930?tab=company">
                 <Button text="시작하기" highlight={true} kindof="arrow"></Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

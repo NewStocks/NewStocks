@@ -7,6 +7,8 @@
 .user-info-box {
   display: flex;
   height: 155px;
+  width: 100%;
+  justify-content: space-between;
   /* border: 1px dotted red; */
 }
 
@@ -48,10 +50,28 @@
   height: 30px;
   border: 0;
   background-color: transparent;
-  color: red;
-  font-size: 20px;
+  color: gray;
+  font-size: 16px;
   cursor: pointer;
   margin-top: 160px;
+  margin-left: 20px;
+}
+
+.logout-button {
+  margin-left: 0px;
+  width: 80px;
+  height: 30px; 
+  background-color: transparent;
+  color: red;
+  border: 2px solid red;
+  border-radius: 12px;
+  margin-bottom: 1px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  border: 2.5px solid red;
+  font-weight: 500;
 }
 
 #img-edit {
@@ -95,7 +115,7 @@
 }
 
 .title-mini {
-  font-size: 16px;
+  font-size: 25px;
   font-weight: 600;
   margin-left: 10px;
 }
@@ -127,26 +147,28 @@
 }
 
 .activity {
-  width: 47%;
+  width: 680px;
+  margin-top: 40px;
+  margin-left: 30px; 
   /* border: 1px dotted red; */
 }
 
 .activity-container {
   width: 100%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 20px;
 
   display: flex;
   justify-content: space-between;
 }
 
 .activity-box {
-  width: 46%;
+  width: 320px;
   height: 120px;
   border-radius: 16px;
   background: var(--primary-blue, #E3F5FF);
 
-  border: 1px dotted violet;
+  /* border: 1px dotted violet; */
   color: var(--black-100, #1C1C1C);
 }
 
@@ -165,6 +187,7 @@
 .activity-box-figure {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 5px;
 }
 
@@ -176,8 +199,7 @@
 .activity-figure-right {
   font-size: 15px;
   font-weight: 400;
-
-  padding: 15px 0 0 0;
+  padding: 0 0 0 0;
 }
 
 #activity-second {

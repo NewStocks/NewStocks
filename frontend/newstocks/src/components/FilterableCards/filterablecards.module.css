@@ -27,6 +27,17 @@
   box-shadow: none;
   cursor: pointer;
 }
+
+.active {
+  border-radius: 100%;
+  background-color: rgba(255, 255, 255, 0.262);
+  color: aquamarine;
+  width: 28px;
+  height: 28px;
+  cursor: auto;
+  margin: 10px 3px;
+}
+
 .page-number {
   margin: 10px;
   color: aquamarine;

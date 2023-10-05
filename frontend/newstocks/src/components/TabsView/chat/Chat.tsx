@@ -16,13 +16,9 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState<Message[]>([
     {
-      role: "human",
-      message: "react가 뭐야",
-    },
-    {
       role: "bot",
       message:
-        "react는 자바스크립트 라이브러리로, 사용자 인터페이스를 만들기 위해 사용되는 도구입니다. 주로 웹 애플리케이션 개발에 사용되며, 컴포넌트 기반 아키텍처를 통해 UI를 구성합니다. React는 가상 DOM(Virtual DOM)을 사용하여 성능을 최적화하고, 데이터의 변화에 따라 자동으로 UI를 업데이트할 수 있습니다.",
+        "안녕하세요. 저는 주식 관련 뉴스에 대해 알려주는 챗봇입니다. 뉴스에 대해 궁금한 점이 있으면 물어보세요! \n\n (예: 삼성전자 관련 뉴스를 알려줘)",
     }
   ]);
 
@@ -65,9 +61,6 @@ export default function Chat() {
         body: JSON.stringify(data), 
       })
       
-      // console.log(res);
-
-
       if (res.status === 200 && res.body) {
         const reader = res.body.getReader();
         let decoder = new TextDecoder(); 
