@@ -17,8 +17,10 @@ export default function Home() {
     }
 
     const response = await getFavoriteStocks();
-    if (response.data.length !== 0) {
-      window.location.href = `${response.data[0].stockId}/?tab=company`;
+    const size = response.data.length;
+
+    if (size !== 0) {
+      window.location.href = `/${response.data[size-1].stockId}?tab=company`;
     }
     else {
       window.location.href = '/005930?tab=company';
