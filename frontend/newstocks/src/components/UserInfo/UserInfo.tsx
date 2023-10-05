@@ -39,7 +39,6 @@ export default function UserInfo({ mypage, user }: Props) {
   const [showFollowingList, setShowFollowingList] = useState(false);
 
   useEffect(() => {
-    console.log(user)
     async function checkFollowingList() {
       try {
         const res = await getFollowingInfo();
@@ -60,12 +59,10 @@ export default function UserInfo({ mypage, user }: Props) {
         const resFollowing = await getFollowingList();
   
         if (resFollower.status === 200) {
-          console.log("follower", resFollower.data);
           setFollower(resFollower.data);
         }
   
         if (resFollowing.status === 200) {
-          console.log("following", resFollowing.data);
           setFollowing(resFollowing.data);
         }
       } else {
@@ -73,12 +70,10 @@ export default function UserInfo({ mypage, user }: Props) {
         const resOtherFollowing = await getOtherFollowingList(user.id);
   
         if (resOtherFollower.status === 200) {
-          console.log("follower", resOtherFollower.data);
           setOtherFollower(resOtherFollower.data);
         }
   
         if (resOtherFollowing.status === 200) {
-          console.log("following", resOtherFollowing.data);
           setOtherFollowing(resOtherFollowing.data);
         }
       }
@@ -113,7 +108,6 @@ export default function UserInfo({ mypage, user }: Props) {
 
   const editUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;
-    console.log(inputText)
     
     // 정규 표현식을 사용하여 허용되는 문자 패턴을 정의
     const allowedPattern = /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$/;

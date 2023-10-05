@@ -55,7 +55,6 @@ export default function MyPage({ params }: Props) {
     async function getMyPostsForMyPage() {
       try {
         const res = await getMyPosts();
-        // console.log(res.data);
 
         if (res.status === 200) {
           const myPosts = res.data;
@@ -70,8 +69,6 @@ export default function MyPage({ params }: Props) {
               post.sellPrice &&
               post.buyPrice
             ) {
-              // console.log(post);
-              // console.log(typeof post.sellDate);
               const profitPerPost =
                 parseInt(post.sellPrice) * parseInt(post.sellQuantity) -
                 parseInt(post.buyPrice) * parseInt(post.buyQuantity);

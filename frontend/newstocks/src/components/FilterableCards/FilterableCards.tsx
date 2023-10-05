@@ -29,7 +29,6 @@ export default function FilterableCards({type, key}: Props) {
     const urlParams = new URLSearchParams(queryString);
     const getItem = urlParams.get('filter')
     const hasKeyword = urlParams.has('key')
-    // console.log(type, key)
 
     if (!hasKeyword) {
       axios({

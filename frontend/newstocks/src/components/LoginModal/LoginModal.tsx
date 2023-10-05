@@ -67,7 +67,6 @@ export default function LoginModal({type, children}: Props) {
           setUserInfo(res.data); 
         }
       } catch (e) {
-        // console.error(e);
       }
     }
 
@@ -75,8 +74,6 @@ export default function LoginModal({type, children}: Props) {
       getUserBasicInfo(); 
     }
    
-
-    // eslint-disable-next-line 
   }, [accessToken])
 
   return (

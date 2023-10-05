@@ -41,7 +41,6 @@ export default function CompanyInfo() {
     const fetchData = () => {
       fetchStockInfo(code)
         .then((res) => {
-          // const date = new Date(res.data[0].publishTime).getTime()
           const stockData: StockItem = res.data;
           setStockData(stockData)
         })

@@ -170,7 +170,6 @@ export default function CreatePostForm({ work }) {
       const id = window.location.search;
       const modifiedId = id.replace(/[?=]/g, '');
       setNoteId(modifiedId)
-      // console.log('id', modifiedId)
       getPostDetail(modifiedId)
       .then(res => res.data)
       .then(res => {
@@ -255,7 +254,7 @@ export default function CreatePostForm({ work }) {
         imageList.forEach((image) => {
           if (image.file) {
             formData.append("multipartFileList", image.file)
-            // console.log('file input')
+
           }
         })
       }
@@ -303,10 +302,6 @@ export default function CreatePostForm({ work }) {
 
     await handleFormData()
 
-    // for (let values of formData.values())
-    // console.log(values)
-    // console.log(formData.values())
-
     await createPost(formData)
     .then((res) => res.data.id)
     .then((res) => router.push(`/community/${res}`))
@@ -314,8 +309,6 @@ export default function CreatePostForm({ work }) {
   
 
   async function UpdateNote() {
-    // console.log(imageList)
-    // console.log(deletedImages)
 
     const formData = new FormData();
 
@@ -326,19 +319,15 @@ export default function CreatePostForm({ work }) {
     const buyDate = startDate?.toISOString().slice(0,-5)
     const sellDate = endDate?.toISOString().slice(0,-5)
 
-    // console.log('buyDate', buyDate)
-
     await HandleImageList(formData)
 
     // window.URL.revokeObjectURL(image.url);
-    // console.log('noteId', noteId)
 
     const handleFormData = () => {
       formData.append("id", noteId)
       formData.append("title", title)
       formData.append("privacy", privacy)
       formData.append("type", type)
-      // formData.append("linkList", linkList)
       formData.append("content", content)
       if (buyDate) {formData.append("buyDate", buyDate)}
       if (buyPrice) {formData.append("buyPrice", buyPrice)}
@@ -358,9 +347,6 @@ export default function CreatePostForm({ work }) {
     .then((res) => router.push(`/community/${res}`))
   }
 
-  useEffect(() => {
-    getUserInfo().then((res) => console.log(res))
-  }, [])
 
   return (
     <div>
