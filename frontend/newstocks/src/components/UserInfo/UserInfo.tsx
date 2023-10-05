@@ -11,11 +11,13 @@ import {
   followUser,
   unfollowUser,
   getFollowerList,
-  getFollowingList
+  getFollowingList,
+  getOtherFollowerList,
+  getOtherFollowingList
 } from "@/services/userInfo";
 
 import styles from "./UserInfo.module.css";
-import { BiUserPlus, BiUserMinus } from "react-icons/bi";
+import { BiUserPlus, BiUserMinus, BiSolidRightArrow } from "react-icons/bi";
 import Link from 'next/link';
 
 type Props = {
@@ -30,11 +32,14 @@ export default function UserInfo({ mypage, user }: Props) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [follower, setFollower] = useState<any[]>([]);
   const [following, setFollowing] = useState<any[]>([]);
+  const [otherfollower, setOtherFollower] = useState<any[]>([]);
+  const [otherfollowing, setOtherFollowing] = useState<any[]>([]);
 
   const [showFollowerList, setShowFollowerList] = useState(false);
   const [showFollowingList, setShowFollowingList] = useState(false);
 
   useEffect(() => {
+    console.log(user)
     async function checkFollowingList() {
       try {
         const res = await getFollowingInfo();
@@ -49,25 +54,44 @@ export default function UserInfo({ mypage, user }: Props) {
         // console.error(e);
       }
     }
-    async function getFollower() {
-      const res = await getFollowerList();
-      if (res.status === 200) {
-        console.log("follower", res.data);
-        setFollower(res.data)
+    async function getFollowerAndFollowing() {
+      if (mypage) {
+        const resFollower = await getFollowerList();
+        const resFollowing = await getFollowingList();
+  
+        if (resFollower.status === 200) {
+          console.log("follower", resFollower.data);
+          setFollower(resFollower.data);
+        }
+  
+        if (resFollowing.status === 200) {
+          console.log("following", resFollowing.data);
+          setFollowing(resFollowing.data);
+        }
+      } else {
+        const resOtherFollower = await getOtherFollowerList(user.id);
+        const resOtherFollowing = await getOtherFollowingList(user.id);
+  
+        if (resOtherFollower.status === 200) {
+          console.log("follower", resOtherFollower.data);
+          setOtherFollower(resOtherFollower.data);
+        }
+  
+        if (resOtherFollowing.status === 200) {
+          console.log("following", resOtherFollowing.data);
+          setOtherFollowing(resOtherFollowing.data);
+        }
       }
     }
-    async function getFollowing() {
-      const res = await getFollowingList();
-      if (res.status === 200) {
-        console.log("following", res.data)
-        setFollowing(res.data)
-      }
-    }
+  
     checkFollowingList();
-    getFollower();
-    getFollowing();
-
-  }, [user]);
+    getFollowerAndFollowing();
+  }, [user, mypage]);
+  
+  
+  
+  
+  
 
   const handleEditPfpFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -271,7 +295,7 @@ export default function UserInfo({ mypage, user }: Props) {
         <div className={styles["follows"]}>
           <div className={styles["follow-box"]}>
             <h2 onClick={() => setShowFollowerList(!showFollowerList)} className={styles["follow-head"]}>
-              Follower: {follower.length}
+            <BiSolidRightArrow/> Follower: {follower.length}
             </h2>
             {showFollowerList && (
               <div className={`${styles["scroll-box"]}`}>
@@ -292,7 +316,7 @@ export default function UserInfo({ mypage, user }: Props) {
           </div>
           <div className={styles["follow-box"]}>
             <h2 onClick={() => setShowFollowingList(!showFollowingList)} className={styles["follow-head"]}>
-              Following : {following.length}
+              <BiSolidRightArrow/> Following : {following.length}
             </h2>
             {showFollowingList && (
               <div className={`${styles["scroll-box"]}`}>
@@ -318,11 +342,11 @@ export default function UserInfo({ mypage, user }: Props) {
         <div className={styles["follows"]}>
           <div className={styles["follow-box"]}>
             <h2 onClick={() => setShowFollowerList(!showFollowerList)} className={styles["follow-head"]}>
-              Follower: {follower.length}
+            <BiSolidRightArrow/> Follower: {otherfollower.length}
             </h2>
             {showFollowerList && (
               <div className={`${styles["scroll-box"]}`}>
-                {follower.map((followerItem, index) => (
+                {otherfollower.map((followerItem, index) => (
                   <Link key={index} className={styles["follow-content"]} href={`/community/user/${followerItem.id}`}>
                     <Image
                       width={30}
@@ -339,11 +363,11 @@ export default function UserInfo({ mypage, user }: Props) {
           </div>
           <div className={styles["follow-box"]}>
             <h2 onClick={() => setShowFollowingList(!showFollowingList)} className={styles["follow-head"]}>
-              Following : {following.length}
+            <BiSolidRightArrow/> Following : {otherfollowing.length}
             </h2>
             {showFollowingList && (
               <div className={`${styles["scroll-box"]}`}>
-                {following.map((followingItem, index) => (
+                {otherfollowing.map((followingItem, index) => (
                   <Link key={index} className={styles["follow-content"]} href={`/community/user/${followingItem.id}`}>
                     <Image
                       width={30}

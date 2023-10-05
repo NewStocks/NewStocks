@@ -67,3 +67,15 @@ export const getFollowingList = async () => {
     headers: addAccessTokenToHeaders()
   })
 }
+
+export const getOtherFollowerList = async (userId: number) => {
+  return axios.get(`${BASE_URL}/follow/follower/${userId}`, {
+    headers: addAccessTokenToHeaders()
+  })
+}
+
+export const getOtherFollowingList = async (userId: number) => {
+  return axios.get(`${BASE_URL}/follow/following/${userId}`, {
+    headers: addAccessTokenToHeaders()
+  })
+}
