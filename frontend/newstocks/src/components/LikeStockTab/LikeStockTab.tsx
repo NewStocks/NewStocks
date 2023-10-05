@@ -33,10 +33,8 @@ export default function LikeStockTab() {
     async function getData() {
       try {
         const response = await getFavoriteStocks();
-        // console.log(response);
         setAllFavoriteStocks(response.data);
       } catch (e) {
-        // console.error(e);
       }
     }
     getData();
@@ -55,13 +53,11 @@ export default function LikeStockTab() {
     const addFavoriteStock = async (stock: Stock) => {
       try {
         const response = await postFavoriteStock(stock);
-        // console.log(response);
         setAllFavoriteStocks((prev) => [
           ...prev,
           { stockId: stock.id, stockName: stock.name },
         ]);
       } catch (e) {
-        // console.error(e);
         alert("등록에 실패했습니다.");
       }
     };

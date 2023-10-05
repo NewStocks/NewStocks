@@ -121,11 +121,8 @@ export default function Newstab() {
   const tabName = usePathname() || '';
   const code = tabName.split('/').filter(Boolean)[0];
   const newsDate = useSearchParams()?.get('newsdate')
-	// console.log(newsDate)
 
   const [showFilterControls, setShowFilterControls] = useState(true);
-
-  
 	const [datenews, setdateNews] = useState<any[]>([]);
   const [newsData, setNewsData] = useState<any[]>([]);
   const [valuenews, setValuenews] = useState<any[]>([]);
@@ -228,7 +225,6 @@ export default function Newstab() {
           const datevaluenews: DateValueNewsItem[]=[]
           res.data.forEach((item:any) => {
             const itemdate = item.publishTime.split(' ')
-            // console.log(itemdate)
 						if (itemdate[0] == newsDate) {
 							datevaluenews.push(item)
 						}

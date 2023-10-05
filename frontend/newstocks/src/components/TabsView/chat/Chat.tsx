@@ -61,9 +61,6 @@ export default function Chat() {
         body: JSON.stringify(data), 
       })
       
-      // console.log(res);
-
-
       if (res.status === 200 && res.body) {
         const reader = res.body.getReader();
         let decoder = new TextDecoder(); 

@@ -30,27 +30,13 @@ export default function TabNotes({ code }: TabProps) {
     const fetchData = () => {
       fetchStockReviewNoteData(code)
         .then((res) => {
-          // const notecode: any[] = [];
-          // res.data.forEach((item: any) => {
-					// 	if (item.stockDto.id == code) {
-          //     notecode.push(item);
-          //   }
-          // });
-          // console.log(res.data)
           const notecode = res.data
-					// notecode.sort((a, b) => {
-					// 	const dateA = new Date(a.settingDate).getTime();
-					// 	const dateB = new Date(b.settingDate).getTime();
-					// 	return dateB - dateA;
-					// });
-
 					const slicedNote = notecode.slice(
 						(currentPage - 1) * notesPerPage,
 						currentPage * notesPerPage
 					);
 			
 					setNote(slicedNote);
-					// console.log(slicedNote)
 
         })
         .catch((err) => {

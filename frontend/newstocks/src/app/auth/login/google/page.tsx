@@ -5,9 +5,7 @@ import { BASE_URL } from '@/utils/url';
 
 export default function GoogleLogin() {
   useEffect(() => {
-    // console.log("redirect URL: ", document.location.toString())
     const code = new URL(document.location.toString()).searchParams.get('code');
-    // console.log('code', code)
     if (code) {
       axios({
         method: 'post',
