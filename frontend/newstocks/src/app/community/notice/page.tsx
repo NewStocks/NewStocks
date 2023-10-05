@@ -4,11 +4,7 @@ import styles from './noticepage.module.css';
 
 import styled from 'styled-components'
 import Link from 'next/link';
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: white;
-`
+import { StyledLink } from '@/components/StyledLink/StyledLink'
 
 export default function NoticePage() {
   return (
@@ -19,9 +15,10 @@ export default function NoticePage() {
       </div>
 
       <div className={styles["notice-container"]}>
-        <hr />
-
-        <div className={styles["notice"]}>현재 공지사항이 없습니다.</div>
+        <StyledLink href={"/community/notice/1"}>
+          <div className={styles["notice"]}>환영합니다! 뉴스와 차트를 한번에, <span>NEWStocks</span>!</div>
+        </StyledLink>
+        <div className={styles["time"]}>23-10-05</div>
         {/*<div className={styles["notice"]}>*/}
         {/*  <div className={styles["title-box"]}>*/}
         {/*    <div className={styles["highlight"]}>공지</div>*/}
