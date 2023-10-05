@@ -80,7 +80,8 @@ export default function TabNotes({ code }: TabProps) {
           <StyledLink key={item.id} href={`/community/${item.id}`}>
             <Notepreview 
 							title = {item.title}
-							date={item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
+              createdDate = {item.createdDate.split(' ')[0]}
+							date= {item.settingDate ? item.settingDate.split(' ')[0] : item.settingDate}
 							name = {item.memberDto?.name}
 							profile= {item.memberDto?.profileImage}
 							content = {item.content}
