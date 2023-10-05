@@ -40,7 +40,7 @@ export default function AllnotesPage() {
       fetchStockInfo(getKey)
       .then(res => setStockInfo({'id': res.data.id, 'name': res.data.name}))
     }
-  }, [])
+  }, [searchParams])
 
   const handleStock = (stock: Stock) => {
     router.push(`/community/all?filter=find-stock&key=${stock.id?.trim()}`)
