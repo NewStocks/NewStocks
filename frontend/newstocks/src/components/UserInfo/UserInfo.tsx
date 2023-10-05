@@ -10,10 +10,15 @@ import {
   getFollowingInfo,
   followUser,
   unfollowUser,
+  getFollowerList,
+  getFollowingList,
+  getOtherFollowerList,
+  getOtherFollowingList
 } from "@/services/userInfo";
 
 import styles from "./UserInfo.module.css";
-import { BiUserPlus, BiUserMinus } from "react-icons/bi";
+import { BiUserPlus, BiUserMinus, BiSolidRightArrow } from "react-icons/bi";
+import Link from 'next/link';
 
 type Props = {
   mypage: boolean;
@@ -25,8 +30,16 @@ export default function UserInfo({ mypage, user }: Props) {
   const [editedUsername, setEditedUsername] = useState("");
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [follower, setFollower] = useState<any[]>([]);
+  const [following, setFollowing] = useState<any[]>([]);
+  const [otherfollower, setOtherFollower] = useState<any[]>([]);
+  const [otherfollowing, setOtherFollowing] = useState<any[]>([]);
+
+  const [showFollowerList, setShowFollowerList] = useState(false);
+  const [showFollowingList, setShowFollowingList] = useState(false);
 
   useEffect(() => {
+    console.log(user)
     async function checkFollowingList() {
       try {
         const res = await getFollowingInfo();
@@ -41,8 +54,44 @@ export default function UserInfo({ mypage, user }: Props) {
         // console.error(e);
       }
     }
+    async function getFollowerAndFollowing() {
+      if (mypage) {
+        const resFollower = await getFollowerList();
+        const resFollowing = await getFollowingList();
+  
+        if (resFollower.status === 200) {
+          console.log("follower", resFollower.data);
+          setFollower(resFollower.data);
+        }
+  
+        if (resFollowing.status === 200) {
+          console.log("following", resFollowing.data);
+          setFollowing(resFollowing.data);
+        }
+      } else {
+        const resOtherFollower = await getOtherFollowerList(user.id);
+        const resOtherFollowing = await getOtherFollowingList(user.id);
+  
+        if (resOtherFollower.status === 200) {
+          console.log("follower", resOtherFollower.data);
+          setOtherFollower(resOtherFollower.data);
+        }
+  
+        if (resOtherFollowing.status === 200) {
+          console.log("following", resOtherFollowing.data);
+          setOtherFollowing(resOtherFollowing.data);
+        }
+      }
+    }
+  
     checkFollowingList();
-  }, [user]);
+    getFollowerAndFollowing();
+  }, [user, mypage]);
+  
+  
+  
+  
+  
 
   const handleEditPfpFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -64,6 +113,7 @@ export default function UserInfo({ mypage, user }: Props) {
 
   const editUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;
+    console.log(inputText)
     
     // 정규 표현식을 사용하여 허용되는 문자 패턴을 정의
     const allowedPattern = /^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$/;
@@ -240,6 +290,100 @@ export default function UserInfo({ mypage, user }: Props) {
           </div>
         )}
       </div>
+      {/* 내 페이지일때 팔로잉 팔로우 */}
+      {mypage && (
+        <div className={styles["follows"]}>
+          <div className={styles["follow-box"]}>
+            <h2 onClick={() => setShowFollowerList(!showFollowerList)} className={styles["follow-head"]}>
+            <BiSolidRightArrow/> Follower: {follower.length}
+            </h2>
+            {showFollowerList && (
+              <div className={`${styles["scroll-box"]}`}>
+                {follower.map((followerItem, index) => (
+                  <Link key={index} className={styles["follow-content"]} href={`/community/user/${followerItem.id}`}>
+                    <Image
+                      width={30}
+                      height={30}
+                      src={followerItem.profileImage}
+                      alt={followerItem.name}
+                      className={styles["follow-image"]}
+                    />
+                    <p>{followerItem.name}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className={styles["follow-box"]}>
+            <h2 onClick={() => setShowFollowingList(!showFollowingList)} className={styles["follow-head"]}>
+              <BiSolidRightArrow/> Following : {following.length}
+            </h2>
+            {showFollowingList && (
+              <div className={`${styles["scroll-box"]}`}>
+                {following.map((followingItem, index) => (
+                  <Link key={index} className={styles["follow-content"]} href={`/community/user/${followingItem.id}`}>
+                    <Image
+                      width={30}
+                      height={30}
+                      src={followingItem.profileImage}
+                      alt={followingItem.name}
+                      className={styles["follow-image"]}
+                    />
+                    <p>{followingItem.name}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {/* 남의 페이지일떄 팔로잉 팔로우 */}
+      {!mypage && (
+        <div className={styles["follows"]}>
+          <div className={styles["follow-box"]}>
+            <h2 onClick={() => setShowFollowerList(!showFollowerList)} className={styles["follow-head"]}>
+            <BiSolidRightArrow/> Follower: {otherfollower.length}
+            </h2>
+            {showFollowerList && (
+              <div className={`${styles["scroll-box"]}`}>
+                {otherfollower.map((followerItem, index) => (
+                  <Link key={index} className={styles["follow-content"]} href={`/community/user/${followerItem.id}`}>
+                    <Image
+                      width={30}
+                      height={30}
+                      src={followerItem.profileImage}
+                      alt={followerItem.name}
+                      className={styles["follow-image"]}
+                    />
+                    <p>{followerItem.name}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className={styles["follow-box"]}>
+            <h2 onClick={() => setShowFollowingList(!showFollowingList)} className={styles["follow-head"]}>
+            <BiSolidRightArrow/> Following : {otherfollowing.length}
+            </h2>
+            {showFollowingList && (
+              <div className={`${styles["scroll-box"]}`}>
+                {otherfollowing.map((followingItem, index) => (
+                  <Link key={index} className={styles["follow-content"]} href={`/community/user/${followingItem.id}`}>
+                    <Image
+                      width={30}
+                      height={30}
+                      src={followingItem.profileImage}
+                      alt={followingItem.name}
+                      className={styles["follow-image"]}
+                    />
+                    <p>{followingItem.name}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
