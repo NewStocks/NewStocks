@@ -8,7 +8,7 @@
   font-weight: 400;
 
   margin-left: 5px;
-  margin-bottom: 3px;
+  /* margin-bottom: 3px; */
 }
 
 .page-title {
@@ -17,16 +17,26 @@
 }
 
 .notice-container {
+  display: flex;
+  justify-content: space-between;
+
   width: 103.3%;
   margin: 35px 0 0 0;
+  border-bottom: 1px solid white; 
 }
 
 .notice {
   display: flex;
-  padding: 10px 0 20px 0;
+  padding: 10px 0 10px 0;
   margin-bottom: 10px;
+  font-weight: 550;
+  cursor: pointer;
 
-  border-bottom: 1px solid white;
+  /* border-bottom: 1px solid white; */
+}
+
+.notice:hover {
+  text-decoration: underline;
 }
 
 .title-box {
@@ -71,4 +81,8 @@
 #update {
   color: #00C2FF;
   border: 2px solid #00C2FF;
+}
+
+.time {
+  margin-top: 6px;
 }
