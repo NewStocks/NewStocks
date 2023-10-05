@@ -94,7 +94,7 @@ def chat_endpoint() -> Response:
     print(api_key)
 
     embeddings = OpenAIEmbeddings(openai_api_key=api_key)
-    db = FAISS.load_local("./faiss_news", embeddings=embeddings)
+    db = FAISS.load_local("./faiss_news_openai_ko_1003_2", embeddings=embeddings)
     embeddings_filter = EmbeddingsFilter(embeddings=embeddings, similarity_threshold=0.5)
 
     def make_db_article(query=question, embeddings=embeddings, db=db, embeddings_filter=embeddings_filter):
@@ -118,12 +118,12 @@ def chat_endpoint() -> Response:
         job_done = object()
 
         db_article = make_db_article()
-        prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer. Include the source of the document within the context in the answer in a url format.
+        prompt_template = """너는 주식 관련 뉴스 정보를 주는 챗봇이야. 주어진 context 정보가 마지막에 주어진 질문과 관련 있을 경우 context를 활용해 질문에 대답해줘. 질문에 답할 때 context를 이용했을 경우 source를 url 형태로 답변에 포함시켜줘. 질문에 대한 답을 잘 모르겠다면 답을 지어내지 말고 모르겠다고 답해줘. 
 
         {context}
 
         Question: {question}
-        Answer in Korean:"""
+        대답은 한국어로 해줘:"""
         PROMPT = PromptTemplate(
             template=prompt_template, input_variables=["context", "question"]
         )
