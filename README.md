@@ -1,3 +1,6 @@
+# 📌 주식 피드백을 도와주는 웹 서비스 NEWStocks
+![image](https://github.com/HongEat-Team/HongEat-Backend/assets/76719828/f43c64bd-4bef-4e80-924d-eda798a27baf)
+
 ## 📌 **프로젝트 상세 내용**
 
 ### 프로젝트 개요
