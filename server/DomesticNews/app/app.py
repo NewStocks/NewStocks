@@ -18,13 +18,12 @@ app = Flask(__name__)
 
 # MySQL 연결 설정
 db_config = {
-    "host": '',
-    "user": '',
-    "password": '',
-    "database": '',
+    "host": 'newstocks-rds.czvfjrx99bcw.ap-northeast-2.rds.amazonaws.com',
+    "user": 'joonsuk',
+    "password": 'dhwnstjr12!',
+    "database": 'newstocks_rds',
 }
 
-# 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
 one_day_ago = datetime.now() - timedelta(days=1)
 start_time, end, process_count, is_all = 0, 0, 0, False
 urls, infos = [], []
@@ -32,8 +31,10 @@ url_set = set()
 
 
 def reset_global_variable():
-    global process_count, urls, infos, url_set
+    global process_count, urls, infos, url_set, one_day_ago
     process_count, urls, infos, url_set = 0, [], [], set()
+    # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
+    one_day_ago = datetime.now() - timedelta(days=1)
     return
 
 
@@ -158,6 +159,7 @@ def news_clustering(titles, idx):
 
 
 def sentiment_analysis(texts, lang="ko"):
+    print("감성 분석 시작!")
     if lang == "ko":
         tokenizer = AutoTokenizer.from_pretrained("snunlp/KR-FinBert-SC")
         model = AutoModelForSequenceClassification.from_pretrained(
@@ -188,11 +190,13 @@ def sentiment_analysis(texts, lang="ko"):
     for title, label, p in zip(texts, labels, probs):
         sentiment_dictionary[title] = label
 
+    print("감성 분석 끝!")
     return sentiment_dictionary
 
 
 def cluster_title():
     # 군집화
+    count = 0
     titles = []
     clustering = []
     prev_date = infos[0][1][:11]  # 첫 뉴스의 발행 연도, 월, 일
@@ -205,6 +209,7 @@ def cluster_title():
             prev_id = stock_id
             titles = []
 
+        count += 1
         titles.append(title)
 
     clustering.extend(news_clustering(titles, len(clustering) + 1))
@@ -260,8 +265,8 @@ def save_news():
         print("군집화 직전까지 걸린 시간: ", time.time() - start_time)
 
         title_set, title_duplicate_map = cluster_title()  # 군집화한 뉴스 제목
+        print("군집화 끝!")
         sentiment_dictionary = sentiment_analysis(title_set, lang="ko")
-
         print("군집화한 뉴스 개수: ", len(title_set))
 
         # 데이터프레임을 MySQL 테이블에 저장
@@ -278,9 +283,11 @@ def save_news():
             cursor.execute(insert_query, (
                 company, publish_time, title, url, stock_id, sentiment_dictionary[title],
                 title_duplicate_map[title + stock_id]))
-            conn.commit()
+
+        conn.commit()
 
         print("실행 시간: ", time.time() - start_time)
+        print("서버 기준 하루 전 날짜: ", one_day_ago.date())
         return "어제의 뉴스가 저장되었습니다."
 
     except Exception as e:
@@ -325,14 +332,14 @@ def save_all_news():
         print("군집화 직전까지 걸린 시간: ", time.time() - start_time)
 
         title_set, title_duplicate_map = cluster_title()  # 군집화한 뉴스 제목
+        print("군집화 끝.")
         sentiment_dictionary = sentiment_analysis(title_set, lang="ko")
 
         print("군집화한 뉴스 개수: ", len(title_set))
 
-        cursor.execute("DELETE FROM news")
-        conn.commit()
-
         # 데이터프레임을 MySQL 테이블에 저장
+        cursor.execute("DELETE FROM news")
+
         check_duplicate = set()
         for company, publish_time, title, url, stock_id in infos:
             if title not in title_set or title + stock_id in check_duplicate:
@@ -346,9 +353,11 @@ def save_all_news():
             cursor.execute(insert_query, (
                 company, publish_time, title, url, stock_id, sentiment_dictionary[title],
                 title_duplicate_map[title + stock_id]))
-            conn.commit()
+
+        conn.commit()
 
         print("실행 시간: ", time.time() - start_time)
+        print("서버 기준 하루 전 날짜: ", one_day_ago)
         return "어제의 뉴스가 저장되었습니다."
 
     except Exception as e:
@@ -357,6 +366,37 @@ def save_all_news():
     finally:
         cursor.close()
         conn.close()
+
+
+@app.route("/delete-all-news", methods=["DELETE"])
+def delete_all_news():
+    try:
+        # MySQL 연결
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM news")
+        conn.commit()
+
+        print("서버 기준 하루 전 날짜: ", one_day_ago)
+        return "모든 뉴스가 삭제되었습니다."
+
+    except Exception as e:
+        return f"오류 발생: {str(e)}"
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.route("/check-date", methods=["POST"])
+def check_date():
+
+    global one_day_ago
+    reset_global_variable()
+    print("어제 날짜: ", one_day_ago.now().strftime('%Y-%m-%d %H:%M:%S'))
+    return str(one_day_ago.now().strftime('%Y-%m-%d %H:%M:%S'))
+
 
 
 if __name__ == "__main__":
