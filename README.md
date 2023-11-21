@@ -11,6 +11,27 @@
 
 - 개발 기간 : 2023.08 - 2023.10 (7주)
 
+### 기술 스택
+
+- 프레임워크: Spring boot (Java), Next.js (TypeScript)
+- 서버: MySQL, Docker, EC2, RDS, S3, Gitlab, Jenkins
+- 라이브러리 및 기타 솔루션
+    - BackEnd
+        - JWT, Json, Lombok, MapStruct
+        - Jpa, Spring-security
+    - Frontend
+        - 상태관리: recoil
+        - 차트: TradingView Lightweight Charts
+        - 에디터: TOAST UI editor
+        - 스타일링: Chakra UI, styled components, react-icons
+    - AI
+        - 뉴스 군집화: DBSCAN
+        - 감성분석: BERT, Huggingface
+            - 한국어뉴스: snunlp/KR-FinBert-SC
+            - 영어뉴스: ProsusAI/finbert
+        - 채팅: ChatGPT API, Langchain, FAISS, BeautifulSoup
+- 협업툴: Gitlab, Jira, Notion, Mattermost
+  
 ### 프로젝트 기능 소개
 
 - 회원 관리
@@ -42,28 +63,35 @@
 - 밸류체인
     - 국내 종목과 관련있는 해외 기업들의 정보와 최근 주가 그래프를 보여줌
 
+### 서비스 주요기능 상세보기 
 
-## 📌 기술 스택
+(1) 랜딩페이지
+- 서비스 랜딩페이지 화면
+    ![랜딩페이지](https://github.com/NewStocks/NewStocks/assets/62351890/94188cb5-1d91-414e-9072-746184cb2df4)
+- 주식 종목 검색
+    ![종목검색](https://github.com/NewStocks/NewStocks/assets/62351890/a9997ffd-2259-47e5-b996-831857104008)
+  
+(2) 주식 차트
+- 주식 종목차트 조회 및 즐겨찾기  
+    ![종목차트및즐겨찾기](https://github.com/NewStocks/NewStocks/assets/62351890/11934404-969d-458f-9ecc-848931a2701d)  
+- 주식 관련 뉴스 조회  
+    ![기사조회gif](https://github.com/NewStocks/NewStocks/assets/62351890/2ab2ee3b-e479-4030-9c6f-39c7dafc0cb1)  
+- Value Chain 조회  
+    ![벨류체인gif](https://github.com/NewStocks/NewStocks/assets/62351890/d573e4ca-9cec-44eb-b1f0-23d7f6c6a3c6)  
 
-- 프레임워크: Spring boot (Java), Next.js (TypeScript)
-- 서버: MySQL, Docker, EC2, RDS, S3, Gitlab, Jenkins
-- 라이브러리 및 기타 솔루션
-    - BackEnd
-        - JWT, Json, Lombok, MapStruct
-        - Jpa, Spring-security
-    - Frontend
-        - 상태관리: recoil
-        - 차트: TradingView Lightweight Charts
-        - 에디터: TOAST UI editor
-        - 스타일링: Chakra UI, styled components, react-icons
-    - AI
-        - 뉴스 군집화: DBSCAN
-        - 감성분석: BERT, Huggingface
-            - 한국어뉴스: [snunlp/KR-FinBert-SC](https://huggingface.co/snunlp/KR-FinBert-SC)
-            - 영어뉴스: [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert)
-        - 채팅: ChatGPT API, Langchain, FAISS, BeautifulSoup
-- 협업툴: Gitlab, Jira, Notion, Mattermost
+(3) 오답노트
+- 오답노트 작성  
+  ![오답노트작성](https://github.com/NewStocks/NewStocks/assets/62351890/ae6bee21-cbeb-4f73-8020-7815c98a1e78)
+- 전체노트 조회  
+  ![전체노트조회](https://github.com/NewStocks/NewStocks/assets/62351890/d4a79bef-bdef-4b76-8a57-62e1a313ab00)  
 
+(4) 회원 관리 및 기타
+- 로그인  
+  ![로그인](https://github.com/NewStocks/NewStocks/assets/62351890/0591a850-e052-48dd-bff4-577efe7e989b)
+- 마이페이지  
+  ![마이페이지](https://github.com/NewStocks/NewStocks/assets/62351890/affc7d57-ed74-4b1c-ada9-e5fd5f8e1248)
+- 검색엔진 최적화  
+  ![SEO](https://github.com/NewStocks/NewStocks/assets/62351890/118f8356-ad12-4222-b273-c21d2b104ea1)
 
 ## 📌 프로젝트 구성도
 ![Newstocks_프로젝트_구성도](https://github.com/NewStocks/NewStocks/assets/76719828/179d7a4e-48e3-4a3d-a283-2bec8118f1b3)
