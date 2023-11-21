@@ -2,20 +2,19 @@ import pymysql, os, time
 from flask import Flask
 from datetime import datetime, timedelta
 from webdriver_manager.chrome import ChromeDriverManager
-from dotenv import load_dotenv
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+import random
 
 app = Flask(__name__)
-load_dotenv()
 
 # MySQL 연결 설정
 db_config = {
-    "host": os.getenv("DB_URL"),
-    "user": os.getenv("DB_ID"),
-    "password": os.getenv("DB_PWD"),
-    "database": os.getenv("DB_NAME"),
+    "host": '',
+    "user": '',
+    "password": '',
+    "database": '',
 }
 
 # 현재 날짜에서 1일을 빼서 하루 전 날짜 얻기
@@ -63,12 +62,14 @@ def convert_date(date, time_):
     if len(day) == 1:
         day = "0" + day
 
-    hour = time_.split(":")[0]
-    minute = time_.split(":")[1][:-2]
-    if time_[-2:] == "PM" and hour != "12":
-        hour = int(hour) + 12
+    hour = f'{random.randrange(0, 24):02d}'
+    minute = f'{random.randrange(0, 60):02d}'
+    # hour = time_.split(":")[0]
+    # minute = time_.split(":")[1][:-2]
+    # if time_[-2:] == "PM" and hour != "12":
+    #     hour = int(hour) + 12
 
-    return year + month + day + " " + str(hour) + ":" + minute
+    return year + month + day + " " + str(hour) + ":" + str(minute)
 
 
 def crawler(code, name, is_all):
@@ -77,19 +78,23 @@ def crawler(code, name, is_all):
     url = URL + code
     print(url)
     driver.get(url)
-    driver.implicitly_wait(20)
-    time.sleep(3)
+    driver.implicitly_wait(30)
+    time.sleep(10)
 
     single_news_group = driver.find_elements(By.CLASS_NAME, "single-news-group")
     for sng in single_news_group:
         groupDate = sng.find_element(By.CLASS_NAME, "group-date")
-        times = sng.find_elements(By.CLASS_NAME, "published-at")
+        times = sng.find_elements(By.CLASS_NAME, "show-for-medium")
+        # times = sng.find_elements(By.CLASS_NAME, "single-day-list")
+        # times = sng.find_elements(By.CSS_SELECTOR, 'div.show-for-medium.published-at')
         titles = sng.find_elements(By.CLASS_NAME, "news-title")
         companys = sng.find_elements(By.CLASS_NAME, "source")
 
         for title, time_, company in zip(titles, times, companys):
+            # print(title.text)
+            # print(time_.text)
+            # print(company.text)
             date_text = convert_date(groupDate.text, time_.text)
-
             news_date = datetime.strptime(date_text.split()[0], "%Y-%m-%d").date()
             if news_date > one_day_ago.date():
                 continue
